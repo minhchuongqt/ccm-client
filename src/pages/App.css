@@ -87,7 +87,7 @@ ul {
   content: "#";
   font-size: 25px;
   margin-right: 10px;
-  color: #3c8dbc;
+  color: #000 !important;
 }
 .page-header:before,
 #components > h3:before {
@@ -140,6 +140,10 @@ pre {
 .box .main-header {
   z-index: 1000;
   position: relative;
+}
+.main-header a {
+  margin-right: 10px;
+  color: #fff !important;
 }
 .treeview .nav li a:hover,
 .treeview .nav li a:active {
@@ -532,7 +536,6 @@ li.L9 {
 p {
   position: relative;
   z-index: 1;
-  font-size: 2em;
 }
 
 .x-60 {
@@ -561,9 +564,6 @@ p {
   text-align: center;
 }
 
-.sidebar-menu > li.active {
-  border-bottom: 1px solid white;
-}
 
 .breadcrumb {
 }

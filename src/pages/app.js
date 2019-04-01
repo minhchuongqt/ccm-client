@@ -3,13 +3,13 @@ import API from '../api/base';
 import { Switch, Route, Redirect } from "react-router-dom";
 import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import Header from '../components/MainPage/HeaderContainer';
-import SideBar from '../components/MainPage/SideBar';
-import ProjectPage from '../components/ProjectPage';
+import Header from '../pages/MainPage/HeaderContainer';
+import SideBar from '../pages/MainPage/SideBar';
+import ProjectPage from '../pages/ProjectPage';
 import * as PATH from "../constants/data/routeConstants";
 
 import './App.css';
-
+import './custom.css'
 class App extends Component {
     componentWillMount() {
         API.get()
@@ -30,12 +30,20 @@ class App extends Component {
         return (
             <div>
                 <Header />
-                    <Switch>
-                      {/* <Route path={PATH.PROJECT_URL} component = {ProjectPage}/> */}
-                      <Route path={PATH.PROJECT_URL} render = { () => <ProjectPage  /> }/>
-                    </Switch>
                 <SideBar />
+                <div className="content-wrapper"
+                style={{ overflow: "auto", maxHeight: "607px" }}>
+                    <section className="content-header">
+                        <Switch>
+                            {/* <Route path={PATH.PROJECT_URL} component = {ProjectPage}/> */}
+                            <Route path={PATH.HOME_URL} render={() => <ProjectPage />} />
+                        </Switch>
+                        
+                    </section>
+
+                </div>
             </div>
+
         );
     }
 }
