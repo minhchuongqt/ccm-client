@@ -2,6 +2,8 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import imgProject from '../../assets/img/project.png'
 import TableView from '../../components/table/index'
+import * as PATH from '../../constants/data/routeConstants'
+import {Link} from 'react-router-dom'
 const ProjectPage = props => {
   return (
     <div id="project-view">
@@ -11,7 +13,7 @@ const ProjectPage = props => {
         </Breadcrumb>
       </div>
       <div class="row">
-
+        <Link to={PATH.BACKLOG_URL}>
         <div class="col-md-4">
           <div class="box box-widget widget-user-2">
             <div class="widget-user-header bg-yellow">
@@ -30,7 +32,7 @@ const ProjectPage = props => {
             </div>
           </div>
         </div>
-
+        </Link>
         <div class="col-md-4">
           <div class="box box-widget widget-user-2">
             <div class="widget-user-header bg-green">

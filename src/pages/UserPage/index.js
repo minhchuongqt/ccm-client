@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import UserPageView from './UserPage';
-class UserPageContainer extends Component {
+import {Switch, Route} from 'react-router-dom';
+import ListUserContainer from './ListUserPage/index';
+import AddUserContainer from './AddUserPage/index';
+
+class index extends Component {
     render() {
         return (
-            <div>
-                <UserPageView/>
-            </div>
+            <Switch>
+                <Route path='/user' exact component={ListUserContainer} />
+                <Route path='/user/add' component={AddUserContainer} />
+            </Switch>
         );
     }
 }
 
-export default UserPageContainer;
+export default index;

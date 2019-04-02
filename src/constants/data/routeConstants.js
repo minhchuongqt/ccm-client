@@ -3,8 +3,13 @@ export const LOGIN_URL = "/login";
 export const ADMIN_LOGIN_URL = "/admin/login";
 export const LOGOUT_URL = "/logout";
 
-//Backlog pages
 
+//user page
+export const USER_URL = "/user";
+export const USER_ADD_URL = "/user/add";
+export const USER_EDIT_URL = "/user/:id/edit";
+
+//Backlog pages
 export const BACKLOG_URL = "/backlog";
 
 //Project pages
@@ -18,10 +23,6 @@ export const GROUP_URL = "/group";
 export const GROUP_ADD_URL = "/group/add";
 export const GROUP_DETAIL_URL = "/group/";
 export const GROUP_EDIT_URL = "/group/edit";
-//user page
-export const USER_URL = "/user";
-export const USER_ADD_URL = "/user/add";
-export const USER_EDIT_URL = "/user/:id/edit";
 //Submit Form
 
 //Login

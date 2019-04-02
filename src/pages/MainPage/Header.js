@@ -1,5 +1,8 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom'
+import * as PATH from '../../constants/data/routeConstants'
+import img from '../../assets/img/ccm-logo.png'
+import userImg from'../../assets/img/avatar5.png';
 class Header extends React.Component {
     constructor(props) {
         super(props)
@@ -8,8 +11,7 @@ class Header extends React.Component {
         // console.log(this.props)
         return (
             <header className="main-header bg-steelblue" >
-                <a href="#" className="logo color-white">
-                    <span className="logo-mini"><b></b></span>
+                <a href="/" className="logo color-white">
                     <span className="logo-lg"><b>CC</b>Management</span>
                 </a>
                 <nav className="navbar navbar-static-top">
@@ -29,7 +31,7 @@ class Header extends React.Component {
                             </li>
                             <li className="dropdown user user-menu">
                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="dist/img/user2-160x160.jpg" className="user-image" alt="User Image" />
+                                    <img src = {userImg} className="user-image" alt="User Image" />
                                     <span className="hidden-xs">Pham Hong Cang</span>
                                 </a>
                                 <ul className="dropdown-menu">
@@ -65,7 +67,7 @@ class Header extends React.Component {
                                 </ul>
                             </li>
                             <li>
-                                <a href="#" data-toggle="control-sidebar"><i className="fa fa-gears"></i></a>
+                                <Link to="/user"><i className="fa fa-gears"></i></Link>
                             </li>
                         </ul>
                     </div>

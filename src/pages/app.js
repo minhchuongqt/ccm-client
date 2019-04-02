@@ -11,6 +11,8 @@ import * as PATH from "../constants/data/routeConstants";
 import './App.css';
 import './custom.css'
 import BacklogPage from './BacklogPage/BacklogPage';
+import UserPage from './UserPage/index';
+import AddUserPage from './UserPage/AddUserPage/AddUserPage';
 class App extends Component {
     componentWillMount() {
         API.get()
@@ -28,6 +30,7 @@ class App extends Component {
     }
 
     render() {
+        console.log('reder app')
         return (
             <div>
                 <Header />
@@ -37,8 +40,9 @@ class App extends Component {
                     <section className="content-header">
                         <Switch>
                             {/* <Route path={PATH.PROJECT_URL} component = {ProjectPage}/> */}
+                            <Route path={PATH.HOME_URL} exact render={() => <ProjectPage />} />
                             <Route path={PATH.BACKLOG_URL} render={() => <BacklogPage />} />
-                            <Route path={PATH.HOME_URL} render={() => <ProjectPage />} />
+                            <Route path={PATH.USER_URL} render={() => <UserPage />} />
                         </Switch>
                         
                     </section>
