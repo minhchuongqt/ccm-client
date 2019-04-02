@@ -3,6 +3,10 @@ export const LOGIN_URL = "/login";
 export const ADMIN_LOGIN_URL = "/admin/login";
 export const LOGOUT_URL = "/logout";
 
+//Backlog pages
+
+export const BACKLOG_URL = "/backlog";
+
 //Project pages
 export const PROJECT_URL = "/project";
 export const PROJECT_DETAIL_URL = "/project/:id/detail";

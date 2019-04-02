@@ -10,6 +10,7 @@ import * as PATH from "../constants/data/routeConstants";
 
 import './App.css';
 import './custom.css'
+import BacklogPage from './BacklogPage/BacklogPage';
 class App extends Component {
     componentWillMount() {
         API.get()
@@ -36,6 +37,7 @@ class App extends Component {
                     <section className="content-header">
                         <Switch>
                             {/* <Route path={PATH.PROJECT_URL} component = {ProjectPage}/> */}
+                            <Route path={PATH.BACKLOG_URL} render={() => <BacklogPage />} />
                             <Route path={PATH.HOME_URL} render={() => <ProjectPage />} />
                         </Switch>
                         
