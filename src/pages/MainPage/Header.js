@@ -61,7 +61,7 @@ class Header extends React.Component {
                                             <a href="#" className="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div className="pull-right">
-                                            <a href="#" className="btn btn-default btn-flat">Sign out</a>
+                                        <Link to="/login"><a href="#" className="btn btn-default btn-flat">Sign out</a> </Link>
                                         </div>
                                     </li>
                                 </ul>

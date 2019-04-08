@@ -306,6 +306,7 @@ li.L9 {
 
 .main-sidebar {
   background-color: #333 !important;
+  z-index: 0;
 }
 
 .main-sidebar .sidebar .sidebar-menu li a {

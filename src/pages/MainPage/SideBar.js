@@ -27,7 +27,7 @@ const SideBar = props => {
           </li>
           <li >
             <a>
-              <i className="fa fa-suitcase"></i> <span> Issue</span>
+              <Link to={PATH.ISSUE_URL}><i className="fa fa-suitcase"></i> <span> Issue</span></Link>
             </a>
           </li>
           <li >

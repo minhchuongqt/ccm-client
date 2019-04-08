@@ -12,6 +12,10 @@ export const USER_EDIT_URL = "/user/:id/edit";
 //Backlog pages
 export const BACKLOG_URL = "/backlog";
 
+//Backlog pages
+export const ISSUE_URL = "/issue";
+
+
 //Project pages
 export const PROJECT_URL = "/project";
 export const PROJECT_DETAIL_URL = "/project/:id/detail";
