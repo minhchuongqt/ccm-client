@@ -1,11 +1,11 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
-const BacklogPage = props => {
+const ReportPage = props => {
   return (
     <div >
       <div>
         <Breadcrumb>
-          <BreadcrumbItem active>Backlog</BreadcrumbItem>
+          <BreadcrumbItem active>Report</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <div class="row">
@@ -43,4 +43,4 @@ const BacklogPage = props => {
   )
 };
 
-export default BacklogPage;
+export default ReportPage;

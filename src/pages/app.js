@@ -6,14 +6,15 @@ import { toast } from 'react-toastify'
 import Header from '../pages/MainPage/HeaderContainer';
 import SideBar from '../pages/MainPage/SideBar';
 import ProjectPage from '../pages/ProjectPage';
-import Base from '../pages/Base/Base'
-import Board from '../pages/Board/Board';
 import * as PATH from "../constants/data/routeConstants";
-import { IndexRoute } from 'react-router';
 import './App.css';
 import './custom.css'
 import BacklogPage from './BacklogPage/BacklogPage';
 import UserPage from './UserPage/index';
+import ActiveSprintPage from './ActiveSprintPage/ActiveSprintPage';
+import IssuePage from './IssuePage/IssuePage';
+import ReleasePage from './ReleasePage/ReleasePage';
+import ReportPage from './ReportPage/ReportPage';
 class App extends Component {
     componentWillMount() {
         API.get()
@@ -41,11 +42,12 @@ class App extends Component {
                     <section className="content-header">
                         <Switch>
                             {/* <Route path={PATH.PROJECT_URL} component = {ProjectPage}/> */}
-                            <Route path={PATH.ISSUE_URL} component={Base}>
-                                <Route component={Board} />
-                            </Route>
                             <Route path={PATH.HOME_URL} exact render={() => <ProjectPage />} />
                             <Route path={PATH.BACKLOG_URL} render={() => <BacklogPage />} />
+                            <Route path={PATH.ISSUE_URL} render={() => <IssuePage />} />
+                            <Route path={PATH.RELEASE_URL} render={() => <ReleasePage />} />
+                            <Route path={PATH.REPORT_URL} render={() => <ReportPage />} />
+                            <Route path={PATH.SPRINT_URL} render={() => <ActiveSprintPage />} />
                             <Route path={PATH.USER_URL} render={() => <UserPage />} />
                         </Switch>
 
