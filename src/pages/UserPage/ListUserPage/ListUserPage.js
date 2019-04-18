@@ -3,6 +3,7 @@ import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import {Link} from 'react-router-dom'
 
 const ListUserPage = props => {
+  const {openEditModal} = props
   return (
      <div>
        <div>
@@ -18,6 +19,8 @@ const ListUserPage = props => {
           <Link to="/user/add"><button type="button" class="btn btn-success">Create user</button></Link>
           
       </div>
+      <div className='delete-button' onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.onCancel() } } />
+
        <div class="box">
             <div class="box-header">
               <h3 class="box-title">Users</h3>
@@ -43,7 +46,9 @@ const ListUserPage = props => {
                   <td>Jira Software</td>
                   <td>
                     <div class="btn-group">
-                    <button type="button" class="btn btn-success"><i class="fa fa-edit" title="Edit User"></i></button>
+                    <button type="button" class="btn btn-success"
+                      onClick={() => openEditModal()}
+                    ><i class="fa fa-edit" title="Edit User"></i></button>
                     <button type="button" class="btn btn-danger"><i class="fa fa-trash-o" title="Remove User"></i></button>
                      </div>
                   </td>

@@ -1,0 +1,77 @@
+{
+    "lanes": [
+      {
+        "id": "TD",
+        "title": "TO DO",
+        "label": "20/70",
+        "style": {
+          "width": 300
+        },
+        "cards": [
+          {
+            "id": "Frontend",
+            "title": "Code login page",
+            "label": "15 mins",
+            "description": "Code login page in client side"
+          },
+          {
+            "id": "Plan2",
+            "title": "Dispose Garbage",
+            "label": "10 mins",
+            "description": "Sort out recyclable and waste as needed"
+          },
+          {
+            "id": "Plan3",
+            "title": "Write Blog",
+            "label": "30 mins",
+            "description": "Can AI make memes?"
+          },
+          {
+            "id": "Plan4",
+            "title": "Pay Rent",
+            "label": "5 mins",
+            "description": "Transfer to bank account"
+          }
+        ]
+      },
+      {
+        "id": "IP",
+        "title": "IN PROGRESS",
+        "label": "10/20",
+        "style": {
+          "width": 300
+        },
+        "cards": [
+          {
+            "id": "Wip1",
+            "title": "Clean House",
+            "label": "30 mins",
+            "description": "Soap wash and polish floor. Polish windows and doors. Scrap all broken glasses"
+          }
+        ]
+      },
+      {
+        "id": "DONE",
+        "title": "DONE",
+        "style": {
+          "width": 300
+        },
+        "label": "2/5",
+        "cards": [
+          {
+            "id": "Completed1",
+            "title": "Practice Meditation",
+            "label": "15 mins",
+            "description": "Use Headspace app"
+          },
+          {
+            "id": "Completed2",
+            "title": "Maintain Daily Journal",
+            "label": "15 mins",
+            "description": "Use Spreadsheet for now"
+          }
+        ]
+      }
+    ]
+  }
+  

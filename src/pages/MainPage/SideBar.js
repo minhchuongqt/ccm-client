@@ -21,23 +21,20 @@ const SideBar = props => {
               <Link to={PATH.BACKLOG_URL}><i className="fa fa-cubes"></i> Backlog</Link>
           </li>
           <li >
-            <a>
-              <i className="fa fa-archive"></i> <span> Active sprints</span>
-            </a>
+            <Link to={PATH.SPRINT_URL}><i className="fa fa-archive"></i><span> Active sprints</span></Link>
           </li>
           <li >
-            <a>
-              <i className="fa fa-suitcase"></i> <span> Issue</span>
-            </a>
+              <Link to ={PATH.ISSUE_URL}><i className="fa fa-suitcase"></i> <span> Issues</span></Link>
           </li>
           <li >
-            <a>
-              <i className="fa fa-line-chart"></i> <span> Report</span>
-            </a>
+              <Link to ={PATH.RELEASE_URL}><i className="fa fa-cube"></i> <span> Releases</span></Link>
+          </li>
+          <li >
+          <Link to ={PATH.REPORT_URL}><i className="fa fa-line-chart"></i> <span> Reports</span></Link>
           </li>
 
           <li class="treeview">
-              <a href="#"><i class="fa fa-gears"></i> Setting
+              <a href="#"><i class="fa fa-gear"></i> Project Setting
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>

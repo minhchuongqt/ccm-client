@@ -1,0 +1,54 @@
+#issue-view {
+    .m-b-5 {
+        margin: 5px;
+    }
+    .m-b-1{
+        margin: 1px;
+    }
+    .description{
+        width: 100%;
+        height: 200px;
+        font-size: 14px;
+        line-height: 18px;
+        border: 1px solid #dddddd;
+        padding: 10px;
+    }
+    .color-black {
+        color: #172b4d;
+    }
+    .pd-0{
+        padding: 0px;
+    }
+    .m-b-0{
+        margin-bottom: 0px;
+    }
+    .summary{
+        min-width: 200px;
+    }
+    .p-r-0{
+        padding-right: 0px;
+    }
+    .p-l-0{
+        padding-left: 0px;
+    }
+    .m-l-m15{
+        margin-left: -15px;
+    }
+    .scroll-detail{
+        overflow: auto;
+        max-height: 415px;
+    }
+    .email{
+        cursor: pointer;
+    }
+    .img-activity{
+        width: 20px !important;
+        height: auto !important;
+        float: left !important;
+    }
+    .comments-conf{
+        background: transparent;
+    }
+    .box-comment-conf:hover{
+    }
+}

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import BacklogPageView from './BacklogPage';
-class BacklogPageContainer extends Component {
+import ReleasePageView from './ReleasePage';
+class ReleasePageContainer extends Component {
     render() {
         return (
             <div>
-                <BacklogPageView 
+                <ReleasePageView 
                    
                 />
             </div>
@@ -12,4 +12,4 @@ class BacklogPageContainer extends Component {
     }
 }
 
-export default BacklogPageContainer;
+export default ReleasePageContainer;

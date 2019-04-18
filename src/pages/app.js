@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import API from '../api/base';
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Header from '../pages/MainPage/HeaderContainer';
 import SideBar from '../pages/MainPage/SideBar';
 import ProjectPage from '../pages/ProjectPage';
 import * as PATH from "../constants/data/routeConstants";
-
 import './App.css';
 import './custom.css'
 import BacklogPage from './BacklogPage/BacklogPage';
 import UserPage from './UserPage/index';
-import AddUserPage from './UserPage/AddUserPage/AddUserPage';
+import ActiveSprintPage from './ActiveSprintPage/ActiveSprintPage';
+import IssuePage from './IssuePage/IssuePage';
+import ReleasePage from './ReleasePage/ReleasePage';
+import ReportPage from './ReportPage/ReportPage';
 class App extends Component {
     componentWillMount() {
         API.get()
@@ -36,15 +38,19 @@ class App extends Component {
                 <Header />
                 <SideBar />
                 <div className="content-wrapper"
-                style={{ overflow: "auto", maxHeight: "607px" }}>
+                    style={{ overflow: "auto", maxHeight: "607px" }}>
                     <section className="content-header">
                         <Switch>
                             {/* <Route path={PATH.PROJECT_URL} component = {ProjectPage}/> */}
                             <Route path={PATH.HOME_URL} exact render={() => <ProjectPage />} />
                             <Route path={PATH.BACKLOG_URL} render={() => <BacklogPage />} />
+                            <Route path={PATH.ISSUE_URL} render={() => <IssuePage />} />
+                            <Route path={PATH.RELEASE_URL} render={() => <ReleasePage />} />
+                            <Route path={PATH.REPORT_URL} render={() => <ReportPage />} />
+                            <Route path={PATH.SPRINT_URL} render={() => <ActiveSprintPage />} />
                             <Route path={PATH.USER_URL} render={() => <UserPage />} />
                         </Switch>
-                        
+
                     </section>
 
                 </div>
