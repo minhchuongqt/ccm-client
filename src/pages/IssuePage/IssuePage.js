@@ -2,6 +2,8 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import "../../styleSheets/sass/components/Issue/IssueView.scss"
 import imgUser from '../../assets/img/avatar5.png'
+import AddIssueView from './AddIssuePage/index'
+import EditIssueView from './EditIssuePage/index'
 const IssuePage = props => {
   return (
     <div id="issue-view">
@@ -10,6 +12,8 @@ const IssuePage = props => {
           <BreadcrumbItem active>Issue</BreadcrumbItem>
         </Breadcrumb>
       </div>
+      <EditIssueView/>
+      <AddIssueView/>
       <div class="row">
         <div class="col-md-4 p-r-0">
           <div class="box box-success ">
@@ -75,7 +79,8 @@ const IssuePage = props => {
               </div>
             </div>
             <div class="box-footer">
-              <button type="button" class="btn btn-default"><i class="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                <i class="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
             </div>
           </div>
         </div>
@@ -90,7 +95,7 @@ const IssuePage = props => {
                 <h3>As a developer, I can update story and task status</h3>
               </div>
               <div className="btn-group m-b-5">
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-edit" title="Edit"></i> Edit</button>
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-editissue"><i class="fa fa-edit" title="Edit"></i> Edit</button>
               </div>
               <div className="btn-group m-b-5">
                 <button type="button" class="btn btn-default btn-sm"><i class="fa fa-commenting-o" title="Comment"></i> Comment</button>
@@ -178,19 +183,19 @@ const IssuePage = props => {
                             <tbody>
                               <tr>
                                 <td>1. </td>
-                                <td className="summary">Update task status by dragging and dropping from column to column >>
-                                  Try dragging this task to "Done"</td>
+                                <td ><div className="summary">Update task status by dragging and dropping from column to column >>
+                                  Try dragging this task to "Done"</div></td>
                                 <td><i class="fa fa-clone" title="The sub-task of the issue"></i></td>
                                 <td><span class="label label-default">TO DO</span></td>
-                                <td>minhchuongqt@gmail.com</td>
+                                <td><div className="summary">minhchuongqt@gmail.com</div></td>
                               </tr>
                               <tr>
                                 <td>1. </td>
-                                <td className="summary">Update task status by dragging and dropping from column to column >>
-                                  Try dragging this task to "Done"</td>
+                                <td ><div className="summary">Update task status by dragging and dropping from column to column >>
+                                  Try dragging this task to "Done"</div></td>
                                 <td><i class="fa fa-clone" title="The sub-task of the issue"></i></td>
                                 <td><span class="label label-default">TO DO</span></td>
-                                <td>minhchuongqt@gmail.com</td>
+                                <td><div className="summary">minhchuongqt@gmail.com</div></td>
                               </tr>
                             </tbody>
                           </table>
@@ -208,7 +213,7 @@ const IssuePage = props => {
                       </div>
                       <div id="collapseActivity" class="panel-collapse collapse in">
                         <div class="box-body box-comments comments-conf">
-                        <div class="box-comment">
+                          <div class="box-comment">
                             <div className="col-md-8">
                               <img class="img-circle img-activity" src={imgUser} alt="User Image" />
                               <div class="comment-text">

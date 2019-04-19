@@ -15,7 +15,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  /* color: white; */
 }
 
 .App-link {
@@ -69,7 +69,7 @@ ul {
   margin-bottom: 20px;
 }
 .page-header {
-  /*border-bottom: 1px solid #ddd;        */
+  border-bottom: 1px solid #ddd;       
   margin: 20px 0 10px 0 !important;
   position: relative;
   z-index: 1;
@@ -149,6 +149,16 @@ pre {
 .treeview .nav li a:active {
   background: transparent;
 }
+.nav>li>a:hover{
+  background-color: #337ab7;
+}
+.nav .open>a{
+  background-color: #337ab7;
+}
+.nav .open>a:focus {
+  background-color: #337ab7;
+}
+
 p {
   padding: 0 !important;
 }

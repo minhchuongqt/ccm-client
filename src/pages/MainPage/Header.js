@@ -1,8 +1,8 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as PATH from '../../constants/data/routeConstants'
 import img from '../../assets/img/ccm-logo.png'
-import userImg from'../../assets/img/avatar5.png';
+import userImg from '../../assets/img/avatar5.png';
 class Header extends React.Component {
     constructor(props) {
         super(props)
@@ -31,7 +31,7 @@ class Header extends React.Component {
                             </li>
                             <li className="dropdown user user-menu">
                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                    <img src = {userImg} className="user-image" alt="User Image" />
+                                    <img src={userImg} className="user-image" alt="User Image" />
                                     <span className="hidden-xs">Pham Hong Cang</span>
                                 </a>
                                 <ul className="dropdown-menu">
@@ -43,31 +43,32 @@ class Header extends React.Component {
                                             <small>Member since Nov. 2018</small>
                                         </p>
                                     </li>
-                                    <li className="user-body">
-                                        <div className="row">
-                                            <div className="col-xs-4 text-center">
-                                                <a href="#">Followers</a>
-                                            </div>
-                                            <div className="col-xs-4 text-center">
-                                                <a href="#">Sales</a>
-                                            </div>
-                                            <div className="col-xs-4 text-center">
-                                                <a href="#">Friends</a>
-                                            </div>
-                                        </div>
-                                    </li>
                                     <li className="user-footer">
                                         <div className="pull-left">
                                             <a href="#" className="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div className="pull-right">
-                                        <Link to="/login"><a href="#" className="btn btn-default btn-flat">Sign out</a> </Link>
+                                            <Link to="/login"><a href="#" className="btn btn-default btn-flat">Sign out</a> </Link>
                                         </div>
                                     </li>
                                 </ul>
                             </li>
+
+
+                            <li className="dropdown">
+                                <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                                    <i className="fa fa-gears"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Log work</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Create a sub-task</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Delete</a></li>
+                                </ul>
+                            </li>
                             <li>
-                                <Link to="/user"><i className="fa fa-gears"></i></Link>
+                                <Link to="/user"></Link>
                             </li>
                         </ul>
                     </div>

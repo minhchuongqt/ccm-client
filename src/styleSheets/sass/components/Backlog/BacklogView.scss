@@ -1,4 +1,15 @@
-#issue-view {
+#backlog-view {
+    .ul-style {
+        position: relative;
+        z-index: 0;
+        border: 1px solid #efefef;
+        border-radius: 3px;
+        outline: none;
+        width: 400px;
+        height: 600px;
+        overflow: auto;
+        list-style-type:none
+    }
     .m-b-5 {
         margin: 5px;
     }
@@ -37,9 +48,12 @@
     .m-l-m15{
         margin-left: -15px;
     }
+    .height-fill {
+        height: -webkit-fill-available;
+    }
     .scroll-detail{
         overflow: auto;
-        max-height: 415px;
+        height: inherit;
     }
     .email{
         cursor: pointer;
@@ -52,12 +66,37 @@
     .comments-conf{
         background: transparent;
     }
-    .box-comment-conf:hover{
-    }
     .top-0{
         top: 0px;
     }
     .pointer{
         cursor: pointer;
+    }
+    .li-style {
+        
+    }
+    .p-l-0{
+        padding-left: 0px;
+    }
+    .m-l-10{
+    margin-left: 10px;
+    }
+
+    .p-lr {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .p-bt{
+        padding-top: 14px;
+        padding-bottom: 7px;
+    }
+    .bug-red{
+        color: red;
+    }
+    .story-green{
+        color: green;
+    }
+    .icon-issue{
+        padding-right: 5px;
     }
 }

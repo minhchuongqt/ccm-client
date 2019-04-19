@@ -10,7 +10,7 @@ import * as PATH from "../constants/data/routeConstants";
 import './App.css';
 import './custom.css'
 import BacklogPage from './BacklogPage/BacklogPage';
-import UserPage from './UserPage/index';
+import UserPage from './SettingSystemPage/UserPage/index';
 import ActiveSprintPage from './ActiveSprintPage/ActiveSprintPage';
 import IssuePage from './IssuePage/IssuePage';
 import ReleasePage from './ReleasePage/ReleasePage';
