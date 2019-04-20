@@ -3,3 +3,7 @@
     text-align: right;
     margin-bottom: 5px;
 }
+
+.modal-top {
+    top: 0px;
+}

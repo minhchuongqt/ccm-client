@@ -3,7 +3,7 @@
       {
         "id": "TD",
         "title": "TO DO",
-        "label": "20/70",
+        "label": "3 issues",
         "style": {
           "width": 300
         },
@@ -16,37 +16,31 @@
           },
           {
             "id": "Plan2",
-            "title": "Dispose Garbage",
+            "title": "Code register page",
             "label": "10 mins",
-            "description": "Sort out recyclable and waste as needed"
+            "description": "Design regiter page in client sidde"
           },
           {
             "id": "Plan3",
-            "title": "Write Blog",
+            "title": "Implement API auth",
             "label": "30 mins",
-            "description": "Can AI make memes?"
-          },
-          {
-            "id": "Plan4",
-            "title": "Pay Rent",
-            "label": "5 mins",
-            "description": "Transfer to bank account"
+            "description": "Implement API for authenticate"
           }
         ]
       },
       {
         "id": "IP",
         "title": "IN PROGRESS",
-        "label": "10/20",
+        "label": "1 issue",
         "style": {
           "width": 300
         },
         "cards": [
           {
             "id": "Wip1",
-            "title": "Clean House",
+            "title": "CRUD Group UI",
             "label": "30 mins",
-            "description": "Soap wash and polish floor. Polish windows and doors. Scrap all broken glasses"
+            "description": "Design Group UI CRUD"
           }
         ]
       },
@@ -56,19 +50,19 @@
         "style": {
           "width": 300
         },
-        "label": "2/5",
+        "label": "2 issues",
         "cards": [
           {
             "id": "Completed1",
-            "title": "Practice Meditation",
+            "title": "Get requirements",
             "label": "15 mins",
-            "description": "Use Headspace app"
+            "description": "Get requirements from customer"
           },
           {
             "id": "Completed2",
-            "title": "Maintain Daily Journal",
+            "title": "Requirements analysis",
             "label": "15 mins",
-            "description": "Use Spreadsheet for now"
+            "description": "Determining the conditions to meet for a new project"
           }
         ]
       }

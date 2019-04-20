@@ -60,15 +60,10 @@ class Header extends React.Component {
                                     <i className="fa fa-gears"></i>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Log work</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Create a sub-task</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Delete</a></li>
+                                <li>
+                                    <Link to="/user">User Management</Link>
+                                </li>
                                 </ul>
-                            </li>
-                            <li>
-                                <Link to="/user"></Link>
                             </li>
                         </ul>
                     </div>

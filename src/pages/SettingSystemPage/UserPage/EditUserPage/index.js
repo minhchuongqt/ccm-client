@@ -4,9 +4,7 @@ import Modal from 'react-modal'
 class EditUserPageContainer extends Component {
     render() {
         return (
-            <Modal>
-                <EditUserPageView/>
-            </Modal>
+            <EditUserPageView/>
         );
     }
 }

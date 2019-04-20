@@ -5,7 +5,7 @@ const EditSprintPage = props => {
   return (
     <div id="issue-view">
       <div class="modal fade" id="modal-editsprint">
-        <div class="modal-dialog top-0">
+        <div class="modal-dialog modal-top">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -66,7 +66,7 @@ const EditSprintPage = props => {
       </div>
 
       <div class="modal fade" id="modal-deletesprint">
-        <div class="modal-dialog top-0">
+        <div class="modal-dialog modal-top">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">

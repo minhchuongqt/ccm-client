@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import {Link} from 'react-router-dom'
+import EditUserView from '../EditUserPage/index'
 
 const ListUserPage = props => {
   const {openEditModal} = props
@@ -13,7 +14,7 @@ const ListUserPage = props => {
           <BreadcrumbItem active>User Management</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      
+      <EditUserView/>
       <div class = "btn-add-all">
           
           <Link to="/user/add"><button type="button" class="btn btn-success">Create user</button></Link>
@@ -46,10 +47,8 @@ const ListUserPage = props => {
                   <td>Jira Software</td>
                   <td>
                     <div class="btn-group">
-                    <button type="button" class="btn btn-success"
-                      onClick={() => openEditModal()}
-                    ><i class="fa fa-edit" title="Edit User"></i></button>
-                    <button type="button" class="btn btn-danger"><i class="fa fa-trash-o" title="Remove User"></i></button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-edituser"><i class="fa fa-edit" title="Edit User"></i></button>
+                    <button type="button" class="btn btn-danger"><i class="fa fa-trash-o" title="Remove User" data-toggle="modal" data-target="#modal-edituser"></i></button>
                      </div>
                   </td>
                 </tr>
@@ -61,7 +60,7 @@ const ListUserPage = props => {
                   <td>Jira Software</td>
                   <td>
                     <div class="btn-group">
-                    <button type="button" class="btn btn-success"><i class="fa fa-edit" title="Edit User"></i></button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-edituser"><i class="fa fa-edit" title="Edit User"></i></button>
                     <button type="button" class="btn btn-danger"><i class="fa fa-trash-o" title="Remove User"></i></button>
                      </div>
                   </td>
