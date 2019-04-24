@@ -18,19 +18,19 @@ const AddProjectPage = props => {
                 <div className="form-group">
                   <label for="inputSum" className="col-sm-3 control-label">Project name<span style={{ color: 'red' }}>*</span></label>
                   <div className="col-sm-9">
-                    <input type="text" className="form-control" id="inputSum" placeholder="Summary" />
+                    <input type="text" className="form-control" id="inputSum" />
                   </div>
                 </div>
                 <div className="form-group">
                   <label for="inputSum" className="col-sm-3 control-label">Project key<span style={{ color: 'red' }}>*</span></label>
                   <div className="col-sm-9">
-                    <input type="text" className="form-control" id="inputSum" placeholder="Summary" />
+                    <input type="text" className="form-control" id="inputSum" />
                   </div>
                 </div>
                 <div className="form-group">
-                  <label for="inputSum" className="col-sm-3 control-label">Project type<span style={{ color: 'red' }}>*</span></label>
+                  <label for="inputSum" className="col-sm-3 control-label">Project type</label>
                   <div className="col-sm-9">
-                    <input type="text" className="form-control" id="inputSum" placeholder="Summary" />
+                    <input type="text" className="form-control" id="inputSum" />
                   </div>
                 </div>
                 <div className="form-group">
