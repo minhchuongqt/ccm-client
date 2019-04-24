@@ -8,8 +8,8 @@ class LoginPageContainer extends Component {
     constructor(props) {
         super(props)
         this.state={
-            email: '',
-            password: '',
+            email: 'admin@gmail.com',
+            password: '123456',
         }
     }
 
@@ -35,10 +35,13 @@ class LoginPageContainer extends Component {
     }
 
     render() {
+        const {email, password} = this.state
         return (
             <div>
                 <LoginPageView 
-                {...this.props}
+                    {...this.props}
+                    email={email}
+                    password={password}
                     login = {(email, password) => this.handleLogin(email, password)}
                     onChange =  {(key, value) => this.onChange(key, value)}
                 />

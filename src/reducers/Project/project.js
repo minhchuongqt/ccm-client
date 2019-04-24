@@ -1,18 +1,32 @@
-import {GET_LIST_PROJECT_SUCCESS} from '../../constants/types/project'
+import {GET_PROJECT_TYPE} from '../../constants/types/project'
+import {GET_LIST_PROJECT} from '../../constants/types/project'
 import { combineReducers } from 'redux';
 
-export const listProject = (state = null, action) => {
+const listProject = (state = [], action) => {
     const {type, payload} = action
     switch(type) {
-        case GET_LIST_PROJECT_SUCCESS:
+        case GET_LIST_PROJECT:
             return payload
         default:
             return state
     }
 }
 
+const projectType = (state = [], action) => {
+    const {type, payload} = action
+    switch(type) {
+        case GET_PROJECT_TYPE:
+            return payload
+        default:
+            return state
+    }
+}
+
+
 const ProjectState = combineReducers({
-    listProject
+    listProject,
+    projectType
 })
+
 
 export default ProjectState
