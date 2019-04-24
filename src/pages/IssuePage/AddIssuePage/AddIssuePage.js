@@ -5,21 +5,21 @@ import imgUser from '../../../assets/img/avatar5.png'
 const AddIssuePage = props => {
   return (
     <div id="issue-view">
-      <div class="modal fade" id="modal-default">
-        <div class="modal-dialog modal-top">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div className="modal fade" id="modal-default">
+        <div className="modal-dialog modal-top">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Create Issue</h4>
+              <h4 className="modal-title">Create Issue</h4>
             </div>
             <div className="form-horizontal">
-              <div class="modal-body">
+              <div className="modal-body">
 
-                <div class="form-group">
-                  <label for="selectType" class="col-sm-3 control-label">Issue Type<span style={{ color: 'red' }}>*</span></label>
-                  <div class="col-sm-9">
-                    <select class="form-control select2" style = {{width: '100%'}}>
+                <div className="form-group">
+                  <label for="selectType" className="col-sm-3 control-label">Issue Type<span style={{ color: 'red' }}>*</span></label>
+                  <div className="col-sm-9">
+                    <select className="form-control select2" style = {{width: '100%'}}>
                       <option selected="selected">Story</option>
                       <option>Task</option>
                       <option>Bug</option>
@@ -28,24 +28,24 @@ const AddIssuePage = props => {
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label for="inputSum" class="col-sm-3 control-label">Summary<span style={{ color: 'red' }}>*</span></label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="inputSum" placeholder="Summary" />
+                <div className="form-group">
+                  <label for="inputSum" className="col-sm-3 control-label">Summary<span style={{ color: 'red' }}>*</span></label>
+                  <div className="col-sm-9">
+                    <input type="text" className="form-control" id="inputSum" placeholder="Summary" />
                   </div>
                 </div>
 
                
-                <div class="form-group">
-                  <label  class="col-sm-3 control-label">Description</label>
-                  <div class="col-sm-9">
-                      <textarea class="form-control" name="textDescription" id="Des" rows="3"></textarea>
+                <div className="form-group">
+                  <label  className="col-sm-3 control-label">Description</label>
+                  <div className="col-sm-9">
+                      <textarea className="form-control" name="textDescription" id="Des" rows="3"></textarea>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Priority</label>
-                  <div class="col-sm-9">
-                    <select class="form-control select2" style = {{width: '100%'}}>
+                <div className="form-group">
+                  <label className="col-sm-3 control-label">Priority</label>
+                  <div className="col-sm-9">
+                    <select className="form-control select2" style = {{width: '100%'}}>
                       <option selected="selected">Medium</option>
                       <option>Highest</option>
                       <option>High</option>
@@ -54,36 +54,36 @@ const AddIssuePage = props => {
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Labels</label>
-                  <div class="col-sm-9">
-                    <select class="form-control select2" style = {{width: '100%'}}>
+                <div className="form-group">
+                  <label className="col-sm-3 control-label">Labels</label>
+                  <div className="col-sm-9">
+                    <select className="form-control select2" style = {{width: '100%'}}>
                       <option selected="selected"></option>
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Assignee</label>
-                  <div class="col-sm-9">
-                    <select class="form-control select2" style = {{width: '100%'}}>
+                <div className="form-group">
+                  <label className="col-sm-3 control-label">Assignee</label>
+                  <div className="col-sm-9">
+                    <select className="form-control select2" style = {{width: '100%'}}>
                       <option selected="selected">Automatic</option>
                     </select>
                     <a className="pointer">Assign to me</a>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label  class="col-sm-3 control-label">Sprint</label>
-                  <div class="col-sm-9">
-                  <select class="form-control select2" style = {{width: '100%'}}>
+                <div className="form-group">
+                  <label  className="col-sm-3 control-label">Sprint</label>
+                  <div className="col-sm-9">
+                  <select className="form-control select2" style = {{width: '100%'}}>
                       <option selected="selected"></option>
                     </select>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary">Create</button>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+              <button type="button" className="btn btn-primary">Create</button>
             </div>
           </div>
         </div>

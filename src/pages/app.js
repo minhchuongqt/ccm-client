@@ -16,16 +16,16 @@ import IssuePage from './IssuePage/IssuePage';
 import ReleasePage from './ReleasePage/ReleasePage';
 import ReportPage from './ReportPage/ReportPage';
 class App extends Component {
+    
     componentWillMount() {
-        API.get()
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('access-token');
         if (!token) {
             this.props.history.push('/login')
         }
     }
 
     componentWillReceiveProps() {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('access-token');
         if (!token) {
             this.props.history.push('/login')
         }

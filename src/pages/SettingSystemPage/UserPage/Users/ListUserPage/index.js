@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import UserManagementPageView from './UserManagementPage';
+import ListUserPageView from './ListUserPage';
 class ListUserPageContainer extends Component {
     constructor(props) {
         super(props);
     }
     
+   
 
     render() {
         return (
             <div>
-                <UserManagementPageView/>
+                <ListUserPageView />
             </div>
         );
     }

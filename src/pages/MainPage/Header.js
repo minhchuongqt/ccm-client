@@ -45,10 +45,10 @@ class Header extends React.Component {
                                     </li>
                                     <li className="user-footer">
                                         <div className="pull-left">
-                                            <a href="#" className="btn btn-default btn-flat">Profile</a>
+                                            <button href="#" className="btn btn-default btn-flat">Profile</button>
                                         </div>
                                         <div className="pull-right">
-                                            <Link to="/login"><a href="#" className="btn btn-default btn-flat">Sign out</a> </Link>
+                                            <Link to="/login"><button href="#" className="btn btn-default btn-flat">Sign out</button> </Link>
                                         </div>
                                     </li>
                                 </ul>
@@ -59,7 +59,7 @@ class Header extends React.Component {
                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                                     <i className="fa fa-gears"></i>
                                 </a>
-                                <ul class="dropdown-menu" role="menu">
+                                <ul className="dropdown-menu" role="menu">
                                 <li>
                                     <Link to="/user">User Management</Link>
                                 </li>

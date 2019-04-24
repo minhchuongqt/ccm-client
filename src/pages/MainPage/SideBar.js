@@ -33,24 +33,24 @@ const SideBar = props => {
           <Link to ={PATH.REPORT_URL}><i className="fa fa-line-chart"></i> <span> Reports</span></Link>
           </li>
 
-          <li class="treeview">
-              <a href="#"><i class="fa fa-gear"></i> Project Setting
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
+          <li className="treeview">
+              <a href="#"><i className="fa fa-gear"></i> Project Setting
+                <span className="pull-right-container">
+                  <i className="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-              <ul class="treeview-menu">
-                <li class="treeview">
-                  <a href="#"><i class="fa fa-circle-o"></i> User Management
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
+              <ul className="treeview-menu">
+                <li className="treeview">
+                  <a href="#"><i className="fa fa-circle-o"></i> User Management
+                    <span className="pull-right-container">
+                      <i className="fa fa-angle-left pull-right"></i>
                     </span>
                   </a>
-                  <ul class="treeview-menu">
-                    <li><Link to={PATH.USER_URL}><i class="fa fa-circle-o"></i> Users</Link></li>
-                    <li><Link to={PATH.GROUP_URL}><i class="fa fa-circle-o"></i> Groups</Link></li>
+                  <ul className="treeview-menu">
+                    <li><Link to={PATH.USER_URL}><i className="fa fa-circle-o"></i> Users</Link></li>
+                    <li><Link to={PATH.GROUP_URL}><i className="fa fa-circle-o"></i> Groups</Link></li>
                   </ul>
-                  <a ><i class="fa fa-circle-o"></i> Project Setting</a>
+                  <a ><i className="fa fa-circle-o"></i> Project Setting</a>
                 </li>
               </ul>
             </li>

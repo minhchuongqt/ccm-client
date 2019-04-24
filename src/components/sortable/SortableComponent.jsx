@@ -30,7 +30,7 @@ const chooseType = (type) => {
 
 const SortableList = SortableContainer(({ items }) => {
     return (
-        <div class="list-group">
+        <div className="list-group">
             {items.map((item, index) => (
                 <SortableItem key={`item-${index}`} index={index} data={item} />
             ))}
