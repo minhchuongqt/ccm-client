@@ -1,6 +1,8 @@
-import React from "react";
-import { Breadcrumb, BreadcrumbItem } from "reactstrap";
+import React from "react"
+import { Breadcrumb, BreadcrumbItem } from "reactstrap"
+import SearchSelect from '../../../components/select'
 import "../../../styleSheets/sass/components/Issue/IssueView.scss"
+
 const AddProjectPage = props => {
   return (
     <div id="issue-view">
@@ -30,7 +32,7 @@ const AddProjectPage = props => {
                 <div className="form-group">
                   <label for="inputSum" className="col-sm-3 control-label">Project type</label>
                   <div className="col-sm-9">
-                    <input type="text" className="form-control" id="inputSum" />
+                    <SearchSelect />
                   </div>
                 </div>
                 <div className="form-group">
