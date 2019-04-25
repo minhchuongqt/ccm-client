@@ -4,6 +4,7 @@ import SearchSelect from '../../../components/select'
 import "../../../styleSheets/sass/components/Issue/IssueView.scss"
 
 const AddProjectPage = props => {
+  const {projectTypeSelectable, onChangeValue} = props
   return (
     <div id="issue-view">
       <div className="modal fade" id="modal-addproject">
@@ -20,25 +21,34 @@ const AddProjectPage = props => {
                 <div className="form-group">
                   <label for="inputSum" className="col-sm-3 control-label">Project name<span style={{ color: 'red' }}>*</span></label>
                   <div className="col-sm-9">
-                    <input type="text" className="form-control" id="inputSum" />
+                    <input type="text" className="form-control" id="inputSum" 
+                      onChange = {e => onChangeValue('name', e.target.value)}
+                    />
                   </div>
                 </div>
                 <div className="form-group">
                   <label for="inputSum" className="col-sm-3 control-label">Project key<span style={{ color: 'red' }}>*</span></label>
                   <div className="col-sm-9">
-                    <input type="text" className="form-control" id="inputSum" />
+                    <input type="text" className="form-control" id="inputSum" 
+                      onChange = {e => onChangeValue('key', e.target.value)}
+                    />
                   </div>
                 </div>
                 <div className="form-group">
                   <label for="inputSum" className="col-sm-3 control-label">Project type</label>
                   <div className="col-sm-9">
-                    <SearchSelect />
+                    <SearchSelect
+                        options={projectTypeSelectable} 
+                        onChange = {e => onChangeValue('projectType', e.value)}
+                    />
                   </div>
                 </div>
                 <div className="form-group">
                   <label className="col-sm-3 control-label">Description</label>
                   <div className="col-sm-9">
-                    <textarea className="form-control" name="textDescription" id="Des" rows="3"></textarea>
+                    <textarea className="form-control" name="textDescription" id="Des" rows="3"
+                        onChange = {e => onChangeValue('description', e.target.value)}
+                    />
                   </div>
                 </div>
 

@@ -22,7 +22,7 @@ const IssuePage = props => {
             </div>
             <div className="box-body scroll-detail">
               <div className="list-group">
-                <a href="#" className="list-group-item list-group-item-action active">
+                <a href="#" target="_blank" className="list-group-item list-group-item-action active">
                   <div>
                     <div><i className="fa fa-trello"></i> DEL-10</div>
                     <div>As a developer, I can update story and task status</div>
@@ -91,7 +91,7 @@ const IssuePage = props => {
               <h4 className="box-title">Issue Details</h4>
             </div>
             <div className="box-body">
-              <div id="edit" contenteditable="true">
+              <div id="edit">
                 <h3>As a developer, I can update story and task status</h3>
               </div>
               <div className="btn-group m-b-5">

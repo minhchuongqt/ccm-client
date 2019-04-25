@@ -1,15 +1,21 @@
 import API from './base';
 
-export const getListProject = (  ) => {
-    return API.get('/project');
+class ProjectApi {
+    constructor() {}
+
+    getListProject = (  ) => {
+        return API.get('/project');
+    }
+    
+    getProjectType = (  ) => {
+        return API.get('/projectType');
+    }
+    
+    createProject = (data) => {
+        return API.post('/project', data)
+    }
 }
 
-export const getProjectType = (  ) => {
-    return API.get('/projectType');
-}
+const projectApi = new ProjectApi()
 
-
-export default {
-    getListProject,
-    getProjectType
-}
+export default projectApi

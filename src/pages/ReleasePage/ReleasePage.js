@@ -10,7 +10,7 @@ const ReleasePage = props => {
       </div>
       <div className="box">
         <div className="box-header">
-          <h3 className="box-title"></h3>
+          {/* <h3 className="box-title"></h3> */}
           <div className="input-group input-group-sm" style={{ width: '150px' }}>
             <input type="text" name="table_search" className="form-control pull-right" placeholder="Search version" />
 

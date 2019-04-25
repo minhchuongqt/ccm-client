@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import EditUserView from './Users/EditUserPage/index';
 import AddUserView from './Users/AddUserPage/index';
@@ -7,7 +7,6 @@ import ListGroupView from './Groups/ListGroupPage/index';
 import AddGroupView from './Groups/AddGroupPage/index';
 import EditGroupView from './Groups/EditGroupPage/index';
 const UserManagementPage = props => {
-  const { openEditModal } = props
   return (
     <div>
       <div>

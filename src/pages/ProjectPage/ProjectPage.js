@@ -20,7 +20,7 @@ const switchColor = (number) => {
 }
 
 const ProjectPage = props => {
-  const { listProject, columns } = props
+  const { listProject, columns, projectTypeSelectable } = props
   return (
     <div id="project-view">
       <div>

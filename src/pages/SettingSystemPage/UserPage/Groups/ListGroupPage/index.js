@@ -10,7 +10,6 @@ class ListGroupPageContainer extends Component {
    
 
     render() {
-        const {groupList} = this.props
         return (
             <div>
                 <ListGroupPageView />

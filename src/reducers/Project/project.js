@@ -1,4 +1,4 @@
-import {GET_PROJECT_TYPE} from '../../constants/types/project'
+import {GET_PROJECT_TYPE, CREATE_PROJECT} from '../../constants/types/project'
 import {GET_LIST_PROJECT} from '../../constants/types/project'
 import { combineReducers } from 'redux';
 
@@ -22,10 +22,25 @@ const projectType = (state = [], action) => {
     }
 }
 
+const createProjectStatus = (state = null, action) => {
+    const {type, payload} = action
+    switch(type) {
+        case CREATE_PROJECT:
+            if(payload) {
+                return true
+            } else {
+                return false
+            }
+        default:
+            return null
+    }
+}
+
 
 const ProjectState = combineReducers({
     listProject,
-    projectType
+    projectType,
+    createProjectStatus
 })
 
 

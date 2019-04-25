@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import ProjectPageView from './ProjectPage';
 import { connect } from 'react-redux'
 import * as actions from '../../actions/project'
-import * as userActions from '../../actions/user'
 import * as selectors from '../../selectors/project'
+import * as userActions from '../../actions/user'
 class ProjectPageContainer extends Component {
 
     constructor(props) {
@@ -39,13 +39,14 @@ class ProjectPageContainer extends Component {
         // this.props.getUserInfo()
     }
     render() {
-        const {listProject} = this.props
-        console.log(listProject)
+        const {listProject, listProjectType, projectTypeSelectable} = this.props
+        console.log(listProjectType)
         return (
             <div>
                 <ProjectPageView 
                    listProject={listProject}
                    columns = {this.state.columns}
+                   projectTypeSelectable={projectTypeSelectable}
                 />
             </div>
         );
@@ -53,7 +54,7 @@ class ProjectPageContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    listProject: selectors.listProject(state)
+    listProject: selectors.listProject(state),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -62,7 +63,7 @@ const mapDispatchToProps = dispatch => ({
     },
     getUserInfo() {
         dispatch(userActions.getUserInfo())
-    }
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((ProjectPageContainer));

@@ -1,5 +1,6 @@
-import {createSelector} from 'reselect'
+
 import moment from 'moment'
+import _ from 'lodash'
 //params
 export const listProject = ({ProjectState}) => {
     const result =  ProjectState.listProject.map(item => item.project)
@@ -10,6 +11,25 @@ export const listProject = ({ProjectState}) => {
     }))
 }
 
+export const listProjectType = ({ProjectState}) => {
+    if(_.isEmpty(ProjectState.projectType)) return []
+    return ProjectState.projectType
+}
+
+export const createProjectStatus = ({ProjectState}) => {
+    if(_.isEmpty(ProjectState.createProjectStatus)) return null
+    return ProjectState.createProjectStatus
+}
+
+export const projectTypeSelectable = ({ProjectState}) => {
+    if(_.isEmpty(ProjectState.projectType)) return []
+    const result =  ProjectState.projectType.map(item => (
+        {
+            label: item.name, value: item._id
+        }
+        ))
+    return result
+}
 //func
 export const fnCountProject = ({ProjectState}) => id => {
     return {}
