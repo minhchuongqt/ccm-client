@@ -1,10 +1,11 @@
 import React from "react"
 import { Breadcrumb, BreadcrumbItem } from "reactstrap"
-import SearchSelect from '../../../components/select'
+import SearchSelect from '../../../components/singleSelect'
 import "../../../styleSheets/sass/components/Issue/IssueView.scss"
+import { createProject } from "../../../actions/project";
 
 const AddProjectPage = props => {
-  const {projectTypeSelectable, onChangeValue} = props
+  const {projectTypeSelectable, onChangeValue, resetValue, createProject} = props
   return (
     <div id="issue-view">
       <div className="modal fade" id="modal-addproject">
@@ -56,8 +57,12 @@ const AddProjectPage = props => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-              <button type="button" className="btn btn-primary">Create</button>
+              <button type="button" className="btn btn-default pull-left" data-dismiss="modal"
+                onClick={() => resetValue()}
+              >Cancel</button>
+              <button type="button" className="btn btn-primary" 
+                onClick={() => createProject()}
+              >Create</button>
             </div>
           </div>
         </div>

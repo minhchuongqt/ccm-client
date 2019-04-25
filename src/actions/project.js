@@ -1,4 +1,4 @@
-import { GET_LIST_PROJECT, GET_PROJECT_TYPE, CREATE_PROJECT } from '../constants/types/project';
+import { GET_LIST_PROJECT, GET_PROJECT_TYPE, CREATE_PROJECT, SELECT_PROJECT } from '../constants/types/project';
 import ProjectApi from '../api/projectApi';
 
 export const getListProject = (data) => async dispatch => {
@@ -18,9 +18,15 @@ export const getProjectType = (data) => async dispatch => {
 }
 
 export const createProject = (data) => async dispatch => {
+    // console.log(data)
     await ProjectApi.createProject(data).then(res => {
         if(res.data) {
             dispatch({type: CREATE_PROJECT, payload: res.data.data})
         }
     })
+}
+
+export const selectProject = (data) => async dispatch => {
+    // console.log(data)
+    dispatch({type: SELECT_PROJECT, payload: data})
 }

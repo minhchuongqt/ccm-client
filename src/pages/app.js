@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Header from '../pages/MainPage/HeaderContainer';
-import SideBar from '../pages/MainPage/SideBar';
+import SideBar from '../pages/MainPage/SideBarContainer';
 import ProjectPage from '../pages/ProjectPage';
 import * as PATH from "../constants/data/routeConstants";
 import './App.css';

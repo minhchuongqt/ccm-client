@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import ProjectPageView from './ProjectPage';
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
+
 import * as actions from '../../actions/project'
 import * as selectors from '../../selectors/project'
 import * as userActions from '../../actions/user'
+import AddProjectModal from './AddProjectModal';
 class ProjectPageContainer extends Component {
 
     constructor(props) {
@@ -29,7 +32,13 @@ class ProjectPageContainer extends Component {
                     header: 'Update Date', poiter: 'updatedDate'
                 }
             ],
-
+            addForm: {
+                name: '',
+                key: '',
+                projectType: '',
+                description: '',
+            },
+            isOpenAddProjectModal: false,
         }
     }
     
@@ -38,15 +47,71 @@ class ProjectPageContainer extends Component {
         this.props.getListProject()
         // this.props.getUserInfo()
     }
+
+    componentWillReceiveProps(newProps) {
+        const {createProjectStatus} = newProps
+        // console.log(newProps)
+        if(createProjectStatus) {
+            toast.success('Create project successfully')
+            this.setState({isOpenAddProjectModal: false})
+            this.props.getListProject()
+        }
+
+    }
+
+    onChangeValue = (name, value) => {
+        const addForm = this.state.addForm
+        addForm[name] = value
+        this.setState({addForm})    
+    }
+    openAddProjectModal = () => {
+        this.props.getProjectType()
+        this.setState({isOpenAddProjectModal: true})
+    }
+    closeModal = () => {
+        this.setState({
+        addForm: {
+            name: '',
+            key: '',
+            projectType: '',
+            description: '',
+        }})
+        this.setState({isOpenAddProjectModal: false})
+    }
+    createProject = () => {
+        const {addForm} = this.state
+        const data = {
+            ...addForm,
+            projectType: addForm.projectType.value
+        }
+        this.props.createProject(data)
+    }
+
+    selectProject = (project) => {
+        this.props.selectProject(project)
+    }
+    // getProjectType = () => {
+    //     this.props.getProjectType()
+    // }
     render() {
-        const {listProject, listProjectType, projectTypeSelectable} = this.props
-        console.log(listProjectType)
+        const {listProject, projectTypeSelectable} = this.props
+        const {isOpenAddProjectModal, addForm} = this.state
+        // console.log(this.state.addForm)
         return (
             <div>
                 <ProjectPageView 
                    listProject={listProject}
                    columns = {this.state.columns}
-                   projectTypeSelectable={projectTypeSelectable}
+                   openAddProjectModal={this.openAddProjectModal}
+                   selectProject={(project) => this.selectProject(project)}
+                />
+                <AddProjectModal
+                    data = {addForm}
+                    openModal={isOpenAddProjectModal}
+                    closeModal={this.closeModal}
+                    createProject={this.createProject}
+                    projectTypeSelectable={projectTypeSelectable}
+                    onChangeValue={(name, value) => this.onChangeValue(name, value)}
                 />
             </div>
         );
@@ -55,6 +120,8 @@ class ProjectPageContainer extends Component {
 
 const mapStateToProps = state => ({
     listProject: selectors.listProject(state),
+    projectTypeSelectable: selectors.projectTypeSelectable(state),
+    createProjectStatus: selectors.createProjectStatus(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -64,6 +131,15 @@ const mapDispatchToProps = dispatch => ({
     getUserInfo() {
         dispatch(userActions.getUserInfo())
     },
+    getProjectType() {
+        dispatch(actions.getProjectType())
+    },
+    createProject(addForm) {
+        dispatch(actions.createProject(addForm))
+    },
+    selectProject(project) {
+        dispatch(actions.selectProject(project))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((ProjectPageContainer));

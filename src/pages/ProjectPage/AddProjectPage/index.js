@@ -13,10 +13,16 @@ class AddProjectPage extends Component {
     }
     
     componentWillMount() {
-        this.props.getProjectType()
+        // this.props.getProjectType()
     }
-    onChangeValue(name, value) {
+    onChangeValue = (name, value) => {
         this.setState({[name]: value})
+    }
+    resetValue = () => {
+        this.setState({})
+    }
+    createProject = () => {
+        this.props.createProject()
     }
     render() {
         const {projectTypeSelectable} = this.props
@@ -26,6 +32,8 @@ class AddProjectPage extends Component {
                 <AddProjectPageView 
                    projectTypeSelectable={projectTypeSelectable}
                    onChangeValue={(name, value) => this.onChangeValue(name, value)}
+                   resetValue={this.resetValue}
+                   createProject={this.createProject}
                 />
             </div>
         );
@@ -44,6 +52,9 @@ const mapDispatchToProps = dispatch => ({
     },
     getProjectType() {
         dispatch(actions.getProjectType())
+    },
+    createProject() {
+        
     }
 })
 export default connect(mapStateToProps, mapDispatchToProps) (AddProjectPage);

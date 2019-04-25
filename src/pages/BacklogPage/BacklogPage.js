@@ -18,7 +18,7 @@ const BacklogPage = props => {
       <AddIssueView />
       <div className="row height-fill">
         <div className="col-md-7 p-r-0 scroll-detail">
-          <div className="box box-success ">
+          <div className="box box-success">
             <div className="box-header with-border">
               <h4 className="box-title">Sprint 1</h4>&nbsp;
                 <button type="button" className="btn btn-success btn-xs m-l-10"><strong>ACTIVE</strong></button>

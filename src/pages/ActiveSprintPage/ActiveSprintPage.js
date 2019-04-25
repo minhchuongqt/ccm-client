@@ -12,7 +12,7 @@ const ActiveSprintPage = props => {
         </Breadcrumb>
       </div>
       <div  >
-        <Board className = "board-background-color" data={data} draggable />
+        <Board className = "board-background-color board-content" data={data} draggable />
       </div>
 
 
