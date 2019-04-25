@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import * as R from 'ramda';
 import makeAnimated from 'react-select/lib/animated';
 // import 'react-select/dist/react-select.css';
 
@@ -14,14 +15,13 @@ const SearchSelect = (props) => {
 
   return (
     <Select
-    closeMenuOnSelect={false}
+      closeMenuOnSelect={false}
       components={makeAnimated()}
       {...props}
       style={style}
-      isMulti
       name="colors"
-      className="basic-multi-select"
-        classNamePrefix="select"
+      // className="basic-multi-select"
+      classNamePrefix="select"
     />
   );
 };

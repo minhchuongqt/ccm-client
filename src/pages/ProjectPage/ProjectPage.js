@@ -20,7 +20,7 @@ const switchColor = (number) => {
 }
 
 const ProjectPage = props => {
-  const { listProject, columns, projectTypeSelectable } = props
+  const { listProject, columns, openAddProjectModal, selectProject } = props
   return (
     <div id="project-view">
       <div>
@@ -28,11 +28,13 @@ const ProjectPage = props => {
           <BreadcrumbItem active>System Dashboard</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      <AddProjectPageView/>
+      {/* <AddProjectPageView/> */}
       
       <div >
         <div className="pull-right">
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-addproject">Create Project</button>
+          <button type="button" className="btn btn-success" data-toggle="modal" data-target="#modal-addproject"
+            onClick={() => openAddProjectModal()}
+          >Create Project</button>
         </div>
       </div>
       <div className="row">
@@ -40,7 +42,7 @@ const ProjectPage = props => {
           return (
             <div className="col-md-4" key={index}>
               <div className="box box-widget widget-user-2">
-                <Link to={PATH.BACKLOG_URL}><div className={"widget-user-header " + switchColor(index)} >
+                <Link onClick={() => selectProject(project)} to={PATH.BACKLOG_URL}><div className={"widget-user-header " + switchColor(index)} >
                   <div className="widget-user-image">
                     <img className="img-circle" src={imgProject} alt="Project Avatar" />
                   </div>

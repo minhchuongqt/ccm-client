@@ -37,6 +37,9 @@
   overflow: auto;
   max-height: 607px;
   min-height: 888px;
+  background-image: url("../assets/img/background-1.png");
+  background-size: cover;
+  background-position: center;
 }
 .content-wrapper p {
   padding: 0 10px;
@@ -69,7 +72,7 @@ ul {
   margin-bottom: 20px;
 }
 .page-header {
-  border-bottom: 1px solid #ddd;       
+  border-bottom: 1px solid #ddd;
   margin: 20px 0 10px 0 !important;
   position: relative;
   z-index: 1;
@@ -149,13 +152,13 @@ pre {
 .treeview .nav li a:active {
   background: transparent;
 }
-.nav>li>a:hover{
+.nav > li > a:hover {
   background-color: #337ab7;
 }
-.nav .open>a{
+.nav .open > a {
   background-color: #337ab7;
 }
-.nav .open>a:focus {
+.nav .open > a:focus {
   background-color: #337ab7;
 }
 
@@ -315,8 +318,35 @@ li.L9 {
 }
 
 .main-sidebar {
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
   background-color: #333 !important;
   z-index: 0;
+}
+
+.sidebar-background {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: block;
+  position: absolute;
+  background-size: cover;
+  background-position: center center;
+  background-image: url("../assets/img/sidebar-1.jpg");
+  background-size: cover;
+  background-color: #333 !important;
+  z-index: -1;
+}
+.sidebar-background::after {
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  content: "";
+  display: block;
+  opacity: 0.4;
+  position: absolute;
+  background: #000;
 }
 
 .main-sidebar .sidebar .sidebar-menu li a {
@@ -578,7 +608,6 @@ p {
   text-align: center;
 }
 
-
 .breadcrumb {
 }
 .breadcrumb-item a,
@@ -618,4 +647,34 @@ p {
 
 .bg-white {
   background-color: white;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 400ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  /* -webkit-transform: translate(0);
+  -moz-transform: translate(0);
+  transform: translate(0); */
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+/* .board-content {
+  background-image: url('../assets/img/background-1.png');
+  background-size: 1200px;
+} */
+
+.box-shadow {
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.box::after {
+  opacity: 0.8;
+  background-color: #004444;
 }

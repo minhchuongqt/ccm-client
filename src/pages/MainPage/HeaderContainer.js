@@ -25,14 +25,15 @@ class Header extends Component {
 
   render() {
     const { type } = this.state;
-    // console.log('this.props')
+    const isShow = this.props.history.location.pathname == '/' ? false : true
     return (
       <div>
-        <HeaderComponent {...this.props}  type={type} logout={() => this.logout()} />
+        <HeaderComponent {...this.props}  type={type} logout={() => this.logout()} 
+          isShow={isShow}
+        />
       </div>
     );
   }
 }
 
-
-export default withRouter(Header);
+export default  (withRouter(Header));

@@ -5,6 +5,7 @@ import * as PATH from "../../constants/data/routeConstants"
 import projectImg from'../../assets/img/project.png';
 
 const SideBar = props => {
+  const {selectedProject} = props
   return (
     <aside className="main-sidebar">
       <section className="sidebar">
@@ -13,7 +14,7 @@ const SideBar = props => {
             <img src={projectImg} className="img-circle" alt="User Image" />
           </div>
           <div className="pull-left info color-white">
-            <p>Delphinus</p>
+            <p>{selectedProject.name}</p>
           </div>
         </div>
         <ul className="sidebar-menu" data-widget="tree">
@@ -56,6 +57,7 @@ const SideBar = props => {
             </li>
         </ul>
       </section>
+      <div className="sidebar-background">test</div>
     </aside>
   );
 };

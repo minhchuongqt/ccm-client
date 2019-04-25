@@ -17,7 +17,7 @@ export const listProjectType = ({ProjectState}) => {
 }
 
 export const createProjectStatus = ({ProjectState}) => {
-    if(_.isEmpty(ProjectState.createProjectStatus)) return null
+    // if(_.isEmpty(ProjectState.createProjectStatus)) return null
     return ProjectState.createProjectStatus
 }
 
@@ -30,6 +30,8 @@ export const projectTypeSelectable = ({ProjectState}) => {
         ))
     return result
 }
+
+export const selectedProject = ({ProjectState}) => ProjectState.selectedProject
 //func
 export const fnCountProject = ({ProjectState}) => id => {
     return {}
