@@ -11,8 +11,8 @@ import './App.css';
 import './custom.css'
 import BacklogPage from './BacklogPage/BacklogPage';
 import UserPage from './SettingSystemPage/UserPage/index';
-import ActiveSprintPage from './ActiveSprintPage/ActiveSprintPage';
-import IssuePage from './IssuePage/IssuePage';
+import ActiveSprintPage from './ActiveSprintPage/index';
+import IssuePage from './IssuePage/index';
 import ReleasePage from './ReleasePage/ReleasePage';
 import ReportPage from './ReportPage/ReportPage';
 class App extends Component {

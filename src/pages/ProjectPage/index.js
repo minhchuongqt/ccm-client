@@ -54,6 +54,7 @@ class ProjectPageContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+    project : state.ProjectState,
     listProject: selectors.listProject(state),
 })
 

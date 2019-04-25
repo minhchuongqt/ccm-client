@@ -5,6 +5,7 @@ import imgUser from '../../assets/img/avatar5.png'
 import AddIssueView from './AddIssuePage/index'
 import EditIssueView from './EditIssuePage/index'
 const IssuePage = props => {
+  const {listIssue} =props
   return (
     <div id="issue-view">
       <div>

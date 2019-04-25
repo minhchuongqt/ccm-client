@@ -1,12 +1,7 @@
-import {createSelector} from 'reselect'
-import moment from 'moment'
+import _ from 'lodash'
 //params
 export const listIssue = ({IssueState}) => {
-    const result =  IssueState.listIssue.map(item => item.issue)
-    return result
+    if(_.isEmpty(IssueState.listIssue)) return []
+    return IssueState.listIssue
 }
 
-//func
-export const fnCountProject = ({ProjectState}) => id => {
-    return {}
-}

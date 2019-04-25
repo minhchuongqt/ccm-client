@@ -11,33 +11,13 @@ class IssuePageContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            columns: [
-                {
-                    header: 'Project', poiter: 'name'
-                },
-                {
-                    header: 'Key', poiter: 'key'
-                },
-                {
-                    header: 'Project Type', poiter: 'projectType'
-                },
-                {
-                    header: 'Project Lead', poiter: 'projectLead'
-                },
-                {
-                    header: 'Create Date', poiter: 'createdDate'
-                },
-                {
-                    header: 'Update Date', poiter: 'updatedDate'
-                }
-            ],
-
         }
     }
 
     render() {
         const { listIssue } = this.props
         console.log(listIssue)
+        console.log(this.state)
         return (
             <div>
                 <IssuePageView/>
@@ -53,7 +33,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getIssueList() {
         dispatch(actions.getIssueList())
-    }
+    },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)((IssuePageContainer));
+export default connect(mapStateToProps, mapDispatchToProps) (IssuePageContainer);
