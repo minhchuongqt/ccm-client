@@ -17,9 +17,42 @@
   font-size: calc(10px + 2vmin);
   /* color: white; */
 }
+.btn-default-c {
+  background: #777!important;
+  color: #fff;
+  padding: 5px;
+  font-size: 16px;
+  min-width: 100px;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+.btn-success-c {
+  background: #7bbb49!important;
+  color: #fff;
+  padding: 5px;
+  font-size: 16px;
+  min-width: 100px;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+.btn-success-c:hover {
+  color: #777;
+}
 
 .App-link {
   color: #61dafb;
+}
+.widget-user-2 .widget-user-username {
+  font-weight: 500;
+}
+.box-widget:hover {
+  box-shadow: rgb(179, 186, 197) 0px 4px 8px 0px, rgb(179, 186, 197) 0px 0px 1px 0px;
+  text-decoration: none;
+  transform: scale(1.01);
+}
+.li>a:hover, .li>a:active, .li>a:focus {
+  color: #444;
+  background: #f7f7f7;
 }
 
 @keyframes App-logo-spin {
@@ -152,13 +185,13 @@ pre {
 .treeview .nav li a:active {
   background: transparent;
 }
-.nav > li > a:hover {
+.navbar-nav > li > a:hover {
   background-color: #337ab7;
 }
-.nav .open > a {
+.navbar-nav .open > a {
   background-color: #337ab7;
 }
-.nav .open > a:focus {
+.navbar-nav .open > a:focus {
   background-color: #337ab7;
 }
 

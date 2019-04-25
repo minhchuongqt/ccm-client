@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import "../../../styleSheets/sass/components/Issue/IssueView.scss"
 import imgUser from '../../../assets/img/avatar5.png'
-import SearchSelect from '../../../components/select'
+import SearchSelect from '../../../components/multiSelect'
 const AddIssuePage = props => {
   const {listMembers} = props
   return (

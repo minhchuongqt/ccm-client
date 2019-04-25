@@ -30,7 +30,7 @@ const AddProjectPage = props => {
                 <div className="form-group">
                   <label for="inputSum" className="col-sm-3 control-label">Project key<span style={{ color: 'red' }}>*</span></label>
                   <div className="col-sm-9">
-                    <input type="text" className="form-control" id="inputSum" 
+                    <input type="text" className="form-control auto-uppercase" id="inputSum" 
                       onChange = {e => onChangeValue('key', e.target.value)}
                     />
                   </div>

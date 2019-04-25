@@ -1,9 +1,9 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import imgProject from '../../assets/img/project.png'
-import TableView from '../../components/table/index'
 import * as PATH from '../../constants/data/routeConstants'
 import { Link } from 'react-router-dom'
+import "../../styleSheets/sass/components/Project/projectView.scss"
 import AddProjectPageView from './AddProjectPage/index'
 import _ from 'lodash'
 const switchColor = (number) => {
@@ -31,18 +31,21 @@ const ProjectPage = props => {
       {/* <AddProjectPageView/> */}
       
       <div >
+        <div className="create-project">
         <div className="pull-right">
-          <button type="button" className="btn btn-success" data-toggle="modal" data-target="#modal-addproject"
+          <button type="button" className="btn btn-success-c" data-toggle="modal" data-target="#modal-addproject"
             onClick={() => openAddProjectModal()}
           >Create Project</button>
         </div>
+        </div>
+        
       </div>
       <div className="row">
         {listProject.map((project, index) => {
           return (
             <div className="col-md-4" key={index}>
               <div className="box box-widget widget-user-2">
-                <Link onClick={() => selectProject(project)} to={PATH.BACKLOG_URL}><div className={"widget-user-header " + switchColor(index)} >
+                <Link onClick={() => selectProject(project)} to={PATH.BACKLOG_URL}><div className={"widget-user-header " } >
                   <div className="widget-user-image">
                     <img className="img-circle" src={imgProject} alt="Project Avatar" />
                   </div>

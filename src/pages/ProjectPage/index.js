@@ -84,7 +84,38 @@ class ProjectPageContainer extends Component {
             ...addForm,
             projectType: addForm.projectType.value
         }
-        this.props.createProject(data)
+        console.log(data)
+        if (this.validate(data)){
+            toast.success("OK")
+        }
+        // this.props.createProject(data)
+    }
+    validate = (data) => {
+        if (!data.name) {
+            toast.error("Please enter project name");
+            return false;
+        }
+        if (data.name.length < 2) {
+            toast.error("The project name is too short");
+            return false;
+        }
+        if (data.name.length > 20) {
+            toast.error("The project name must be no more than 20 characters");
+            return false;
+        }
+        if (!data.key) {
+            toast.error("Please enter project key");
+            return false;
+        }
+        if (data.key.length > 3) {
+            toast.error("Project key must be no more than 3 characters");
+            return false;
+        }
+        if (!data.projectType) {
+            toast.error("Please choose project type");
+            return false;
+        }
+        return true;
     }
 
     selectProject = (project) => {
@@ -110,6 +141,7 @@ class ProjectPageContainer extends Component {
                     openModal={isOpenAddProjectModal}
                     closeModal={this.closeModal}
                     createProject={this.createProject}
+                    validate={(data)=>this.validate(data)}
                     projectTypeSelectable={projectTypeSelectable}
                     onChangeValue={(name, value) => this.onChangeValue(name, value)}
                 />

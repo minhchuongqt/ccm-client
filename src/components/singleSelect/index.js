@@ -15,7 +15,7 @@ const SearchSelect = (props) => {
 
   return (
     <Select
-      closeMenuOnSelect={false}
+      closeMenuOnSelect={true}
       components={makeAnimated()}
       {...props}
       style={style}

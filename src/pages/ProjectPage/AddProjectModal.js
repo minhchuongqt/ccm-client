@@ -20,7 +20,7 @@ const AddProjectModal = props => {
     <Modal isOpen={openModal} title="Create Project" closeModal={closeModal} >
       {/* <div className="modal fade" id="modal-addproject"> */}
       
-          <div className="form-horizontal">
+          <div id="issue-view" className="form-horizontal">
             <div className="modal-body">
               <div className="form-group">
                 <label className="col-sm-3 control-label">
@@ -43,7 +43,7 @@ const AddProjectModal = props => {
                 <div className="col-sm-9">
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control auto-uppercase"
                     id="inputSum"
                     value={data.key}
                     onChange={e => onChangeValue("key", e.target.value)}
@@ -80,7 +80,7 @@ const AddProjectModal = props => {
           <div className="modal-footer">
             <button
               type="button"
-              className="btn btn-default pull-left"
+              className="btn btn-default-c pull-left"
               data-dismiss="modal"
               onClick={() => closeModal()}
             >
@@ -88,7 +88,7 @@ const AddProjectModal = props => {
             </button>
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-success-c"
               onClick={() => createProject()}
             >
               Create

@@ -14,7 +14,7 @@ class SideBar extends Component {
     }
     componentWillReceiveProps(newProps) {
         if(newProps.location.pathname === '/') {
-            document.getElementById('main-body').className += "sidebar-collapse"
+            document.getElementById('main-body').className += " sidebar-collapse "
         } else {
             document.getElementById('main-body').className = ""
         }
