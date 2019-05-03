@@ -707,6 +707,7 @@ p {
 
 .ReactModal__Overlay--before-close {
   opacity: 0;
+  transition: opacity 400ms ease-in-out;
 }
 
 /* .board-content {
@@ -721,4 +722,11 @@ p {
 .box::after {
   opacity: 0.8;
   background-color: #004444;
+}
+.eoPYBZ{
+  min-width: 290px !important;
+  min-height: 80px !important;
+}
+.iTzKeC {
+  font-size: 14px !important;
 }

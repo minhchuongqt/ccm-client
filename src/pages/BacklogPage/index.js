@@ -4,12 +4,14 @@ import AddSprintModal from './AddSprintModal';
 import { toast } from 'react-toastify'
 import * as actions from '../../actions/sprint'
 import * as selectors from '../../selectors/sprint'
+import * as projectSelectors from '../../selectors/project'
 import { connect } from 'react-redux'
 class BacklogPageContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
             addForm: {
+                project: this.props.selectedProject._id,
                 name: '',
                 startDate: '',
                 endDate: '',
@@ -18,8 +20,8 @@ class BacklogPageContainer extends Component {
             isOpenAddSprintModal: false,
         }
     }
-    componentWillMount(){
-        this.props.getListSprint()
+    componentWillMount() {
+        this.getListSprint()
     }
     componentWillReceiveProps(newProps) {
         const {createSprintStatus} = newProps
@@ -28,8 +30,26 @@ class BacklogPageContainer extends Component {
             this.setState({isOpenAddSprintModal: false})
             this.props.getListSprint()
         }
-
+        
     }
+    
+    getBaseOption = () => {
+        const  params = {
+            query: JSON.stringify({
+                project: this.props.selectedProject._id,
+                completed: false,
+            }),
+        }
+        return params
+    }
+
+    getListSprint = () => {
+        const query = {
+            ...this.getBaseOption(),
+        }
+        this.props.getListSprint(query)
+    }
+
     openAddSprintModal = () => {
         this.setState({isOpenAddSprintModal: true})
     }
@@ -49,8 +69,8 @@ class BacklogPageContainer extends Component {
             ...addForm
         }
         if (this.validate(data)){
-            toast.success("OK")
-            // this.props.createSprint(data)
+            // toast.success("OK")
+            this.props.createSprint(data)
         }
     }
     validate = (data) => {
@@ -65,7 +85,7 @@ class BacklogPageContainer extends Component {
         return true;
     }
     chooseActive = (active) => {
-        if (active == true) {
+        if (active === true) {
           return "btn-success";
         }
         return "btn-danger";
@@ -102,12 +122,13 @@ class BacklogPageContainer extends Component {
 const mapStateToProps = state => ({
     sprint : state.SprintState,
     listSprint: selectors.listSprint(state),
-    createSprintStatus: selectors.createSprintStatus(state)
+    createSprintStatus: selectors.createSprintStatus(state),
+    selectedProject: projectSelectors.selectedProject(state)
 })
 
 const mapDispatchToProps = dispatch => ({
-    getListSprint() {
-        dispatch(actions.getListSprint())
+    getListSprint(query) {
+        dispatch(actions.getListSprint(query))
     },
     createSprint(addForm) {
         dispatch(actions.createSprint(addForm))

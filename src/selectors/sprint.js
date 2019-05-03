@@ -4,7 +4,9 @@ import _ from 'lodash'
 //params
 
 export const listSprint = ({SprintState}) => {
-    const result =  SprintState.listSprint.map(item => item)
+    const {listSprint} = SprintState
+    if(_.isEmpty(listSprint)) return []
+    const result =  listSprint.map(item => item)
     return result.map(item => (
         {...item,
             createdDate: moment(item.createdAt).format('DD/MMM/YY h:mm A'),

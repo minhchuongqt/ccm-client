@@ -92,7 +92,7 @@ const IssuePage = props => {
               <h4 className="box-title">Issue Details</h4>
             </div>
             <div className="box-body">
-              <div id="edit">
+              <div id="edit" >
                 <h3>As a developer, I can update story and task status</h3>
               </div>
               <div className="btn-group m-b-5">

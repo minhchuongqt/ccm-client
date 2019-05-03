@@ -20,7 +20,7 @@ const switchColor = (number) => {
 }
 
 const ProjectPage = props => {
-  const { listProject, columns, openAddProjectModal, selectProject } = props
+  const { listProject, columns, openAddProjectModal, selectProject, switchPage } = props
   return (
     <div id="project-view">
       <div>
@@ -89,7 +89,7 @@ const ProjectPage = props => {
             <div className="box-body table-responsive no-padding">
               <table className="table table-hover">
                 <thead>
-                  <tr>
+                  <tr >
                     {columns.map((item, index) => {
                       return (
                         <th key={index}>{item.header}</th>
@@ -101,7 +101,7 @@ const ProjectPage = props => {
 
                   {listProject.map((item, idx) => {
                     return (
-                      <tr key={idx}>
+                      <tr className="pointer" key={idx} onClick={() => {selectProject(item); switchPage()}} >
                         {columns.map((col, index) => {
                           return (
                             <td key={index}>{item[col.poiter]}</td>

@@ -3,6 +3,7 @@ import moment from 'moment'
 import _ from 'lodash'
 //params
 export const listProject = ({ProjectState}) => {
+    if(_.isEmpty(ProjectState.listProject)) return []
     const result =  ProjectState.listProject.map(item => item.project)
     return result.map(item => (
         {...item, 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ProjectPageView from './ProjectPage';
 import { connect } from 'react-redux'
 import { toast } from 'react-toastify'
-
+import { withRouter } from 'react-router-dom'
 import * as actions from '../../actions/project'
 import * as selectors from '../../selectors/project'
 import * as userActions from '../../actions/user'
@@ -30,6 +30,9 @@ class ProjectPageContainer extends Component {
                 },
                 {
                     header: 'Update Date', poiter: 'updatedDate'
+                },
+                {
+                    header: 'Action', poiter: 'nothing'
                 }
             ],
             addForm: {
@@ -120,6 +123,11 @@ class ProjectPageContainer extends Component {
 
     selectProject = (project) => {
         this.props.selectProject(project)
+        // localStorage.setItem('project', project)
+    }
+
+    switchPage = () => {
+        this.props.history.push("/project")
     }
     // getProjectType = () => {
     //     this.props.getProjectType()
@@ -135,6 +143,7 @@ class ProjectPageContainer extends Component {
                    columns = {this.state.columns}
                    openAddProjectModal={this.openAddProjectModal}
                    selectProject={(project) => this.selectProject(project)}
+                   switchPage={this.switchPage}
                 />
                 <AddProjectModal
                     data = {addForm}
@@ -175,4 +184,4 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps) ((ProjectPageContainer));
+export default connect(mapStateToProps, mapDispatchToProps) (withRouter (ProjectPageContainer));

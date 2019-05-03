@@ -1,6 +1,7 @@
 import React from "react";
 import SearchSelect from "../../components/singleSelect";
 import Modal from "../../components/modal";
+import DateTime from 'react-datetime'
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
 // import { createSprint } from "../../../actions/sprint";
 
@@ -35,16 +36,20 @@ const AddSprintModal = props => {
             </div>
           </div>
 
+              {/* <DateTime 
+                timeFormat={false}
+                inputProps={{placeholder: "Date picker here"}}
+              /> */}
           <div className="form-group">
             <label className="col-sm-3 control-label">
               Start date
             </label>
             <div className="col-sm-9">
-              <div className="input-group date">
+              <div className="">
                 <div className="input-group-addon">
                   <i className="fa fa-calendar"></i>
-                </div>
-                <input type="text" className="form-control pull-right" id="datepicker" />
+                </div> 
+               <input type="text" className="form-control pull-right" id="datepicker" />
               </div>
             </div>
           </div>

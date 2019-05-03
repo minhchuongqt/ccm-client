@@ -3,8 +3,8 @@ import API from './base';
 class SprintApi {
     constructor() {}
 
-    getListSprint = (  ) => {
-        return API.get('/sprint');
+    getListSprint = (params) => {
+        return API.get('/sprint/notComplete', {params});
     }
     
     createSprint = (data) => {
