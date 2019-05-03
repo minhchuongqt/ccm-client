@@ -5,7 +5,11 @@ import "../../styleSheets/sass/components/Backlog/BacklogView.scss"
 import AddIssueView from '../IssuePage/AddIssuePage/index'
 import AddSprintPageView from './AddSprintPage/index';
 import EditSprintPageView from './EditSprintPage/index';
+
+
+
 const BacklogPage = props => {
+  const { listSprint, openAddSprintModal, chooseActive } = props
   return (
     <div id="backlog-view">
       <div>
@@ -18,10 +22,12 @@ const BacklogPage = props => {
       <AddIssueView />
       <div className="row height-fill">
         <div className="col-md-7 p-r-0 scroll-detail">
-          <div className="box box-success">
+        {listSprint.map((sprint, index) => {
+          return (
+            <div className="box box-success" key={index}>
             <div className="box-header with-border">
-              <h4 className="box-title">Sprint 1</h4>&nbsp;
-                <button type="button" className="btn btn-success btn-xs m-l-10"><strong>ACTIVE</strong></button>
+              <h4 className="box-title">{sprint.name}</h4>&nbsp;
+                <button type="button" className={"btn btn-xs m-l-10 " + chooseActive(sprint.active)}><strong>{chooseActive(sprint.active)? 'DEACTIVE':'ACTIVE'}</strong></button>
               <div className="box-tools pull-right">
                 <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"><i className="fa fa-ellipsis-h"></i></button>
                 <ul className="dropdown-menu" role="menu">
@@ -29,7 +35,7 @@ const BacklogPage = props => {
                   <li><a href="" data-toggle="modal" data-target="#modal-deletesprint">Delete sprint</a></li>
                 </ul>
               </div>
-              <div className="p-bt">14/Mar/19 7:22 PM<i className="fa fa-angle-double-right p-lr"></i>19/Mar/19 7:22 PM</div>
+              <div className="p-bt">{sprint.createdDate}<i className="fa fa-angle-double-right p-lr"></i>{sprint.updatedDate}</div>
             </div>
             <div className="box-body">
               <SortableView />
@@ -39,29 +45,12 @@ const BacklogPage = props => {
                 <i className="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
             </div>
           </div>
-
-          {/* <div className="box box-success ">
-            <div className="box-header with-border">
-              <h4 className="box-title">Sprint 2</h4>
-            <div className="box-tools pull-right">
-                <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"><i className="fa fa-ellipsis-h"></i></button>
-                <ul className="dropdown-menu" role="menu">
-                  <li><a href="#">Edit sprint</a></li>
-                  <li><a href="#">Delete sprint</a></li>
-                </ul>
-              </div>
-            </div>
-            <div className="box-body ">
-              <SortableView />
-            </div>
-            <div className="box-footer">
-              <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                <i className="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
-            </div>
-          </div> */}
-
+          )
+        })}
+         
           <div className="btn-group pull-right">
-            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#modal-addsprint">
+            <button type="button" className="btn btn-success"
+            onClick={() => openAddSprintModal()}>
               Create sprint</button>
           </div>
 
@@ -76,7 +65,7 @@ const BacklogPage = props => {
             </div>
             <div className="box-body">
               <div className="box-body">
-                <div id="edit" contenteditable="true">
+                <div id="edit" >
                   <h3>As a developer, I can update story and task status</h3>
                 </div>
                 <div className="col-md-12 p-l-0">

@@ -54,7 +54,18 @@
   color: #444;
   background: #f7f7f7;
 }
+body
+{
+    position: fixed; 
+    width: 100%;
+}
 
+.widget-user-2 .widget-user-username{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 26px;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

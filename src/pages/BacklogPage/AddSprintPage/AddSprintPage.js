@@ -16,14 +16,14 @@ const AddSprintPage = props => {
               <div className="modal-body">
 
                 <div className="form-group">
-                  <label for="inputSum" className="col-sm-3 control-label">Sprint name<span style={{ color: 'red' }}>*</span></label>
+                  <label  className="col-sm-3 control-label">Sprint name<span style={{ color: 'red' }}>*</span></label>
                   <div className="col-sm-9">
                     <input type="text" className="form-control" id="inputSum" placeholder="Summary" />
                   </div>
                 </div>
 
                 <div className="form-group">
-                  <label for="inputSum" className="col-sm-3 control-label">Start date<span style={{ color: 'red' }}>*</span></label>
+                  <label  className="col-sm-3 control-label">Start date<span style={{ color: 'red' }}>*</span></label>
                   <div className="col-sm-9">
                     <div className="input-group date">
                       <div className="input-group-addon">
@@ -35,9 +35,9 @@ const AddSprintPage = props => {
                 </div>
 
                 <div className="form-group">
-                  <label for="inputSum" className="col-sm-3 control-label">End date<span style={{ color: 'red' }}>*</span></label>
+                  <label  className="col-sm-3 control-label">End date<span style={{ color: 'red' }}>*</span></label>
                   <div className="col-sm-9">
-                  <div className="input-group date">
+                    <div className="input-group date">
                       <div className="input-group-addon">
                         <i className="fa fa-calendar"></i>
                       </div>

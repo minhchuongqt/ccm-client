@@ -9,7 +9,7 @@ import ProjectPage from '../pages/ProjectPage';
 import * as PATH from "../constants/data/routeConstants";
 import './App.css';
 import './custom.css'
-import BacklogPage from './BacklogPage/BacklogPage';
+import BacklogPage from './BacklogPage/index';
 import UserPage from './SettingSystemPage/UserPage/index';
 import ActiveSprintPage from './ActiveSprintPage/index';
 import IssuePage from './IssuePage/index';

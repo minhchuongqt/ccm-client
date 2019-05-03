@@ -99,8 +99,8 @@ class ProjectPageContainer extends Component {
             toast.error("The project name is too short");
             return false;
         }
-        if (data.name.length > 20) {
-            toast.error("The project name must be no more than 20 characters");
+        if (data.name.length > 50) {
+            toast.error("The project name must be no more than 50 characters");
             return false;
         }
         if (!data.key) {
@@ -111,10 +111,10 @@ class ProjectPageContainer extends Component {
             toast.error("Project key must be no more than 3 characters");
             return false;
         }
-        if (!data.projectType) {
-            toast.error("Please choose project type");
-            return false;
-        }
+        // if (!data.projectType) {
+        //     toast.error("Please choose project type");
+        //     return false;
+        // }
         return true;
     }
 
@@ -127,7 +127,7 @@ class ProjectPageContainer extends Component {
     render() {
         const {listProject, projectTypeSelectable} = this.props
         const {isOpenAddProjectModal, addForm} = this.state
-        // console.log(this.state.addForm)
+        console.log(this.listProject)
         return (
             <div>
                 <ProjectPageView 

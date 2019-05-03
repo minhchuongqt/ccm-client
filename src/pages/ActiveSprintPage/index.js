@@ -9,7 +9,7 @@ class ActiveSprintPageContainer extends Component {
     }
     render() {
         const {sprint} = this.props
-        console.log('sprint')
+        console.log(sprint)
         return (
             <div>
                 <ActiveSprintPageView 

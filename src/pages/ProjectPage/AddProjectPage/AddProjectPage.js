@@ -20,7 +20,7 @@ const AddProjectPage = props => {
               <div className="modal-body">
 
                 <div className="form-group">
-                  <label for="inputSum" className="col-sm-3 control-label">Project name<span style={{ color: 'red' }}>*</span></label>
+                  <label  className="col-sm-3 control-label">Project name<span style={{ color: 'red' }}>*</span></label>
                   <div className="col-sm-9">
                     <input type="text" className="form-control" id="inputSum" 
                       onChange = {e => onChangeValue('name', e.target.value)}
@@ -28,7 +28,7 @@ const AddProjectPage = props => {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label for="inputSum" className="col-sm-3 control-label">Project key<span style={{ color: 'red' }}>*</span></label>
+                  <label  className="col-sm-3 control-label">Project key<span style={{ color: 'red' }}>*</span></label>
                   <div className="col-sm-9">
                     <input type="text" className="form-control auto-uppercase" id="inputSum" 
                       onChange = {e => onChangeValue('key', e.target.value)}
@@ -36,7 +36,7 @@ const AddProjectPage = props => {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label for="inputSum" className="col-sm-3 control-label">Project type</label>
+                  <label  className="col-sm-3 control-label">Project type</label>
                   <div className="col-sm-9">
                     <SearchSelect
                         options={projectTypeSelectable} 
