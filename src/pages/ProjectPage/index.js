@@ -86,9 +86,9 @@ class ProjectPageContainer extends Component {
         }
         console.log(data)
         if (this.validate(data)){
-            toast.success("OK")
+            // toast.success("OK")
+            this.props.createProject(data)
         }
-        // this.props.createProject(data)
     }
     validate = (data) => {
         if (!data.name) {
