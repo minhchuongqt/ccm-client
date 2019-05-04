@@ -60,6 +60,7 @@ class BacklogPageContainer extends Component {
                 startDate: '',
                 endDate: '',
                 goal: '',
+                project: '',
             }})
         this.setState({isOpenAddSprintModal: false})
     }
@@ -71,6 +72,7 @@ class BacklogPageContainer extends Component {
         if (this.validate(data)){
             // toast.success("OK")
             this.props.createSprint(data)
+            console.log(data)
         }
     }
     validate = (data) => {

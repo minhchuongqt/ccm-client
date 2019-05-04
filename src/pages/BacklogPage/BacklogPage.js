@@ -47,13 +47,33 @@ const BacklogPage = props => {
           </div>
           )
         })}
-         
+         <div className="create-sprint">
           <div className="btn-group pull-right">
             <button type="button" className="btn btn-success"
             onClick={() => openAddSprintModal()}>
               Create sprint</button>
           </div>
 
+         </div>
+
+          <div className="box box-success" >
+            <div className="box-header with-border">
+              <h4 className="box-title">Backlog</h4>&nbsp;
+              <div className="box-tools pull-right">
+                <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"><i className="fa fa-ellipsis-h"></i></button>
+                <ul className="dropdown-menu" role="menu">
+                  <li><a href="" data-toggle="modal" data-target="#modal-editsprint">Edit sprint</a></li>
+                  <li><a href="" data-toggle="modal" data-target="#modal-deletesprint">Delete sprint</a></li>
+                </ul>
+              </div>
+            </div>
+            <div className="box-body">
+            </div>
+            <div className="box-footer">
+              <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                <i className="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
+            </div>
+          </div>
         </div>
 
 
