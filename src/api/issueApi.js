@@ -1,10 +1,18 @@
 import API from './base';
 
-export const getIssueList = (  ) => {
-    return API.get('/issue');
+class IssueApi {
+    constructor() {}
+
+    getIssueList = (  ) => {
+        return API.get('/issue/listIssues');
+    }
+    
+    
+    createIssue = (data) => {
+        return API.post('/issue', data)
+    }
 }
 
+const sprintApi = new IssueApi()
 
-export default {
-    getIssueList
-}
+export default sprintApi

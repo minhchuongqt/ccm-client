@@ -3,7 +3,6 @@ import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import SortableView from '../../components/sortable/SortableComponent'
 import "../../styleSheets/sass/components/Backlog/BacklogView.scss"
 import AddIssueView from '../IssuePage/AddIssuePage/index'
-import AddSprintPageView from './AddSprintPage/index';
 import EditSprintPageView from './EditSprintPage/index';
 
 
@@ -17,7 +16,6 @@ const BacklogPage = props => {
           <BreadcrumbItem active>Backlog</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      <AddSprintPageView/>
       <EditSprintPageView/>
       <AddIssueView />
       <div className="row height-fill">
@@ -27,7 +25,7 @@ const BacklogPage = props => {
             <div className="box box-success" key={index}>
             <div className="box-header with-border">
               <h4 className="box-title">{sprint.name}</h4>&nbsp;
-                <button type="button" className={"btn btn-xs m-l-10 " + chooseActive(sprint.active)}><strong>{chooseActive(sprint.active)? 'DEACTIVE':'ACTIVE'}</strong></button>
+              {chooseActive(sprint.active)? '' :<button type="button" className={"btn btn-xs m-l-10 " + chooseActive(sprint.active)}><strong>ACTIVE</strong></button>} 
               <div className="box-tools pull-right">
                 <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"><i className="fa fa-ellipsis-h"></i></button>
                 <ul className="dropdown-menu" role="menu">

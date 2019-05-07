@@ -5,7 +5,7 @@ import imgUser from '../../assets/img/avatar5.png'
 import AddIssueView from './AddIssuePage/index'
 import EditIssueView from './EditIssuePage/index'
 const IssuePage = props => {
-  const {listIssue} =props
+  const { listIssue, openAddIssueModal } = props
   return (
     <div id="issue-view">
       <div>
@@ -13,8 +13,8 @@ const IssuePage = props => {
           <BreadcrumbItem active>Issue</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      <EditIssueView/>
-      <AddIssueView/>
+      <EditIssueView />
+      <AddIssueView />
       <div className="row">
         <div className="col-md-4 p-r-0">
           <div className="box box-success ">
@@ -23,64 +23,19 @@ const IssuePage = props => {
             </div>
             <div className="box-body scroll-detail">
               <div className="list-group">
-                <a href="#" target="_blank" className="list-group-item list-group-item-action active">
-                  <div>
-                    <div><i className="fa fa-trello"></i> DEL-10</div>
-                    <div>As a developer, I can update story and task status</div>
-                  </div>
-                </a>
-                <a href="#" className="list-group-item list-group-item-action">
-                  <div>
-                    <div><i className="fa fa-trello"></i> DEL-11</div>
-                    <div>Update task status by dragging and dropping from column to column</div>
-                  </div>
-                </a>
-                <a href="#" className="list-group-item list-group-item-action">
-                  <div>
-                    <div><i className="fa fa-trello"></i> DEL-12</div>
-                    <div>Code login page</div>
-                  </div>
-                </a>
-                <a href="#" className="list-group-item list-group-item-action">
-                  <div>
-                    <div><i className="fa fa-trello"></i> DEL-10</div>
-                    <div>As a developer, I can update story and task status</div>
-                  </div>
-                </a>
-                <a href="#" className="list-group-item list-group-item-action">
-                  <div>
-                    <div><i className="fa fa-trello"></i> DEL-11</div>
-                    <div>Update task status by dragging and dropping from column to column</div>
-                  </div>
-                </a>
-                <a href="#" className="list-group-item list-group-item-action">
-                  <div>
-                    <div><i className="fa fa-trello"></i> DEL-12</div>
-                    <div>Code login page</div>
-                  </div>
-                </a>
-                <a href="#" className="list-group-item list-group-item-action">
-                  <div>
-                    <div><i className="fa fa-trello"></i> DEL-10</div>
-                    <div>As a developer, I can update story and task status</div>
-                  </div>
-                </a>
-                <a href="#" className="list-group-item list-group-item-action">
-                  <div>
-                    <div><i className="fa fa-trello"></i> DEL-11</div>
-                    <div>Update task status by dragging and dropping from column to column</div>
-                  </div>
-                </a>
-                <a href="#" className="list-group-item list-group-item-action">
-                  <div>
-                    <div><i className="fa fa-trello"></i> DEL-12</div>
-                    <div>Code login page</div>
-                  </div>
-                </a>
+                {listIssue.map((issue, index) => {
+                  return (
+                    <a href="#" className="list-group-item list-group-item-action" key = {index}>
+                      <div>
+                        <div><i className="fa fa-trello"></i> {issue.issueKey}</div>
+                        <div>{issue.summary}</div>
+                      </div>
+                    </a>
+                  )})}
               </div>
             </div>
             <div className="box-footer">
-              <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-default">
+              <button type="button" className="btn btn-default" onClick={() => openAddIssueModal()}>
                 <i className="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
             </div>
           </div>

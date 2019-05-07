@@ -4,7 +4,6 @@ import imgProject from '../../assets/img/project.png'
 import * as PATH from '../../constants/data/routeConstants'
 import { Link } from 'react-router-dom'
 import "../../styleSheets/sass/components/Project/projectView.scss"
-import AddProjectPageView from './AddProjectPage/index'
 import _ from 'lodash'
 const switchColor = (number) => {
   if (number % 3 == 1) {
@@ -28,7 +27,6 @@ const ProjectPage = props => {
           <BreadcrumbItem active>System Dashboard</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      {/* <AddProjectPageView/> */}
       
       <div >
         <div className="create-project">

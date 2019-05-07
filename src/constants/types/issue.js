@@ -1,1 +1,2 @@
 export const GET_ISSUE_LIST = 'GET_ISSUE_LIST'
+export const CREATE_ISSUE = 'CREATE_ISSUE'

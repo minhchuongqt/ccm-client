@@ -25,7 +25,7 @@ class Header extends Component {
 
   render() {
     const { type } = this.state;
-    const isShow = this.props.history.location.pathname == '/' ? false : true
+    const isShow = this.props.history.location.pathname === '/' ? false : true
     return (
       <div>
         <HeaderComponent {...this.props}  type={type} logout={() => this.logout()} 

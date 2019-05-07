@@ -83,8 +83,8 @@ const AddIssuePage = props => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-              <button type="button" className="btn btn-primary">Create</button>
+              <button type="button" className="btn btn-default-c pull-left" data-dismiss="modal">Cancel</button>
+              <button type="button" className="btn btn-success-c">Create</button>
             </div>
           </div>
         </div>
