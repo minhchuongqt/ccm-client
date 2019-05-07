@@ -3,13 +3,11 @@ import IssuePageView from './IssuePage';
 import { connect } from 'react-redux'
 import * as actions from '../../actions/issue'
 import * as selectors from '../../selectors/issue'
+import * as projectSelectors from '../../selectors/project'
 import AddIssueModal from './AddIssueModal';
 import toast from 'react-toastify'
 import SearchSelect from "../../components/singleSelect";
 class IssuePageContainer extends Component {
-    componentWillMount() {
-        this.props.getIssueList()
-    }
       
     constructor(props) {
         super(props);
@@ -24,6 +22,11 @@ class IssuePageContainer extends Component {
             isOpenAddIssueModal: false,
         }
     }
+
+    componentWillMount() {
+        this.getListIssue()
+    }
+
     componentWillReceiveProps(newProps) {
         const {createIssueStatus} = newProps
         if(createIssueStatus) {
@@ -38,7 +41,6 @@ class IssuePageContainer extends Component {
         const  params = {
             query: JSON.stringify({
                 project: this.props.selectedProject._id,
-                completed: false,
             }),
         }
         return params
@@ -48,7 +50,7 @@ class IssuePageContainer extends Component {
         const query = {
             ...this.getBaseOption(),
         }
-        this.props.getListIssue(query)
+        this.props.getIssueList(query)
     }
 
     openAddIssueModal = () => {
@@ -69,11 +71,11 @@ class IssuePageContainer extends Component {
         const data = {
             ...addForm
         }
-        if (this.validate(data)){
+        // if (this.validate(data)){
             // toast.success("OK")
             this.props.createIssue(data)
-            console.log(data)
-        }
+        //     console.log(data)
+        // }
     }
     validate = (data) => {
         if (!data.name) {
@@ -122,12 +124,13 @@ class IssuePageContainer extends Component {
 const mapStateToProps = state => ({
     issue : state.IssueState,
     listIssue: selectors.listIssue(state),
+    selectedProject: projectSelectors.selectedProject(state),
     createIssueStatus: selectors.createIssueStatus(state)
 })
 
 const mapDispatchToProps = dispatch => ({
-    getIssueList() {
-        dispatch(actions.getIssueList())
+    getIssueList(query) {
+        dispatch(actions.getIssueList(query))
     },
     createIssue(addForm) {
         dispatch(actions.createIssue(addForm))

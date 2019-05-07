@@ -3,8 +3,8 @@ import API from './base';
 class IssueApi {
     constructor() {}
 
-    getIssueList = (  ) => {
-        return API.get('/issue/listIssues');
+    getIssueList = (params) => {
+        return API.get('/issue/listIssues', {params});
     }
     
     
