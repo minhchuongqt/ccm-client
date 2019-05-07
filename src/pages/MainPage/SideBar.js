@@ -41,23 +41,12 @@ const SideBar = props => {
                 </span>
               </a>
               <ul className="treeview-menu">
-                <li className="treeview">
-                  <a href="#"><i className="fa fa-circle-o"></i> User Management
-                    <span className="pull-right-container">
-                      <i className="fa fa-angle-left pull-right"></i>
-                    </span>
-                  </a>
-                  <ul className="treeview-menu">
-                    <li><Link to={PATH.USER_URL}><i className="fa fa-circle-o"></i> Users</Link></li>
-                    <li><Link to={PATH.GROUP_URL}><i className="fa fa-circle-o"></i> Groups</Link></li>
-                  </ul>
-                  <a ><i className="fa fa-circle-o"></i> Project Setting</a>
-                </li>
+              <li><Link to={PATH.USER_URL}><i className="fa fa-circle-o"></i> Project Setting</Link></li>
               </ul>
             </li>
         </ul>
       </section>
-      <div className="sidebar-background">test</div>
+      <div className="sidebar-background"></div>
     </aside>
   );
 };

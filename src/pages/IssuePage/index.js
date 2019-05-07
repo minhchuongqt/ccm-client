@@ -6,7 +6,6 @@ import * as selectors from '../../selectors/issue'
 import * as projectSelectors from '../../selectors/project'
 import AddIssueModal from './AddIssueModal';
 import toast from 'react-toastify'
-import SearchSelect from "../../components/singleSelect";
 class IssuePageContainer extends Component {
       
     constructor(props) {

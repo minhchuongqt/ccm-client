@@ -70,12 +70,12 @@ const Header = props => {
             </li>
 
             <li className="dropdown">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+              <a className="dropdown-toggle" data-toggle="dropdown">
                 <i className="fa fa-gears" />
               </a>
               <ul className="dropdown-menu" role="menu">
                 <li>
-                  <Link to="/user">User Management</Link>
+                  <Link to={PATH.USER_URL}>User Management</Link>
                 </li>
               </ul>
             </li>

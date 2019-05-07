@@ -13,41 +13,53 @@ const ListGroupPage = props => {
                   <table id="example1" className="table table-bordered table-hover">
                     <thead>
                       <tr>
-                        <th>Username</th>
-                        <th>Fullname</th>
-                        <th>Group</th>
-                        <th>Status</th>
-                        <th>Applications</th>
-                        <th>Action</th>
+                        <th>Group name</th>
+                        <th>Des</th>
+                        <th>Access to product</th>
+                        <th>Product administration</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>minhchuongqt</td>
-                        <td>Le Minh Chuong</td>
-                        <td>Jira Admin</td>
-                        <td><span className="label label-success">Active</span></td>
-                        <td>Jira Software</td>
+                        <td>administrators</td>
+                        <td>Grants access to all applications and their administration features (excluding Site administration)</td>
+                        <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
+                        <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
                         <td>
                           <div className="btn-group">
-                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#modal-editgroup"><i className="fa fa-edit" title="Edit Group"></i></button>
-                            <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#modal-deletegroup"><i className="fa fa-trash-o" title="Remove Group"></i></button>
+                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#modal-editgroup"><i className="fa fa-user-plus" title="Add Members"></i></button>
+                            <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#modal-deletegroup"><i className="fa fa-trash-o" title="Delete Group"></i></button>
                           </div>
                         </td>
                       </tr>
+
                       <tr>
-                        <td>cangphamqng</td>
-                        <td>Pham Hong Cang</td>
-                        <td>Jira Admin</td>
-                        <td><span className="label label-danger">Deactive</span></td>
-                        <td>Jira Software</td>
+                        <td>jira-administrators</td>
+                        <td>Grant access to the administration features of Jira</td>
+                        <td className="text-align-center"><i className="fa fa-times-circle"></i></td>
+                        <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
                         <td>
                           <div className="btn-group">
-                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#modal-editgroup"><i className="fa fa-edit" title="Edit Group"></i></button>
-                            <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#modal-deletegroup"><i className="fa fa-trash-o" title="Remove Group"></i></button>
+                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#modal-editgroup"><i className="fa fa-user-plus" title="Add Members"></i></button>
+                            <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#modal-deletegroup"><i className="fa fa-trash-o" title="Delete Group"></i></button>
                           </div>
                         </td>
                       </tr>
+
+                      <tr>
+                        <td>jira-users</td>
+                        <td>Grants access to Jira Software</td>
+                        <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
+                        <td className="text-align-center"><i className="fa fa-times-circle"></i></td>
+                        <td>
+                          <div className="btn-group">
+                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#modal-editgroup"><i className="fa fa-user-plus" title="Add Members"></i></button>
+                            <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#modal-deletegroup"><i className="fa fa-trash-o" title="Delete Group"></i></button>
+                          </div>
+                        </td>
+                      </tr>
+                     
                     </tbody>
                   </table>
                 </div>
