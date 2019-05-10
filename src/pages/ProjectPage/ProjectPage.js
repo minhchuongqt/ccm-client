@@ -40,6 +40,7 @@ const ProjectPage = props => {
       </div>
       <div className="row">
         {listProject.map((project, index) => {
+          // console.log(project)
           return (
             <div className="col-md-4" key={index}>
               <div className="box box-widget widget-user-2">
@@ -53,9 +54,9 @@ const ProjectPage = props => {
                 </Link>
                 <div className="box-footer no-padding">
                   <ul className="nav nav-stacked">
-                    <li><a href="#">To Do <span className="pull-right badge bg-blue">22</span></a></li>
-                    <li><a href="#">In Progress <span className="pull-right badge bg-aqua">5</span></a></li>
-                    <li><a href="#">Done <span className="pull-right badge bg-green">15</span></a></li>
+                    <li><a href="#">To Do <span className="pull-right badge bg-blue">{project.count.toDo}</span></a></li>
+                    <li><a href="#">In Progress <span className="pull-right badge bg-aqua">{project.count.inProgress}</span></a></li>
+                    <li><a href="#">Done <span className="pull-right badge bg-green">{project.count.done}</span></a></li>
                   </ul>
                 </div>
               </div>

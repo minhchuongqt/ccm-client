@@ -87,7 +87,7 @@ class ProjectPageContainer extends Component {
             ...addForm,
             projectType: addForm.projectType.value
         }
-        console.log(data)
+        // console.log(data)
         if (this.validate(data)){
             // toast.success("OK")
             this.props.createProject(data)

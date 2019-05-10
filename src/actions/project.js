@@ -1,32 +1,32 @@
 import { GET_LIST_PROJECT, GET_PROJECT_TYPE, CREATE_PROJECT, SELECT_PROJECT } from '../constants/types/project';
 import ProjectApi from '../api/projectApi';
 
-export const getListProject = (data) => async dispatch => {
-    await ProjectApi.getListProject(data).then(res => {
+export const getListProject = (data) => dispatch => {
+    ProjectApi.getListProject(data).then(res => {
         if(res.data) {
             dispatch({type: GET_LIST_PROJECT, payload: res.data.data})
         }
     })
 }
 
-export const getProjectType = (data) => async dispatch => {
-    await ProjectApi.getProjectType(data).then(res => {
+export const getProjectType = (data) => dispatch => {
+    ProjectApi.getProjectType(data).then(res => {
         if(res.data) {
             dispatch({type: GET_PROJECT_TYPE, payload: res.data.data})
         }
     })
 }
 
-export const createProject = (data) => async dispatch => {
+export const createProject = (data) => dispatch => {
     // console.log(data)
-    await ProjectApi.createProject(data).then(res => {
+    ProjectApi.createProject(data).then(res => {
         if(res.data) {
             dispatch({type: CREATE_PROJECT, payload: res.data.data})
         }
     })
 }
 
-export const selectProject = (data) => async dispatch => {
+export const selectProject = (data) => dispatch => {
     // console.log(data)
     dispatch({type: SELECT_PROJECT, payload: data})
 }
