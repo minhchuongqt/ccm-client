@@ -1,7 +1,7 @@
 {
     "lanes": [
       {
-        "id": "TD",
+        "id": "1111111",
         "title": "TO DO",
         "label": "3 issues",
         "style": {
@@ -29,7 +29,7 @@
         ]
       },
       {
-        "id": "IP",
+        "id": "22222222",
         "title": "IN PROGRESS",
         "label": "1 issue",
         "style": {
@@ -45,7 +45,7 @@
         ]
       },
       {
-        "id": "DONE",
+        "id": "33333333",
         "title": "DONE",
         "style": {
           "width": 300

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ActiveSprintPageView from './ActiveSprintPage';
 import { connect } from 'react-redux'
-import * as actions from '../../actions/sprint'
-import * as selectors from '../../selectors/sprint'
+import * as actions from '../../actions/backlog'
+import * as selectors from '../../selectors/backlog'
 class ActiveSprintPageContainer extends Component {
     componentWillMount(){
         this.props.getListSprint()

@@ -8,7 +8,7 @@ import EditSprintPageView from './EditSprintPage/index';
 
 
 const BacklogPage = props => {
-  const { listSprint, openAddSprintModal, chooseActive } = props
+  const { listSprint, listBacklogIssue, openAddSprintModal, chooseActive } = props
   return (
     <div id="backlog-view">
       <div>
@@ -65,7 +65,18 @@ const BacklogPage = props => {
                 </ul>
               </div>
             </div>
-            <div className="box-body">
+            <div className="box-body scroll-detail">
+            <div className="list-group">
+                {listBacklogIssue.map((issue, index) => {
+                  return (
+                    <a href="#" className="list-group-item list-group-item-action" key = {index}>
+                      <div>
+                        <div><i className="fa fa-trello"></i> {issue.issueKey}</div>
+                        <div>{issue.summary}</div>
+                      </div>
+                    </a>
+                  )})}
+              </div>
             </div>
             <div className="box-footer">
               <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-default">

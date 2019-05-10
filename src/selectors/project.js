@@ -4,7 +4,7 @@ import _ from 'lodash'
 //params
 export const listProject = ({ProjectState}) => {
     if(_.isEmpty(ProjectState.listProject)) return []
-    const result =  ProjectState.listProject.map(item => item.project)
+    const result =  ProjectState.listProject.map(item => ({...item.project, count: item.count }))
     return result.map(item => (
         {...item, 
         createdDate: moment(item.createdAt).format('MMM DD, YYYY'),

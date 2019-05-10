@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import BacklogPageView from './BacklogPage';
 import AddSprintModal from './AddSprintModal';
 import { toast } from 'react-toastify'
-import * as actions from '../../actions/sprint'
-import * as selectors from '../../selectors/sprint'
+import * as actions from '../../actions/backlog'
+import * as selectors from '../../selectors/backlog'
 import * as projectSelectors from '../../selectors/project'
 import { connect } from 'react-redux'
 class BacklogPageContainer extends Component {
@@ -22,6 +22,7 @@ class BacklogPageContainer extends Component {
     }
     componentWillMount() {
         this.getListSprint()
+        this.getListBacklogIssue()
     }
     componentWillReceiveProps(newProps) {
         const {createSprintStatus} = newProps
@@ -32,22 +33,34 @@ class BacklogPageContainer extends Component {
         }
         
     }
-    
-    getBaseOption = () => {
+
+    getListSprint = () => {
         const  params = {
             query: JSON.stringify({
                 project: this.props.selectedProject._id,
                 completed: false,
+                
             }),
+            sort: JSON.stringify({
+                sequenceInSprint: -1,
+                createdAt: -1
+            })
         }
-        return params
+        this.props.getListSprint(params)
     }
 
-    getListSprint = () => {
-        const query = {
-            ...this.getBaseOption(),
+    getListBacklogIssue = () => {
+        const  params = {
+            query: JSON.stringify({
+                project: this.props.selectedProject._id,
+                sprint: null
+            }),
+            sort: JSON.stringify({
+                sequenceInBacklog: -1,
+                createdAt: -1
+            })
         }
-        this.props.getListSprint(query)
+        this.props.getListBacklogIssue(params)
     }
 
     openAddSprintModal = () => {
@@ -98,13 +111,14 @@ class BacklogPageContainer extends Component {
         this.setState({addForm})    
     }
     render() {
-        const {listSprint} = this.props
+        const {listSprint, listBacklogIssue} = this.props
         const {isOpenAddSprintModal, addForm} = this.state
-        // console.log(listSprint)
+        console.log(listBacklogIssue)
         return (
             <div>
                 <BacklogPageView 
                    listSprint={listSprint}
+                   listBacklogIssue={listBacklogIssue}
                    openAddSprintModal={this.openAddSprintModal}
                    chooseActive={(active)=>this.chooseActive(active)}
                 />
@@ -124,11 +138,15 @@ class BacklogPageContainer extends Component {
 const mapStateToProps = state => ({
     sprint : state.SprintState,
     listSprint: selectors.listSprint(state),
+    listBacklogIssue: selectors.listBacklogIssue(state),
     createSprintStatus: selectors.createSprintStatus(state),
-    selectedProject: projectSelectors.selectedProject(state)
+    selectedProject: projectSelectors.selectedProject(state),
 })
 
 const mapDispatchToProps = dispatch => ({
+    getListBacklogIssue(query) {
+        dispatch(actions.getListBacklogIssue(query))
+    },
     getListSprint(query) {
         dispatch(actions.getListSprint(query))
     },

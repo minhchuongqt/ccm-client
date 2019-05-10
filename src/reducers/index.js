@@ -4,7 +4,7 @@ import ProjectState from './Project/project'
 import UserState from './User/user'
 import GroupState from './Group/group'
 import IssueState from './Issue/issue'
-import SprintState from './Sprint/sprint'
+import BacklogState from './Backlog/backlog'
 
 const rootReducer = combineReducers({
     LoginState,
@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
     UserState,
     GroupState,
     IssueState,
-    SprintState,
+    BacklogState,
 });
 
 export default rootReducer;

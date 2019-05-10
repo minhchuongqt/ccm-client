@@ -12,10 +12,12 @@ const ActiveSprintPage = props => {
         </Breadcrumb>
       </div>
       <div  >
-        <Board className = "board-background-color board-content" data={data} draggable />
+        <Board className = "board-background-color board-content" 
+          data={data} 
+          draggable 
+          handleDragEnd={(cardId, sourceLaneId, targetLaneId, position, cardDetails) => console.log(cardId, sourceLaneId, targetLaneId, position, cardDetails)}
+        />
       </div>
-
-
     </div >
 
 
