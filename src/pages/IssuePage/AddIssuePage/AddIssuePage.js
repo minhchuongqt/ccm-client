@@ -8,7 +8,7 @@ const AddIssuePage = props => {
   const {listMembers} = props
   return (
     <div id="issue-view">
-      <div className="modal fade" id="modal-default">
+      <div className="modal fade"  id="modal-default">
         <div className="modal-dialog modal-top">
           <div className="modal-content">
             <div className="modal-header">

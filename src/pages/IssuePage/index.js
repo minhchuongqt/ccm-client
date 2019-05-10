@@ -5,6 +5,8 @@ import * as actions from '../../actions/issue'
 import * as selectors from '../../selectors/issue'
 import * as projectSelectors from '../../selectors/project'
 import AddIssueModal from './AddIssueModal';
+import AddIssueDialog from './AddIssuePage/index';
+import TestDialog from '../../components/modal';
 import toast from 'react-toastify'
 class IssuePageContainer extends Component {
       
@@ -53,6 +55,7 @@ class IssuePageContainer extends Component {
     }
 
     openAddIssueModal = () => {
+        this.props.getIssueType()
         this.setState({isOpenAddIssueModal: true})
     }
     closeModal = () => {
@@ -98,8 +101,13 @@ class IssuePageContainer extends Component {
         addForm[name] = value
         this.setState({addForm})    
     }
+
+    showAddIssueModal = () => {
+        return <TestDialog />
+    }
+
     render() {
-        const { listIssue } = this.props
+        const { listIssue, issueTypeSelectable } = this.props
         const {isOpenAddIssueModal, addForm} = this.state
         return (
             <div>
@@ -107,12 +115,16 @@ class IssuePageContainer extends Component {
                  listIssue={listIssue}
                  openAddIssueModal={this.openAddIssueModal}
                 />
+                {/* <AddIssueModal isOpen={isOpenAddIssueModal} />
+                {isOpenAddIssueModal && this.showAddIssueModal()} */}
+
                 <AddIssueModal
                     data = {addForm}
                     openModal={isOpenAddIssueModal}
                     closeModal={this.closeModal}
                     createIssue={this.createIssue}
                     validate={(data)=>this.validate(data)}
+                    issueTypeSelectable={issueTypeSelectable}
                     onChangeValue={(name, value) => this.onChangeValue(name, value)}
                 />
             </div>
@@ -124,7 +136,8 @@ const mapStateToProps = state => ({
     issue : state.IssueState,
     listIssue: selectors.listIssue(state),
     selectedProject: projectSelectors.selectedProject(state),
-    createIssueStatus: selectors.createIssueStatus(state)
+    createIssueStatus: selectors.createIssueStatus(state),
+    issueTypeSelectable: selectors.issueTypeSelectable(state),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -133,7 +146,10 @@ const mapDispatchToProps = dispatch => ({
     },
     createIssue(addForm) {
         dispatch(actions.createIssue(addForm))
-    }
+    },
+    getIssueType() {
+        dispatch(actions.getIssueType())
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((IssuePageContainer));
