@@ -111,9 +111,9 @@ class BacklogPageContainer extends Component {
         this.setState({addForm})    
     }
     render() {
-        const {listSprint, listBacklogIssue} = this.props
+        const {listSprint, listBacklogIssue, initialData} = this.props
         const {isOpenAddSprintModal, addForm} = this.state
-        console.log(listBacklogIssue)
+        // console.log(initialData)
         return (
             <div>
                 <BacklogPageView 
@@ -121,6 +121,7 @@ class BacklogPageContainer extends Component {
                    listBacklogIssue={listBacklogIssue}
                    openAddSprintModal={this.openAddSprintModal}
                    chooseActive={(active)=>this.chooseActive(active)}
+                   initialData={initialData}
                 />
                 <AddSprintModal
                     data = {addForm}
@@ -141,6 +142,7 @@ const mapStateToProps = state => ({
     listBacklogIssue: selectors.listBacklogIssue(state),
     createSprintStatus: selectors.createSprintStatus(state),
     selectedProject: projectSelectors.selectedProject(state),
+    initialData: selectors.getInitalData(state),
 })
 
 const mapDispatchToProps = dispatch => ({

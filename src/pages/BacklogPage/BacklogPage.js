@@ -4,11 +4,12 @@ import SortableView from '../../components/sortable/SortableComponent'
 import "../../styleSheets/sass/components/Backlog/BacklogView.scss"
 import AddIssueView from '../IssuePage/AddIssuePage/index'
 import EditSprintPageView from './EditSprintPage/index';
-
+import DragDropComponent from './DragDropComponents'
 
 
 const BacklogPage = props => {
-  const { listSprint, listBacklogIssue, openAddSprintModal, chooseActive } = props
+  const { listSprint, listBacklogIssue, openAddSprintModal, chooseActive, initialData } = props
+  // console.log(initialData)
   return (
     <div id="backlog-view">
       <div>
@@ -20,7 +21,8 @@ const BacklogPage = props => {
       <AddIssueView />
       <div className="row height-fill">
         <div className="col-md-7 p-r-0 scroll-detail">
-        {listSprint.map((sprint, index) => {
+        <DragDropComponent initialData={initialData || {}} openAddSprintModal={openAddSprintModal}/>
+        {/* {listSprint.map((sprint, index) => {
           return (
             <div className="box box-success" key={index}>
             <div className="box-header with-border">
@@ -44,8 +46,8 @@ const BacklogPage = props => {
             </div>
           </div>
           )
-        })}
-         <div className="create-sprint">
+        })} */}
+         {/* <div className="create-sprint">
           <div className="btn-group pull-right">
             <button type="button" className="btn btn-success"
             onClick={() => openAddSprintModal()}>
@@ -67,6 +69,7 @@ const BacklogPage = props => {
             </div>
             <div className="box-body scroll-detail">
             <div className="list-group">
+            <SortableView />
                 {listBacklogIssue.map((issue, index) => {
                   return (
                     <a href="#" className="list-group-item list-group-item-action" key = {index}>
@@ -82,7 +85,7 @@ const BacklogPage = props => {
               <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-default">
                 <i className="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
             </div>
-          </div>
+          </div> */}
         </div>
 
 

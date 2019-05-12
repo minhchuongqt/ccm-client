@@ -28,5 +28,6 @@ export const createProject = (data) => dispatch => {
 
 export const selectProject = (data) => dispatch => {
     // console.log(data)
+    localStorage.setItem('selectedProject', JSON.stringify(data))
     dispatch({type: SELECT_PROJECT, payload: data})
 }
