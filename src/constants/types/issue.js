@@ -1,2 +1,3 @@
 export const GET_ISSUE_LIST = 'GET_ISSUE_LIST'
+export const GET_ISSUE_TYPE = 'GET_ISSUE_TYPE'
 export const CREATE_ISSUE = 'CREATE_ISSUE'

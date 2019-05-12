@@ -10,7 +10,22 @@ export const listIssue = ({IssueState}) => {
     // }))
 }
 
+export const listIssueType = ({IssueState}) => {
+    if(_.isEmpty(IssueState.issueType)) return []
+    return IssueState.issueType
+}
+
 export const createIssueStatus = ({IssueState}) => {
     // if(_.isEmpty(IssueState.createIssueStatus)) return null
     return IssueState.createIssueStatus
+}
+
+export const issueTypeSelectable = ({IssueState}) => {
+    if(_.isEmpty(IssueState.issueType)) return []
+    const result =  IssueState.issueType.map(item => (
+        {
+            label: item.type, value: item._id
+        }
+        ))
+    return result
 }

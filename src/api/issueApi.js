@@ -11,6 +11,11 @@ class IssueApi {
     createIssue = (data) => {
         return API.post('/issue', data)
     }
+
+    getIssueType = (  ) => {
+        return API.get('/issueType');
+    }
+    
 }
 
 const sprintApi = new IssueApi()

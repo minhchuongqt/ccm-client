@@ -730,3 +730,7 @@ p {
 .iTzKeC {
   font-size: 14px !important;
 }
+
+.display-block {
+  display: block;
+}
