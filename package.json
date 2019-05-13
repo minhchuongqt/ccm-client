@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@atlaskit/css-reset": "^4.0.1",
     "array-move": "^2.1.0",
     "axios": "^0.18.0",
     "bootstrap": "4.3.1",
@@ -15,6 +16,7 @@
     "prop-types": "15.7.2",
     "ramda": "^0.26.1",
     "react": "^16.8.6",
+    "react-beautiful-dnd": "^11.0.3",
     "react-datetime": "^2.16.3",
     "react-dom": "^16.8.6",
     "react-modal": "^3.8.1",

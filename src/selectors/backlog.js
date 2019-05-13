@@ -1,6 +1,7 @@
 
 import moment from 'moment'
 import _ from 'lodash'
+import { createSelector } from 'reselect'
 //params
 
 export const listSprint = ({BacklogState}) => {
@@ -24,3 +25,43 @@ export const listBacklogIssue = ({BacklogState}) => {
     // if(_.isEmpty(BacklogState.createSprintStatus)) return null
     return BacklogState.listBacklogIssue || []
 }
+
+export const getInitalData = createSelector (
+    [
+        listSprint,
+        listBacklogIssue
+    ],
+    (sprints, issues) => {
+        const result = {
+            tasks: {},
+            columns: {
+                'backlog-column': {
+                    id: 'backlog-column',
+                    title: 'Backlog',
+                    taskIds: []
+                }
+            },
+            columnOrder: [],
+        }
+        sprints.map(sprint => {
+            result.columns[sprint._id] = {
+            ...sprint,
+            id: sprint._id,
+            title: sprint.name,
+            taskIds: []
+            }
+            result.columnOrder.push(sprint._id)
+        })
+        result.columnOrder.push('backlog-column');
+        issues.map(issue => {
+            result.tasks[issue._id] = {
+            ...issue,
+            id: issue._id,
+            content: issue.summary
+            }
+            result.columns['backlog-column'].taskIds.push(issue._id)
+        })
+
+        return  result
+    }
+)
