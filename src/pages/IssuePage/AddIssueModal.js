@@ -11,6 +11,7 @@ const AddIssueModal = props => {
     createIssue,
     openModal,
     data,
+    addIssueFormValue
   } = props;
   return (
     <Modal isOpen={openModal} title="Create Issue" closeModal={closeModal} >
@@ -25,21 +26,8 @@ const AddIssueModal = props => {
               <input
                 type="text"
                 className="form-control"
-                value={data.summary}
+                value={addIssueFormValue.summary}
                 onChange={e => onChangeValue("summary", e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <label className="col-sm-3 control-label">
-              Issue Key<span style={{ color: "red" }}>*</span>
-            </label>
-            <div className="col-sm-9">
-              <input
-                type="text"
-                className="form-control"
-                value={data.issueKey}
-                onChange={e => onChangeValue("issueKey", e.target.value)}
               />
             </div>
           </div>
@@ -50,23 +38,23 @@ const AddIssueModal = props => {
             <div className="col-sm-9">
               <SearchSelect
                 options={issueTypeSelectable}
-                value={data.issueType}
+                value={addIssueFormValue.issueType}
                 onChange={e => onChangeValue("issueType", e)}
               />
             </div>
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label className="col-sm-3 control-label">
               Sprint
                 </label>
             <div className="col-sm-9">
               <SearchSelect
                 options={issueTypeSelectable}
-                value={data.projectType}
-                onChange={e => onChangeValue("projectType", e)}
+                value={addIssueFormValue.projectType}
+                onChange={e => onChangeValue("sprint", e)}
               />
             </div>
-          </div>
+          </div> */}
           <div className="form-group">
             <label className="col-sm-3 control-label">Description</label>
             <div className="col-sm-9">
@@ -75,7 +63,7 @@ const AddIssueModal = props => {
                 name="textDescription"
                 id="Des"
                 rows="3"
-                value={data.description}
+                value={addIssueFormValue.description}
                 onChange={e => onChangeValue("description", e.target.value)}
               />
             </div>

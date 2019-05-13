@@ -33,7 +33,7 @@ class SideBar extends Component {
 }
 
 const mapStateToProps = state => ({
-    selectedProject: selectors.selectedProject(state),
+    selectedProject: selectors.getSelectedProject(state),
 })
 
 const mapDispatchToProps = dispatch => ({

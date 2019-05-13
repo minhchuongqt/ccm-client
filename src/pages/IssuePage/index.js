@@ -5,7 +5,6 @@ import * as actions from '../../actions/issue'
 import * as selectors from '../../selectors/issue'
 import * as projectSelectors from '../../selectors/project'
 import AddIssueModal from './AddIssueModal';
-import AddIssueDialog from './AddIssuePage/index';
 import TestDialog from '../../components/modal';
 import toast from 'react-toastify'
 class IssuePageContainer extends Component {
@@ -14,10 +13,9 @@ class IssuePageContainer extends Component {
         super(props);
         this.state = {
             addForm: {
-                project: '',
+                project: this.props.selectedProject._id,
                 summary: '',
-                issueKey: '',
-                sprint: '',
+                sprint: null,
                 description: '',
             },
             isOpenAddIssueModal: false,
@@ -59,13 +57,14 @@ class IssuePageContainer extends Component {
         this.setState({isOpenAddIssueModal: true})
     }
     closeModal = () => {
-        this.setState({
-            addForm: {
-                summary: '',
-                issueKey: '',
-                sprint: '',
-                description: '',
-            }})
+        // this.setState({
+        //     addForm: {
+        //         project: '',
+        //         summary: '',
+        //         sprint: null,
+        //         description: '',
+        //     }})
+        this.props.resetAddIssueFormValue()
         this.setState({isOpenAddIssueModal: false})
     }
     createIssue = () => {
@@ -75,8 +74,8 @@ class IssuePageContainer extends Component {
         }
         // if (this.validate(data)){
             // toast.success("OK")
-            this.props.createIssue(data)
-        //     console.log(data)
+            // this.props.createIssue(data)
+            console.log(data)
         // }
     }
     validate = (data) => {
@@ -97,9 +96,7 @@ class IssuePageContainer extends Component {
         return "btn-danger";
     }
     onChangeValue = (name, value) => {
-        const addForm = this.state.addForm
-        addForm[name] = value
-        this.setState({addForm})    
+        this.props.changeAddIssueFormValue(name, value)
     }
 
     showAddIssueModal = () => {
@@ -107,7 +104,7 @@ class IssuePageContainer extends Component {
     }
 
     render() {
-        const { listIssue, issueTypeSelectable } = this.props
+        const { listIssue, issueTypeSelectable, addIssueFormValue } = this.props
         const {isOpenAddIssueModal, addForm} = this.state
         return (
             <div>
@@ -125,6 +122,7 @@ class IssuePageContainer extends Component {
                     createIssue={this.createIssue}
                     validate={(data)=>this.validate(data)}
                     issueTypeSelectable={issueTypeSelectable}
+                    addIssueFormValue={addIssueFormValue}
                     onChangeValue={(name, value) => this.onChangeValue(name, value)}
                 />
             </div>
@@ -134,10 +132,11 @@ class IssuePageContainer extends Component {
 
 const mapStateToProps = state => ({
     issue : state.IssueState,
-    listIssue: selectors.listIssue(state),
-    selectedProject: projectSelectors.selectedProject(state),
-    createIssueStatus: selectors.createIssueStatus(state),
-    issueTypeSelectable: selectors.issueTypeSelectable(state),
+    listIssue: selectors.getListIssue(state),
+    selectedProject: projectSelectors.getSelectedProject(state),
+    createIssueStatus: selectors.getCreateIssueStatus(state),
+    issueTypeSelectable: selectors.getIssueTypeSelectable(state),
+    addIssueFormValue: selectors.getAddIssueFormValue(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -150,6 +149,12 @@ const mapDispatchToProps = dispatch => ({
     getIssueType() {
         dispatch(actions.getIssueType())
     },
+    changeAddIssueFormValue(key, value) {
+        dispatch(actions.changeAddIssueFormValue(key, value))
+    },
+    resetAddIssueFormValue() {
+        dispatch(actions.resetAddIssueFormValue())
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((IssuePageContainer));

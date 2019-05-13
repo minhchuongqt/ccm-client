@@ -29,7 +29,7 @@ class BacklogPageContainer extends Component {
         if(createSprintStatus) {
             toast.success('Create sprint successfully')
             this.setState({isOpenAddSprintModal: false})
-            this.props.getListSprint()
+            this.getListSprint()
         }
         
     }
@@ -140,7 +140,7 @@ const mapStateToProps = state => ({
     listSprint: selectors.listSprint(state),
     listBacklogIssue: selectors.listBacklogIssue(state),
     createSprintStatus: selectors.createSprintStatus(state),
-    selectedProject: projectSelectors.selectedProject(state),
+    selectedProject: projectSelectors.getSelectedProject(state),
 })
 
 const mapDispatchToProps = dispatch => ({

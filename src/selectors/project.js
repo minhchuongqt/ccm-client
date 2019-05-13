@@ -32,7 +32,7 @@ export const projectTypeSelectable = ({ProjectState}) => {
     return result
 }
 
-export const selectedProject = ({ProjectState}) => ProjectState.selectedProject
+export const getSelectedProject = ({ProjectState}) => ProjectState.selectedProject
 //func
 export const fnCountProject = ({ProjectState}) => id => {
     return {}

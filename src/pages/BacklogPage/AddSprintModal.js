@@ -71,8 +71,8 @@ const AddSprintModal = props => {
                 name="textDescription"
                 id="Des"
                 rows="3"
-                value={data.description}
-                onChange={e => onChangeValue("description", e.target.value)}
+                value={data.goal}
+                onChange={e => onChangeValue("goal", e.target.value)}
               />
             </div>
           </div>
