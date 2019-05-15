@@ -2,15 +2,18 @@ import React from "react";
 import Modal from "../../components/modal";
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
 import SearchSelect from "../../components/singleSelect";
+import MultiSelect from '../../components/multiSelect'
+import PropTypes from 'prop-types';
 const AddIssueModal = props => {
   // Modal.setAppElement('body')
   const {
+    listMembers,
     onChangeValue,
     issueTypeSelectable,
     closeModal,
     createIssue,
     openModal,
-    data,
+    sprintTypeSelectable,
     addIssueFormValue
   } = props;
   return (
@@ -18,6 +21,18 @@ const AddIssueModal = props => {
 
       <div className="form-horizontal">
         <div className="modal-body">
+          <div className="form-group">
+            <label className="col-sm-3 control-label">
+              Issue type
+                </label>
+            <div className="col-sm-9">
+              <SearchSelect
+                options={issueTypeSelectable}
+                value={addIssueFormValue.issueType}
+                onChange={e => onChangeValue("issueType", e)}
+              />
+            </div>
+          </div>
           <div className="form-group">
             <label className="col-sm-3 control-label">
               Summary<span style={{ color: "red" }}>*</span>
@@ -32,14 +47,34 @@ const AddIssueModal = props => {
             </div>
           </div>
           <div className="form-group">
+            <label className="col-sm-3 control-label">Description</label>
+            <div className="col-sm-9">
+              <textarea
+                className="form-control"
+                name="textDescription"
+                id="Des"
+                rows="3"
+                value={addIssueFormValue.description}
+                onChange={e => onChangeValue("description", e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="col-sm-3 control-label">Assignee</label>
+            <div className="col-sm-9">
+              <MultiSelect options={listMembers} />
+              <a className="pointer">Assign to me</a>
+            </div>
+          </div>
+          <div className="form-group">
             <label className="col-sm-3 control-label">
-              Issue type
+              Sprint
                 </label>
             <div className="col-sm-9">
               <SearchSelect
-                options={issueTypeSelectable}
-                value={addIssueFormValue.issueType}
-                onChange={e => onChangeValue("issueType", e)}
+                options={sprintTypeSelectable}
+                value={addIssueFormValue.sprint}
+                onChange={e => onChangeValue("sprint", e)}
               />
             </div>
           </div>
@@ -55,19 +90,7 @@ const AddIssueModal = props => {
               />
             </div>
           </div> */}
-          <div className="form-group">
-            <label className="col-sm-3 control-label">Description</label>
-            <div className="col-sm-9">
-              <textarea
-                className="form-control"
-                name="textDescription"
-                id="Des"
-                rows="3"
-                value={addIssueFormValue.description}
-                onChange={e => onChangeValue("description", e.target.value)}
-              />
-            </div>
-          </div>
+          
         </div>
       </div>
       <div className="modal-footer">
@@ -88,7 +111,20 @@ const AddIssueModal = props => {
             </button>
       </div>
     </Modal >
-      );
-    };
+  );
+};
+
+
+AddIssueModal.propTypes = {
+  listMembers: PropTypes.array,
+};
+
+AddIssueModal.defaultProps = {
+  listMembers: [
+    { label: 'Minh Chuong', value: 'dhfjfasajasdd' },
+    { label: 'Bao Dai', value: 'dhfjfjayuyuasdd' },
+    { label: 'Cang Pham', value: 'dhfjfjajasdd' },
+  ],
+};
 
 export default AddIssueModal;

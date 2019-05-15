@@ -12,8 +12,8 @@ class IssueApi {
         return API.post('/issue', data)
     }
 
-    getIssueType = (  ) => {
-        return API.get('/issueType');
+    getIssueType = ( params ) => {
+        return API.get('/issueType', {params});
     }
     
 }

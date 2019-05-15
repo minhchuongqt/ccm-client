@@ -15,6 +15,15 @@ export const listSprint = ({BacklogState}) => {
     }))
 }
 
+export const getSprintTypeSelectable = ({BacklogState}) => {
+    if(_.isEmpty(BacklogState.listSprint)) return []
+    const result =  BacklogState.listSprint.map(item => (
+        {
+            label: item.name, value: item._id
+        }
+        ))
+    return result
+}
 
 export const createSprintStatus = ({BacklogState}) => {
     // if(_.isEmpty(BacklogState.createSprintStatus)) return null

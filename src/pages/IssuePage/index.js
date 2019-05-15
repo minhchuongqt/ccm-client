@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import IssuePageView from './IssuePage';
 import { connect } from 'react-redux'
 import * as actions from '../../actions/issue'
+import * as issueActions from '../../actions/backlog'
 import * as selectors from '../../selectors/issue'
+import * as sprintSelectors from '../../selectors/backlog'
 import * as projectSelectors from '../../selectors/project'
 import AddIssueModal from './AddIssueModal';
 import TestDialog from '../../components/modal';
@@ -15,6 +17,7 @@ class IssuePageContainer extends Component {
             addForm: {
                 project: this.props.selectedProject._id,
                 summary: '',
+                issueType: '',
                 sprint: null,
                 description: '',
             },
@@ -52,8 +55,27 @@ class IssuePageContainer extends Component {
         this.props.getIssueList(query)
     }
 
+    getListSprint = () => {
+        const  params = {
+            query: JSON.stringify({
+                project: this.props.selectedProject._id,
+                completed: false,
+                
+            }),
+            sort: JSON.stringify({
+                sequenceInSprint: -1,
+                createdAt: -1
+            })
+        }
+        this.props.getListSprint(params)
+    }
+
     openAddIssueModal = () => {
-        this.props.getIssueType()
+        const query = {
+            ...this.getBaseOption(),
+        }
+        this.props.getIssueType(query)
+        this.getListSprint()
         this.setState({isOpenAddIssueModal: true})
     }
     closeModal = () => {
@@ -61,6 +83,7 @@ class IssuePageContainer extends Component {
         //     addForm: {
         //         project: '',
         //         summary: '',
+                // issueType: '',
         //         sprint: null,
         //         description: '',
         //     }})
@@ -69,6 +92,13 @@ class IssuePageContainer extends Component {
     }
     createIssue = () => {
         const {addForm} = this.state
+         this.setState({
+            addForm: {
+                summary: this.props.addIssueFormValue.summary,
+                issueType: this.props.addIssueFormValue.issueType.value,
+                sprint: this.props.addIssueFormValue.sprint.value,
+                description:  this.props.addIssueFormValue.description
+            }})
         const data = {
             ...addForm
         }
@@ -76,6 +106,7 @@ class IssuePageContainer extends Component {
             // toast.success("OK")
             // this.props.createIssue(data)
             console.log(data)
+            console.log(this.props.addIssueFormValue)
         // }
     }
     validate = (data) => {
@@ -104,7 +135,7 @@ class IssuePageContainer extends Component {
     }
 
     render() {
-        const { listIssue, issueTypeSelectable, addIssueFormValue } = this.props
+        const { listIssue, issueTypeSelectable, addIssueFormValue, sprintTypeSelectable  } = this.props
         const {isOpenAddIssueModal, addForm} = this.state
         return (
             <div>
@@ -121,8 +152,10 @@ class IssuePageContainer extends Component {
                     closeModal={this.closeModal}
                     createIssue={this.createIssue}
                     validate={(data)=>this.validate(data)}
+                    getListSprint={()=>this.getListSprint()}
                     issueTypeSelectable={issueTypeSelectable}
                     addIssueFormValue={addIssueFormValue}
+                    sprintTypeSelectable={sprintTypeSelectable}
                     onChangeValue={(name, value) => this.onChangeValue(name, value)}
                 />
             </div>
@@ -131,6 +164,8 @@ class IssuePageContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+    sprint : state.SprintState,
+    sprintTypeSelectable: sprintSelectors.getSprintTypeSelectable(state),
     issue : state.IssueState,
     listIssue: selectors.getListIssue(state),
     selectedProject: projectSelectors.getSelectedProject(state),
@@ -146,15 +181,18 @@ const mapDispatchToProps = dispatch => ({
     createIssue(addForm) {
         dispatch(actions.createIssue(addForm))
     },
-    getIssueType() {
-        dispatch(actions.getIssueType())
+    getIssueType(query) {
+        dispatch(actions.getIssueType(query))
     },
     changeAddIssueFormValue(key, value) {
         dispatch(actions.changeAddIssueFormValue(key, value))
     },
     resetAddIssueFormValue() {
         dispatch(actions.resetAddIssueFormValue())
-    }
+    },
+    getListSprint(query) {
+        dispatch(issueActions.getListSprint(query))
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((IssuePageContainer));
