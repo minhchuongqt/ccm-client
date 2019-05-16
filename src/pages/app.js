@@ -11,6 +11,7 @@ import './App.css';
 import './custom.css'
 import BacklogPage from './BacklogPage/index';
 import UserPage from './SettingSystemPage/UserPage/index';
+import WorkflowContainer from './SettingSystemPage/Workflow';
 import ActiveSprintPage from './ActiveSprintPage/index';
 import IssuePage from './IssuePage/index';
 import ReleasePage from './ReleasePage/ReleasePage';
@@ -49,6 +50,7 @@ class App extends Component {
                             <Route path={PATH.REPORT_URL} render={() => <ReportPage />} />
                             <Route path={PATH.SPRINT_URL} render={() => <ActiveSprintPage />} />
                             <Route path={PATH.USER_URL} render={() => <UserPage />} />
+                            <Route path={PATH.WORKFLOW_URL} render={() => <WorkflowContainer />} />
                         </Switch>
 
                     </section>
