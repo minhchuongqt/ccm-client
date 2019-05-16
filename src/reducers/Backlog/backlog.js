@@ -39,7 +39,7 @@ const listBacklogIssue = (state = [], action) => {
 }
 
 
-const SprintState = combineReducers({
+const BacklogState = combineReducers({
     listSprint,
     createSprintStatus,
     listBacklogIssue
@@ -50,5 +50,5 @@ export default (state, action) => {
     if (type === RESET_DATA) {
       return {};
     }
-    return SprintState(state, action);
+    return BacklogState(state, action);
 };

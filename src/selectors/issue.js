@@ -1,6 +1,6 @@
 import _ from 'lodash'
 //params
-export const listIssue = ({IssueState}) => {
+export const getListIssue = ({IssueState}) => {
     if(_.isEmpty(IssueState.listIssue)) return []
     return IssueState.listIssue
     // const result =  IssueState.listIssue.map(item => item)
@@ -10,17 +10,17 @@ export const listIssue = ({IssueState}) => {
     // }))
 }
 
-export const listIssueType = ({IssueState}) => {
+export const getListIssueType = ({IssueState}) => {
     if(_.isEmpty(IssueState.issueType)) return []
     return IssueState.issueType
 }
 
-export const createIssueStatus = ({IssueState}) => {
+export const getCreateIssueStatus = ({IssueState}) => {
     // if(_.isEmpty(IssueState.createIssueStatus)) return null
     return IssueState.createIssueStatus
 }
 
-export const issueTypeSelectable = ({IssueState}) => {
+export const getIssueTypeSelectable = ({IssueState}) => {
     if(_.isEmpty(IssueState.issueType)) return []
     const result =  IssueState.issueType.map(item => (
         {
@@ -28,4 +28,8 @@ export const issueTypeSelectable = ({IssueState}) => {
         }
         ))
     return result
+}
+
+export const getAddIssueFormValue = ({IssueState}) => {
+    return IssueState.addIssueFormValue
 }
