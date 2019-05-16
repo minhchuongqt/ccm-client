@@ -2,7 +2,6 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import SprintReport from "./SprintReport";
 import ProjectReport from "./ProjectReport";
-
 const ReportPage = props => {
   return (
     <div>
@@ -10,6 +9,9 @@ const ReportPage = props => {
         <Breadcrumb>
           <BreadcrumbItem active>Report</BreadcrumbItem>
         </Breadcrumb>
+
+      </div>
+      <div>
       </div>
       <div>
         <div>

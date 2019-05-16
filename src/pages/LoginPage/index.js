@@ -15,7 +15,6 @@ class LoginPageContainer extends Component {
 
     componentWillReceiveProps(newProps) {
         const {token} = newProps
-        console.log('render home page')
         if(token) {
             this.props.history.push('/');
         }
@@ -26,7 +25,6 @@ class LoginPageContainer extends Component {
     }
 
     handleLogin ()   {
-        console.log('cacacac')
         const {email, password} = this.state
         if(this.state.email && this.state.password) {
         this.props.Login({email, password})

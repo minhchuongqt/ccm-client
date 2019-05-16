@@ -10,13 +10,14 @@ import AddIssueModal from './AddIssueModal';
 import TestDialog from '../../components/modal';
 import toast from 'react-toastify'
 class IssuePageContainer extends Component {
-      
+
     constructor(props) {
         super(props);
         this.state = {
             addForm: {
                 project: this.props.selectedProject._id,
                 summary: '',
+                // issueKey: 'DEL-3',
                 issueType: '',
                 sprint: null,
                 description: '',
@@ -27,20 +28,21 @@ class IssuePageContainer extends Component {
 
     componentWillMount() {
         this.getListIssue()
+        this.getIssueInfo()
     }
 
     componentWillReceiveProps(newProps) {
-        const {createIssueStatus} = newProps
-        if(createIssueStatus) {
+        const { createIssueStatus } = newProps
+        if (createIssueStatus) {
             toast.success('Create issue successfully')
-            this.setState({isOpenAddIssueModal: false})
+            this.setState({ isOpenAddIssueModal: false })
             this.props.getListIssue()
         }
-        
+
     }
-    
+
     getBaseOption = () => {
-        const  params = {
+        const params = {
             query: JSON.stringify({
                 project: this.props.selectedProject._id,
             }),
@@ -54,13 +56,20 @@ class IssuePageContainer extends Component {
         }
         this.props.getIssueList(query)
     }
-
+    getIssueInfo = () => {
+        const id = this.props.selectedProject._id
+        const query = {
+            ...this.getBaseOption(),
+        }
+        this.props.getIssueInfo(id, query)
+        console.log("get is info")
+    }
     getListSprint = () => {
-        const  params = {
+        const params = {
             query: JSON.stringify({
                 project: this.props.selectedProject._id,
                 completed: false,
-                
+
             }),
             sort: JSON.stringify({
                 sequenceInSprint: -1,
@@ -76,53 +85,67 @@ class IssuePageContainer extends Component {
         }
         this.props.getIssueType(query)
         this.getListSprint()
-        this.setState({isOpenAddIssueModal: true})
+        this.setState({ isOpenAddIssueModal: true })
     }
     closeModal = () => {
         // this.setState({
         //     addForm: {
         //         project: '',
         //         summary: '',
-                // issueType: '',
+        // issueType: '',
         //         sprint: null,
         //         description: '',
         //     }})
         this.props.resetAddIssueFormValue()
-        this.setState({isOpenAddIssueModal: false})
+        this.setState({ isOpenAddIssueModal: false })
     }
     createIssue = () => {
-        const {addForm} = this.state
-         this.setState({
-            addForm: {
-                summary: this.props.addIssueFormValue.summary,
-                issueType: this.props.addIssueFormValue.issueType.value,
-                sprint: this.props.addIssueFormValue.sprint.value,
-                description:  this.props.addIssueFormValue.description
-            }})
+        const { addForm } = this.state
+        const { addIssueFormValue } = this.props
         const data = {
-            ...addForm
+            ...addForm,
+            issueType: addIssueFormValue.issueType.value,
+            sprint: addIssueFormValue.sprint.value,
+            summary: addIssueFormValue.summary,
+            description: addIssueFormValue.description
         }
-        // if (this.validate(data)){
+        if (this.validate(data)) {
             // toast.success("OK")
-            // this.props.createIssue(data)
-            console.log(data)
-            console.log(this.props.addIssueFormValue)
+            this.props.createIssue(data)
+        }
+        
+        // if (this.validate(addIssueFormValue)){
+        // this.setState({
+        //     addForm: {
+        //         project: this.props.selectedProject._id,
+        //         summary: addIssueFormValue.summary,
+        //         description: addIssueFormValue.description,
+        //         issueType: addIssueFormValue.issueType.value,
+        //         sprint: addIssueFormValue.sprint.value,
+        //     }
+        // })
+        // toast.success("OK")
+        // this.props.createIssue(addForm)
         // }
     }
     validate = (data) => {
-        if (!data.name) {
-            toast.error("Please enter issue name");
+        if (!data.summary) {
+            toast.error("Please enter issue summary");
             return false;
         }
-        if (data.name.length < 2) {
-            toast.error("The issue name is too short");
+        if (!data.issueType) {
+            toast.error("Please choose issue type");
+            return false;
+        }
+        if (!data.sprint) {
+            toast.error("Please enter issue summary");
             return false;
         }
         return true;
     }
     chooseActive = (active) => {
         if (active === true) {
-          return "btn-success";
+            return "btn-success";
         }
         return "btn-danger";
     }
@@ -135,24 +158,24 @@ class IssuePageContainer extends Component {
     }
 
     render() {
-        const { listIssue, issueTypeSelectable, addIssueFormValue, sprintTypeSelectable  } = this.props
-        const {isOpenAddIssueModal, addForm} = this.state
+        const { listIssue, issueTypeSelectable, addIssueFormValue, sprintTypeSelectable } = this.props
+        const { isOpenAddIssueModal, addForm } = this.state
         return (
             <div>
-                <IssuePageView 
-                 listIssue={listIssue}
-                 openAddIssueModal={this.openAddIssueModal}
+                <IssuePageView
+                    listIssue={listIssue}
+                    openAddIssueModal={this.openAddIssueModal}
                 />
                 {/* <AddIssueModal isOpen={isOpenAddIssueModal} />
                 {isOpenAddIssueModal && this.showAddIssueModal()} */}
 
                 <AddIssueModal
-                    data = {addForm}
+                    data={addForm}
                     openModal={isOpenAddIssueModal}
                     closeModal={this.closeModal}
                     createIssue={this.createIssue}
-                    validate={(data)=>this.validate(data)}
-                    getListSprint={()=>this.getListSprint()}
+                    validate={(data) => this.validate(data)}
+                    getListSprint={() => this.getListSprint()}
                     issueTypeSelectable={issueTypeSelectable}
                     addIssueFormValue={addIssueFormValue}
                     sprintTypeSelectable={sprintTypeSelectable}
@@ -164,19 +187,22 @@ class IssuePageContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    sprint : state.SprintState,
+    sprint: state.SprintState,
     sprintTypeSelectable: sprintSelectors.getSprintTypeSelectable(state),
-    issue : state.IssueState,
+    issue: state.IssueState,
     listIssue: selectors.getListIssue(state),
     selectedProject: projectSelectors.getSelectedProject(state),
     createIssueStatus: selectors.getCreateIssueStatus(state),
     issueTypeSelectable: selectors.getIssueTypeSelectable(state),
-    addIssueFormValue: selectors.getAddIssueFormValue(state)
+    addIssueFormValue: selectors.getAddIssueFormValue(state),
 })
 
 const mapDispatchToProps = dispatch => ({
     getIssueList(query) {
         dispatch(actions.getIssueList(query))
+    },
+    getIssueInfo(id, query) {
+        dispatch(actions.getIssueList(id, query))
     },
     createIssue(addForm) {
         dispatch(actions.createIssue(addForm))
@@ -195,4 +221,4 @@ const mapDispatchToProps = dispatch => ({
     },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps) ((IssuePageContainer));
+export default connect(mapStateToProps, mapDispatchToProps)((IssuePageContainer));
