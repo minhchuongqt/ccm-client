@@ -5,10 +5,11 @@ export const LOGOUT_URL = "/logout";
 
 
 //user page
-export const USER_URL = "/user";
+export const USER_URL = "/setting/user";
 export const USER_ADD_URL = "/user/add";
 export const USER_EDIT_URL = "/user/:id/edit";
-
+// workflow
+export const WORKFLOW_URL = "/setting/workflow";
 //Backlog pages
 export const BACKLOG_URL = "/backlog";
 

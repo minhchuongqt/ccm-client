@@ -33,7 +33,7 @@ const ReportPage = props => {
                 <SprintReport />
               </div>
               <div className="tab-pane" id="tab_2">
-              <ProjectReport />
+                <ProjectReport />
               </div>
             </div>
           </div>
