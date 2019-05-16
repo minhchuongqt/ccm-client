@@ -6,8 +6,9 @@ class IssueApi {
     getIssueList = (params) => {
         return API.get('/issue/listIssues', {params});
     }
+
     getIssueInfo = (id, params) => {
-        return API.get('/issue/:'+ {id} , {params});
+        return API.get('/issue/' + id , {params});
     }
     
     

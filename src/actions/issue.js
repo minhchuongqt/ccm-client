@@ -1,5 +1,5 @@
 import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
-    GET_ISSUE_INFO, RESET_ADD_ISSUE_VALUE} from '../constants/types/issue';
+    GET_ISSUE_INFO, RESET_ADD_ISSUE_VALUE, SELECT_ISSUE} from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
 
 export const getIssueList = (data) => dispatch => {
@@ -10,9 +10,9 @@ export const getIssueList = (data) => dispatch => {
     })
 }
 
-export const getIssueInfo = (id, data) => dispatch => {
-    IssueApi.getIssueInfo(id, data).then(res => {
-        if (res.data && res.id ) {
+export const getIssueInfo = (data) => dispatch => {
+    IssueApi.getIssueInfo(data).then(res => {
+        if (res.data) {
             dispatch({ type: GET_ISSUE_INFO, payload: res.data.data })
         }
     })
@@ -32,6 +32,11 @@ export const getIssueType = (data) => dispatch => {
             dispatch({ type: GET_ISSUE_TYPE, payload: res.data.data })
         }
     })
+}
+
+export const selectIssue = (data) => dispatch => {
+    localStorage.setItem('selectedIssue', JSON.stringify(data))
+    dispatch({type: SELECT_ISSUE, payload: data})
 }
 
 export const changeAddIssueFormValue = (key, value) => dispatch => {

@@ -22,6 +22,7 @@ const issueInfo = (state = [], action) => {
 }
 
 
+
 const issueType = (state = [], action) => {
     const {type, payload} = action
     switch(type) {

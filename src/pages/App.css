@@ -738,9 +738,15 @@ p {
 .sidebar-menu a:hover {
   text-decoration: none;
 }
+.box-group a:hover {
+  text-decoration: none;
+}
 .main-header a:hover {
   text-decoration: none;
 }
 .box-widget a:hover {
   text-decoration: none;
+}
+.list-group a:focus {
+  outline: none;
 }

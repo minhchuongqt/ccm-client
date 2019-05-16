@@ -14,8 +14,11 @@ const AddIssueModal = props => {
     createIssue,
     openModal,
     sprintTypeSelectable,
-    addIssueFormValue
+    addIssueFormValue,
+    addIssueValue
   } = props;
+  // console.log(addIssueValue)
+  // console.log(addIssueFormValue)
   return (
     <Modal isOpen={openModal} title="Create Issue" closeModal={closeModal} >
 
@@ -41,7 +44,7 @@ const AddIssueModal = props => {
               <input
                 type="text"
                 className="form-control"
-                value={addIssueFormValue.summary}
+                value={'aasd' || addIssueFormValue.summary}
                 onChange={e => onChangeValue("summary", e.target.value)}
               />
             </div>
@@ -105,7 +108,7 @@ const AddIssueModal = props => {
         <button
           type="button"
           className="btn btn-success-c"
-          onClick={() => createIssue()}
+          onClick={() => createIssue(addIssueValue)}
         >
           OK
             </button>
