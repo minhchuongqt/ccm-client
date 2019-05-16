@@ -32,7 +32,6 @@ class App extends Component {
     }
 
     render() {
-        console.log('reder app')
         return (
             <div>
                 <Header />

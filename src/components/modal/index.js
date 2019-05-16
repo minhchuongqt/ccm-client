@@ -9,7 +9,6 @@ class AddIssuePage extends React.Component {
     componentWillReceiveProps(newProps) {
         const {isOpen} = newProps 
         if(isOpen) {
-            console.log(document.getElementById('main-body').classList.value)
             document.getElementById('main-body').classList += ' modal-open'
             document.getElementById('modal-container').classList = 'modal fade in display-block'
         } else {

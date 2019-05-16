@@ -10,6 +10,12 @@ export const getListIssue = ({IssueState}) => {
     // }))
 }
 
+
+export const getIssueInfo = ({IssueState}) => {
+    if(_.isEmpty(IssueState.issueInfo)) return []
+    return IssueState.issueInfo
+}
+
 export const getListIssueType = ({IssueState}) => {
     if(_.isEmpty(IssueState.issueType)) return []
     return IssueState.issueType

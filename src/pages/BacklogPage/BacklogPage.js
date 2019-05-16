@@ -9,7 +9,6 @@ import DragDropComponent from './DragDropComponents'
 
 const BacklogPage = props => {
   const { listSprint, listBacklogIssue, openAddSprintModal, chooseActive, initialData } = props
-  // console.log(initialData)
   return (
     <div id="backlog-view">
       <div>

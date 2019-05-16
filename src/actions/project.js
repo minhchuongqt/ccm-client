@@ -18,7 +18,6 @@ export const getProjectType = (data) => dispatch => {
 }
 
 export const createProject = (data) => dispatch => {
-    // console.log(data)
     ProjectApi.createProject(data).then(res => {
         if(res.data) {
             dispatch({type: CREATE_PROJECT, payload: res.data.data})
@@ -27,7 +26,6 @@ export const createProject = (data) => dispatch => {
 }
 
 export const selectProject = (data) => dispatch => {
-    // console.log(data)
     localStorage.setItem('selectedProject', JSON.stringify(data))
     dispatch({type: SELECT_PROJECT, payload: data})
 }

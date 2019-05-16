@@ -22,6 +22,7 @@ class BacklogPageContainer extends Component {
     }
     componentWillMount() {
         this.getListSprint()
+        this.getListIssue()
         this.getListBacklogIssue()
     }
     componentWillReceiveProps(newProps) {
@@ -62,7 +63,18 @@ class BacklogPageContainer extends Component {
         }
         this.props.getListBacklogIssue(params)
     }
-
+    getListIssue = () => {
+        const  params = {
+            query: JSON.stringify({
+                project: this.props.selectedProject._id,
+            }),
+            sort: JSON.stringify({
+                sequenceInBacklog: -1,
+                createdAt: -1
+            })
+        }
+        this.props.getListBacklogIssue(params)
+    }
     openAddSprintModal = () => {
         this.setState({isOpenAddSprintModal: true})
     }
@@ -85,7 +97,6 @@ class BacklogPageContainer extends Component {
         if (this.validate(data)){
             // toast.success("OK")
             this.props.createSprint(data)
-            console.log(data)
         }
     }
     validate = (data) => {

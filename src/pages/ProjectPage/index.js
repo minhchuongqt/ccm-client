@@ -127,7 +127,7 @@ class ProjectPageContainer extends Component {
     }
 
     switchPage = () => {
-        this.props.history.push("/project")
+        this.props.history.push("/backlog")
     }
     // getProjectType = () => {
     //     this.props.getProjectType()
