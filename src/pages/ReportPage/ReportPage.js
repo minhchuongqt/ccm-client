@@ -1,5 +1,7 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
+import Chart from '../../components/chart';
+
 const ReportPage = props => {
   return (
     <div >
@@ -9,7 +11,9 @@ const ReportPage = props => {
         </Breadcrumb>
      
       </div>
-
+      <div>
+        <Chart />
+      </div>
 
     </div >
   )
