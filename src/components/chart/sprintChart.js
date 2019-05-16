@@ -10,27 +10,32 @@ class Chart extends Component {
 			animationEnabled: true,
 			exportEnabled: true,
 			title:{
-				text: "Sprint 1 Chart"
+				// text: "Sprint 1 Chart"
 			},
 			axisY:{
 				// title: "Stock In Hand",
 				includeZero: false
-			},
+      },
+      axisX: {
+        interlacedColor: "#f2f2f2",
+      },
 			data: [{
+        lineColor: "red",
 				type: "stepLine",
-				xValueFormatString: "MMM YYYY",
-				markerSize: 5,
+				xValueFormatString: "MMM DD YYYY, HH:MM",
+        markerSize: 5,
+        
 				dataPoints: [
-					{ x: new Date("2017- 01- 01"), y: 1792 },
-					{ x: new Date("2017- 02- 20"), y: 1526 },
-					{ x: new Date("2017- 03- 11"), y: 1955 },
-					{ x: new Date("2017- 04- 05"), y: 1727 },
-					{ x: new Date("2017- 05- 04"), y: 1523 },
-					{ x: new Date("2017- 06- 21"), y: 1257 },
-					{ x: new Date("2017- 07- 05"), y: 1520 },
-					{ x: new Date("2017- 08- 03"), y: 1853 },
-					{ x: new Date("2017- 09- 11"), y: 1738 },
-					{ x: new Date("2017- 10- 03"), y: 1754 }
+					{ x: new Date("2019- 01- 01"), y: 20 },
+					{ x: new Date("2019- 01- 02"), y: 18 },
+					{ x: new Date("2019- 01- 03"), y: 15 },
+					{ x: new Date("2019- 01- 04"), y: 14 },
+					{ x: new Date("2019- 01- 05"), y: 12 },
+					{ x: new Date("2019- 01- 08"), y: 9 },
+					{ x: new Date("2019- 01- 09"), y: 7 },
+					{ x: new Date("2019- 01- 10"), y: 4 },
+					{ x: new Date("2019- 01- 11"), y: 2 },
+					{ x: new Date("2019- 01- 12"), y: 0 }
 				]
 			}]
 		}
