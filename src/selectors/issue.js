@@ -20,8 +20,12 @@ export const getIssueInfo = ({IssueState}) => {
     }
 }
 
-export const getSelectedIssue = () => JSON.parse(localStorage.getItem('selectedIssue')) || {}
+// export const getSelectedIssue = () => JSON.parse(localStorage.getItem('selectedIssue')) || {}
 
+export const getSelectedIssue = ({IssueState}) => {
+    if(_.isEmpty(IssueState.selectedIssue)) return {}
+    return IssueState.selectedIssue
+}
 export const getListIssueType = ({IssueState}) => {
     if(_.isEmpty(IssueState.issueType)) return []
     return IssueState.issueType
@@ -43,7 +47,6 @@ export const getIssueTypeSelectable = ({IssueState}) => {
 }
 
 export const getAddIssueFormValue = ({IssueState}) => {
-    console.log(IssueState.addIssueFormValue)
     return IssueState.addIssueFormValue
 }
 
@@ -54,6 +57,5 @@ export const generateDataForAddIssue = ({IssueState}) => {
          description: description,
          summary: summary,
         }
-        // console.log(IssueState)
     return result
 }

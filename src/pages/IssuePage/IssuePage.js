@@ -6,7 +6,7 @@ import AddIssueView from './AddIssuePage/index'
 import EditIssueView from './EditIssuePage/index'
 import _ from 'lodash'
 const IssuePage = props => {
-  const { listIssue, openAddIssueModal, selectIssue, issueInfo } = props
+  const { listIssue, openAddIssueModal, selectIssue, issueInfo, closeIssueDetail } = props
   return (
     <div id="issue-view">
       <div>
@@ -17,7 +17,7 @@ const IssuePage = props => {
       <EditIssueView />
       <AddIssueView />
       <div className="row">
-        <div className="col-md-4 p-r-0">
+        <div id="open-issues" className="col-md-4 p-r-0">
           <div className="box box-success ">
             <div className="box-header with-border">
               <h4 className="box-title">Open Issues</h4>
@@ -43,13 +43,13 @@ const IssuePage = props => {
           </div>
         </div>
         {!_.isEmpty(issueInfo) &&
-          <div className="col-md-8">
+          <div id="issue-detail-collapse" className="col-md-8 ">
             <div className="box box-success">
               <div className="box-header with-border">
                 <h3 className="box-title">Issue Details</h3>
-                {/* <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-              </div> */}
+                <div className="box-tools pull-right">
+                <button type="button" className="btn btn-box-tool" onClick={()=>closeIssueDetail()}><i className="fa fa-times"></i></button>
+              </div>
               </div>
               <div className="box-body">
                 <div>

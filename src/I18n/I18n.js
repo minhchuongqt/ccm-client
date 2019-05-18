@@ -10,11 +10,9 @@ I18n.fallbacks = true;
 let languageCode = I18n.locale.substr(0, 2); 
 let languageVI = "vi"
 
-// console.log({languageCode})
 I18n.defaultLocale = 'vi'
 I18n.locale = 'vi'
 
 I18n.translations[languageCode] = require(`./i18ns/${languageCode}.json`);
 I18n.translations[languageVI] = require(`./i18ns/${languageVI}.json`);
 
-// console.log(I18n.translations)

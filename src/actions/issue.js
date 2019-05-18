@@ -35,7 +35,7 @@ export const getIssueType = (data) => dispatch => {
 }
 
 export const selectIssue = (data) => dispatch => {
-    localStorage.setItem('selectedIssue', JSON.stringify(data))
+    // localStorage.setItem('selectedIssue', JSON.stringify(data))
     dispatch({type: SELECT_ISSUE, payload: data})
 }
 

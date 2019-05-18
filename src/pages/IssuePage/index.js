@@ -58,12 +58,11 @@ class IssuePageContainer extends Component {
         this.props.getIssueList(query)
     }
 
-    getIssueInfo = () => {
-        const id = this.props.selectedIssue._id
+    getIssueInfo = (issue) => {
+        const id = issue._id
         const params = {
             ...this.getBaseOption(),
         }
-        console.log(this.props.selectedIssue._id)
         this.props.getIssueInfo(id, params)
     }
     getListSprint = () => {
@@ -89,6 +88,10 @@ class IssuePageContainer extends Component {
         this.getListSprint()
         this.setState({ isOpenAddIssueModal: true })
     }
+    closeIssueDetail = () => {
+        document.getElementById('issue-detail-collapse').className += "A hide-detail"
+        // document.getElementById('open-issues').className += " hide-detail "
+    }
     closeModal = () => {
         // this.setState({
         //     addForm: {
@@ -105,7 +108,7 @@ class IssuePageContainer extends Component {
         // if (this.validate(data)) {
             // toast.success("OK")
             // this.props.createIssue(data)
-            // console.log(data)
+            
         // }
         
         // if (this.validate(addIssueFormValue)){
@@ -141,7 +144,12 @@ class IssuePageContainer extends Component {
 
     selectIssue = (issue) => {
         this.props.selectIssue(issue)
-        this.getIssueInfo()
+        this.getIssueInfo(issue)
+        if(document.getElementById('issue-detail-collapse')) {
+            document.getElementById('issue-detail-collapse').className += "A detail-visibility"
+        }
+        
+        // document.getElementById('issue-detail-collapse').classList.remove(" hide-detail ")
     }
 
     showAddIssueModal = () => {
@@ -149,16 +157,16 @@ class IssuePageContainer extends Component {
     }
 
     render() {
-        const { listIssue, issueTypeSelectable, addIssueFormValue, sprintTypeSelectable, addIssueValue, issueInfo } = this.props
-        // console.log(listIssue)
-        console.log(issueInfo)
+        const { listIssue, issueTypeSelectable, addIssueFormValue, sprintTypeSelectable, addIssueValue, issueInfo, selectedIssue } = this.props
         const { isOpenAddIssueModal, addForm } = this.state
         return (
             <div>
                 <IssuePageView
                     listIssue={listIssue}
                     issueInfo={issueInfo}
+                    selectedIssue={selectedIssue}
                     openAddIssueModal={this.openAddIssueModal}
+                    closeIssueDetail={this.closeIssueDetail}
                     selectIssue={(issue) => this.selectIssue(issue)}
                 />
                 {/* <AddIssueModal isOpen={isOpenAddIssueModal} />

@@ -13,13 +13,15 @@ const Container = styled.div`
 class Task extends Component {
   render() {
     return (
-      <Draggable draggableId={this.props.task.id} index={this.props.index}>
+      <Draggable draggableId={this.props.task.id} index={this.props.index} >
         {(provided, snapshot) => (
           <Container
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             isDragging={snapshot.isDragging}
+            onClick={()=>this.props.onClick(this.props.task)}
+            // onClick={()=> selectedTask(this.props.task)}
           >{this.props.task.content}</Container>
         )}
       </Draggable>

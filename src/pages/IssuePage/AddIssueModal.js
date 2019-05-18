@@ -17,8 +17,6 @@ const AddIssueModal = props => {
     addIssueFormValue,
     addIssueValue
   } = props;
-  // console.log(addIssueValue)
-  // console.log(addIssueFormValue)
   return (
     <Modal isOpen={openModal} title="Create Issue" closeModal={closeModal} >
 

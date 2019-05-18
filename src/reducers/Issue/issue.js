@@ -1,4 +1,4 @@
-import {GET_ISSUE_LIST, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE, RESET_ADD_ISSUE_VALUE, GET_ISSUE_INFO} from '../../constants/types/issue'
+import {GET_ISSUE_LIST, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE, RESET_ADD_ISSUE_VALUE, GET_ISSUE_INFO, SELECT_ISSUE} from '../../constants/types/issue'
 import { combineReducers } from 'redux';
 
 const listIssue = (state = [], action) => {
@@ -47,11 +47,22 @@ const addIssueFormValue = (state = {}, action) => {
     }
 }
 
+const selectedIssue = (state = {}, action) => {
+    const {type, payload} = action
+    switch(type) {
+        case SELECT_ISSUE:
+            return payload
+        default:
+            return state
+    }
+}
+
 const IssueState = combineReducers({
     listIssue,
     issueType,
     addIssueFormValue,
-    issueInfo
+    issueInfo,
+    selectedIssue
 })
 
 

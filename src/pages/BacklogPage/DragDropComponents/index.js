@@ -13,7 +13,6 @@ class DragDropComponents extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    // console.log(newProps)
     this.setState(newProps.initialData)
     if(this.state !== newProps.initialData) {
       this.setState(newProps.initialData)
@@ -107,8 +106,6 @@ class DragDropComponents extends React.Component {
       taskIds: []
     };
     const {openAddSprintModal, initialData} = this.props
-    // console.log(initialData)
-    // console.log(this.state)
     return (
       <DragDropContext
         onDragStart={this.onDragStart}
@@ -116,10 +113,8 @@ class DragDropComponents extends React.Component {
         onDragEnd={this.onDragEnd}
       >
         {this.state.columnOrder.map((columnId, index) => {
-          // console.log(this.state.columnOrder)
           const column = this.state.columns[columnId];
           const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
-
           // const isDropDisabled = index < this.state.homeIndex;
           if (index === this.state.columnOrder.length - 2) {
             return (
@@ -129,6 +124,7 @@ class DragDropComponents extends React.Component {
                   column={column}
                   tasks={tasks}
                   index={index}
+                  onClick={(task) => this.props.onClick(task)}
                 />
                 <div className="create-sprint">
                   <div className="btn-group pull-right">

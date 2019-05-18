@@ -68,9 +68,13 @@ export const getInitalData = createSelector (
             id: issue._id,
             content: issue.summary
             }
-            result.columns['backlog-column'].taskIds.push(issue._id)
+            if(sprints && issue.sprint && issue.sprint._id) {
+                result.columns[issue.sprint._id] && result.columns[issue.sprint._id].taskIds.push(issue._id)
+            }
+            else {
+                result.columns['backlog-column'].taskIds.push(issue._id)
+            }
         })
-
         return  result
     }
 )

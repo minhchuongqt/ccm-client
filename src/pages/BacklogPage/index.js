@@ -22,7 +22,7 @@ class BacklogPageContainer extends Component {
     }
     componentWillMount() {
         this.getListSprint()
-        this.getListIssue()
+        // this.getListIssue()
         this.getListBacklogIssue()
     }
     componentWillReceiveProps(newProps) {
@@ -54,7 +54,6 @@ class BacklogPageContainer extends Component {
         const  params = {
             query: JSON.stringify({
                 project: this.props.selectedProject._id,
-                sprint: null
             }),
             sort: JSON.stringify({
                 sequenceInBacklog: -1,
@@ -63,18 +62,18 @@ class BacklogPageContainer extends Component {
         }
         this.props.getListBacklogIssue(params)
     }
-    getListIssue = () => {
-        const  params = {
-            query: JSON.stringify({
-                project: this.props.selectedProject._id,
-            }),
-            sort: JSON.stringify({
-                sequenceInBacklog: -1,
-                createdAt: -1
-            })
-        }
-        this.props.getListBacklogIssue(params)
-    }
+    // getListIssue = () => {
+    //     const  params = {
+    //         query: JSON.stringify({
+    //             project: this.props.selectedProject._id,
+    //         }),
+    //         sort: JSON.stringify({
+    //             sequenceInBacklog: -1,
+    //             createdAt: -1
+    //         })
+    //     }
+    //     this.props.getListBacklogIssue(params)
+    // }
     openAddSprintModal = () => {
         this.setState({isOpenAddSprintModal: true})
     }
@@ -124,7 +123,6 @@ class BacklogPageContainer extends Component {
     render() {
         const {listSprint, listBacklogIssue, initialData} = this.props
         const {isOpenAddSprintModal, addForm} = this.state
-        // console.log(initialData)
         return (
             <div>
                 <BacklogPageView 

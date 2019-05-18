@@ -16,14 +16,12 @@ class RegisterPageContainer extends Component {
     }
 
     changeValue  = async (key, value) => {
-        console.log(key, '  ', value)
         await this.setState({[key]:value});
     }
 
     register = () => {
         const data = this.state;
         this.props.register(data);
-        // console.log(data)
     }
 
     render() {

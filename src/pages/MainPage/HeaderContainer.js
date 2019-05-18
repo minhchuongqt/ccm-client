@@ -19,7 +19,6 @@ class Header extends Component {
 
     // this.props.history.push(PATH.LOGIN_URL);
     // Api.apiGet(urlApi.logout).then(res => {
-    //   console.log(res);
     // });
   };
 

@@ -723,13 +723,13 @@ p {
   opacity: 0.8;
   background-color: #004444;
 }
-.sc-gqjmRU{
+.smooth-dnd-draggable-wrapper .react-trello-board{
   min-width: 290px !important;
   min-height: 80px !important;
 }
-.iTzKeC {
+/* .iTzKeC {
   font-size: 14px !important;
-}
+} */
 
 .display-block {
   display: block;

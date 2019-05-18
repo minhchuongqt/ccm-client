@@ -14,7 +14,6 @@ const AddProjectModal = props => {
     openModal,
     data,
   } = props;
-  // console.log(projectTypeSelectable)
   return (
     <Modal isOpen={openModal} title="Create Project" closeModal={closeModal} >
       {/* <div className="modal fade" id="modal-addproject"> */}

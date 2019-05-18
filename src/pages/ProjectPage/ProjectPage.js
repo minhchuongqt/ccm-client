@@ -40,7 +40,6 @@ const ProjectPage = props => {
       </div>
       <div className="row">
         {listProject.map((project, index) => {
-          // console.log(project)
           return (
             <div className="col-md-4" key={index}>
               <div className="box box-widget widget-user-2">

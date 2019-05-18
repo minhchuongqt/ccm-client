@@ -10,7 +10,6 @@ class WorkflowContainer extends Component {
 
   
   render() {
-    // console.log(this.state)
     return (
       <div>
         <WorkflowView onChangeValue={(key, value) => this.setState({[key]: value}) }/>

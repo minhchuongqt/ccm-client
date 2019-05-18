@@ -4,7 +4,6 @@ import * as PATH from "../../constants/data/routeConstants";
 import img from "../../assets/img/ccm-logo.png";
 import userImg from "../../assets/img/avatar5.png";
 const Header = props => {
-  // console.log(this.props)
   const { isShow } = props;
   return (
     <header className="main-header bg-steelblue">

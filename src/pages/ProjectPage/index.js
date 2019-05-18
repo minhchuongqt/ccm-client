@@ -53,7 +53,6 @@ class ProjectPageContainer extends Component {
 
     componentWillReceiveProps(newProps) {
         const {createProjectStatus} = newProps
-        // console.log(newProps)
         if(createProjectStatus) {
             toast.success('Create project successfully')
             this.setState({isOpenAddProjectModal: false})
@@ -87,7 +86,6 @@ class ProjectPageContainer extends Component {
             ...addForm,
             projectType: addForm.projectType.value
         }
-        // console.log(data)
         if (this.validate(data)){
             // toast.success("OK")
             this.props.createProject(data)
@@ -135,7 +133,6 @@ class ProjectPageContainer extends Component {
     render() {
         const {listProject, projectTypeSelectable} = this.props
         const {isOpenAddProjectModal, addForm} = this.state
-        console.log(this.listProject)
         return (
             <div>
                 <ProjectPageView 
