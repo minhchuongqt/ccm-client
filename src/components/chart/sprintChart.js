@@ -10,10 +10,10 @@ class Chart extends Component {
 			animationEnabled: true,
 			exportEnabled: true,
 			title:{
-				// text: "Sprint 1 Chart"
+				text: "Sprint Report"
 			},
 			axisY:{
-				// title: "Stock In Hand",
+				title: "Story points",
 				includeZero: false
       },
       axisX: {
