@@ -8,7 +8,7 @@ import DragDropComponent from './DragDropComponents'
 
 
 const BacklogPage = props => {
-  const { listSprint, listBacklogIssue, openAddSprintModal, chooseActive, initialData } = props
+  const { listSprint, listBacklogIssue, openAddSprintModal, chooseActive, initialData, openAddIssueModal } = props
   return (
     <div id="backlog-view">
       <div>
@@ -17,10 +17,9 @@ const BacklogPage = props => {
         </Breadcrumb>
       </div>
       <EditSprintPageView/>
-      <AddIssueView />
       <div className="row height-fill">
         <div className="col-md-7 p-r-0 scroll-detail">
-        <DragDropComponent onClick={(task)=> console.log(task)} initialData={initialData || {}} openAddSprintModal={openAddSprintModal}/>
+        <DragDropComponent openAddIssueModal = {openAddIssueModal} onClick={(task)=> console.log(task)} initialData={initialData || {}} openAddSprintModal={openAddSprintModal}/>
         {/* {listSprint.map((sprint, index) => {
           return (
             <div className="box box-success" key={index}>

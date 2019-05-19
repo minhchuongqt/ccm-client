@@ -104,10 +104,6 @@ class ProjectPageContainer extends Component {
             toast.error("The project name must be no more than 50 characters");
             return false;
         }
-        if (!data.key) {
-            toast.error("Please enter project key");
-            return false;
-        }
         if (data.key.length > 3) {
             toast.error("Project key must be no more than 3 characters");
             return false;

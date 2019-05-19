@@ -750,3 +750,7 @@ p {
 .list-group a:focus {
   outline: none;
 }
+
+.quill {
+  height: max-content;
+}

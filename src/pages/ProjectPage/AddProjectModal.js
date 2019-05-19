@@ -36,20 +36,6 @@ const AddProjectModal = props => {
               </div>
               <div className="form-group">
                 <label className="col-sm-3 control-label">
-                  Project key<span style={{ color: "red" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    type="text"
-                    className="form-control auto-uppercase"
-                    id="inputSum"
-                    value={data.key}
-                    onChange={e => onChangeValue("key", e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="col-sm-3 control-label">
                   Project type
                 </label>
                 <div className="col-sm-9">
