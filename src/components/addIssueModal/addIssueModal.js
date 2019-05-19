@@ -5,6 +5,7 @@ import MultiSelect from "../../components/multiSelect";
 import PropTypes from "prop-types";
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
 import TextEditor from "../../components/textEditor";
+import _ from 'lodash';
 // const DropdownIndicator = (props) => {
 //   return components.DropdownIndicator && (
 //       <components.DropdownIndicator {...props}>
@@ -90,14 +91,14 @@ const AddIssueModal = props => {
                 </ul>
               </label>
               <input
-                onChange={e => {
-                  e.preventDefault();
-                  let file = e.dataTransfer
-                    ? e.dataTransfer.files[0]
-                    : e.target.files[0];
-                  if (!file) return;
-                  props.onAddFile(file);
-                }}
+                // onChange={e => {
+                //   e.preventDefault();
+                //   let file = e.dataTransfer
+                //     ? e.dataTransfer.files[0]
+                //     : e.target.files[0];
+                //   if (!file) return;
+                //   props.onAddFile(file);
+                // }}
                 type="file"
                 id="file-upload"
                 className="inputfile"
@@ -135,11 +136,11 @@ const AddIssueModal = props => {
                           style={{ cursor: "pointer" }}
                           onClick={e => {
                             e.stopPropagation();
-                            props.onRemoveFile(file.id);
+                            // props.onRemoveFile(file.id);
                           }}
                         >
                           <img
-                            src={require("../../../../stylesheets/images/ic-x.svg")}
+                            src={require("../../assets/img/ic-x.svg")}
                             alt="Delete"
                             className="cursor-pointer"
                           />

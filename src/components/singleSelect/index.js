@@ -1,9 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 import * as R from 'ramda';
 import makeAnimated from 'react-select/lib/animated';
+import Icon from '../../assets/img/project.png'
 // import 'react-select/dist/react-select.css';
+const { Option } = components;
+const IconOption = (props) => {
+  console.log(props)
+  return (
+    <Option {...props}>
+      {props.data.iconUrl && <img src={props.data.iconUrl}/>}&nbsp;
+      {props.data.label}
+    </Option>
+)};
 
 const SearchSelect = (props) => {
   const { isValid } = props;
@@ -20,6 +30,7 @@ const SearchSelect = (props) => {
       {...props}
       style={style}
       name="colors"
+      components={ {Option: IconOption } }
       // className="basic-multi-select"
       classNamePrefix="select"
     />

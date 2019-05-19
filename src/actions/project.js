@@ -1,6 +1,6 @@
 import { GET_LIST_PROJECT, GET_PROJECT_TYPE, CREATE_PROJECT, SELECT_PROJECT } from '../constants/types/project';
 import ProjectApi from '../api/projectApi';
-
+import {toast} from 'react-toastify'
 export const getListProject = (data) => dispatch => {
     ProjectApi.getListProject(data).then(res => {
         if(res.data) {
@@ -20,7 +20,11 @@ export const getProjectType = (data) => dispatch => {
 export const createProject = (data) => dispatch => {
     ProjectApi.createProject(data).then(res => {
         if(res.data) {
-            dispatch({type: CREATE_PROJECT, payload: res.data.data})
+            if(res.data.error) {
+                toast.error(res.data.error)
+            } else {
+                dispatch({type: CREATE_PROJECT, payload: res.data.data})
+            }
         }
     })
 }

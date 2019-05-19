@@ -105,12 +105,12 @@ const IssuePage = props => {
                             </div>
                             <div className="col-md-8">
                               <ul className="list-unstyled">
-                                <li>{issueInfo.issueType.type}</li>
-                                <li><span className="label label-primary">{issueInfo.workflow.name}</span></li>
+                                <li>{(issueInfo.issueType || {}).type}</li>
+                                <li><span className="label label-primary">{(issueInfo.workflow || {}).name}</span></li>
                                 <li>High</li>
                                 <li>Version 2.0</li>
                                 <li>None</li>
-                                <li>{issueInfo.sprint.name}</li>
+                                <li>{(issueInfo.sprint || {}).name}</li>
                               </ul>
                             </div>
 

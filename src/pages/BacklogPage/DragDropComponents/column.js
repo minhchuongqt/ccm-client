@@ -22,6 +22,8 @@ const TaskList = styled.div`
 `
 export default class Column extends React.Component {
   render() {
+    const { openAddIssueModal } = this.props
+    console.log(openAddIssueModal)
     return (
       <Container>
         <div className="box box-success" >
@@ -44,7 +46,7 @@ export default class Column extends React.Component {
         )}
         </Droppable>
         <div className="box-footer">
-              <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-default">
+              <button type="button" className="btn btn-default" onClick={() => openAddIssueModal()}>
                 <i className="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
             </div>
         </div>

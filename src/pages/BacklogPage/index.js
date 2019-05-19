@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import BacklogPageView from './BacklogPage';
-import AddSprintModal from './AddSprintModal';
+import { connect } from 'react-redux'
 import { toast } from 'react-toastify'
+
 import * as actions from '../../actions/backlog'
 import * as selectors from '../../selectors/backlog'
 import * as projectSelectors from '../../selectors/project'
-import { connect } from 'react-redux'
+
+import BacklogPageView from './BacklogPage';
+import AddSprintModal from './AddSprintModal';
+import AddIssueModal from '../../components/addIssueModal';
+
 class BacklogPageContainer extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +21,7 @@ class BacklogPageContainer extends Component {
                 endDate: '',
                 goal: '',
             },
+            isOpenAddIssueModal: false,
             isOpenAddSprintModal: false,
         }
     }
@@ -120,9 +125,17 @@ class BacklogPageContainer extends Component {
         addForm[name] = value
         this.setState({addForm})    
     }
+    openAddIssueModal = () => {
+        console.log('open')
+        this.setState({isOpenAddIssueModal: true})
+    }
+    closeAddIssueModal = () => {
+        this.setState({isOpenAddIssueModal: false})
+    }
     render() {
         const {listSprint, listBacklogIssue, initialData} = this.props
-        const {isOpenAddSprintModal, addForm} = this.state
+        const {isOpenAddSprintModal, addForm, isOpenAddIssueModal} = this.state
+        console.log(isOpenAddIssueModal)
         return (
             <div>
                 <BacklogPageView 
@@ -131,15 +144,22 @@ class BacklogPageContainer extends Component {
                    openAddSprintModal={this.openAddSprintModal}
                    chooseActive={(active)=>this.chooseActive(active)}
                    initialData={initialData}
+                   openAddIssueModal={() => this.openAddIssueModal()}
                 />
                 <AddSprintModal
                     data = {addForm}
+
                     openModal={isOpenAddSprintModal}
                     closeModal={this.closeModal}
                     createSprint={this.createSprint}
                     validate={(data)=>this.validate(data)}
                     onChangeValue={(name, value) => this.onChangeValue(name, value)}
                 />
+                <AddIssueModal 
+                    isOpenAddIssueModal={isOpenAddIssueModal}
+                    closeModal = {this.closeAddIssueModal}
+                />
+
             </div>
         );
     }

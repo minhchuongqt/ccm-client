@@ -6,7 +6,7 @@ import * as issueActions from '../../actions/backlog'
 import * as selectors from '../../selectors/issue'
 import * as sprintSelectors from '../../selectors/backlog'
 import * as projectSelectors from '../../selectors/project'
-import AddIssueModal from './AddIssueModal';
+import AddIssueModal from '../../components/addIssueModal';
 import TestDialog from '../../components/modal';
 import toast from 'react-toastify'
 
@@ -88,6 +88,7 @@ class IssuePageContainer extends Component {
         this.getListSprint()
         this.setState({ isOpenAddIssueModal: true })
     }
+    
     closeIssueDetail = () => {
         document.getElementById('issue-detail-collapse').className += "A hide-detail"
         // document.getElementById('open-issues').className += " hide-detail "
@@ -104,42 +105,12 @@ class IssuePageContainer extends Component {
         this.props.resetAddIssueFormValue()
         this.setState({ isOpenAddIssueModal: false })
     }
-    createIssue = (data) => {
-        // if (this.validate(data)) {
-            // toast.success("OK")
-            // this.props.createIssue(data)
-            
-        // }
-        
-        // if (this.validate(addIssueFormValue)){
-      
-        // toast.success("OK")
-        // this.props.createIssue(addForm)
-        // }
-    }
-    validate = (data) => {
-        if (!data.summary) {
-            toast.error("Please enter issue summary");
-            return false;
-        }
-        if (!data.issueType) {
-            toast.error("Please choose issue type");
-            return false;
-        }
-        if (!data.sprint) {
-            toast.error("Please enter issue summary");
-            return false;
-        }
-        return true;
-    }
+    
     chooseActive = (active) => {
         if (active === true) {
             return "btn-success";
         }
         return "btn-danger";
-    }
-    onChangeValue = async (name, value) => {
-       await this.props.changeAddIssueFormValue(name, value)
     }
 
     selectIssue = (issue) => {
@@ -173,17 +144,8 @@ class IssuePageContainer extends Component {
                 {isOpenAddIssueModal && this.showAddIssueModal()} */}
 
                 <AddIssueModal
-                    data={addForm}
-                    openModal={isOpenAddIssueModal}
+                    isOpenAddIssueModal={isOpenAddIssueModal}
                     closeModal={this.closeModal}
-                    createIssue={(data) => this.createIssue(data)}
-                    validate={(data) => this.validate(data)}
-                    getListSprint={() => this.getListSprint()}
-                    issueTypeSelectable={issueTypeSelectable}
-                    addIssueFormValue={addIssueFormValue}
-                    addIssueValue={addIssueValue}
-                    sprintTypeSelectable={sprintTypeSelectable}
-                    onChangeValue={(name, value) => this.onChangeValue(name, value)}
                 />
             </div>
         );

@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import moment from 'moment'
+import {API} from '../config'
 //params
 export const getListIssue = ({IssueState}) => {
     if(_.isEmpty(IssueState.listIssue)) return []
@@ -40,7 +41,9 @@ export const getIssueTypeSelectable = ({IssueState}) => {
     if(_.isEmpty(IssueState.issueType)) return []
     const result =  IssueState.issueType.map(item => (
         {
-            label: item.type, value: item._id
+            label: item.type,
+            value: item._id,
+            iconUrl: API + item.iconUrl,
         }
         ))
     return result

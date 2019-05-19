@@ -105,7 +105,7 @@ class DragDropComponents extends React.Component {
       title: "Backlog",
       taskIds: []
     };
-    const {openAddSprintModal, initialData} = this.props
+    const {openAddSprintModal, initialData, openAddIssueModal} = this.props
     return (
       <DragDropContext
         onDragStart={this.onDragStart}
@@ -120,7 +120,7 @@ class DragDropComponents extends React.Component {
             return (
               <div key={column.id}>
                 <Column
-                  
+                  openAddIssueModal={openAddIssueModal}
                   column={column}
                   tasks={tasks}
                   index={index}
@@ -142,6 +142,7 @@ class DragDropComponents extends React.Component {
           } else {
             return (
               <Column
+              openAddIssueModal={openAddIssueModal}
                 key={column.id}
                 column={column}
                 tasks={tasks}
