@@ -37,8 +37,8 @@ import _ from 'lodash'
 
 const IssuePage = props => {
   const { listIssue, openAddIssueModal, selectIssue, issueInfo, closeIssueDetail,  } = props
-  console.log(listIssue)
-  console.log(issueInfo)
+  // console.log(listIssue)
+  // console.log(issueInfo)
   return (
     <div id="issue-view">
       <div>

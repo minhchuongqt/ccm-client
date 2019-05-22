@@ -128,7 +128,7 @@ const AddIssueModal = props => {
                       src={require("../../assets/img/ic-x.svg")}
                       onClick={e => {
                         e.stopPropagation();
-                        onRemoveFile(file)
+                        onRemoveFile(file.id)
                       }}
                     />
                   </span>

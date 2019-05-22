@@ -63,7 +63,8 @@ const addIssueFormValue = (state = { attachs: [] }, action) => {
       }
       return copyState
     case REMOVE_FILE_IN_ADD_FORM_VALUE:
-      return state.attach.filter(file => file.id !== payload.id);
+       return {...copyState, attachs: copyState.attachs.filter(file => file.id !== payload.id)}
+    //    return copyState
     case RESET_ADD_ISSUE_VALUE:
       return {};
     default:
