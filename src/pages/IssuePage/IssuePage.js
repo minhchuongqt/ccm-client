@@ -4,9 +4,41 @@ import "../../styleSheets/sass/components/Issue/IssueView.scss"
 import imgUser from '../../assets/img/avatar5.png'
 import AddIssueView from './AddIssuePage/index'
 import EditIssueView from './EditIssuePage/index'
+import MultiSelect from '../../components/multiSelect'
 import _ from 'lodash'
+
+
+// class ContentEditable extends React {
+//   render() {
+//       return <div 
+//           onInput={this.emitChange} 
+//           onBlur={this.emitChange}
+//           contentEditable
+//           dangerouslySetInnerHTML={{__html: this.props.html}}></div>;
+//   }
+
+//   shouldComponentUpdate(nextProps) {
+//       return nextProps.html !== this.getDOMNode().innerHTML;
+//   }
+
+//   emitChange() {
+//       var html = this.getDOMNode().innerHTML;
+//       if (this.props.onChange && html !== this.lastHtml) {
+
+//           this.props.onChange({
+//               target: {
+//                   value: html
+//               }
+//           });
+//       }
+//       this.lastHtml = html;
+//   }
+// };
+
 const IssuePage = props => {
-  const { listIssue, openAddIssueModal, selectIssue, issueInfo, closeIssueDetail } = props
+  const { listIssue, openAddIssueModal, selectIssue, issueInfo, closeIssueDetail,  } = props
+  console.log(listIssue)
+  console.log(issueInfo)
   return (
     <div id="issue-view">
       <div>
@@ -237,12 +269,12 @@ const IssuePage = props => {
 
                         <div id="collapsePeople" className="panel-collapse collapse in">
                           <div className="box-body">
-                            {!_.isEmpty(issueInfo.assignees) &&
+                            {/* {!_.isEmpty(issueInfo.assignees) && */}
                               <ul className="list-unstyled">
                                 <li>Assignee:</li>
-                                <li>{issueInfo.assignees}</li>
+                                <li><MultiSelect onBlur={() => console.log('bur')}/></li>
                               </ul>
-                            }
+                            {/* } */}
                             <ul className="list-unstyled">
                               <li>Creator:</li>
                               <li>{issueInfo.creator}</li>

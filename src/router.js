@@ -17,10 +17,5 @@ export default (
       {/* <Route path="/home" component={ProjectPage} /> */}
       <Route path="/" component={App} />
     </Switch>
-    <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        style={{ zIndex: 19999 }}
-    />
   </Router>
 );

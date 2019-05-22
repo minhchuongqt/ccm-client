@@ -19,7 +19,7 @@ const BacklogPage = props => {
       <EditSprintPageView/>
       <div className="row height-fill">
         <div className="col-md-7 p-r-0 scroll-detail">
-        <DragDropComponent openAddIssueModal = {openAddIssueModal} onClick={(task)=> console.log(task)} initialData={initialData || {}} openAddSprintModal={openAddSprintModal}/>
+        <DragDropComponent openAddIssueModal = {data => openAddIssueModal(data)} onClick={(task)=> console.log(task)} initialData={initialData || {}} openAddSprintModal={openAddSprintModal}/>
         {/* {listSprint.map((sprint, index) => {
           return (
             <div className="box box-success" key={index}>

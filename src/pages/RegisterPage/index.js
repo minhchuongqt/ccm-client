@@ -15,8 +15,8 @@ class RegisterPageContainer extends Component {
         }
     }
 
-    changeValue  = async (key, value) => {
-        await this.setState({[key]:value});
+    changeValue  = (key, value) => {
+      this.setState({[key]:value});
     }
 
     register = () => {

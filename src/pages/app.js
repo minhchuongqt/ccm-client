@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import API from '../api/base';
+import { connect } from 'react-redux';
 import { Switch, Route } from "react-router-dom";
 import { withRouter } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -16,6 +17,7 @@ import ActiveSprintPage from './ActiveSprintPage/index';
 import IssuePage from './IssuePage/index';
 import ReleasePage from './ReleasePage/ReleasePage';
 import ReportPage from './ReportPage/ReportPage';
+import * as actions from '../actions/user'
 class App extends Component {
     
     componentWillMount() {
@@ -23,6 +25,7 @@ class App extends Component {
         if (!token) {
             this.props.history.push('/login')
         }
+        this.getUserInfo()
     }
 
     componentWillReceiveProps() {
@@ -30,6 +33,10 @@ class App extends Component {
         if (!token) {
             this.props.history.push('/login')
         }
+    }
+
+    getUserInfo = () => {
+        this.props.getUserInfo()
     }
 
     render() {
@@ -44,7 +51,7 @@ class App extends Component {
                             {/* <Route path={PATH.PROJECT_URL} component = {ProjectPage}/> */}
                             <Route path={PATH.HOME_URL} exact render={() => <ProjectPage />} />
                             <Route path={PATH.BACKLOG_URL} render={() => <BacklogPage />} />
-                            <Route path={PATH.ISSUE_URL} render={() => <IssuePage />} />
+                            <Route path={PATH.ISSUE_URL} component={IssuePage} />
                             <Route path={PATH.RELEASE_URL} render={() => <ReleasePage />} />
                             <Route path={PATH.REPORT_URL} render={() => <ReportPage />} />
                             <Route path={PATH.SPRINT_URL} render={() => <ActiveSprintPage />} />
@@ -61,4 +68,12 @@ class App extends Component {
     }
 }
 
-export default withRouter(App);
+const mapStateToProps = state => ({
+   
+})
+const mapDispatchToProps = dispatch => ({
+    getUserInfo() {
+        dispatch(actions.getUserInfo())
+    }
+})
+export default connect(mapStateToProps, mapDispatchToProps) (withRouter(App));

@@ -19,6 +19,10 @@ class IssueApi {
     getIssueType = ( params ) => {
         return API.get('/issueType', {params});
     }
+
+    getListUserToAssign = (params) => {
+        return API.get('/user/list', {params})
+    }
     
 }
 

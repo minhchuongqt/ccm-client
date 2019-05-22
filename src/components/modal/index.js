@@ -8,12 +8,12 @@ class AddIssuePage extends React.Component {
 
     componentWillReceiveProps(newProps) {
         const {isOpen} = newProps 
+        // console.log(isOpen)
         if(isOpen) {
             document.getElementById('main-body').classList += ' modal-open'
             document.getElementById('modal-container').classList = 'modal fade in display-block'
         } else {
             document.getElementById('main-body').classList += 'A'
-            
             document.getElementById('modal-container').classList = 'modal fade'
         }
     }
@@ -28,6 +28,9 @@ class AddIssuePage extends React.Component {
     }
 
     render() {
+        // if(!this.props.isOpen) {
+        //     return null;
+        // }
         const { listMembers, closeModal, title  } = this.props
         return (
             <div id="issue-view">

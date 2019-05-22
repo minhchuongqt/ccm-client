@@ -5,15 +5,26 @@ import * as R from 'ramda';
 import makeAnimated from 'react-select/lib/animated';
 import Icon from '../../assets/img/project.png'
 // import 'react-select/dist/react-select.css';
-const { Option } = components;
+const { Option, SingleValue  } = components;
 const IconOption = (props) => {
-  console.log(props)
+ 
   return (
     <Option {...props}>
       {props.data.iconUrl && <img src={props.data.iconUrl}/>}&nbsp;
       {props.data.label}
     </Option>
 )};
+
+const ValueOption = props => {
+  return (
+    <SingleValue {...props}> 
+        {props.data.iconUrl && 
+          <img 
+            src={props.data.iconUrl}/>}&nbsp;
+        {" "+(props.data.label || '')} 
+    </SingleValue>
+  )
+}
 
 const SearchSelect = (props) => {
   const { isValid } = props;
@@ -30,7 +41,7 @@ const SearchSelect = (props) => {
       {...props}
       style={style}
       name="colors"
-      components={ {Option: IconOption } }
+      components={ {Option: IconOption, SingleValue: ValueOption  } }
       // className="basic-multi-select"
       classNamePrefix="select"
     />

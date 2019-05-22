@@ -20,8 +20,8 @@ class LoginPageContainer extends Component {
         }
     }
 
-    async onChange(key, value) {
-        await this.setState({[key]: value})
+    onChange(key, value) {
+         this.setState({[key]: value})
     }
 
     handleLogin ()   {

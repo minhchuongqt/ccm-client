@@ -131,7 +131,7 @@ class DragDropComponents extends React.Component {
                     <button
                       type="button"
                       className="btn btn-success"
-                      onClick={() => openAddSprintModal()}
+                      onClick={data => openAddSprintModal(data)}
                     >
                       Create sprint
                     </button>

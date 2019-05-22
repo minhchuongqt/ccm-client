@@ -49,16 +49,29 @@ export const getIssueTypeSelectable = ({IssueState}) => {
     return result
 }
 
-export const getAddIssueFormValue = ({IssueState}) => {
-    return IssueState.addIssueFormValue
-}
+export const getAddIssueFormValue = ({IssueState}) => IssueState.addIssueFormValue
 
 export const generateDataForAddIssue = ({IssueState}) => {
-     const {sprint, description, summary} = IssueState.addIssueFormValue
+     const {sprint, description, summary, issueType, attachs, assignee} = IssueState.addIssueFormValue
      const result = {
          sprint: (sprint || {}).value || null,
          description: description,
          summary: summary,
+         issueType: (issueType || {}).value || null,
+         attachs,
+         assignee: (assignee || []).map(item => item.value)
         }
+    return result
+}
+
+export const getAssigneeSelectable = ({IssueState}) => {
+    if(_.isEmpty(IssueState.listUser)) return []
+    const result =  IssueState.listUser.map(item => (
+        {
+            label: item.member.displayName,
+            value: item.member._id,
+            iconUrl: API + item.member.iconUrl,
+        }
+    ))
     return result
 }

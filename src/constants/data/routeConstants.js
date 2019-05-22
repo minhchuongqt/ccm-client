@@ -12,6 +12,8 @@ export const USER_EDIT_URL = "/user/:id/edit";
 export const WORKFLOW_URL = "/setting/workflow";
 //Backlog pages
 export const BACKLOG_URL = "/backlog";
+export const BACKLOG_ADD_ISSUE_URL = "/backlog/addIssue";
+export const BACKLOG_ADD_SPRINT_URL = "/backlog/addSprint";
 
 //Backlog pages
 export const SPRINT_URL = "/sprint";

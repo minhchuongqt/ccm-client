@@ -46,8 +46,8 @@ export default class Column extends React.Component {
         )}
         </Droppable>
         <div className="box-footer">
-              <button type="button" className="btn btn-default" onClick={() => openAddIssueModal()}>
-                <i className="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
+              <button className="btn btn-default" onClick={() => openAddIssueModal(true)}>
+                <i className="fa fa-plus" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
             </div>
         </div>
       </Container>

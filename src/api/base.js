@@ -10,7 +10,7 @@ export const get = (path, params) => {
 }
 
 export const post = (path, data) => {
-  console.log("Method GET is called...");
+  console.log("Method POST is called...");
   return createFetch({
     headers: {
    'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export const post = (path, data) => {
 }
 
 export const put = (path, data) => {
-  console.log("Method GET is called...");
+  console.log("Method PUT is called...");
   return createFetch(
     {
       headers: {
@@ -30,7 +30,7 @@ export const put = (path, data) => {
 }
 
 export const remove = (path) => {
-  console.log("Method GET is called...");
+  console.log("Method DELETE is called...");
   return createFetch(
     {headers: {
      'Content-Type': 'application/json',

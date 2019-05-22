@@ -64,11 +64,11 @@ onChangeValue = (name, value) => {
 }
   
   render() {
-    const { issueTypeSelectable, addIssueFormValue, sprintTypeSelectable, addIssueValue, isOpenAddIssueModal } = this.props
-    
+    const { issueTypeSelectable, addIssueFormValue, sprintTypeSelectable, addIssueValue, openModal } = this.props
+    console.log(openModal)
     return (
       <AddIssueModal
-        openModal={isOpenAddIssueModal}
+        openModal={openModal}
         closeModal={this.props.closeModal}
         createIssue={data => this.createIssue(data)}
         validate={data => this.validate(data)}

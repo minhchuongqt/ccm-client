@@ -6,6 +6,7 @@ export const login = (data) => dispatch => {
         if(res.data) {
             sessionStorage.setItem('access-token', res.data.token)
             dispatch({type: LOGIN_SUCCESS, payload: res.data})
+
         }
     })
 }
