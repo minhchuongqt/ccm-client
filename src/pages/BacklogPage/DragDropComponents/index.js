@@ -1,5 +1,5 @@
 import React from "react";
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { DragDropContext } from "react-beautiful-dnd";
 import initialData from "./initial-data";
@@ -9,12 +9,12 @@ import * as selectors from '../../../selectors/backlog'
 class DragDropComponents extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {...this.props.initialData}
+    this.state = { ...this.props.initialData }
   }
 
   componentWillReceiveProps(newProps) {
     this.setState(newProps.initialData)
-    if(this.state !== newProps.initialData) {
+    if (this.state !== newProps.initialData) {
       this.setState(newProps.initialData)
     }
   }
@@ -105,53 +105,71 @@ class DragDropComponents extends React.Component {
       title: "Backlog",
       taskIds: []
     };
-    const {openAddSprintModal, initialData, openAddIssueModal} = this.props
+    const { openAddSprintModal, initialData, openAddIssueModal } = this.props
     return (
-      <DragDropContext
-        onDragStart={this.onDragStart}
-        // onDragUpdate={this.onDragUpdate}
-        onDragEnd={this.onDragEnd}
-      >
-        {this.state.columnOrder.map((columnId, index) => {
-          const column = this.state.columns[columnId];
-          const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
-          // const isDropDisabled = index < this.state.homeIndex;
-          if (index === this.state.columnOrder.length - 2) {
-            return (
-              <div key={column.id}>
+      <div>
+        <div className="create-sprint">
+          <div className="btn-group pull-right">
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={data => openStartSprintModal(data)}
+            >
+              Start sprint
+                </button>
+          </div>
+        </div>
+        <DragDropContext
+          onDragStart={this.onDragStart}
+          // onDragUpdate={this.onDragUpdate}
+          onDragEnd={this.onDragEnd}
+        >
+          {this.state.columnOrder.map((columnId, index) => {
+            const column = this.state.columns[columnId];
+            const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
+            // const isDropDisabled = index < this.state.homeIndex;
+            if (index === this.state.columnOrder.length - 2) {
+              return (
+                <div>
+
+
+                  <div key={column.id}>
+
+                    <Column
+                      openAddIssueModal={openAddIssueModal}
+                      column={column}
+                      tasks={tasks}
+                      index={index}
+                      onClick={(task) => this.props.onClick(task)}
+                    />
+                    <div className="create-sprint">
+                      <div className="btn-group pull-right">
+                        <button
+                          type="button"
+                          className="btn btn-success"
+                          onClick={data => openAddSprintModal(data)}
+                        >
+                          Create sprintss
+                    </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            } else {
+              return (
                 <Column
                   openAddIssueModal={openAddIssueModal}
+                  key={column.id}
                   column={column}
                   tasks={tasks}
                   index={index}
-                  onClick={(task) => this.props.onClick(task)}
                 />
-                <div className="create-sprint">
-                  <div className="btn-group pull-right">
-                    <button
-                      type="button"
-                      className="btn btn-success"
-                      onClick={data => openAddSprintModal(data)}
-                    >
-                      Create sprint
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          } else {
-            return (
-              <Column
-              openAddIssueModal={openAddIssueModal}
-                key={column.id}
-                column={column}
-                tasks={tasks}
-                index={index}
-              />
-            );
-          }
-        })}
-      </DragDropContext>
+              );
+            }
+          })}
+        </DragDropContext>
+      </div>
     );
   }
 }
@@ -164,4 +182,4 @@ const mapDispatchToProp = dispatch => ({
 
 })
 
-export default connect(mapStateToProp, mapDispatchToProp) (DragDropComponents);
+export default connect(mapStateToProp, mapDispatchToProp)(DragDropComponents);

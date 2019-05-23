@@ -1,5 +1,4 @@
-import {GET_PROJECT_TYPE, CREATE_PROJECT, SELECT_PROJECT} from '../../constants/types/project'
-import {GET_LIST_PROJECT} from '../../constants/types/project'
+import {GET_PROJECT_TYPE, CREATE_PROJECT, SELECT_PROJECT, GET_LIST_PROJECT} from '../../constants/types/project'
 import { combineReducers } from 'redux';
 
 const listProject = (state = [], action) => {

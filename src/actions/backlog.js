@@ -1,10 +1,17 @@
-import { GET_LIST_SPRINT, CREATE_SPRINT, GET_LIST_BACKLOG_ISSUE } from '../constants/types/backlog';
+import { GET_LIST_SPRINT, CREATE_SPRINT, GET_LIST_BACKLOG_ISSUE, GET_SPRINT_ACTIVE } from '../constants/types/backlog';
 import BacklogApi from '../api/backlogApi';
 
 export const getListSprint = (data) => dispatch => {
     BacklogApi.getListSprint(data).then(res => {
         if(res.data) {
             dispatch({type: GET_LIST_SPRINT, payload: res.data.data})
+        }
+    })
+}
+export const getSprintActive = (data) => dispatch => {
+    BacklogApi.getSprintActive(data).then(res => {
+        if(res.data) {
+            dispatch({type: GET_SPRINT_ACTIVE, payload: res.data.data})
         }
     })
 }
