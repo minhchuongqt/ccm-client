@@ -10,13 +10,13 @@ const Container = styled.div`
   border-radius: 2px;
   flex-direction: column;
 `
-const Title = styled.div`
-  // display: flex;
+const TitleRow = styled.div`
   padding: 5px 0;
-  span {
-    padding: 8px;
-    font-size: 22px;
-  }
+`
+
+const Title = styled.span`
+  padding: 8px;
+  font-size: 22px;
 `
 
 const IssueCount = styled.div`
@@ -93,12 +93,13 @@ const Remove = styled.i`
 export default class Column extends React.Component {
   render() {
     const { openAddIssueModal, column, sprintActived } = this.props
-    // console.log(sprintActived)
+    console.log(column)
     return (
       <Container>
         <div className="box box-success" >
-          <Title>
-            <span>{this.props.column.title}</span>
+          <TitleRow>
+            <Title>{this.props.column.title}</Title>
+            <span className="com">{column.taskIds.length} issues</span>
             <ActionIcon>
                 <Remove className="fa fa-times"></Remove>
                 <Edit className="fa fa-edit"></Edit>
@@ -111,7 +112,7 @@ export default class Column extends React.Component {
             </IssueCount>
             }
              { !column.active && column.name && <ButtonGroup><ButtonStart disabled = {sprintActived}>Start</ButtonStart></ButtonGroup>}
-          </Title>
+          </TitleRow>
         <Droppable 
         droppableId={this.props.column.id}
         isDropDisabled={this.props.isDropDisabled}
