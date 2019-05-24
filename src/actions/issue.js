@@ -1,9 +1,11 @@
 import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
     GET_ISSUE_INFO, RESET_ADD_ISSUE_VALUE, SELECT_ISSUE, REMOVE_FILE_IN_ADD_FORM_VALUE,
-    GET_LIST_USER
+    GET_LIST_USER, RESET_CREATE_ISSUE_STATUS
 } from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
+import BaseApi from '../api/base'
 import {toast} from 'react-toastify'
+import _ from 'lodash'
 export const getIssueList = (data) => dispatch => {
     IssueApi.getIssueList(data).then(res => {
         if (res.data) {
@@ -29,13 +31,39 @@ export const getListUser = (data) => dispatch => {
 }
 
 export const createIssue = (data) =>  dispatch => {
-     IssueApi.createIssue(data).then(res => {
-        if (res.data) {
-            dispatch({ type: CREATE_ISSUE, payload: res.data.data })
-        }
-    })
+    let copyData = _.cloneDeep(data)
+    if(copyData.attachs.length > 0) {
+        let promises = (copyData.attachs || []).map(i => {
+            // console.log(i)
+            return i.raw
+              ? BaseApi.uploadFile(i.raw).then(res => _.get(res || {}, "data.data.filePath", ""))
+              : Promise.resolve(i);
+        });
+        // console.log(promises)
+        return Promise.all(promises).then(files => {
+            copyData.attachs = (files || []).filter(i => !!i);
+            // console.log(copyData)
+            IssueApi.createIssue(copyData).then(res => {
+                if (res.data) {
+                    dispatch({ type: CREATE_ISSUE, payload: res.data.success })
+                }
+            })
+        })
+        .catch(error => {
+            throw error;
+        });
+    } else {
+        IssueApi.createIssue(copyData).then(res => {
+            if (res.data) {
+                dispatch({ type: CREATE_ISSUE, payload: res.data.success })
+            }
+        })
+    }
 }
 
+export const resetCreateIssueStatus = () => dispatch => {
+    dispatch({ type: RESET_CREATE_ISSUE_STATUS })
+}
 export const getIssueType = (data) => dispatch => {
      IssueApi.getIssueType(data).then(res => {
         if (res.data) {
@@ -61,7 +89,7 @@ export const changeAddIssueFormValue = (key, value) => dispatch => {
             const url = eventBase64.target.result;
             const filename = value.name;
     
-            const file = { id: filename, value, filename, url, }
+            const file = { id: filename, raw: value, filename, url, }
             dispatch({ type: CHANGE_ADD_ISSUE_VALUE, payload: { key, file }});
         };
         readerBase64.readAsDataURL(value);

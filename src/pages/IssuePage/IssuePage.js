@@ -1,17 +1,16 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
-import "../../styleSheets/sass/components/Issue/IssueView.scss"
-import imgUser from '../../assets/img/avatar5.png'
-import AddIssueView from './AddIssuePage/index'
-import EditIssueView from './EditIssuePage/index'
-import MultiSelect from '../../components/multiSelect'
-import _ from 'lodash'
-
+import "../../styleSheets/sass/components/Issue/IssueView.scss";
+import imgUser from "../../assets/img/avatar5.png";
+import AddIssueView from "./AddIssuePage/index";
+import EditIssueView from "./EditIssuePage/index";
+import MultiSelect from "../../components/multiSelect";
+import _ from "lodash";
 
 // class ContentEditable extends React {
 //   render() {
-//       return <div 
-//           onInput={this.emitChange} 
+//       return <div
+//           onInput={this.emitChange}
 //           onBlur={this.emitChange}
 //           contentEditable
 //           dangerouslySetInnerHTML={{__html: this.props.html}}></div>;
@@ -34,9 +33,18 @@ import _ from 'lodash'
 //       this.lastHtml = html;
 //   }
 // };
+var parser = new DOMParser();
+
+// var htmlDoc = parser.parseFromString(txt, 'text/html');
 
 const IssuePage = props => {
-  const { listIssue, openAddIssueModal, selectIssue, issueInfo, closeIssueDetail,  } = props
+  const {
+    listIssue,
+    openAddIssueModal,
+    selectIssue,
+    issueInfo,
+    closeIssueDetail
+  } = props;
   // console.log(listIssue)
   // console.log(issueInfo)
   return (
@@ -58,59 +66,131 @@ const IssuePage = props => {
               <div className="list-group">
                 {listIssue.map((issue, index) => {
                   return (
-                    <a href="#" className="list-group-item list-group-item-action" key={index} onClick={() => { selectIssue(issue) }}>
+                    <a
+                      href="#"
+                      className="list-group-item list-group-item-action"
+                      key={index}
+                      onClick={() => {
+                        selectIssue(issue);
+                      }}
+                    >
                       <div>
-                        <div><i className="fa fa-trello"></i> {issue.issueKey}</div>
+                        <div>
+                          <i className="fa fa-trello" /> {issue.issueKey}
+                        </div>
                         <div>{issue.summary}</div>
                       </div>
                     </a>
-                  )
+                  );
                 })}
               </div>
             </div>
             <div className="box-footer">
-              <button type="button" className="btn btn-default" onClick={() => openAddIssueModal()}>
-                <i className="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
+              <button
+                type="button"
+                className="btn btn-default"
+                onClick={() => openAddIssueModal()}
+              >
+                <i
+                  className="fa fa-plus"
+                  title="Edit"
+                  style={{ fontSize: "11px" }}
+                />{" "}
+                &nbsp;Create issue
+              </button>
             </div>
           </div>
         </div>
-        {!_.isEmpty(issueInfo) &&
+        {!_.isEmpty(issueInfo) && (
           <div id="issue-detail-collapse" className="col-md-8 ">
             <div className="box box-success">
               <div className="box-header with-border">
                 <h3 className="box-title">Issue Details</h3>
                 <div className="box-tools pull-right">
-                <button type="button" className="btn btn-box-tool" onClick={()=>closeIssueDetail()}><i className="fa fa-times"></i></button>
-              </div>
+                  <button
+                    type="button"
+                    className="btn btn-box-tool"
+                    onClick={() => closeIssueDetail()}
+                  >
+                    <i className="fa fa-times" />
+                  </button>
+                </div>
               </div>
               <div className="box-body">
                 <div>
-                  <div><i className="fa fa-trello"></i> {issueInfo.issueKey}</div>
+                  <div>
+                    <i className="fa fa-trello" /> {issueInfo.issueKey}
+                  </div>
                 </div>
-                <div id="edit" >
+                <div id="edit">
                   <h3>{issueInfo.summary}</h3>
                 </div>
                 <div className="btn-group m-b-5">
-                  <button type="button" className="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-editissue"><i className="fa fa-edit" title="Edit"></i> Edit</button>
+                  <button
+                    type="button"
+                    className="btn btn-default btn-sm"
+                    data-toggle="modal"
+                    data-target="#modal-editissue"
+                  >
+                    <i className="fa fa-edit" title="Edit" /> Edit
+                  </button>
                 </div>
                 <div className="btn-group m-b-5">
-                  <button type="button" className="btn btn-default btn-sm"><i className="fa fa-commenting-o" title="Comment"></i> Comment</button>
+                  <button type="button" className="btn btn-default btn-sm">
+                    <i className="fa fa-commenting-o" title="Comment" /> Comment
+                  </button>
                 </div>
                 <div className="btn-group m-b-5">
-                  <button type="button" className="btn btn-default btn-sm m-b-1"> Assign</button>
-                  <button type="button" className="btn btn-default btn-sm m-b-1 dropdown-toggle" data-toggle="dropdown">More &nbsp;<i className="fa fa-angle-down"></i></button>
+                  <button
+                    type="button"
+                    className="btn btn-default btn-sm m-b-1"
+                  >
+                    {" "}
+                    Assign
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-default btn-sm m-b-1 dropdown-toggle"
+                    data-toggle="dropdown"
+                  >
+                    More &nbsp;<i className="fa fa-angle-down" />
+                  </button>
                   <ul className="dropdown-menu" role="menu">
-                    <li><a href="#">Log work</a></li>
-                    <li className="divider"></li>
-                    <li><a href="#">Create a sub-task</a></li>
-                    <li className="divider"></li>
-                    <li><a href="#">Delete</a></li>
+                    <li>
+                      <a href="#">Log work</a>
+                    </li>
+                    <li className="divider" />
+                    <li>
+                      <a href="#">Create a sub-task</a>
+                    </li>
+                    <li className="divider" />
+                    <li>
+                      <a href="#">Delete</a>
+                    </li>
                   </ul>
                 </div>
                 <div className="btn-group m-b-5">
-                  <button type="button" className="btn btn-primary btn-sm m-b-1"> To Do</button>
-                  <button type="button" className="btn btn-warning btn-sm m-b-1"> In Progress</button>
-                  <button type="button" className="btn btn-success btn-sm m-b-1"> Done</button>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm m-b-1"
+                  >
+                    {" "}
+                    To Do
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-warning btn-sm m-b-1"
+                  >
+                    {" "}
+                    In Progress
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-success btn-sm m-b-1"
+                  >
+                    {" "}
+                    Done
+                  </button>
                 </div>
                 <div className="col-md-8 p-l-0">
                   <div className="box-body">
@@ -119,11 +199,16 @@ const IssuePage = props => {
                         <div className="box-header with-border pd-0">
                           <h4 className="box-title">
                             <a data-toggle="collapse" href="#collapseDetail">
-                              <h5><b>Details</b></h5>
+                              <h5>
+                                <b>Details</b>
+                              </h5>
                             </a>
                           </h4>
                         </div>
-                        <div id="collapseDetail" className="panel-collapse collapse in">
+                        <div
+                          id="collapseDetail"
+                          className="panel-collapse collapse in"
+                        >
                           <div className="box-body">
                             <div className="col-md-4">
                               <ul className="list-unstyled">
@@ -138,14 +223,17 @@ const IssuePage = props => {
                             <div className="col-md-8">
                               <ul className="list-unstyled">
                                 <li>{(issueInfo.issueType || {}).type}</li>
-                                <li><span className="label label-primary">{(issueInfo.workflow || {}).name}</span></li>
+                                <li>
+                                  <span className="label label-primary">
+                                    {(issueInfo.workflow || {}).name}
+                                  </span>
+                                </li>
                                 <li>High</li>
                                 <li>Version 2.0</li>
                                 <li>None</li>
                                 <li>{(issueInfo.sprint || {}).name}</li>
                               </ul>
                             </div>
-
                           </div>
                         </div>
                       </div>
@@ -154,126 +242,231 @@ const IssuePage = props => {
                         <div className="box-header with-border pd-0">
                           <h4 className="box-title">
                             <a data-toggle="collapse" href="#collapseDes">
-                              <h5><b>Description</b></h5>
+                              <h5>
+                                <b>Description</b>
+                              </h5>
                             </a>
                           </h4>
                         </div>
-                        <div id="collapseDes" className="panel-collapse collapse in">
-                          <div className="box-body">
-                            {issueInfo.description}
-                          </div>
+                        <div
+                          id="collapseDes"
+                          className="panel-collapse collapse in"
+                        >
+                          <div className="box-body" dangerouslySetInnerHTML={{__html: `${issueInfo.description || ''}`}} />
+                            {/* {parser.parseFromString(issueInfo.description, 'text/html')}
+                          </div> */}
                         </div>
                       </div>
+
+                      {issueInfo.attachs.length > 0 && (
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a data-toggle="collapse" href="#collapseDes">
+                                <h5>
+                                  <b>Attachments</b>
+                                </h5>
+                              </a>
+                            </h4>
+                          </div>
+                          <div
+                            id="collapseDes"
+                            className="panel-collapse collapse in"
+                          >
+                            <div className="box-body">
+                            {issueInfo.attachs.map((item, aIdx) => {
+                              return (
+                                <img
+                                key={aIdx}
+                                src={item}
+                                alt="Image"
+                                className="dnd-item"
+                                style={{ maxWidth: "150px" }}
+                              />
+                              )
+                            })}
+                             
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       <div className="panel m-b-0">
                         <div className="box-header with-border pd-0">
                           <h4 className="box-title">
                             <a data-toggle="collapse" href="#collapseSub">
-                              <h5><b>Sub-Tasks</b></h5>
+                              <h5>
+                                <b>Sub-Tasks</b>
+                              </h5>
                             </a>
                           </h4>
+                                <a className="right cursor-pointer"><i class="fa fa-plus"></i></a>
                         </div>
-                        {!_.isEmpty(issueInfo.subtasks) &&
-                          <div id="collapseSub" className="panel-collapse collapse in">
+                        {!_.isEmpty(issueInfo.subtasks) && (
+                          <div
+                            id="collapseSub"
+                            className="panel-collapse collapse in"
+                          >
                             <div className="box-body">
-                              <table id="issuetable" className="table table-bordered table-hover">
+                              <table
+                                id="issuetable"
+                                className="table table-bordered table-hover"
+                              >
                                 <tbody>
                                   <tr>
                                     <td>1. </td>
-                                    <td ><div className="summary">Update task status by dragging and dropping from column to column >>
-                                  Try dragging this task to "Done"</div></td>
-                                    <td><i className="fa fa-clone" title="The sub-task of the issue"></i></td>
-                                    <td><span className="label label-default">TO DO</span></td>
-                                    <td><div className="summary">minhchuongqt@gmail.com</div></td>
+                                    <td>
+                                      <div className="summary">
+                                        Update task status by dragging and
+                                        dropping from column to column >> Try
+                                        dragging this task to "Done"
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <i
+                                        className="fa fa-clone"
+                                        title="The sub-task of the issue"
+                                      />
+                                    </td>
+                                    <td>
+                                      <span className="label label-default">
+                                        TO DO
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <div className="summary">
+                                        minhchuongqt@gmail.com
+                                      </div>
+                                    </td>
                                   </tr>
                                   <tr>
                                     <td>1. </td>
-                                    <td ><div className="summary">Update task status by dragging and dropping from column to column >>
-                                  Try dragging this task to "Done"</div></td>
-                                    <td><i className="fa fa-clone" title="The sub-task of the issue"></i></td>
-                                    <td><span className="label label-default">TO DO</span></td>
-                                    <td><div className="summary">minhchuongqt@gmail.com</div></td>
+                                    <td>
+                                      <div className="summary">
+                                        Update task status by dragging and
+                                        dropping from column to column >> Try
+                                        dragging this task to "Done"
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <i
+                                        className="fa fa-clone"
+                                        title="The sub-task of the issue"
+                                      />
+                                    </td>
+                                    <td>
+                                      <span className="label label-default">
+                                        TO DO
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <div className="summary">
+                                        minhchuongqt@gmail.com
+                                      </div>
+                                    </td>
                                   </tr>
                                 </tbody>
                               </table>
                             </div>
                           </div>
-                        }
+                        )}
                       </div>
 
                       <div className="panel m-b-0">
                         <div className="box-header with-border pd-0">
                           <h4 className="box-title">
                             <a data-toggle="collapse" href="#collapseActivity">
-                              <h5><b>Activity</b></h5>
+                              <h5>
+                                <b>Activity</b>
+                              </h5>
                             </a>
                           </h4>
                         </div>
-                        {!_.isEmpty(issueInfo.subtasks) &&
-                          <div id="collapseActivity" className="panel-collapse collapse in">
+                        {!_.isEmpty(issueInfo.subtasks) && (
+                          <div
+                            id="collapseActivity"
+                            className="panel-collapse collapse in"
+                          >
                             <div className="box-body box-comments comments-conf">
                               <div className="box-comment">
                                 <div className="col-md-8">
-                                  <img className="img-circle img-activity" src={imgUser} alt="User Image" />
+                                  <img
+                                    className="img-circle img-activity"
+                                    src={imgUser}
+                                    alt="User Image"
+                                  />
                                   <div className="comment-text">
                                     <a className="email">
-                                      &nbsp;
-                                      phamhongcang.qng@gmail.com
-                                      &nbsp;
-                              </a>
+                                      &nbsp; phamhongcang.qng@gmail.com &nbsp;
+                                    </a>
                                     created issue acbsdsdsse sdskdj
-                            </div>
+                                  </div>
                                 </div>
                                 <div className="col-md-4">
-                                  <span className="text-muted pull-right">07/Mar/19 10:12 AM</span>
+                                  <span className="text-muted pull-right">
+                                    07/Mar/19 10:12 AM
+                                  </span>
                                 </div>
                               </div>
 
                               <div className="box-comment">
                                 <div className="col-md-8">
-                                  <img className="img-circle img-activity" src={imgUser} alt="User Image" />
+                                  <img
+                                    className="img-circle img-activity"
+                                    src={imgUser}
+                                    alt="User Image"
+                                  />
                                   <div className="comment-text">
                                     <a className="email">
                                       &nbsp;
                                       phamhongcSDSSDDSDSDSDSDSang.qng@gmail.com
                                       &nbsp;
-                              </a>
+                                    </a>
                                     created issue acbsdsdsse sdskdj
-                            </div>
+                                  </div>
                                 </div>
                                 <div className="col-md-4">
-                                  <span className="text-muted pull-right">07/Mar/19 10:12 AM</span>
+                                  <span className="text-muted pull-right">
+                                    07/Mar/19 10:12 AM
+                                  </span>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        }
+                        )}
                       </div>
-
-
                     </div>
                   </div>
                 </div>
 
                 <div className="col-md-4 p-l-0">
                   <div className="box-body">
-                    <div className="box-group" >
+                    <div className="box-group">
                       <div className="panel m-b-0">
                         <div className="box-header with-border pd-0">
                           <h4 className="box-title">
                             <a data-toggle="collapse" href="#collapsePeople">
-                              <h5><b>People</b></h5>
+                              <h5>
+                                <b>People</b>
+                              </h5>
                             </a>
                           </h4>
                         </div>
 
-                        <div id="collapsePeople" className="panel-collapse collapse in">
+                        <div
+                          id="collapsePeople"
+                          className="panel-collapse collapse in"
+                        >
                           <div className="box-body">
                             {/* {!_.isEmpty(issueInfo.assignees) && */}
-                              <ul className="list-unstyled">
-                                <li>Assignee:</li>
-                                <li><MultiSelect onBlur={() => console.log('bur')}/></li>
-                              </ul>
+                            <ul className="list-unstyled">
+                              <li>Assignee:</li>
+                              <li>
+                                <MultiSelect
+                                  onBlur={() => console.log("bur")}
+                                />
+                              </li>
+                            </ul>
                             {/* } */}
                             <ul className="list-unstyled">
                               <li>Creator:</li>
@@ -287,11 +480,16 @@ const IssuePage = props => {
                         <div className="box-header with-border pd-0">
                           <h4 className="box-title">
                             <a data-toggle="collapse" href="#collapseDate">
-                              <h5><b>Dates</b></h5>
+                              <h5>
+                                <b>Dates</b>
+                              </h5>
                             </a>
                           </h4>
                         </div>
-                        <div id="collapseDate" className="panel-collapse collapse in">
+                        <div
+                          id="collapseDate"
+                          className="panel-collapse collapse in"
+                        >
                           <div className="box-body">
                             <ul className="list-unstyled">
                               <li>Created:</li>
@@ -304,22 +502,16 @@ const IssuePage = props => {
                           </div>
                         </div>
                       </div>
-
-
                     </div>
                   </div>
-
                 </div>
               </div>
-
-
             </div>
           </div>
-        }
+        )}
       </div>
-
-    </div >
-  )
+    </div>
+  );
 };
 
 export default IssuePage;

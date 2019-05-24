@@ -7,6 +7,8 @@ import {
   SELECT_ISSUE,
   REMOVE_FILE_IN_ADD_FORM_VALUE,
   GET_LIST_USER,
+  CREATE_ISSUE,
+  RESET_CREATE_ISSUE_STATUS
 } from "../../constants/types/issue";
 import { combineReducers } from "redux";
 import _ from 'lodash'
@@ -57,7 +59,7 @@ const addIssueFormValue = (state = { attachs: [] }, action) => {
     case CHANGE_ADD_ISSUE_VALUE:
       const { key, value } = payload;
       if (key === "attachs") {
-          copyState[key].push(payload.file)
+          copyState.attachs.push(payload.file)
       } else {
          copyState[key] = value
       }
@@ -65,12 +67,25 @@ const addIssueFormValue = (state = { attachs: [] }, action) => {
     case REMOVE_FILE_IN_ADD_FORM_VALUE:
        return {...copyState, attachs: copyState.attachs.filter(file => file.id !== payload.id)}
     //    return copyState
-    case RESET_ADD_ISSUE_VALUE:
-      return {};
+    case RESET_CREATE_ISSUE_STATUS:
+      return {attachs:[]};
     default:
       return state;
   }
 };
+
+
+const createIssueStatus = (state = false, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case CREATE_ISSUE:
+      return payload;
+    case RESET_CREATE_ISSUE_STATUS:
+      return false;
+    default:
+      return state;
+  }
+}
 
 const selectedIssue = (state = {}, action) => {
   const { type, payload } = action;
@@ -88,7 +103,8 @@ const IssueState = combineReducers({
   addIssueFormValue,
   issueInfo,
   selectedIssue,
-  listUser
+  listUser,
+  createIssueStatus
 });
 
 export default IssueState;

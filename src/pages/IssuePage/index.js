@@ -9,7 +9,7 @@ import * as projectSelectors from "../../selectors/project";
 import * as userSelectors from "../../selectors/user";
 import AddIssueModal from "./AddIssueModal";
 import TestDialog from "../../components/modal";
-import toast from "react-toastify";
+import {toast} from "react-toastify";
 
 class IssuePageContainer extends Component {
   constructor(props) {
@@ -37,7 +37,8 @@ class IssuePageContainer extends Component {
     if (createIssueStatus) {
       toast.success("Create issue successfully");
       this.setState({ isOpenAddIssueModal: false });
-      this.props.getListIssue();
+      this.getListIssue();
+      this.props.resetCreateIssueStatus()
     }
   }
 
@@ -52,7 +53,12 @@ class IssuePageContainer extends Component {
 
   getListIssue = () => {
     const query = {
-      ...this.getBaseOption()
+      query: JSON.stringify({
+        project: this.props.selectedProject._id
+      }),
+      sort: JSON.stringify({
+        createdAt: -1
+      })
     };
     this.props.getIssueList(query);
   };
@@ -130,7 +136,7 @@ class IssuePageContainer extends Component {
     console.log(this.props.addIssueValueForApi)
     // if (this.validate(data)) {
     //     toast.success("OK")
-    //     this.props.createIssue(data)
+    this.props.createIssue(this.props.addIssueValueForApi)
         
     // }
     
@@ -173,18 +179,18 @@ class IssuePageContainer extends Component {
       sprintTypeSelectable,
       addIssueValue,
       issueInfo,
-      selectedIssue,
+      // selectedIssue,
       assigneeSelectable,
       userInfo
     } = this.props;
     const { isOpenAddIssueModal } = this.state;
-    // console.log(this.props)
+    // console.log(selectedIssue)
     return (
       <div>
         <IssuePageView
           listIssue={listIssue}
           issueInfo={issueInfo}
-          selectedIssue={selectedIssue}
+          // selectedIssue={selectedIssue}
           openAddIssueModal={this.openAddIssueModal}
           closeIssueDetail={this.closeIssueDetail}
           selectIssue={issue => this.selectIssue(issue)}
@@ -214,7 +220,7 @@ const mapState = state => {
   issue: state.IssueState,
   listIssue: selectors.getListIssue(state),
   selectedProject: projectSelectors.getSelectedProject(state),
-  selectedIssue: selectors.getSelectedIssue(state),
+  // selectedIssue: selectors.getSelectedIssue(state),
   createIssueStatus: selectors.getCreateIssueStatus(state),
   sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
   assigneeSelectable: selectors.getAssigneeSelectable(state),
@@ -223,7 +229,7 @@ const mapState = state => {
   addIssueValueForApi: selectors.generateDataForAddIssue(state),
   issueInfo: selectors.getIssueInfo(state),
   userInfo: userSelectors.getUserInfo(state)
-
+  
 }
 };
 
@@ -258,6 +264,9 @@ const mapDispatchToProps = dispatch => ({
   },
   onRemoveFile(id) {
     dispatch(actions.onRemoveFile(id))
+  },
+  resetCreateIssueStatus() {
+    dispatch(actions.resetCreateIssueStatus())
   }
 });
 

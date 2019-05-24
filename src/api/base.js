@@ -39,9 +39,38 @@ export const remove = (path) => {
   ).delete(path);
 }
 
+export const  uploadFile = (file) => {
+  let body = new FormData();
+  body.append('file', file);
+  return createFetch(
+    {headers: {
+     'Content-Type': 'application/json',
+      'access-token': sessionStorage.getItem('access-token')|| ''
+    }}
+  ).post('/upload', body);
+  // const headers = {
+  //   'Content-Type': 'application/json',
+  //   'access-token': sessionStorage.getItem('access-token')|| ''
+  // };
+
+  // let request = create({
+  //   baseURL: Urls.baseUrl,
+  //   headers: headers,
+  //   timeout: timeout
+  // });
+
+  // let body = new FormData();
+  // body.append('file', file);
+
+  // return request.post(Urls.upload, body).then(res => {
+  //   return res.data || {};
+  // });
+}
+
 export default {
     get,
     post,
     put,
-    remove
+    remove,
+    uploadFile
 }
