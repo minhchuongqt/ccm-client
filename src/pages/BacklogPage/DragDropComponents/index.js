@@ -105,7 +105,16 @@ class DragDropComponents extends React.Component {
       title: "Backlog",
       taskIds: []
     };
+    let sprintActived = false;
+    this.state.columnOrder.map((columnId, index) => {
+      const column = this.state.columns[columnId];
+      if(column.active) {
+        sprintActived = true;
+      }
+    })
+    
     const { openAddSprintModal, initialData, openAddIssueModal } = this.props
+    // console.log(this.props)
     return (
       <div>
         <div className="create-sprint">
@@ -127,19 +136,18 @@ class DragDropComponents extends React.Component {
           {this.state.columnOrder.map((columnId, index) => {
             const column = this.state.columns[columnId];
             const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
+            
             // const isDropDisabled = index < this.state.homeIndex;
             if (index === this.state.columnOrder.length - 2) {
               return (
-                <div>
-
-
-                  <div key={column.id}>
-
+                <div key={column.id}>
+                  <div >
                     <Column
                       openAddIssueModal={openAddIssueModal}
                       column={column}
                       tasks={tasks}
                       index={index}
+                      sprintActived = {sprintActived}
                       onClick={(task) => this.props.onClick(task)}
                     />
                     <div className="create-sprint">
@@ -160,10 +168,12 @@ class DragDropComponents extends React.Component {
               return (
                 <Column
                   openAddIssueModal={openAddIssueModal}
+                  sprintActived = {sprintActived}
                   key={column.id}
                   column={column}
                   tasks={tasks}
                   index={index}
+                  onClick={(task) => this.props.onClick(task)}
                 />
               );
             }

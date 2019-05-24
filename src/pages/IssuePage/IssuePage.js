@@ -6,7 +6,7 @@ import AddIssueView from "./AddIssuePage/index";
 import EditIssueView from "./EditIssuePage/index";
 import MultiSelect from "../../components/multiSelect";
 import _ from "lodash";
-
+import {API} from "../../config"
 // class ContentEditable extends React {
 //   render() {
 //       return <div
@@ -45,7 +45,7 @@ const IssuePage = props => {
     issueInfo,
     closeIssueDetail
   } = props;
-  // console.log(listIssue)
+  console.log(listIssue)
   // console.log(issueInfo)
   return (
     <div id="issue-view">
@@ -76,9 +76,10 @@ const IssuePage = props => {
                     >
                       <div>
                         <div>
-                          <i className="fa fa-trello" /> {issue.issueKey}
+                          <div><span>{issue.summary}</span></div>
+                          {(issue.issueType || {}).iconUrl &&
+                            <img src={API + (issue.issueType || {}).iconUrl} />}&nbsp;<span className="com">{issue.issueKey}</span>
                         </div>
-                        <div>{issue.summary}</div>
                       </div>
                     </a>
                   );
@@ -300,7 +301,7 @@ const IssuePage = props => {
                               </h5>
                             </a>
                           </h4>
-                                <a className="right cursor-pointer"><i class="fa fa-plus"></i></a>
+                                <a className="right cursor-pointer"><i className="fa fa-plus"></i></a>
                         </div>
                         {!_.isEmpty(issueInfo.subtasks) && (
                           <div
