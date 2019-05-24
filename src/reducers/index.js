@@ -5,6 +5,7 @@ import UserState from './User/user'
 import GroupState from './Group/group'
 import IssueState from './Issue/issue'
 import BacklogState from './Backlog/backlog'
+import WorkflowState from './Workflow/workflow'
 
 const rootReducer = combineReducers({
     LoginState,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     GroupState,
     IssueState,
     BacklogState,
+    WorkflowState
 });
 
 export default rootReducer;

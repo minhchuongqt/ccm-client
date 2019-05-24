@@ -16,7 +16,6 @@ const BacklogPage = props => {
           <BreadcrumbItem active>Backlog</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      <EditSprintPageView/>
       <div className="row height-fill">
         <div className="col-md-7 p-r-0 scroll-detail">
         <DragDropComponent openAddIssueModal = {data => openAddIssueModal(data)} onClick={(task)=> console.log(task)} initialData={initialData || {}} openAddSprintModal={openAddSprintModal}/>
