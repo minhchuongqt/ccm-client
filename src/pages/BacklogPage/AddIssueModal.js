@@ -29,7 +29,7 @@ const AddIssueModal = props => {
     onAddFile,
     onRemoveFile
   } = props;
-  console.log(addIssueFormValue)
+  // console.log(addIssueFormValue)
   return (
     <Modal isOpen={openModal} title="Create Issue" closeModal={closeModal}>
       <div className="form-horizontal">

@@ -14,7 +14,7 @@ const AddSprintModal = props => {
     openModal,
     data,
   } = props;
-  console.log('sprint modal', openModal)
+  // console.log('sprint modal', openModal)
   return (
     <Modal isOpen={openModal} title="Create Sprint" closeModal={closeModal} >
       {/* <div className="modal fade" id="modal-addsprint"> */}

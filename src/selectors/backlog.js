@@ -2,6 +2,7 @@
 import moment from 'moment'
 import _ from 'lodash'
 import { createSelector } from 'reselect'
+import {API} from '../config'
 //params
 
 export const listSprint = ({BacklogState}) => {
@@ -69,8 +70,10 @@ export const getInitalData = createSelector (
         issues.map(issue => {
             result.tasks[issue._id] = {
             ...issue,
+            completed: (issue.workflow || {}).type == 'DONE' ? true : false,
             id: issue._id,
-            content: issue.summary
+            content: issue.summary,
+            iconUrl: issue.issueType && issue.issueType.iconUrl ? (API + issue.issueType.iconUrl) : null
             }
             if(sprints && issue.sprint && issue.sprint._id) {
                 result.columns[issue.sprint._id] && result.columns[issue.sprint._id].taskIds.push(issue._id)
