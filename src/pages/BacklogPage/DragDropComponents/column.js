@@ -22,12 +22,21 @@ const TaskList = styled.div`
 `
 export default class Column extends React.Component {
   render() {
-    const { openAddIssueModal } = this.props
-    console.log(openAddIssueModal)
+    const { openAddIssueModal, startSprint } = this.props
     return (
       <Container>
         <div className="box box-success" >
-        <Title>{this.props.column.title}</Title>
+          <div className="btn-group pull-right p-d-9">
+            <button
+              type="button"
+              className="btn btn-xs btn-primary"
+              // onClick={() => console.log(this.props.column.id)}
+              onClick={() => startSprint(this.props.column.id)}
+            >
+              <strong>Start sprint</strong>
+            </button>
+        </div>
+        <div><Title>{this.props.column.title}</Title></div>
         <Droppable 
         droppableId={this.props.column.id}
         isDropDisabled={this.props.isDropDisabled}

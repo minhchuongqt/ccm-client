@@ -18,7 +18,7 @@ class AddIssueModalContainer extends Component {
     const params = {
         query: JSON.stringify({
             project: this.props.selectedProject._id,
-            completed: false,
+            // completed: false,
 
         }),
         sort: JSON.stringify({

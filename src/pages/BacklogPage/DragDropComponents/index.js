@@ -108,17 +108,6 @@ class DragDropComponents extends React.Component {
     const { openAddSprintModal, initialData, openAddIssueModal } = this.props
     return (
       <div>
-        <div className="create-sprint">
-          <div className="btn-group pull-right">
-            <button
-              type="button"
-              className="btn btn-success"
-              onClick={data => openAddIssueModal(data)}
-            >
-              Start sprint
-                </button>
-          </div>
-        </div>
         <DragDropContext
           onDragStart={this.onDragStart}
           // onDragUpdate={this.onDragUpdate}
@@ -134,8 +123,9 @@ class DragDropComponents extends React.Component {
 
 
                   <div key={column.id}>
-
+                    
                     <Column
+                      startSprint
                       openAddIssueModal={openAddIssueModal}
                       column={column}
                       tasks={tasks}
@@ -149,7 +139,7 @@ class DragDropComponents extends React.Component {
                           className="btn btn-success"
                           onClick={data => openAddSprintModal(data)}
                         >
-                          Create sprintss
+                          Create sprint
                     </button>
                       </div>
                     </div>
