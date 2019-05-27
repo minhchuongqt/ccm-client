@@ -29,10 +29,10 @@ class IssuePageContainer extends Component {
   }
 
   componentWillMount() {
-    this.getListIssue();
-    this.getListUser();
     this.props.getIssueType(this.getBaseOption());
     this.props.getPriority(this.getBaseOption());
+    this.getListIssue();
+    this.getListUser();
   }
 
   componentWillReceiveProps(newProps) {
@@ -211,7 +211,8 @@ class IssuePageContainer extends Component {
           openAddIssueModal={this.openAddIssueModal}
           closeIssueDetail={this.closeIssueDetail}
           selectIssue={issue => this.selectIssue(issue)}
-          // assignFocus = {this.assignFocus}
+          assigneeSelectable={assigneeSelectable}
+          prioritySelectable={prioritySelectable}
           onFocus = {e => this.onFocus(e)}
         />
         <AddIssueModal

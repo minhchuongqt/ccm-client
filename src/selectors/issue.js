@@ -24,27 +24,6 @@ export const getListIssue = ({IssueState}) => {
 
 // export const getSelectedIssue = () => JSON.parse(localStorage.getItem('selectedIssue')) || {}
 
-export const getIssueInfo = createSelector(
-    [
-        ({IssueState}) => IssueState.issueInfo,
-        getListIssue
-    ], (selectedIssue, listIssue) => {
-        console.log(listIssue)
-        console.log(selectedIssue)
-        let result = {}
-        if(_.isEmpty(selectedIssue)) {
-            result = (listIssue[0]) || {}
-        } else {
-            result = selectedIssue || {}
-        }
-        return {...result,
-            attachs: (result.attachs || []).map(item => item && API + item),
-            createdDate: moment(result.createdAt).format('MMM DD, YYYY'),
-            updatedDate: moment(result.updatedAt).format('MMM DD, YYYY')
-        }
-    }
-)
-
 export const getListIssueType = ({IssueState}) => {
     if(_.isEmpty(IssueState.issueType)) return []
     return IssueState.issueType
@@ -85,7 +64,7 @@ export const getPrioritySelectable = ({IssueState}) => {
             iconUrl: API + item.iconUrl,
         }
         ))
-    result = priority ?  result.filter(item => (item.value !== priority.value) && item ) : result
+    
     return result
 }
 
@@ -113,8 +92,35 @@ export const getAssigneeSelectable = ({IssueState}) => {
         {
             label: item.member.displayName,
             value: item.member._id,
-            iconUrl: API + item.member.iconUrl,
+            iconUrl: API + item.member.avatarUrl,
         }
     ))
     return result
 }
+
+export const getIssueInfo = createSelector(
+    [
+        ({IssueState}) => IssueState.issueInfo,
+        getListIssue,
+        getAssigneeSelectable,
+        getPrioritySelectable,
+    ], (selectedIssue, listIssue, assigneeSelectable, prioritySelectable) => {
+        console.log(prioritySelectable)
+        let result = {}
+        if(_.isEmpty(selectedIssue)) {
+            result = (listIssue[0]) || {}
+        } else {
+            result = selectedIssue || {}
+        }
+        console.log(result.priority)
+        const assignee = result.assignee ? result.assignee.map(item => assigneeSelectable.find(a => item == a.value)) : [];
+        const priority = result.priority ?  prioritySelectable.find(a => a.value == result.priority._id) : {};
+        return {...result,
+            assignee,
+            priority,
+            attachs: (result.attachs || []).map(item => item && API + item),
+            createdDate: moment(result.createdAt).format('MMM DD, YYYY'),
+            updatedDate: moment(result.updatedAt).format('MMM DD, YYYY')
+        }
+    }
+)

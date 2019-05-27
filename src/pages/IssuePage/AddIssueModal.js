@@ -34,6 +34,7 @@ const AddIssueModal = props => {
     prioritySelectable
   } = props;
   console.log(prioritySelectable)
+  let selectablePriority = addIssueFormValue.priority ?  prioritySelectable.filter(item => (item.value !== addIssueFormValue.priority.value) && item ) : prioritySelectable
   // console.log(assigneeSelectable)
   return (
     <Modal isOpen={openModal} title="Create Issue" closeModal={closeModal}>
@@ -143,7 +144,7 @@ const AddIssueModal = props => {
             <label className="col-sm-3 control-label">Priority</label>
               <div className="col-sm-9">
                 <SearchSelect
-                  options={prioritySelectable}
+                  options={selectablePriority}
                   value={addIssueFormValue.priority}
                   onChange={e => onChangeValue("priority", e)}
                 />
