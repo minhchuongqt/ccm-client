@@ -89,7 +89,7 @@ body
   padding: 0 10px;
   font-size: 16px;
   position: relative;
-  z-index: 30;
+  /* z-index: 30; */
 }
 .bring-up {
   position: relative;
@@ -623,7 +623,7 @@ li.L9 {
 
 p {
   position: relative;
-  z-index: 1;
+  
 }
 
 .x-60 {

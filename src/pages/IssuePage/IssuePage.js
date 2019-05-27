@@ -33,9 +33,19 @@ import {API} from "../../config"
 //       this.lastHtml = html;
 //   }
 // };
-var parser = new DOMParser();
 
-// var htmlDoc = parser.parseFromString(txt, 'text/html');
+const generateClassForIssueStatus = (status) => {
+  switch (status) {
+    case 'TODO':
+      return 'label-default'
+    case 'INPROGRESS':
+      return 'label-primary'
+    case 'DONE':
+      return 'label-success'
+    default:
+      return '';
+  }
+}
 
 const IssuePage = props => {
   const {
@@ -43,10 +53,12 @@ const IssuePage = props => {
     openAddIssueModal,
     selectIssue,
     issueInfo,
-    closeIssueDetail
+    closeIssueDetail,
+    // assignFocus,
+    onFocus
   } = props;
-  console.log(listIssue)
-  // console.log(issueInfo)
+  // console.log(listIssue)
+  console.log(issueInfo)
   return (
     <div id="issue-view">
       <div>
@@ -108,16 +120,16 @@ const IssuePage = props => {
               <div className="box-header with-border">
                 <h3 className="box-title">Issue Details</h3>
                 <div className="box-tools pull-right">
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-box-tool"
                     onClick={() => closeIssueDetail()}
                   >
                     <i className="fa fa-times" />
-                  </button>
+                  </button> */}
                 </div>
               </div>
-              <div className="box-body">
+              {issueInfo.summary && <div className="box-body">
                 <div>
                   <div>
                     <i className="fa fa-trello" /> {issueInfo.issueKey}
@@ -144,7 +156,9 @@ const IssuePage = props => {
                 <div className="btn-group m-b-5">
                   <button
                     type="button"
+                    htmlFor="assignFocus"
                     className="btn btn-default btn-sm m-b-1"
+                    // onClick={() => onFocus('assignFocus')}
                   >
                     {" "}
                     Assign
@@ -173,14 +187,14 @@ const IssuePage = props => {
                 <div className="btn-group m-b-5">
                   <button
                     type="button"
-                    className="btn btn-primary btn-sm m-b-1"
+                    className="btn btn-default btn-sm m-b-1"
                   >
                     {" "}
                     To Do
                   </button>
                   <button
                     type="button"
-                    className="btn btn-warning btn-sm m-b-1"
+                    className="btn btn-primary btn-sm m-b-1"
                   >
                     {" "}
                     In Progress
@@ -225,11 +239,14 @@ const IssuePage = props => {
                               <ul className="list-unstyled">
                                 <li>{(issueInfo.issueType || {}).type}</li>
                                 <li>
-                                  <span className="label label-primary">
-                                    {(issueInfo.workflow || {}).name}
+                                  <span className={'label ' + generateClassForIssueStatus((issueInfo.workflow || {}).type || '')}>
+                                    {(issueInfo.workflow || {}).name || ''}
                                   </span>
                                 </li>
-                                <li>High</li>
+                                <li><span className="">
+                                  <img src={API + (issueInfo.priority || {}).iconUrl} width="16px"/>
+                                    {(issueInfo.priority || {}).name || ''}
+                                  </span></li>
                                 <li>Version 2.0</li>
                                 <li>None</li>
                                 <li>{(issueInfo.sprint || {}).name}</li>
@@ -464,6 +481,7 @@ const IssuePage = props => {
                               <li>Assignee:</li>
                               <li>
                                 <MultiSelect
+                                  id = "assignFocus"
                                   onBlur={() => console.log("bur")}
                                 />
                               </li>
@@ -506,7 +524,7 @@ const IssuePage = props => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
         )}

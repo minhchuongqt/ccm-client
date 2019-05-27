@@ -8,7 +8,8 @@ import {
   REMOVE_FILE_IN_ADD_FORM_VALUE,
   GET_LIST_USER,
   CREATE_ISSUE,
-  RESET_CREATE_ISSUE_STATUS
+  RESET_CREATE_ISSUE_STATUS,
+  GET_PRIORITY
 } from "../../constants/types/issue";
 import { combineReducers } from "redux";
 import _ from 'lodash'
@@ -36,6 +37,16 @@ const issueType = (state = [], action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_ISSUE_TYPE:
+      return payload;
+    default:
+      return state;
+  }
+};
+
+const priority = (state = [], action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case GET_PRIORITY:
       return payload;
     default:
       return state;
@@ -104,7 +115,8 @@ const IssueState = combineReducers({
   issueInfo,
   selectedIssue,
   listUser,
-  createIssueStatus
+  createIssueStatus,
+  priority
 });
 
 export default IssueState;

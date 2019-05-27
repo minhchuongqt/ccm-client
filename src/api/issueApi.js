@@ -20,6 +20,10 @@ class IssueApi {
         return API.get('/issueType', {params});
     }
 
+    getPriority = ( params ) => {
+        return API.get('/priority', {params});
+    }
+
     getListUserToAssign = (params) => {
         return API.get('/user/list', {params})
     }

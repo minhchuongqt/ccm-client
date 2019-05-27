@@ -50,6 +50,11 @@ export const getListIssueType = ({IssueState}) => {
     return IssueState.issueType
 }
 
+export const getListPriority = ({IssueState}) => {
+    if(_.isEmpty(IssueState.priority)) return []
+    return IssueState.priority
+}
+
 export const getCreateIssueStatus = ({IssueState}) => {
     // if(_.isEmpty(IssueState.createIssueStatus)) return null
     return IssueState.createIssueStatus
@@ -57,20 +62,37 @@ export const getCreateIssueStatus = ({IssueState}) => {
 
 export const getIssueTypeSelectable = ({IssueState}) => {
     if(_.isEmpty(IssueState.issueType)) return []
-    const result =  IssueState.issueType.map(item => (
+    const { issueType } = IssueState.addIssueFormValue
+    let result =  IssueState.issueType.map(item => (
         {
             label: item.type,
             value: item._id,
             iconUrl: API + item.iconUrl,
         }
+        )
+    )
+    result = issueType ? result.filter(item => item.value !== issueType.value) : result
+    return result
+}
+
+export const getPrioritySelectable = ({IssueState}) => {
+    if(_.isEmpty(IssueState.priority)) return []
+    const { priority } = IssueState.addIssueFormValue
+    let result =  IssueState.priority.map(item => (
+        {
+            label: item.name,
+            value: item._id,
+            iconUrl: API + item.iconUrl,
+        }
         ))
+    result = priority ?  result.filter(item => (item.value !== priority.value) && item ) : result
     return result
 }
 
 export const getAddIssueFormValue = ({IssueState}) => IssueState.addIssueFormValue
 
 export const generateDataForAddIssue = ({IssueState}) => {
-     const {sprint, description, summary, issueType, attachs, assignee} = IssueState.addIssueFormValue
+     const {sprint, description, summary, issueType, attachs, assignee, priority} = IssueState.addIssueFormValue
     const project = JSON.parse(localStorage.getItem('selectedProject')) || {}
      const result = {
          project: project._id,
@@ -79,7 +101,8 @@ export const generateDataForAddIssue = ({IssueState}) => {
          summary: summary,
          issueType: (issueType || {}).value || null,
          attachs,
-         assignee: (assignee || []).map(item => item.value)
+         assignee: (assignee || []).map(item => item.value),
+         priority: (priority || {}).value || null,
         }
     return result
 }

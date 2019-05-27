@@ -22,13 +22,17 @@ class IssuePageContainer extends Component {
         sprint: null,
         description: ""
       },
-      isOpenAddIssueModal: false
+      isOpenAddIssueModal: false,
+      
     };
+    // this.assignFocus;
   }
 
   componentWillMount() {
     this.getListIssue();
-    this.getListUser()
+    this.getListUser();
+    this.props.getIssueType(this.getBaseOption());
+    this.props.getPriority(this.getBaseOption());
   }
 
   componentWillReceiveProps(newProps) {
@@ -40,6 +44,20 @@ class IssuePageContainer extends Component {
       this.getListIssue();
       this.props.resetCreateIssueStatus()
     }
+  }
+
+  onFocus = (e) => {
+    switch (e) {
+      case 'assignFocus':
+        // this.assignFocus.focus()
+        document.getElementById("assignFocus").click()
+        break;
+    
+      default:
+        break;
+    }
+    // console.log(e)
+    // this[e].focus()
   }
 
   getBaseOption = () => {
@@ -101,7 +119,6 @@ class IssuePageContainer extends Component {
     const query = {
       ...this.getBaseOption()
     };
-    this.props.getIssueType(query);
     this.getListSprint();
     this.setState({ isOpenAddIssueModal: true });
   };
@@ -179,7 +196,7 @@ class IssuePageContainer extends Component {
       sprintTypeSelectable,
       addIssueValue,
       issueInfo,
-      // selectedIssue,
+      prioritySelectable,
       assigneeSelectable,
       userInfo
     } = this.props;
@@ -194,11 +211,14 @@ class IssuePageContainer extends Component {
           openAddIssueModal={this.openAddIssueModal}
           closeIssueDetail={this.closeIssueDetail}
           selectIssue={issue => this.selectIssue(issue)}
+          // assignFocus = {this.assignFocus}
+          onFocus = {e => this.onFocus(e)}
         />
         <AddIssueModal
           openModal={isOpenAddIssueModal}
           closeModal={this.closeModal}
           userInfo={userInfo}
+          prioritySelectable={prioritySelectable}
           createIssue={data => this.createIssue(data)}
           validate={data => this.validate(data)}
           issueTypeSelectable={issueTypeSelectable}
@@ -225,6 +245,7 @@ const mapState = state => {
   sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
   assigneeSelectable: selectors.getAssigneeSelectable(state),
   issueTypeSelectable: selectors.getIssueTypeSelectable(state),
+  prioritySelectable: selectors.getPrioritySelectable(state),
   addIssueFormValue: state.IssueState.addIssueFormValue,
   addIssueValueForApi: selectors.generateDataForAddIssue(state),
   issueInfo: selectors.getIssueInfo(state),
@@ -248,6 +269,9 @@ const mapDispatchToProps = dispatch => ({
   },
   getIssueType(query) {
     dispatch(actions.getIssueType(query));
+  },
+  getPriority(query) {
+    dispatch(actions.getPriority(query));
   },
   changeAddIssueFormValue(key, value) {
     

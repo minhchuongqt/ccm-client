@@ -30,9 +30,10 @@ const AddIssueModal = props => {
     onAddFile,
     onRemoveFile,
     assigneeSelectable,
-    userInfo
+    userInfo,
+    prioritySelectable
   } = props;
-  // console.log(addIssueFormValue)
+  console.log(prioritySelectable)
   // console.log(assigneeSelectable)
   return (
     <Modal isOpen={openModal} title="Create Issue" closeModal={closeModal}>
@@ -137,6 +138,16 @@ const AddIssueModal = props => {
                 ))}
               </ul>
             </div>
+          </div>
+          <div className="form-group">
+            <label className="col-sm-3 control-label">Priority</label>
+              <div className="col-sm-9">
+                <SearchSelect
+                  options={prioritySelectable}
+                  value={addIssueFormValue.priority}
+                  onChange={e => onChangeValue("priority", e)}
+                />
+              </div>
           </div>
           <div className="form-group">
             <label className="col-sm-3 control-label">Assignee</label>
