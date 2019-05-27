@@ -1,7 +1,7 @@
 import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
     GET_ISSUE_INFO, RESET_ADD_ISSUE_VALUE, SELECT_ISSUE, REMOVE_FILE_IN_ADD_FORM_VALUE,
     GET_LIST_USER, RESET_CREATE_ISSUE_STATUS,
-    GET_PRIORITY
+    GET_PRIORITY, GET_LIST_LABEL
 } from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
 import BaseApi from '../api/base'
@@ -28,6 +28,14 @@ export const getListUser = (data) => dispatch => {
     IssueApi.getListUserToAssign(data).then(res => {
         if (res.data) {
             dispatch({ type: GET_LIST_USER, payload: res.data.data })
+        }
+    })
+}
+
+export const getListLabel = (data) => dispatch => {
+    IssueApi.getListLabel(data).then(res => {
+        if (res.data) {
+            dispatch({ type: GET_LIST_LABEL, payload: res.data.data })
         }
     })
 }

@@ -10,7 +10,10 @@ class IssueApi {
     getIssueInfo = (id, params) => {
         return API.get('/issue/' + id , {params});
     }
-    
+
+    getListLabel = (params) => {
+        return API.get('/label' , {params});
+    }
     
     createIssue = (data) => {
         return API.post('/issue', data)

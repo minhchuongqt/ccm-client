@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import IssuePageView from "./IssuePage";
 import { connect } from "react-redux";
 import * as actions from "../../actions/issue";
-import * as issueActions from "../../actions/backlog";
+import * as backlogActions from "../../actions/backlog";
 import * as selectors from "../../selectors/issue";
 import * as backlogSelectors from "../../selectors/backlog";
 import * as projectSelectors from "../../selectors/project";
@@ -31,6 +31,7 @@ class IssuePageContainer extends Component {
   componentWillMount() {
     this.props.getIssueType(this.getBaseOption());
     this.props.getPriority(this.getBaseOption());
+    this.props.getListLabel(this.getBaseOption());
     this.getListIssue();
     this.getListUser();
   }
@@ -198,6 +199,7 @@ class IssuePageContainer extends Component {
       issueInfo,
       prioritySelectable,
       assigneeSelectable,
+      labelSelectable,
       userInfo
     } = this.props;
     const { isOpenAddIssueModal } = this.state;
@@ -207,6 +209,8 @@ class IssuePageContainer extends Component {
         <IssuePageView
           listIssue={listIssue}
           issueInfo={issueInfo}
+          issueTypeSelectable={issueTypeSelectable}
+          labelSelectable={labelSelectable}
           // selectedIssue={selectedIssue}
           openAddIssueModal={this.openAddIssueModal}
           closeIssueDetail={this.closeIssueDetail}
@@ -220,6 +224,7 @@ class IssuePageContainer extends Component {
           closeModal={this.closeModal}
           userInfo={userInfo}
           prioritySelectable={prioritySelectable}
+          labelSelectable={labelSelectable}
           createIssue={data => this.createIssue(data)}
           validate={data => this.validate(data)}
           issueTypeSelectable={issueTypeSelectable}
@@ -247,6 +252,7 @@ const mapState = state => {
   assigneeSelectable: selectors.getAssigneeSelectable(state),
   issueTypeSelectable: selectors.getIssueTypeSelectable(state),
   prioritySelectable: selectors.getPrioritySelectable(state),
+  labelSelectable: selectors.getLabelSelectable(state),
   addIssueFormValue: state.IssueState.addIssueFormValue,
   addIssueValueForApi: selectors.generateDataForAddIssue(state),
   issueInfo: selectors.getIssueInfo(state),
@@ -282,7 +288,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.resetAddIssueFormValue());
   },
   getListSprint(query) {
-    dispatch(issueActions.getListSprint(query));
+    dispatch(backlogActions.getListSprint(query));
+  },
+  getListLabel(query) {
+    dispatch(actions.getListLabel(query));
   },
   selectIssue(issue) {
     dispatch(actions.selectIssue(issue));

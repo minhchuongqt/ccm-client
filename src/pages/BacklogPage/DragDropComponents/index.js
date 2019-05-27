@@ -143,6 +143,7 @@ class DragDropComponents extends React.Component {
                     </div>
                   <div >
                     <Column
+                      disableAction = {true}
                       startSprint
                       openAddIssueModal={openAddIssueModal}
                       column={column}

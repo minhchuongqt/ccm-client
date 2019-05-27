@@ -775,8 +775,8 @@ p {
 .dragphotos ul li .close-photo {
   position: absolute;
   top: 0px;
-  right: 85px;
-  width: 70%;
+  right: 155px;
+  width: 55%;
   height: 100%;
   padding: 5px;
   border: 1px solid #f0f0f0
@@ -810,4 +810,11 @@ p {
 .dragphotos ul li.default img {
   width: auto;
   height: auto;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
 }

@@ -9,7 +9,8 @@ import {
   GET_LIST_USER,
   CREATE_ISSUE,
   RESET_CREATE_ISSUE_STATUS,
-  GET_PRIORITY
+  GET_PRIORITY,
+  GET_LIST_LABEL
 } from "../../constants/types/issue";
 import { combineReducers } from "redux";
 import _ from 'lodash'
@@ -17,6 +18,16 @@ const listIssue = (state = [], action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_ISSUE_LIST:
+      return payload;
+    default:
+      return state;
+  }
+};
+
+const listLabel = (state = [], action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case GET_LIST_LABEL:
       return payload;
     default:
       return state;
@@ -116,7 +127,8 @@ const IssueState = combineReducers({
   selectedIssue,
   listUser,
   createIssueStatus,
-  priority
+  priority,
+  listLabel
 });
 
 export default IssueState;

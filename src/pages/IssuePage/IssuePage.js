@@ -8,6 +8,7 @@ import MultiSelect from "../../components/multiSelect";
 import _ from "lodash";
 import { API } from "../../config";
 import SearchSelect from "../../components/singleSelect";
+import moment from "moment";
 // class ContentEditable extends React {
 //   render() {
 //       return <div
@@ -57,11 +58,29 @@ const IssuePage = props => {
     closeIssueDetail,
     assigneeSelectable,
     prioritySelectable,
+    issueTypeSelectable,
+    labelSelectable,
     onFocus
   } = props;
   // console.log(listIssue)
-  let selectableAssignee = assigneeSelectable.map(item => !(issueInfo.assignee || []).find(i => i.value == item.value) && item ) || []
-  let selectablePriority = issueInfo.priority ?  prioritySelectable.filter(item => (item.value !== issueInfo.priority.value) && item ) : prioritySelectable
+  let selectableIssueType = issueInfo.issueType
+    ? issueTypeSelectable.filter(
+        item => item.value !== issueInfo.issueType.value && item
+      )
+    : issueTypeSelectable;
+  let selectableAssignee =
+    assigneeSelectable.map(
+      item => !(issueInfo.assignee || []).find(i => i.value == item.value) && item
+    ) || [];
+  let selectableLabel =
+    labelSelectable.map(
+      item => !(issueInfo.label || []).find(i => i.value == item.value) && item
+    ) || [];
+  let selectablePriority = issueInfo.priority
+    ? prioritySelectable.filter(
+        item => item.value !== issueInfo.priority.value && item
+      )
+    : prioritySelectable;
 
   console.log(issueInfo);
   return (
@@ -236,47 +255,111 @@ const IssuePage = props => {
                             id="collapseDetail"
                             className="panel-collapse collapse in"
                           >
-                            <div className="box-body">
+                            <div className="box-body flex-center">
                               <div className="col-md-4">
                                 <ul className="list-unstyled">
                                   <li>Type:</li>
-                                  <li>Status:</li>
-                                  <li>Priority:</li>
-                                  <li>Fix Version/s:</li>
-                                  <li>Labels:</li>
-                                  <li>Sprint:</li>
                                 </ul>
                               </div>
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
-                                  <li>{(issueInfo.issueType || {}).type}</li>
                                   <li>
+                                    <SearchSelect
+                                      id="issue-page-multi-select"
+                                      value={issueInfo.issueType || {}}
+                                      options={selectableIssueType || []}
+                                      onBlur={() => console.log("bur")}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="box-body flex-center">
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Status:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                <li style={{padding: '0 10px'}}>
                                     <span
-                                      className={
-                                        "label " +
-                                        generateClassForIssueStatus(
-                                          (issueInfo.workflow || {}).type || ""
-                                        )
-                                      }
+                                      className={ "label " + generateClassForIssueStatus((issueInfo.workflow || {}).type || "")}
                                     >
                                       {(issueInfo.workflow || {}).name || ""}
                                     </span>
                                   </li>
-                                  <li>
-                                  <SearchSelect
-                                        id="issue-page-multi-select"
-                                        
-                                        value={issueInfo.priority || {}}
-                                        options={selectablePriority || []}
-                                        onBlur={() => console.log("bur")}
-                                      />
-                                  </li>
-                                  <li>Version 2.0</li>
-                                  <li>None</li>
-                                  <li>{(issueInfo.sprint || {}).name}</li>
                                 </ul>
                               </div>
                             </div>
+
+                            <div className="box-body flex-center">
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                <li>Priority:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                <li>
+                                    <SearchSelect
+                                      id="issue-page-multi-select"
+                                      value={issueInfo.priority || {}}
+                                      options={selectablePriority || []}
+                                      onBlur={() => console.log("bur")}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="box-body flex-center">
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Labels:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li>
+                                    <MultiSelect
+                                      id="issue-page-multi-select-label"
+                                      isClearable={false}
+                                      value={issueInfo.label || []}
+                                      options={selectableLabel || []}
+                                      onBlur={() => console.log("bur")}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="box-body flex-center">
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                <li>Fix Version/s:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                <li style={{padding: '0 10px'}}>Version 2.0</li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="box-body flex-center">
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                <li>Sprint:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li style={{padding: '0 10px'}}>{(issueInfo.sprint || {}).name || "None"}</li>
+                                </ul>
+                              </div>
+                            </div>
+
                           </div>
                         </div>
 
@@ -433,58 +516,25 @@ const IssuePage = props => {
                               </a>
                             </h4>
                           </div>
-                          {!_.isEmpty(issueInfo.subtasks) && (
-                            <div
-                              id="collapseActivity"
-                              className="panel-collapse collapse in"
-                            >
-                              <div className="box-body box-comments comments-conf">
-                                <div className="box-comment">
-                                  <div className="col-md-8">
-                                    <img
-                                      className="img-circle img-activity"
-                                      src={imgUser}
-                                      alt="User Image"
-                                    />
-                                    <div className="comment-text">
-                                      <a className="email">
-                                        &nbsp; phamhongcang.qng@gmail.com &nbsp;
-                                      </a>
-                                      created issue acbsdsdsse sdskdj
-                                    </div>
-                                  </div>
-                                  <div className="col-md-4">
-                                    <span className="text-muted pull-right">
-                                      07/Mar/19 10:12 AM
-                                    </span>
-                                  </div>
-                                </div>
-
-                                <div className="box-comment">
-                                  <div className="col-md-8">
-                                    <img
-                                      className="img-circle img-activity"
-                                      src={imgUser}
-                                      alt="User Image"
-                                    />
-                                    <div className="comment-text">
-                                      <a className="email">
-                                        &nbsp;
-                                        phamhongcSDSSDDSDSDSDSDSang.qng@gmail.com
-                                        &nbsp;
-                                      </a>
-                                      created issue acbsdsdsse sdskdj
-                                    </div>
-                                  </div>
-                                  <div className="col-md-4">
-                                    <span className="text-muted pull-right">
-                                      07/Mar/19 10:12 AM
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
+                          <div
+                            id="collapseActivity"
+                            className="panel-collapse collapse in"
+                          >
+                            {issueInfo.activities &&
+                              issueInfo.activities.map((item, index) => {
+                                return (
+                                  <div
+                                    className="box-body box-comments comments-conf"
+                                    dangerouslySetInnerHTML={{
+                                      __html: `${item.content +
+                                        moment(item.createdAt).format(
+                                          "MMM DD YYYY, hh:mm:ss a"
+                                        )}`
+                                    }}
+                                  />
+                                );
+                              })}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -513,25 +563,26 @@ const IssuePage = props => {
                               <ul className="list-unstyled">
                                 <li>Assignee:</li>
                                 <li>
-                                  {issueInfo.assignee.map(a => {
+                                  {issueInfo.assignee.map((a, aIdx) => {
                                     return (
                                       <SearchSelect
+                                        key={aIdx}
                                         id="issue-page-multi-select"
                                         value={a}
-                                        isClearable = {true}
+                                        isClearable={true}
                                         options={selectableAssignee || []}
                                         onBlur={() => console.log("bur")}
                                       />
                                     );
                                   })}
                                   <SearchSelect
-                                        id="issue-page-multi-select"
-                                        // value={a}
-                                        placeholder="Add another"
-                                        isClearable = {true}
-                                        options={selectableAssignee || []}
-                                        onBlur={() => console.log("bur")}
-                                      />
+                                    id="issue-page-multi-select"
+                                    // value={a}
+                                    placeholder="Add another"
+                                    isClearable={true}
+                                    options={selectableAssignee || []}
+                                    onBlur={() => console.log("bur")}
+                                  />
                                 </li>
                               </ul>
                               {/* } */}
