@@ -40,11 +40,20 @@ class BacklogPageContainer extends Component {
     this.getListBacklogIssue();
   }
   componentWillReceiveProps(newProps) {
-    const { createSprintStatus } = newProps;
+    const { createSprintStatus, createIssueStatus } = newProps;
     if (createSprintStatus) {
       toast.success("Create sprint successfully");
       this.setState({ isOpenAddSprintModal: false });
       this.getListSprint();
+    }
+    // console.log(newProps)
+    if (createIssueStatus) {
+      toast.success("Create issue successfully");
+      this.setState({ isOpenAddIssueModal: false,   addIssueToSprint: null,});
+      this.props.getListLabel(this.getBaseOption());
+      this.props.getListStoryPoint(this.getBaseOption());
+      this.getListIssue();
+      this.props.resetCreateIssueStatus()
     }
   }
 
@@ -203,7 +212,8 @@ const mapStateToProps = state => ({
   initialData: selectors.getInitalData(state),
   addIssueFormValue: issueSelectors.getAddIssueFormValue(state),
   sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
-  issueTypeSelectable: issueSelectors.getIssueTypeSelectable(state)
+  issueTypeSelectable: issueSelectors.getIssueTypeSelectable(state),
+  createIssueStatus: issueSelectors.getCreateIssueStatus(state),
 });
 
 const mapDispatchToProps = dispatch => ({
