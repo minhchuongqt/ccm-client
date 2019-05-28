@@ -66,6 +66,19 @@ export const getLabelSelectable = ({IssueState}) => {
     return result
 }
 
+export const getStoryPointSelectable = ({IssueState}) => {
+    if(_.isEmpty(IssueState.listStoryPoint)) return []
+    // const { issueType } = IssueState.addIssueFormValue
+    let result =  IssueState.listStoryPoint.map(item => (
+        {
+            label: item.point,
+            value: item._id,
+        }
+        )
+    ) 
+    return result
+}
+
 export const getPrioritySelectable = ({IssueState}) => {
     if(_.isEmpty(IssueState.priority)) return []
     // const { priority } = IssueState.addIssueFormValue
@@ -128,10 +141,10 @@ export const getIssueInfo = createSelector(
             result = selectedIssue || {}
         }
         console.log(result.issueType)
-        const label = result.label ? result.label.map(item => labelSelectable.find(a => item == a.label)) : [];
-        const issueType = result.issueType ? issueTypeSelectable.find(item => item.value == result.issueType._id) : {};
-        const assignee = result.assignee ? result.assignee.map(item => assigneeSelectable.find(a => item == a.value)) : [];
-        const priority = result.priority ?  prioritySelectable.find(a => a.value == result.priority._id || a.value == result.priority) : {};
+        const label = result.label ? result.label.map(item => labelSelectable.find(a => item === a.label)) : [];
+        const issueType = result.issueType ? issueTypeSelectable.find(item => item.value === result.issueType._id) : {};
+        const assignee = result.assignee ? result.assignee.map(item => assigneeSelectable.find(a => item === a.value)) : [];
+        const priority = result.priority ?  prioritySelectable.find(a => a.value === result.priority._id || a.value === result.priority) : {};
         return {...result,
             assignee,
             priority,

@@ -41,8 +41,8 @@ const LoginPage = props => {
           </div>
           {/* </form> */}
 
-          <a href="#">I forgot my password</a><br />
-          <a href="#" className="text-center" onClick={() => props.history.push('/register')}>Register a new membership</a>
+          <a>I forgot my password</a><br />
+          <a className="text-center" onClick={() => props.history.push('/register')}>Register a new membership</a>
         </div>
       </div>
     </div>

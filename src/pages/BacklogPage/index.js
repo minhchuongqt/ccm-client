@@ -13,7 +13,7 @@ import * as backlogSelectors from "../../selectors/backlog";
 
 import BacklogPageView from "./BacklogPage";
 import AddSprintModal from "./AddSprintModal";
-import AddIssueModal from "./AddIssueModal";
+import AddIssueModal from "../../components/addIssueModal";
 
 class BacklogPageContainer extends Component {
   constructor(props) {
@@ -27,10 +27,14 @@ class BacklogPageContainer extends Component {
         goal: ""
       },
       isOpenAddIssueModal: false,
-      isOpenAddSprintModal: false
+      isOpenAddSprintModal: false,
+      addIssueToSprint: null,
     };
   }
   componentWillMount() {
+    this.props.getIssueType(this.getBaseOption());
+    this.props.getPriority(this.getBaseOption());
+    this.props.getListLabel(this.getBaseOption());
     this.getListSprint();
     // this.getListIssue()
     this.getListBacklogIssue();
@@ -70,18 +74,16 @@ class BacklogPageContainer extends Component {
     };
     this.props.getListBacklogIssue(params);
   };
-  // getListIssue = () => {
-  //     const  params = {
-  //         query: JSON.stringify({
-  //             project: this.props.selectedProject._id,
-  //         }),
-  //         sort: JSON.stringify({
-  //             sequenceInBacklog: -1,
-  //             createdAt: -1
-  //         })
-  //     }
-  //     this.props.getListBacklogIssue(params)
-  // }
+
+  getBaseOption = () => {
+    const params = {
+      query: JSON.stringify({
+        project: this.props.selectedProject._id
+      })
+    };
+    return params;
+  };
+
   openAddSprintModal = () => {
     this.setState({ isOpenAddSprintModal: true });
   };
@@ -129,12 +131,12 @@ class BacklogPageContainer extends Component {
     addForm[name] = value;
     this.setState({ addForm });
   };
-  openAddIssueModal = () => {
+  openAddIssueModal = (spintId) => {
     // console.log(data)
-    this.setState({ isOpenAddIssueModal: true });
+    this.setState({ isOpenAddIssueModal: true, addIssueToSprint: spintId });
   };
   closeAddIssueModal = () => {
-    this.setState({ isOpenAddIssueModal: false });
+    this.setState({ isOpenAddIssueModal: false, addIssueToSprint: null });
   };
 
   onChangeAddIssueFormValue = (name, value) => {
@@ -152,8 +154,7 @@ class BacklogPageContainer extends Component {
       isOpenAddSprintModal,
       addForm,
       isOpenAddIssueModal,
-      issueTypeSelectable,
-      sprintTypeSelectable
+      addIssueToSprint
     } = this.state;
     // console.log("sprint: ", isOpenAddSprintModal);
     // console.log("issue: ", isOpenAddIssueModal);
@@ -170,14 +171,15 @@ class BacklogPageContainer extends Component {
         <AddIssueModal
           openModal={isOpenAddIssueModal}
           closeModal={this.closeAddIssueModal}
-          createIssue={data => this.createIssue(data)}
-          validate={data => this.validate(data)}
-          issueTypeSelectable={issueTypeSelectable}
-          addIssueFormValue={addIssueFormValue}
-          sprintTypeSelectable={sprintTypeSelectable}
-          onChangeValue={(name, value) =>
-            this.onChangeAddIssueFormValue(name, value)
-          }
+          addIssueToSprint={addIssueToSprint}
+          // createIssue={data => this.createIssue(data)}
+          // validate={data => this.validate(data)}
+          // issueTypeSelectable={issueTypeSelectable}
+          // addIssueFormValue={addIssueFormValue}
+          // sprintTypeSelectable={sprintTypeSelectable}
+          // onChangeValue={(name, value) =>
+          //   this.onChangeAddIssueFormValue(name, value)
+          // }
         />
         <AddSprintModal
           data={addForm}
@@ -216,7 +218,16 @@ const mapDispatchToProps = dispatch => ({
   },
   changeAddIssueFormValue(key, value) {
     dispatch(issueActions.changeAddIssueFormValue(key, value));
-  }
+  },
+  getIssueType(query) {
+    dispatch(issueActions.getIssueType(query));
+  },
+  getPriority(query) {
+    dispatch(issueActions.getPriority(query));
+  },
+  getListLabel(query) {
+    dispatch(issueActions.getListLabel(query));
+  },
 });
 export default connect(
   mapStateToProps,

@@ -14,7 +14,6 @@ const Header = props => {
       </a>
       <nav className="navbar navbar-static-top">
        { isShow && <a
-          href="#"
           id="sidebar-action"
           className="sidebar-toggle"
           data-toggle="push-menu"
@@ -25,7 +24,7 @@ const Header = props => {
         <div className="navbar-custom-menu">
           <ul className="nav navbar-nav">
             <li className="dropdown notifications-menu">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+              <a className="dropdown-toggle" data-toggle="dropdown">
                 <i className="fa fa-bell-o" />
                 <span className="label label-warning">10</span>
               </a>
@@ -34,7 +33,7 @@ const Header = props => {
               </ul>
             </li>
             <li className="dropdown user user-menu">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+              <a className="dropdown-toggle" data-toggle="dropdown">
                 <img src={userImg} className="user-image" alt="User Image" />
                 <span className="hidden-xs">Pham Hong Cang</span>
               </a>
@@ -53,13 +52,13 @@ const Header = props => {
                 </li>
                 <li className="user-footer">
                   <div className="pull-left">
-                    <button href="#" className="btn btn-default btn-flat">
+                    <button className="btn btn-default btn-flat">
                       Profile
                     </button>
                   </div>
                   <div className="pull-right">
                     <Link to="/login">
-                      <button href="#" className="btn btn-default btn-flat">
+                      <button className="btn btn-default btn-flat">
                         Sign out
                       </button>{" "}
                     </Link>

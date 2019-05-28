@@ -9,6 +9,7 @@ import _ from "lodash";
 import { API } from "../../config";
 import SearchSelect from "../../components/singleSelect";
 import moment from "moment";
+import Creatable from 'react-select/lib/Creatable';
 // class ContentEditable extends React {
 //   render() {
 //       return <div
@@ -103,7 +104,6 @@ const IssuePage = props => {
                 {listIssue.map((issue, index) => {
                   return (
                     <a
-                      href="#"
                       className="list-group-item list-group-item-action"
                       key={index}
                       onClick={() => {
@@ -203,15 +203,15 @@ const IssuePage = props => {
                     </button>
                     <ul className="dropdown-menu" role="menu">
                       <li>
-                        <a href="#">Log work</a>
+                        <a>Log work</a>
                       </li>
                       <li className="divider" />
                       <li>
-                        <a href="#">Create a sub-task</a>
+                        <a>Create a sub-task</a>
                       </li>
                       <li className="divider" />
                       <li>
-                        <a href="#">Delete</a>
+                        <a>Delete</a>
                       </li>
                     </ul>
                   </div>
@@ -322,11 +322,33 @@ const IssuePage = props => {
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
                                   <li>
-                                    <MultiSelect
+                                    <Creatable
+                                      isMulti={true}
                                       id="issue-page-multi-select-label"
                                       isClearable={false}
                                       value={issueInfo.label || []}
                                       options={selectableLabel || []}
+                                      onBlur={() => console.log("bur")}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="box-body flex-center">
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Story Points:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li>
+                                    <Creatable
+                                     id="issue-page-multi-select-label"
+
+                                      // value={issueInfo.storyPoints || {}}
+                                      // options={[]}
                                       onBlur={() => console.log("bur")}
                                     />
                                   </li>
@@ -526,7 +548,7 @@ const IssuePage = props => {
                                   <div
                                     className="box-body box-comments comments-conf"
                                     dangerouslySetInnerHTML={{
-                                      __html: `${item.content +
+                                      __html: `${item.content + 'at ' +
                                         moment(item.createdAt).format(
                                           "MMM DD YYYY, hh:mm:ss a"
                                         )}`

@@ -1,7 +1,7 @@
 import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
     GET_ISSUE_INFO, RESET_ADD_ISSUE_VALUE, SELECT_ISSUE, REMOVE_FILE_IN_ADD_FORM_VALUE,
     GET_LIST_USER, RESET_CREATE_ISSUE_STATUS,
-    GET_PRIORITY, GET_LIST_LABEL
+    GET_PRIORITY, GET_LIST_LABEL, GET_LIST_STORY_POINT
 } from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
 import BaseApi from '../api/base'
@@ -12,6 +12,7 @@ export const getIssueList = (data) => dispatch => {
     IssueApi.getIssueList(data).then(res => {
         if (res.data) {
             dispatch({ type: GET_ISSUE_LIST, payload: res.data.data })
+            dispatch(getIssueInfo(res.data.data[0]._id))
         }
     })
 }
@@ -36,6 +37,14 @@ export const getListLabel = (data) => dispatch => {
     IssueApi.getListLabel(data).then(res => {
         if (res.data) {
             dispatch({ type: GET_LIST_LABEL, payload: res.data.data })
+        }
+    })
+}
+
+export const getListStoryPoint = (data) => dispatch => {
+    IssueApi.getListStoryPoint(data).then(res => {
+        if (res.data) {
+            dispatch({ type: GET_LIST_STORY_POINT, payload: res.data.data })
         }
     })
 }

@@ -158,7 +158,7 @@ class DragDropComponents extends React.Component {
               );
             } else {
               return (
-                <div>
+                <div key={column.id}>
                   <Column
                     openAddIssueModal={openAddIssueModal}
                     sprintActived = {sprintActived}

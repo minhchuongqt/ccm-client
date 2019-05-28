@@ -7,7 +7,7 @@ import * as selectors from "../../selectors/issue";
 import * as backlogSelectors from "../../selectors/backlog";
 import * as projectSelectors from "../../selectors/project";
 import * as userSelectors from "../../selectors/user";
-import AddIssueModal from "./AddIssueModal";
+import AddIssueModal from "../../components/addIssueModal";
 import TestDialog from "../../components/modal";
 import {toast} from "react-toastify";
 
@@ -150,19 +150,8 @@ class IssuePageContainer extends Component {
     }
   };
 
-  createIssue = (data) => {
-    console.log(this.props.addIssueValueForApi)
-    // if (this.validate(data)) {
-    //     toast.success("OK")
+  createIssue = () => {
     this.props.createIssue(this.props.addIssueValueForApi)
-        
-    // }
-    
-    // if (this.validate(addIssueFormValue)){
-  
-    // toast.success("OK")
-    // this.props.createIssue(addForm)
-    // }
   }
   
   validate = (data) => {
@@ -248,6 +237,7 @@ const mapState = state => {
   selectedProject: projectSelectors.getSelectedProject(state),
   // selectedIssue: selectors.getSelectedIssue(state),
   createIssueStatus: selectors.getCreateIssueStatus(state),
+  storyPointSelectable: selectors.getStoryPointSelectable(state),
   sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
   assigneeSelectable: selectors.getAssigneeSelectable(state),
   issueTypeSelectable: selectors.getIssueTypeSelectable(state),
@@ -257,7 +247,6 @@ const mapState = state => {
   addIssueValueForApi: selectors.generateDataForAddIssue(state),
   issueInfo: selectors.getIssueInfo(state),
   userInfo: userSelectors.getUserInfo(state)
-  
 }
 };
 
@@ -280,6 +269,9 @@ const mapDispatchToProps = dispatch => ({
   getPriority(query) {
     dispatch(actions.getPriority(query));
   },
+  getListLabel(query) {
+    dispatch(actions.getListLabel(query));
+  },
   changeAddIssueFormValue(key, value) {
     
     dispatch(actions.changeAddIssueFormValue(key, value));
@@ -289,9 +281,6 @@ const mapDispatchToProps = dispatch => ({
   },
   getListSprint(query) {
     dispatch(backlogActions.getListSprint(query));
-  },
-  getListLabel(query) {
-    dispatch(actions.getListLabel(query));
   },
   selectIssue(issue) {
     dispatch(actions.selectIssue(issue));

@@ -5,6 +5,7 @@ import MultiSelect from "../../components/multiSelect";
 import PropTypes from "prop-types";
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
 import TextEditor from "../../components/textEditor";
+import Creatable from 'react-select/lib/Creatable';
 import _ from 'lodash';
 // const DropdownIndicator = (props) => {
 //   return components.DropdownIndicator && (
@@ -13,6 +14,7 @@ import _ from 'lodash';
 //       </components.DropdownIndicator>
 //   );
 // };
+
 
 const AddIssueModal = props => {
   // Modal.setAppElement('body')
@@ -27,9 +29,19 @@ const AddIssueModal = props => {
     addIssueFormValue,
     addIssueValue,
     onAddFile,
-    onRemoveFile
+    onRemoveFile,
+    assigneeSelectable,
+    userInfo,
+    prioritySelectable,
+    labelSelectable,
+    addIssueToSprint
   } = props;
-  console.log(openModal)
+  console.log(addIssueToSprint)
+  // result = issueType ? result.filter(item => item.value !== issueType.value) : result
+  let selectableIssueType = addIssueFormValue.issueType ?  issueTypeSelectable.filter(item => (item.value !== addIssueFormValue.issueType.value) && item ) : issueTypeSelectable
+  let selectablePriority = addIssueFormValue.priority ?  prioritySelectable.filter(item => (item.value !== addIssueFormValue.priority.value) && item ) : prioritySelectable
+  // console.log(assigneeSelectable)
+
   return (
     <Modal isOpen={openModal} title="Create Issue" closeModal={closeModal}>
       <div className="form-horizontal">
@@ -38,8 +50,8 @@ const AddIssueModal = props => {
             <label className="col-sm-3 control-label">Issue type</label>
             <div className="col-sm-9">
               <SearchSelect
-                options={issueTypeSelectable}
-                value={addIssueFormValue.issueType}
+                options={selectableIssueType}
+                value={addIssueFormValue.issueType || {value: '', lable: ''}}
                 onChange={e => onChangeValue("issueType", e)}
               />
             </div>
@@ -52,7 +64,7 @@ const AddIssueModal = props => {
               <input
                 type="text"
                 className="form-control"
-                value={"aasd" || addIssueFormValue.summary}
+                value={addIssueFormValue.summary || ''}
                 onChange={e => onChangeValue("summary", e.target.value)}
               />
             </div>
@@ -81,86 +93,103 @@ const AddIssueModal = props => {
           <div className="form-group">
             <label className="col-sm-3 control-label">Attach files</label>
             <div className="col-sm-9">
-              <label htmlFor="file-upload" className="custom-file-upload">
-                <ul
+              <label htmlFor="file-upload" className="custom-file-upload control-label">
+              <a className="cursor-pointer">Add file</a>
+                {/* <ul
                   className="list-button cursor-pointer"
                   style={{ margin: 0 }}
                 >
                   <li>
                     <a className="bt-orange">Upload</a>
                   </li>
-                </ul>
+                </ul> */}
               </label>
               <input
-                // onChange={e => {
-                //   e.preventDefault();
-                //   let file = e.dataTransfer
-                //     ? e.dataTransfer.files[0]
-                //     : e.target.files[0];
-                //   if (!file) return;
-                //   props.onAddFile(file);
-                // }}
+                onChange={e => {
+                  e.preventDefault();
+                  let file = e.dataTransfer
+                    ? e.dataTransfer.files[0]
+                    : e.target.files[0];
+                  if (!file) return;
+                  onChangeValue('attachs', file);
+                }}
+
                 type="file"
                 id="file-upload"
                 className="inputfile"
+                style={{display: 'none'}}
               />
             </div>
-            <div className="col-xs-12">
+            <div className="col-xs-12 value dragphotos">
               <ul>
-                {_.map(props.transferFiles || [], file => (
-                  <li
-                    key={file.url}
-                    style={{
-                      marginBottom: 30,
-                      marginTop: 5,
-                      borderTop: "1px dashed gray"
-                    }}
-                  >
-                    <div className="mg-top-5 mg-bottom-5">
-                      <div className="col-xs-10">
-                        <span
-                          className="size-12"
-                          style={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            width: "100%",
-                            display: "block"
-                          }}
-                        >
-                          {file.id}
-                        </span>
-                      </div>
-                      <div className="col-xs-2 right">
-                        <span
-                          className="color-red right"
-                          style={{ cursor: "pointer" }}
-                          onClick={e => {
-                            e.stopPropagation();
-                            // props.onRemoveFile(file.id);
-                          }}
-                        >
-                          <img
-                            src={require("../../assets/img/ic-x.svg")}
-                            alt="Delete"
-                            className="cursor-pointer"
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  </li>
+                {_.map(addIssueFormValue.attachs   || [], file => (
+                  <li key={file.url}>
+                  <img
+                    src={file.url}
+                    alt="Image"
+                    className="dnd-item"
+                    style={{ maxWidth: "150px" }}
+                  />
+                  <span className="close-photo">
+                    <img
+                      style={{ cursor: "pointer" }}
+                      src={require("../../assets/img/ic-x.svg")}
+                      onClick={e => {
+                        e.stopPropagation();
+                        onRemoveFile(file.id)
+                      }}
+                    />
+                  </span>
+                </li>
+                 
                 ))}
               </ul>
             </div>
           </div>
           <div className="form-group">
-            <label className="col-sm-3 control-label">Assignee</label>
-            <div className="col-sm-9">
-              <MultiSelect options={listMembers} />
-              <a className="pointer">Assign to me</a>
-            </div>
+            <label className="col-sm-3 control-label">Priority</label>
+              <div className="col-sm-9">
+                <SearchSelect
+                  options={selectablePriority}
+                  value={addIssueFormValue.priority}
+                  onChange={e => onChangeValue("priority", e)}
+                />
+              </div>
           </div>
           <div className="form-group">
+            <label className="col-sm-3 control-label">Label</label>
+              <div className="col-sm-9">
+                <Creatable
+                  isMulti={true}
+                  options={labelSelectable}
+                  value={addIssueFormValue.label}
+                  onChange={e => onChangeValue("label", e)}
+                />
+              </div>
+          </div>
+          <div className="form-group">
+            <label className="col-sm-3 control-label">Story Points</label>
+              <div className="col-sm-9">
+              <input
+                type="number"
+                min="0"
+                placeholder="0"
+                className="form-control"
+                value={addIssueFormValue.storyPoints || ''}
+                onChange={e => onChangeValue("storyPoints", e.target.value)}
+              />
+              </div>
+          </div>
+          <div className="form-group">
+            <label className="col-sm-3 control-label">Assignee</label>
+            <div className="col-sm-9">
+              <MultiSelect options={assigneeSelectable} value={addIssueFormValue.assignee || []}
+               onChange={data => onChangeValue("assignee", data)}/>
+              <a className="pointer" onClick={() => onChangeValue("assignee", [{label: (userInfo.displayName || userInfo.fullName), value: userInfo._id, iconUrl: userInfo.iconUrl}])}>Assign to me</a>
+            </div>
+          </div>
+         {addIssueToSprint == null &&
+           <div className="form-group">
             <label className="col-sm-3 control-label">Sprint</label>
             <div className="col-sm-9">
               <SearchSelect
@@ -169,7 +198,7 @@ const AddIssueModal = props => {
                 onChange={e => onChangeValue("sprint", e)}
               />
             </div>
-          </div>
+          </div>}
           {/* <div className="form-group">
             <label className="col-sm-3 control-label">
               Sprint

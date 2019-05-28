@@ -6,6 +6,8 @@ import "../../styleSheets/sass/components/Issue/IssueView.scss"
 import SearchSelect from '../multiSelect'
 import Modal from 'react-modal'
 
+Modal.setAppElement('#main-body')
+
  const styles = {
     overlay: {
         position: 'fixed',
