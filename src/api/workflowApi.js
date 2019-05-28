@@ -3,7 +3,7 @@ import API from './base';
 class WorkflowApi {
     constructor() {}
     getWorkflowList = (params) => {
-        return API.get('/workflow', {params});
+        return API.get('/workflow/list', {params});
     }
 }
 

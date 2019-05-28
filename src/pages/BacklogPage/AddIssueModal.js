@@ -52,7 +52,7 @@ const AddIssueModal = props => {
               <input
                 type="text"
                 className="form-control"
-                value={"aasd" || addIssueFormValue.summary}
+                value={addIssueFormValue.summary}
                 onChange={e => onChangeValue("summary", e.target.value)}
               />
             </div>

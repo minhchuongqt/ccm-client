@@ -7,7 +7,7 @@ class BacklogApi {
         return API.get('/sprint/notComplete', {params});
     }
     getSprintActive = (params) => {
-        return API.get('/sprint/active', {params});
+        return API.get('/sprint/board', {params});
     }
 
     getListBacklogIssue = (params) => {

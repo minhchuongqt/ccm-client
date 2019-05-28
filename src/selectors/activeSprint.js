@@ -1,7 +1,8 @@
 import _ from 'lodash'
 //params
-export const generateDataActiveBoard = ({WorkflowState,BacklogState}) => {
+export const generateDataActiveBoard = ({WorkflowState, BacklogState}) => {
   // if(_.isEmpty(BacklogState.sprintActive)) return []
+  // const {boardData} = BacklogState
     const boardData = {
         lanes: [
             {
@@ -83,17 +84,14 @@ export const generateDataActiveBoard = ({WorkflowState,BacklogState}) => {
       lanes: WorkflowState.listWorkflow.map(item => ({
         id: item._id,
         title: item.name,
-        label: "3 issues",
-        cards: [
-          {
-            "id": "Frontend",
-            "title": "Code login page",
-            "label": "15 mins",
-            "description": "Code login page in client side"
-          }
-        ]
+        // cards: (BacklogState.sprintActive.find(i => i.workflow._id === item._id) || {}).issues.map(item => ({
+        //   title: item.summary
+        // }))
+        
       }))
+      
     }
-    return temp
+    console.log((BacklogState.sprintActive.find(i => i.workflow._id === "item._id") || {}).issues)
+    return boardData
 }
 
