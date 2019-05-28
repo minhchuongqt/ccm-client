@@ -2,7 +2,7 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import SortableView from '../../components/sortable/SortableComponent'
 import "../../styleSheets/sass/components/Backlog/BacklogView.scss"
-import AddIssueView from '../IssuePage/AddIssuePage/index'
+// import AddIssueView from '../IssuePage/AddIssuePage/index'
 import EditSprintPageView from './EditSprintPage/index';
 import DragDropComponent from './DragDropComponents'
 

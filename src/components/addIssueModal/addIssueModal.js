@@ -34,9 +34,10 @@ const AddIssueModal = props => {
     userInfo,
     prioritySelectable,
     labelSelectable,
-    addIssueToSprint
+    addIssueToSprint,
+    storyPointSelectable
   } = props;
-  console.log(addIssueToSprint)
+  // console.log(addIssueToSprint)
   // result = issueType ? result.filter(item => item.value !== issueType.value) : result
   let selectableIssueType = addIssueFormValue.issueType ?  issueTypeSelectable.filter(item => (item.value !== addIssueFormValue.issueType.value) && item ) : issueTypeSelectable
   let selectablePriority = addIssueFormValue.priority ?  prioritySelectable.filter(item => (item.value !== addIssueFormValue.priority.value) && item ) : prioritySelectable
@@ -170,14 +171,11 @@ const AddIssueModal = props => {
           <div className="form-group">
             <label className="col-sm-3 control-label">Story Points</label>
               <div className="col-sm-9">
-              <input
-                type="number"
-                min="0"
-                placeholder="0"
-                className="form-control"
-                value={addIssueFormValue.storyPoints || ''}
-                onChange={e => onChangeValue("storyPoints", e.target.value)}
-              />
+              <Creatable
+                  options={storyPointSelectable}
+                  value={addIssueFormValue.storyPoints}
+                  onChange={e => onChangeValue("storyPoints", e)}
+                />
               </div>
           </div>
           <div className="form-group">

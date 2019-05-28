@@ -2,40 +2,15 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
 import imgUser from "../../assets/img/avatar5.png";
-import AddIssueView from "./AddIssuePage/index";
-import EditIssueView from "./EditIssuePage/index";
+// import AddIssueView from "./AddIssuePage/index";
+// import EditIssueView from "./EditIssuePage/index";
 import MultiSelect from "../../components/multiSelect";
 import _ from "lodash";
 import { API } from "../../config";
 import SearchSelect from "../../components/singleSelect";
 import moment from "moment";
-import Creatable from 'react-select/lib/Creatable';
-// class ContentEditable extends React {
-//   render() {
-//       return <div
-//           onInput={this.emitChange}
-//           onBlur={this.emitChange}
-//           contentEditable
-//           dangerouslySetInnerHTML={{__html: this.props.html}}></div>;
-//   }
-
-//   shouldComponentUpdate(nextProps) {
-//       return nextProps.html !== this.getDOMNode().innerHTML;
-//   }
-
-//   emitChange() {
-//       var html = this.getDOMNode().innerHTML;
-//       if (this.props.onChange && html !== this.lastHtml) {
-
-//           this.props.onChange({
-//               target: {
-//                   value: html
-//               }
-//           });
-//       }
-//       this.lastHtml = html;
-//   }
-// };
+import Creatable from "react-select/lib/Creatable";
+import TextEditor from "../../components/textEditor";
 
 const generateClassForIssueStatus = status => {
   switch (status) {
@@ -61,29 +36,44 @@ const IssuePage = props => {
     prioritySelectable,
     issueTypeSelectable,
     labelSelectable,
+    storyPointSelectable,
+    userInfo,
     onFocus
   } = props;
-  // console.log(listIssue)
+  console.log(storyPointSelectable);
+  // console.log(issueInfo.label)
   let selectableIssueType = issueInfo.issueType
     ? issueTypeSelectable.filter(
         item => item.value !== issueInfo.issueType.value && item
       )
     : issueTypeSelectable;
+
+  let selectableStoryPoint = issueInfo.storyPoints
+    ? storyPointSelectable.filter(
+        item => item.value != issueInfo.storyPoints.value && item
+      )
+    : storyPointSelectable;
+
   let selectableAssignee =
     assigneeSelectable.map(
-      item => !(issueInfo.assignee || []).find(i => i.value == item.value) && item
+      item =>
+        !(issueInfo.assignee || []).find(i => i.value == item.value) && item
     ) || [];
-  let selectableLabel =
-    labelSelectable.map(
-      item => !(issueInfo.label || []).find(i => i.value == item.value) && item
-    ) || [];
+
+  let selectableLabel = labelSelectable
+    ? labelSelectable.map(
+        item =>
+          !(issueInfo.label || []).find(i => i.value == item.value) && item
+      ) || []
+    : [];
+
   let selectablePriority = issueInfo.priority
     ? prioritySelectable.filter(
         item => item.value !== issueInfo.priority.value && item
       )
     : prioritySelectable;
 
-  console.log(issueInfo);
+  // console.log(issueInfo);
   return (
     <div id="issue-view">
       <div>
@@ -91,8 +81,8 @@ const IssuePage = props => {
           <BreadcrumbItem active>Issue</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      <EditIssueView />
-      <AddIssueView />
+      {/* <EditIssueView />
+      <AddIssueView /> */}
       <div className="row">
         <div id="open-issues" className="col-md-4 p-r-0">
           <div className="box box-success ">
@@ -246,7 +236,7 @@ const IssuePage = props => {
                             <h4 className="box-title">
                               <a data-toggle="collapse" href="#collapseDetail">
                                 <h5>
-                                  <b>Details</b>
+                                  <span>Details</span>
                                 </h5>
                               </a>
                             </h4>
@@ -282,9 +272,14 @@ const IssuePage = props => {
                               </div>
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
-                                <li style={{padding: '0 10px'}}>
+                                  <li style={{ padding: "0 10px" }}>
                                     <span
-                                      className={ "label " + generateClassForIssueStatus((issueInfo.workflow || {}).type || "")}
+                                      className={
+                                        "label " +
+                                        generateClassForIssueStatus(
+                                          (issueInfo.workflow || {}).type || ""
+                                        )
+                                      }
                                     >
                                       {(issueInfo.workflow || {}).name || ""}
                                     </span>
@@ -296,12 +291,12 @@ const IssuePage = props => {
                             <div className="box-body flex-center">
                               <div className="col-md-4">
                                 <ul className="list-unstyled">
-                                <li>Priority:</li>
+                                  <li>Priority:</li>
                                 </ul>
                               </div>
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
-                                <li>
+                                  <li>
                                     <SearchSelect
                                       id="issue-page-multi-select"
                                       value={issueInfo.priority || {}}
@@ -345,10 +340,13 @@ const IssuePage = props => {
                                 <ul className="list-unstyled">
                                   <li>
                                     <Creatable
-                                     id="issue-page-multi-select-label"
-
-                                      // value={issueInfo.storyPoints || {}}
-                                      // options={[]}
+                                      id="issue-page-multi-select-label"
+                                      value={
+                                        issueInfo.storyPoints || {
+                                          label: "None"
+                                        }
+                                      }
+                                      options={selectableStoryPoint || []}
                                       onBlur={() => console.log("bur")}
                                     />
                                   </li>
@@ -359,12 +357,14 @@ const IssuePage = props => {
                             <div className="box-body flex-center">
                               <div className="col-md-4">
                                 <ul className="list-unstyled">
-                                <li>Fix Version/s:</li>
+                                  <li>Fix Version/s:</li>
                                 </ul>
                               </div>
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
-                                <li style={{padding: '0 10px'}}>Version 2.0</li>
+                                  <li style={{ padding: "0 10px" }}>
+                                    Version 2.0
+                                  </li>
                                 </ul>
                               </div>
                             </div>
@@ -372,16 +372,17 @@ const IssuePage = props => {
                             <div className="box-body flex-center">
                               <div className="col-md-4">
                                 <ul className="list-unstyled">
-                                <li>Sprint:</li>
+                                  <li>Sprint:</li>
                                 </ul>
                               </div>
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
-                                  <li style={{padding: '0 10px'}}>{(issueInfo.sprint || {}).name || "None"}</li>
+                                  <li style={{ padding: "0 10px" }}>
+                                    {(issueInfo.sprint || {}).name || "None"}
+                                  </li>
                                 </ul>
                               </div>
                             </div>
-
                           </div>
                         </div>
 
@@ -390,7 +391,7 @@ const IssuePage = props => {
                             <h4 className="box-title">
                               <a data-toggle="collapse" href="#collapseDes">
                                 <h5>
-                                  <b>Description</b>
+                                  <span>Description</span>
                                 </h5>
                               </a>
                             </h4>
@@ -416,7 +417,7 @@ const IssuePage = props => {
                               <h4 className="box-title">
                                 <a data-toggle="collapse" href="#collapseDes">
                                   <h5>
-                                    <b>Attachments</b>
+                                    <span>Attachments</span>
                                   </h5>
                                 </a>
                               </h4>
@@ -447,7 +448,7 @@ const IssuePage = props => {
                             <h4 className="box-title">
                               <a data-toggle="collapse" href="#collapseSub">
                                 <h5>
-                                  <b>Sub-Tasks</b>
+                                  <span>Sub-Tasks</span>
                                 </h5>
                               </a>
                             </h4>
@@ -533,7 +534,7 @@ const IssuePage = props => {
                                 href="#collapseActivity"
                               >
                                 <h5>
-                                  <b>Activity</b>
+                                  <span>Activity</span>
                                 </h5>
                               </a>
                             </h4>
@@ -546,9 +547,11 @@ const IssuePage = props => {
                               issueInfo.activities.map((item, index) => {
                                 return (
                                   <div
+                                    key={index}
                                     className="box-body box-comments comments-conf"
                                     dangerouslySetInnerHTML={{
-                                      __html: `${item.content + 'at ' +
+                                      __html: `${item.content +
+                                        "at " +
                                         moment(item.createdAt).format(
                                           "MMM DD YYYY, hh:mm:ss a"
                                         )}`
@@ -557,6 +560,101 @@ const IssuePage = props => {
                                 );
                               })}
                           </div>
+                        </div>
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a
+                                data-toggle="collapse"
+                                href="#collapseActivity"
+                              >
+                                <h5>
+                                  <span>Comments</span>
+                                </h5>
+                              </a>
+                            </h4>
+                          </div>
+                          <div
+                            id="collapseActivity"
+                            className="panel-collapse collapse in"
+                          >
+                            {issueInfo.comments &&
+                              issueInfo.comments.map((item, index) => {
+                                return (
+                                  <div
+                                    key={index}
+                                    className="box-body box-comments comments-conf"
+                                    dangerouslySetInnerHTML={{
+                                      __html: `${item.content +
+                                        "at " +
+                                        moment(item.createdAt).format(
+                                          "MMM DD YYYY, hh:mm:ss a"
+                                        )}`
+                                    }}
+                                  />
+                                );
+                              })}
+                          </div>
+                          <div className="box box-widget" style={{margin: "10px 0"}}>
+                            <div className="box-footer box-comments">
+                              <div className="box-comment">
+                                <img
+                                  className="img-circle img-sm"
+                                  src={API + userInfo.avatarUrl}
+                                  alt="User Image"
+                                  width="70px"
+                                />
+                                <div className="comment-text">
+                                  <span className="username">
+                                    Maria Gonzales
+                                    <span className="text-muted pull-right">
+                                      8:03 PM Today
+                                    </span>
+                                  </span>
+                                  It is a long established fact that a reader
+                                  will be distracted by the readable content of
+                                  a page when looking at its layout.
+                                </div>
+                              </div>
+                              <div className="box-comment">
+                                <img
+                                  className="img-circle img-sm"
+                                  src={API + userInfo.avatarUrl}
+                                  alt="User Image"
+                                  width="70px"
+                                />
+                                <div className="comment-text">
+                                  <span className="username">
+                                    Luna Stark
+                                    <span className="text-muted pull-right">
+                                      8:03 PM Today
+                                    </span>
+                                  </span>
+                                  It is a long established fact that a reader
+                                  will be distracted by the readable content of
+                                  a page when looking at its layout.
+                                </div>
+                              </div>
+                            </div>
+                            <div className="box-footer">
+                              <form action="#" method="post">
+                                <img
+                                  className="img-responsive img-circle img-sm"
+                                  src={API + userInfo.avatarUrl}
+                                  alt="Alt Text"
+                                  width="70px"
+                                />
+                                <div className="img-push">
+                                  <input
+                                    type="text"
+                                    className="form-control input-sm"
+                                    placeholder="Press enter to post comment"
+                                  />
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                          {/* </div> */}
                         </div>
                       </div>
                     </div>
@@ -570,7 +668,7 @@ const IssuePage = props => {
                             <h4 className="box-title">
                               <a data-toggle="collapse" href="#collapsePeople">
                                 <h5>
-                                  <b>People</b>
+                                  <span>People</span>
                                 </h5>
                               </a>
                             </h4>
@@ -621,7 +719,7 @@ const IssuePage = props => {
                             <h4 className="box-title">
                               <a data-toggle="collapse" href="#collapseDate">
                                 <h5>
-                                  <b>Dates</b>
+                                  <span>Dates</span>
                                 </h5>
                               </a>
                             </h4>

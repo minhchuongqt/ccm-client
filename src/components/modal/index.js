@@ -60,7 +60,7 @@ const AddIssuePage = (props) => {
         //     return null;
         // }
         const { listMembers, closeModal, title, isOpen  } = props
-        console.log(props)
+        // console.log(props)
         return  (
                 <Modal isOpen={isOpen} style={styles}>
                         <div className="">

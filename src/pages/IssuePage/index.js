@@ -32,6 +32,7 @@ class IssuePageContainer extends Component {
     this.props.getIssueType(this.getBaseOption());
     this.props.getPriority(this.getBaseOption());
     this.props.getListLabel(this.getBaseOption());
+    this.props.getListStoryPoint(this.getBaseOption());
     this.getListIssue();
     this.getListUser();
   }
@@ -42,6 +43,8 @@ class IssuePageContainer extends Component {
     if (createIssueStatus) {
       toast.success("Create issue successfully");
       this.setState({ isOpenAddIssueModal: false });
+      this.props.getListLabel(this.getBaseOption());
+      this.props.getListStoryPoint(this.getBaseOption());
       this.getListIssue();
       this.props.resetCreateIssueStatus()
     }
@@ -189,7 +192,8 @@ class IssuePageContainer extends Component {
       prioritySelectable,
       assigneeSelectable,
       labelSelectable,
-      userInfo
+      userInfo,
+      storyPointSelectable
     } = this.props;
     const { isOpenAddIssueModal } = this.state;
     // console.log(selectedIssue)
@@ -198,9 +202,10 @@ class IssuePageContainer extends Component {
         <IssuePageView
           listIssue={listIssue}
           issueInfo={issueInfo}
+          userInfo={userInfo}
           issueTypeSelectable={issueTypeSelectable}
           labelSelectable={labelSelectable}
-          // selectedIssue={selectedIssue}
+          storyPointSelectable={storyPointSelectable}
           openAddIssueModal={this.openAddIssueModal}
           closeIssueDetail={this.closeIssueDetail}
           selectIssue={issue => this.selectIssue(issue)}
@@ -271,6 +276,9 @@ const mapDispatchToProps = dispatch => ({
   },
   getListLabel(query) {
     dispatch(actions.getListLabel(query));
+  },
+  getListStoryPoint(query) {
+    dispatch(actions.getListStoryPoint(query));
   },
   changeAddIssueFormValue(key, value) {
     

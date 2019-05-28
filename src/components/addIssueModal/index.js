@@ -74,10 +74,12 @@ onChangeValue = (name, value) => {
       openModal,
       closeModal,
       addIssueToSprint,
+      storyPointSelectable
      } = this.props
-    console.log(openModal)
+    // console.log(openModal)
     return (
       <AddIssueModal
+      storyPointSelectable={storyPointSelectable}
       addIssueToSprint={addIssueToSprint}
       openModal={openModal}
       closeModal={closeModal}
@@ -109,9 +111,8 @@ const mapStateToProps = state => ({
   issueTypeSelectable: selectors.getIssueTypeSelectable(state),
   prioritySelectable: selectors.getPrioritySelectable(state),
   labelSelectable: selectors.getLabelSelectable(state),
-  addIssueFormValue: state.IssueState.addIssueFormValue,
   addIssueFormValue: selectors.getAddIssueFormValue(state),
-  addIssueValue: selectors.generateDataForAddIssue(state),
+  addIssueValueForApi: selectors.generateDataForAddIssue(state),
   issueInfo: selectors.getIssueInfo(state),
   userInfo: userSelectors.getUserInfo(state)
 })
