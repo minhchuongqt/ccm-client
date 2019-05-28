@@ -14,7 +14,7 @@ const ListGroupPage = props => {
                     <thead>
                       <tr>
                         <th>Group name</th>
-                        <th>Des</th>
+                        <th>Description</th>
                         <th>Access to product</th>
                         <th>Product administration</th>
                         <th>Actions</th>
@@ -23,7 +23,7 @@ const ListGroupPage = props => {
                     <tbody>
                       <tr>
                         <td>administrators</td>
-                        <td>Grants access to all applications and their administration features (excluding Site administration)</td>
+                        <td>Grants access to all applications (excluding Site administration)</td>
                         <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
                         <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
                         <td>
@@ -35,8 +35,8 @@ const ListGroupPage = props => {
                       </tr>
 
                       <tr>
-                        <td>jira-administrators</td>
-                        <td>Grant access to the administration features of Jira</td>
+                        <td>ccm-administrators</td>
+                        <td>Grant access to the administration features of CCM</td>
                         <td className="text-align-center"><i className="fa fa-times-circle"></i></td>
                         <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
                         <td>
@@ -48,8 +48,8 @@ const ListGroupPage = props => {
                       </tr>
 
                       <tr>
-                        <td>jira-users</td>
-                        <td>Grants access to Jira Software</td>
+                        <td>ccm-users</td>
+                        <td>Grants access to CCM Application</td>
                         <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
                         <td className="text-align-center"><i className="fa fa-times-circle"></i></td>
                         <td>
