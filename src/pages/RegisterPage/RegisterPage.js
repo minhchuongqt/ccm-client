@@ -42,7 +42,7 @@ const RegisterPage = props => {
               <div className="col-xs-8">
                 <div className="checkbox icheck">
                   <label>
-                    <input type="checkbox" /> I agree to the <a href="#">terms</a>
+                    <input type="checkbox" /> I agree to the <a>terms</a>
                   </label>
                 </div>
               </div>

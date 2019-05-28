@@ -6,6 +6,8 @@ import "../../styleSheets/sass/components/Issue/IssueView.scss"
 import SearchSelect from '../multiSelect'
 import Modal from 'react-modal'
 
+Modal.setAppElement('#main-body')
+
  const styles = {
     overlay: {
         position: 'fixed',
@@ -58,7 +60,7 @@ const AddIssuePage = (props) => {
         //     return null;
         // }
         const { listMembers, closeModal, title, isOpen  } = props
-        console.log(props)
+        // console.log(props)
         return  (
                 <Modal isOpen={isOpen} style={styles}>
                         <div className="">

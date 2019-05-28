@@ -42,7 +42,7 @@ class Task extends Component {
             // onClick={()=> selectedTask(task)}
           >
             <img src={task.iconUrl}/>&nbsp;{task.content}
-            <StoryPoint>{task.storyPoint || ' - '}</StoryPoint>
+            <StoryPoint>{task.storyPoints || ' - '}</StoryPoint>
             <IssueKey completed = {task.completed}><p className="com">{task.issueKey}</p></IssueKey>
           </Container>
         )}

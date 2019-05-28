@@ -53,9 +53,9 @@ const ProjectPage = props => {
                 </Link>
                 <div className="box-footer no-padding">
                   <ul className="nav nav-stacked">
-                    <li><a href="#">To Do <span className="pull-right badge bg-blue">{project.count.toDo}</span></a></li>
-                    <li><a href="#">In Progress <span className="pull-right badge bg-aqua">{project.count.inProgress}</span></a></li>
-                    <li><a href="#">Done <span className="pull-right badge bg-green">{project.count.done}</span></a></li>
+                    <li><a>To Do <span className="pull-right badge bg-blue">{project.count.toDo}</span></a></li>
+                    <li><a>In Progress <span className="pull-right badge bg-aqua">{project.count.inProgress}</span></a></li>
+                    <li><a>Done <span className="pull-right badge bg-green">{project.count.done}</span></a></li>
                   </ul>
                 </div>
               </div>

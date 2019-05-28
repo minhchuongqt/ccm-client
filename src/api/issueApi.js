@@ -14,6 +14,10 @@ class IssueApi {
     getListLabel = (params) => {
         return API.get('/label' , {params});
     }
+
+    getListStoryPoint = (params) => {
+        return API.get('/storyPoint' , {params});
+    }
     
     createIssue = (data) => {
         return API.post('/issue', data)

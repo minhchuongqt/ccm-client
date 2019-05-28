@@ -213,7 +213,7 @@ p {
 /* Original theme - http://noahfrederick.com/vim-color-scheme-hemisu/ */
 pre.prettyprint {
   background: white;
-  font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco,
+  font-family: 'Quicksand Regular', Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco,
     Consolas, monospace;
   font-size: 12px;
   line-height: 1.5;
@@ -817,4 +817,8 @@ p {
   justify-content: center;
   align-items: center;
   padding: 1px;
+}
+
+* {
+	outline: none !important;
 }

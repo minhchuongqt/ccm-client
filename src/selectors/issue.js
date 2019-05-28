@@ -66,6 +66,19 @@ export const getLabelSelectable = ({IssueState}) => {
     return result
 }
 
+export const getStoryPointSelectable = ({IssueState}) => {
+    if(_.isEmpty(IssueState.listStoryPoint)) return []
+    // const { issueType } = IssueState.addIssueFormValue
+    let result =  IssueState.listStoryPoint.map(item => (
+        {
+            label: item.point,
+            value: item._id,
+        }
+        )
+    ) 
+    return result
+}
+
 export const getPrioritySelectable = ({IssueState}) => {
     if(_.isEmpty(IssueState.priority)) return []
     // const { priority } = IssueState.addIssueFormValue
@@ -83,7 +96,11 @@ export const getPrioritySelectable = ({IssueState}) => {
 export const getAddIssueFormValue = ({IssueState}) => IssueState.addIssueFormValue
 
 export const generateDataForAddIssue = ({IssueState}) => {
-     const {sprint, description, summary, issueType, attachs, assignee, priority, label} = IssueState.addIssueFormValue
+     const {
+         sprint, description, summary,
+         issueType, attachs, assignee,
+         priority, label, storyPoints
+        } = IssueState.addIssueFormValue
     const project = JSON.parse(localStorage.getItem('selectedProject')) || {}
      const result = {
          project: project._id,
@@ -95,6 +112,7 @@ export const generateDataForAddIssue = ({IssueState}) => {
          assignee: (assignee || []).map(item => item.value),
          priority: (priority || {}).value || null,
          label: (label || []).map(item => item.label),
+         storyPoints: (storyPoints || {}).value || null,
         }
     return result
 }
@@ -118,25 +136,29 @@ export const getIssueInfo = createSelector(
         getIssueTypeSelectable,
         getAssigneeSelectable,
         getPrioritySelectable,
-        getLabelSelectable
-    ], (selectedIssue, listIssue, issueTypeSelectable, assigneeSelectable, prioritySelectable, labelSelectable) => {
-        console.log(issueTypeSelectable)
+        getLabelSelectable,
+        getStoryPointSelectable
+    ], (selectedIssue, listIssue, issueTypeSelectable, assigneeSelectable, prioritySelectable, labelSelectable, storyPointSelectable) => {
+        // console.log(labelSelectable)
         let result = {}
         if(_.isEmpty(selectedIssue)) {
             result = (listIssue[0]) || {}
         } else {
             result = selectedIssue || {}
         }
-        console.log(result.issueType)
-        const label = result.label ? result.label.map(item => labelSelectable.find(a => item == a.label)) : [];
-        const issueType = result.issueType ? issueTypeSelectable.find(item => item.value == result.issueType._id) : {};
-        const assignee = result.assignee ? result.assignee.map(item => assigneeSelectable.find(a => item == a.value)) : [];
-        const priority = result.priority ?  prioritySelectable.find(a => a.value == result.priority._id || a.value == result.priority) : {};
+        // console.log(result.label)
+        const label = result.label ? result.label.map(item => labelSelectable.find(a => item == a.label) || {}) : [];
+        const storyPoints = result.storyPoints ? storyPointSelectable.find(a => result.storyPoints == a.label) : {};
+        // console.log(label)
+        const issueType = result.issueType ? issueTypeSelectable.find(item => item.value === result.issueType._id) : {};
+        const assignee = result.assignee ? result.assignee.map(item => assigneeSelectable.find(a => item === a.value)) : [];
+        const priority = result.priority ?  prioritySelectable.find(a => a.value === result.priority._id || a.value === result.priority) : {};
         return {...result,
             assignee,
             priority,
             issueType,
             label,
+            storyPoints,
             attachs: (result.attachs || []).map(item => item && API + item),
             createdDate: moment(result.createdAt).format('MMM DD, YYYY'),
             updatedDate: moment(result.updatedAt).format('MMM DD, YYYY')

@@ -4,7 +4,7 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 
 const SortableItem = SortableElement(({ data }) =>
-    <a href="#" className={'list-group-item list-group-item-action'}>
+    <a className={'list-group-item list-group-item-action'}>
         <i className={'icon-issue ' + chooseType(data.issueType.name)}></i>
         {data.summary}</a>);
 

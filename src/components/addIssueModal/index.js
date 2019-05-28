@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux'
 import * as actions from '../../actions/issue'
-import * as issueActions from '../../actions/backlog'
+import * as backlogActions from '../../actions/backlog'
 import * as selectors from '../../selectors/issue'
-import * as sprintSelectors from '../../selectors/backlog'
+import * as backlogSelectors from '../../selectors/backlog'
 import * as projectSelectors from '../../selectors/project'
+import * as userSelectors from '../../selectors/user'
 import {toast} from 'react-toastify'
 import AddIssueModal from "./addIssueModal";
 
@@ -29,18 +30,13 @@ class AddIssueModalContainer extends Component {
     this.props.getListSprint(params)
 }
 
-createIssue = (data) => {
-  // if (this.validate(data)) {
-      // toast.success("OK")
-      // this.props.createIssue(data)
-      
-  // }
-  
-  // if (this.validate(addIssueFormValue)){
-
-  // toast.success("OK")
-  // this.props.createIssue(addForm)
-  // }
+createIssue = () => {
+  const {addIssueToSprint, addIssueValueForApi} = this.props
+  let query = {...addIssueValueForApi}
+  if(addIssueToSprint) {
+      query = {...query, sprint: addIssueToSprint}
+  }
+  this.props.createIssue(query)
 }
 
 validate = (data) => {
@@ -64,19 +60,41 @@ onChangeValue = (name, value) => {
 }
   
   render() {
-    const { issueTypeSelectable, addIssueFormValue, sprintTypeSelectable, addIssueValue, openModal } = this.props
-    console.log(openModal)
+    const { 
+      listIssue,
+      issueTypeSelectable,
+      addIssueFormValue,
+      sprintTypeSelectable,
+      addIssueValue,
+      issueInfo,
+      prioritySelectable,
+      assigneeSelectable,
+      labelSelectable,
+      userInfo,
+      openModal,
+      closeModal,
+      addIssueToSprint,
+      storyPointSelectable
+     } = this.props
+    // console.log(openModal)
     return (
       <AddIssueModal
-        openModal={openModal}
-        closeModal={this.props.closeModal}
-        createIssue={data => this.createIssue(data)}
-        validate={data => this.validate(data)}
-        issueTypeSelectable={issueTypeSelectable}
-        addIssueFormValue={addIssueFormValue}
-        addIssueValue={addIssueValue}
-        sprintTypeSelectable={sprintTypeSelectable}
-        onChangeValue={(name, value) => this.onChangeValue(name, value)}
+      storyPointSelectable={storyPointSelectable}
+      addIssueToSprint={addIssueToSprint}
+      openModal={openModal}
+      closeModal={closeModal}
+      userInfo={userInfo}
+      prioritySelectable={prioritySelectable}
+      labelSelectable={labelSelectable}
+      createIssue={data => this.createIssue(data)}
+      validate={data => this.validate(data)}
+      issueTypeSelectable={issueTypeSelectable}
+      assigneeSelectable={assigneeSelectable}
+      addIssueFormValue={addIssueFormValue}
+      addIssueValue={addIssueValue}
+      sprintTypeSelectable={sprintTypeSelectable}
+      onChangeValue={(name, value) => this.onChangeValue(name, value)}
+      onRemoveFile={id => this.props.onRemoveFile(id)}
       />
     );
   }
@@ -84,36 +102,61 @@ onChangeValue = (name, value) => {
 
 
 const mapStateToProps = state => ({
-  sprintTypeSelectable: sprintSelectors.getSprintTypeSelectable(state),
   listIssue: selectors.getListIssue(state),
   selectedProject: projectSelectors.getSelectedProject(state),
-  selectedIssue: selectors.getSelectedIssue(state),
   createIssueStatus: selectors.getCreateIssueStatus(state),
+  storyPointSelectable: selectors.getStoryPointSelectable(state),
+  sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
+  assigneeSelectable: selectors.getAssigneeSelectable(state),
   issueTypeSelectable: selectors.getIssueTypeSelectable(state),
+  prioritySelectable: selectors.getPrioritySelectable(state),
+  labelSelectable: selectors.getLabelSelectable(state),
   addIssueFormValue: selectors.getAddIssueFormValue(state),
-  addIssueValue: selectors.generateDataForAddIssue(state),
-  issueInfo: selectors.getIssueInfo(state)
+  addIssueValueForApi: selectors.generateDataForAddIssue(state),
+  issueInfo: selectors.getIssueInfo(state),
+  userInfo: userSelectors.getUserInfo(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   getIssueList(query) {
-      dispatch(actions.getIssueList(query))
+    dispatch(actions.getIssueList(query));
+  },
+  getIssueInfo(id, query) {
+    dispatch(actions.getIssueInfo(id, query));
+  },
+  getListUser(query) {
+    dispatch(actions.getListUser(query));
   },
   createIssue(addForm) {
-      dispatch(actions.createIssue(addForm))
+    dispatch(actions.createIssue(addForm));
   },
   getIssueType(query) {
-      dispatch(actions.getIssueType(query))
+    dispatch(actions.getIssueType(query));
+  },
+  getPriority(query) {
+    dispatch(actions.getPriority(query));
   },
   changeAddIssueFormValue(key, value) {
-      dispatch(actions.changeAddIssueFormValue(key, value))
+    dispatch(actions.changeAddIssueFormValue(key, value));
   },
   resetAddIssueFormValue() {
-      dispatch(actions.resetAddIssueFormValue())
+    dispatch(actions.resetAddIssueFormValue());
   },
   getListSprint(query) {
-      dispatch(issueActions.getListSprint(query))
+    dispatch(backlogActions.getListSprint(query));
   },
+  getListLabel(query) {
+    dispatch(actions.getListLabel(query));
+  },
+  selectIssue(issue) {
+    dispatch(actions.selectIssue(issue));
+  },
+  onRemoveFile(id) {
+    dispatch(actions.onRemoveFile(id))
+  },
+  resetCreateIssueStatus() {
+    dispatch(actions.resetCreateIssueStatus())
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) (AddIssueModalContainer);

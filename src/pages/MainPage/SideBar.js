@@ -35,7 +35,7 @@ const SideBar = props => {
           </li>
 
           <li className="treeview">
-              <a href="#"><i className="fa fa-gear"></i> Setting
+              <a><i className="fa fa-gear"></i> Setting
                 <span className="pull-right-container">
                   <i className="fa fa-angle-left pull-right"></i>
                 </span>

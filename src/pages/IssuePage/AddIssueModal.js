@@ -166,6 +166,19 @@ const AddIssueModal = props => {
               </div>
           </div>
           <div className="form-group">
+            <label className="col-sm-3 control-label">Story Points</label>
+              <div className="col-sm-9">
+              <input
+                type="number"
+                min="0"
+                placeholder="0"
+                className="form-control"
+                value={addIssueFormValue.storyPoints || ''}
+                onChange={e => onChangeValue("storyPoints", e.target.value)}
+              />
+              </div>
+          </div>
+          <div className="form-group">
             <label className="col-sm-3 control-label">Assignee</label>
             <div className="col-sm-9">
               <MultiSelect options={assigneeSelectable} value={addIssueFormValue.assignee || []}

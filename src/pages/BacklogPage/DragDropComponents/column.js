@@ -131,7 +131,7 @@ export default class Column extends React.Component {
         )}
         </Droppable>
         <div className="box-footer">
-              <button className="btn btn-default" onClick={() => openAddIssueModal(true)}>
+              <button className="btn btn-default" onClick={() => openAddIssueModal(column._id)}>
                 <i className="fa fa-plus" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
             </div>
         </div>
