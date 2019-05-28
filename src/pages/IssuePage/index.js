@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import IssuePageView from "./IssuePage";
 import { connect } from "react-redux";
 import * as actions from "../../actions/issue";
-import * as issueActions from "../../actions/backlog";
+import * as backlogActions from "../../actions/backlog";
 import * as selectors from "../../selectors/issue";
 import * as backlogSelectors from "../../selectors/backlog";
 import * as projectSelectors from "../../selectors/project";
@@ -22,13 +22,18 @@ class IssuePageContainer extends Component {
         sprint: null,
         description: ""
       },
-      isOpenAddIssueModal: false
+      isOpenAddIssueModal: false,
+      
     };
+    // this.assignFocus;
   }
 
   componentWillMount() {
+    this.props.getIssueType(this.getBaseOption());
+    this.props.getPriority(this.getBaseOption());
+    this.props.getListLabel(this.getBaseOption());
     this.getListIssue();
-    this.getListUser()
+    this.getListUser();
   }
 
   componentWillReceiveProps(newProps) {
@@ -40,6 +45,20 @@ class IssuePageContainer extends Component {
       this.getListIssue();
       this.props.resetCreateIssueStatus()
     }
+  }
+
+  onFocus = (e) => {
+    switch (e) {
+      case 'assignFocus':
+        // this.assignFocus.focus()
+        document.getElementById("assignFocus").click()
+        break;
+    
+      default:
+        break;
+    }
+    // console.log(e)
+    // this[e].focus()
   }
 
   getBaseOption = () => {
@@ -101,7 +120,6 @@ class IssuePageContainer extends Component {
     const query = {
       ...this.getBaseOption()
     };
-    this.props.getIssueType(query);
     this.getListSprint();
     this.setState({ isOpenAddIssueModal: true });
   };
@@ -179,8 +197,9 @@ class IssuePageContainer extends Component {
       sprintTypeSelectable,
       addIssueValue,
       issueInfo,
-      // selectedIssue,
+      prioritySelectable,
       assigneeSelectable,
+      labelSelectable,
       userInfo
     } = this.props;
     const { isOpenAddIssueModal } = this.state;
@@ -190,15 +209,22 @@ class IssuePageContainer extends Component {
         <IssuePageView
           listIssue={listIssue}
           issueInfo={issueInfo}
+          issueTypeSelectable={issueTypeSelectable}
+          labelSelectable={labelSelectable}
           // selectedIssue={selectedIssue}
           openAddIssueModal={this.openAddIssueModal}
           closeIssueDetail={this.closeIssueDetail}
           selectIssue={issue => this.selectIssue(issue)}
+          assigneeSelectable={assigneeSelectable}
+          prioritySelectable={prioritySelectable}
+          onFocus = {e => this.onFocus(e)}
         />
         <AddIssueModal
           openModal={isOpenAddIssueModal}
           closeModal={this.closeModal}
           userInfo={userInfo}
+          prioritySelectable={prioritySelectable}
+          labelSelectable={labelSelectable}
           createIssue={data => this.createIssue(data)}
           validate={data => this.validate(data)}
           issueTypeSelectable={issueTypeSelectable}
@@ -225,6 +251,8 @@ const mapState = state => {
   sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
   assigneeSelectable: selectors.getAssigneeSelectable(state),
   issueTypeSelectable: selectors.getIssueTypeSelectable(state),
+  prioritySelectable: selectors.getPrioritySelectable(state),
+  labelSelectable: selectors.getLabelSelectable(state),
   addIssueFormValue: state.IssueState.addIssueFormValue,
   addIssueValueForApi: selectors.generateDataForAddIssue(state),
   issueInfo: selectors.getIssueInfo(state),
@@ -249,6 +277,9 @@ const mapDispatchToProps = dispatch => ({
   getIssueType(query) {
     dispatch(actions.getIssueType(query));
   },
+  getPriority(query) {
+    dispatch(actions.getPriority(query));
+  },
   changeAddIssueFormValue(key, value) {
     
     dispatch(actions.changeAddIssueFormValue(key, value));
@@ -257,7 +288,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.resetAddIssueFormValue());
   },
   getListSprint(query) {
-    dispatch(issueActions.getListSprint(query));
+    dispatch(backlogActions.getListSprint(query));
+  },
+  getListLabel(query) {
+    dispatch(actions.getListLabel(query));
   },
   selectIssue(issue) {
     dispatch(actions.selectIssue(issue));

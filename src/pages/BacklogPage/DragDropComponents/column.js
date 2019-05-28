@@ -92,7 +92,7 @@ const Remove = styled.i`
 
 export default class Column extends React.Component {
   render() {
-    const { openAddIssueModal, column, sprintActived } = this.props
+    const { openAddIssueModal, column, sprintActived, disableAction } = this.props
     console.log(column)
     return (
       <Container>
@@ -100,10 +100,10 @@ export default class Column extends React.Component {
           <TitleRow>
             <Title>{this.props.column.title}</Title>
             <span className="com">{column.taskIds.length} issues</span>
-            <ActionIcon>
+            {!disableAction && <ActionIcon>
                 <Remove className="fa fa-times"></Remove>
                 <Edit className="fa fa-edit"></Edit>
-            </ActionIcon>
+            </ActionIcon>}
             {column && column.active && 
             <IssueCount>
               <DoneCount>{column.count.done || ' 0 '}</DoneCount>

@@ -7,10 +7,9 @@ import Icon from '../../assets/img/project.png'
 // import 'react-select/dist/react-select.css';
 const { Option, SingleValue  } = components;
 const IconOption = (props) => {
- 
   return (
     <Option {...props}>
-      {props.data.iconUrl && <img src={props.data.iconUrl}/>}&nbsp;
+      {props.data.iconUrl && <img src={props.data.iconUrl} width="16px" />}&nbsp;
       {props.data.label}
     </Option>
 )};
@@ -20,7 +19,7 @@ const ValueOption = props => {
     <SingleValue {...props}> 
         {props.data.iconUrl && 
           <img 
-            src={props.data.iconUrl}/>}&nbsp;
+            src={props.data.iconUrl} width="16px"/>}&nbsp;
         {" "+(props.data.label || '')} 
     </SingleValue>
   )

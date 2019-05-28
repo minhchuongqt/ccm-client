@@ -4,45 +4,70 @@ import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import "../../styleSheets/sass/components/Issue/IssueView.scss"
 // import imgUser from './../assets/img/avatar5.png'
 import SearchSelect from '../multiSelect'
-class AddIssuePage extends React.Component {
+import Modal from 'react-modal'
 
-    componentWillReceiveProps(newProps) {
-        const {isOpen} = newProps 
-        // console.log(isOpen)
-        if(isOpen) {
-            document.getElementById('main-body').classList += ' modal-open'
-            document.getElementById('modal-container').classList = 'modal fade in display-block'
-        } else {
-            document.getElementById('main-body').classList += 'A'
-            document.getElementById('modal-container').classList = 'modal fade'
-        }
-    }
+ const styles = {
+    overlay: {
+        position: 'fixed',
+        backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        zIndex: '3'
+      },
+    content : {
+        zIndex                : 9,
+        top                   : '53%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)',
+        maxHeight              : '90%',
+        minHeight              : '50%',
+        minWidth              :  '50%',
+        maxWidth                : '50%'
+      }
+ }
 
-    componentDidMount() {
+
+const AddIssuePage = (props) => {
+
+
+
+    // componentWillReceiveProps(newProps) {
+    //     const {isOpen} = newProps 
+    //     // console.log(isOpen)
+    //     if(isOpen) {
+    //         document.getElementById('main-body').classList += ' modal-open'
+    //         document.getElementById('modal-container').classList = 'modal fade in display-block'
+    //     } else {
+    //         document.getElementById('main-body').classList += 'A'
+    //         document.getElementById('modal-container').classList = 'modal fade'
+    //     }
+    // }
+
+    // componentDidMount() {
        
-    }
+    // }
 
-    componentWillUnmount() {
-        // document.getElementById('main-body').classList = ''
-        // document.getElementById('modal-container').classList = 'modal fade'
-    }
+    // componentWillUnmount() {
+    //     // document.getElementById('main-body').classList = ''
+    //     // document.getElementById('modal-container').classList = 'modal fade'
+    // }
 
-    render() {
+    // render() {
         // if(!this.props.isOpen) {
         //     return null;
         // }
-        const { listMembers, closeModal, title  } = this.props
-        return (
-            <div id="issue-view">
-                <div id="modal-container">
-                    <div className="modal-dialog modal-top">
-                        <div className="modal-content">
+        const { listMembers, closeModal, title, isOpen  } = props
+        console.log(props)
+        return  (
+                <Modal isOpen={isOpen} style={styles}>
+                        <div className="">
                             <div className="modal-header">
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => closeModal()}>
                                     <span aria-hidden="true">&times;</span></button>
                                 <h4 className="modal-title">{title}</h4>
                             </div>
-                                    {this.props.children}
+                                    {props.children}
                             {/* <div className="form-horizontal">
                                 <div className="modal-body">
                                 </div>
@@ -52,12 +77,12 @@ class AddIssuePage extends React.Component {
                                 <button type="button" className="btn btn-success-c">Create</button>
                             </div> */}
                         </div>
-                    </div>
-                </div>
-            </div >
+                </Modal>
+           
         )
     }
-};
+
+
 
 AddIssuePage.propTypes = {
     listMembers: PropTypes.array,

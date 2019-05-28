@@ -70,3 +70,37 @@
         visibility: visible;
     }
 }
+#issue-page-multi-select {
+    .select__control {
+        border-style: unset;
+        .select__multi-value {
+            background-color: unset;
+        }
+        &:hover {
+            background-color: #dfe0e6;
+        }
+        .select__indicator-separator {
+            display: none;
+        }
+        .select__dropdown-indicator {
+            display: none;
+        }
+    }
+}
+#issue-page-multi-select-label {
+    .select__control {
+        border-style: unset;
+        .select__multi-value {
+            // background-color: unset;
+        }
+        &:hover {
+            background-color: #dfe0e6;
+        }
+        .select__indicator-separator {
+            display: none;
+        }
+        .select__dropdown-indicator {
+            display: none;
+        }
+    }
+}

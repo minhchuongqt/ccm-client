@@ -5,6 +5,7 @@ import MultiSelect from "../../components/multiSelect";
 import PropTypes from "prop-types";
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
 import TextEditor from "../../components/textEditor";
+import Creatable from 'react-select/lib/Creatable';
 import _ from 'lodash';
 // const DropdownIndicator = (props) => {
 //   return components.DropdownIndicator && (
@@ -30,9 +31,14 @@ const AddIssueModal = props => {
     onAddFile,
     onRemoveFile,
     assigneeSelectable,
-    userInfo
+    userInfo,
+    prioritySelectable,
+    labelSelectable
   } = props;
-  // console.log(addIssueFormValue)
+  // console.log(assigneeSelectable)
+  // result = issueType ? result.filter(item => item.value !== issueType.value) : result
+  let selectableIssueType = addIssueFormValue.issueType ?  issueTypeSelectable.filter(item => (item.value !== addIssueFormValue.issueType.value) && item ) : issueTypeSelectable
+  let selectablePriority = addIssueFormValue.priority ?  prioritySelectable.filter(item => (item.value !== addIssueFormValue.priority.value) && item ) : prioritySelectable
   // console.log(assigneeSelectable)
   return (
     <Modal isOpen={openModal} title="Create Issue" closeModal={closeModal}>
@@ -42,7 +48,7 @@ const AddIssueModal = props => {
             <label className="col-sm-3 control-label">Issue type</label>
             <div className="col-sm-9">
               <SearchSelect
-                options={issueTypeSelectable}
+                options={selectableIssueType}
                 value={addIssueFormValue.issueType || {value: '', lable: ''}}
                 onChange={e => onChangeValue("issueType", e)}
               />
@@ -137,6 +143,27 @@ const AddIssueModal = props => {
                 ))}
               </ul>
             </div>
+          </div>
+          <div className="form-group">
+            <label className="col-sm-3 control-label">Priority</label>
+              <div className="col-sm-9">
+                <SearchSelect
+                  options={selectablePriority}
+                  value={addIssueFormValue.priority}
+                  onChange={e => onChangeValue("priority", e)}
+                />
+              </div>
+          </div>
+          <div className="form-group">
+            <label className="col-sm-3 control-label">Label</label>
+              <div className="col-sm-9">
+                <Creatable
+                  isMulti={true}
+                  options={labelSelectable}
+                  value={addIssueFormValue.label}
+                  onChange={e => onChangeValue("label", e)}
+                />
+              </div>
           </div>
           <div className="form-group">
             <label className="col-sm-3 control-label">Assignee</label>

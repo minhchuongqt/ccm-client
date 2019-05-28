@@ -179,14 +179,14 @@ class BacklogPageContainer extends Component {
             this.onChangeAddIssueFormValue(name, value)
           }
         />
-        {/* <AddSprintModal
+        <AddSprintModal
           data={addForm}
           openModal={isOpenAddSprintModal}
           closeModal={this.closeSprintModal}
           createSprint={this.createSprint}
           validate={data => this.validate(data)}
           onChangeValue={(name, value) => this.onChangeValue(name, value)}
-        /> */}
+        />
       </div>
     );
   }

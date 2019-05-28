@@ -10,7 +10,10 @@ class IssueApi {
     getIssueInfo = (id, params) => {
         return API.get('/issue/' + id , {params});
     }
-    
+
+    getListLabel = (params) => {
+        return API.get('/label' , {params});
+    }
     
     createIssue = (data) => {
         return API.post('/issue', data)
@@ -18,6 +21,10 @@ class IssueApi {
 
     getIssueType = ( params ) => {
         return API.get('/issueType', {params});
+    }
+
+    getPriority = ( params ) => {
+        return API.get('/priority', {params});
     }
 
     getListUserToAssign = (params) => {

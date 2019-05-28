@@ -127,20 +127,10 @@ class DragDropComponents extends React.Component {
             const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
             
             // const isDropDisabled = index < this.state.homeIndex;
-            if (index === this.state.columnOrder.length - 2) {
+            if (index === this.state.columnOrder.length - 1) {
               return (
                 <div key={column.id}>
-                  <div >
-                    <Column
-                      startSprint
-                      openAddIssueModal={openAddIssueModal}
-                      column={column}
-                      tasks={tasks}
-                      index={index}
-                      sprintActived = {sprintActived}
-                      onClick={(task) => this.props.onClick(task)}
-                    />
-                    <div className="create-sprint">
+                  <div className="create-sprint">
                       <div className="btn-group pull-right">
                         <button
                           type="button"
@@ -151,20 +141,35 @@ class DragDropComponents extends React.Component {
                     </button>
                       </div>
                     </div>
+                  <div >
+                    <Column
+                      disableAction = {true}
+                      startSprint
+                      openAddIssueModal={openAddIssueModal}
+                      column={column}
+                      tasks={tasks}
+                      index={index}
+                      sprintActived = {sprintActived}
+                      onClick={(task) => this.props.onClick(task)}
+                    />
+                    
                   </div>
                 </div>
               );
             } else {
               return (
-                <Column
-                  openAddIssueModal={openAddIssueModal}
-                  sprintActived = {sprintActived}
-                  key={column.id}
-                  column={column}
-                  tasks={tasks}
-                  index={index}
-                  onClick={(task) => this.props.onClick(task)}
-                />
+                <div>
+                  <Column
+                    openAddIssueModal={openAddIssueModal}
+                    sprintActived = {sprintActived}
+                    key={column.id}
+                    column={column}
+                    tasks={tasks}
+                    index={index}
+                    onClick={(task) => this.props.onClick(task)}
+                  />
+                  
+                </div>
               );
             }
           })}
