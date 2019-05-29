@@ -9,6 +9,7 @@ storiesOf('Basic Functions', module)
   .add('Tags', () => (
     <Board/>
   ));
+  
   const ActiveSprintPage = props => {
   const { data } = props
   return (

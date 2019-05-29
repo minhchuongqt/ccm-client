@@ -12,7 +12,8 @@ export const generateDataActiveBoard = ({WorkflowState, BacklogState}) => {
           title: item.name,
           label: BacklogState.sprintActive.find(i => i.workflow._id === item._id) && BacklogState.sprintActive.find(i => i.workflow._id === item._id).issues.length + " issues",
           style: {
-            "width": a
+            "width": a,
+            backgroundColor: '#f4f5f7', color: '#172b4d', boxShadow: '2px 2px 4px 0px rgba(0,0,0,0.75)'
           },
           cards: BacklogState.sprintActive.find(i => i.workflow._id === item._id) && BacklogState.sprintActive.find(i => i.workflow._id === item._id).issues.map(item => ({
             id: item._id,

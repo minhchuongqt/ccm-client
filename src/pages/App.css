@@ -827,5 +827,12 @@ p {
 }
 .cNzXzd {
   font-size: 12px !important;
-  font-weight: 500 !important;
+  font-weight: normal !important;
+  color: #0052cc;
+}
+.dlZaEL {
+  font-weight: normal !important;
+}
+.ezXKto:hover {
+  background-color: #f1ecec !important;
 }
