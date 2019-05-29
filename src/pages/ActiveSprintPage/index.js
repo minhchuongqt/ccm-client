@@ -130,7 +130,7 @@ class ActiveSprintPageContainer extends Component {
 
 const mapStateToProps = state => ({
     selectedProject: projectSelectors.getSelectedProject(state),
-    activeSprint: sprintSelectors.getActiveSprint(state),
+    // activeSprint: sprintSelectors.getActiveSprint(state),
     dataForBoard: activeSprintSelectors.generateDataActiveBoard(state),
 })
 

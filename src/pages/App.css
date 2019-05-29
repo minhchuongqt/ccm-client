@@ -724,7 +724,7 @@ p {
   background-color: #004444;
 }
 .smooth-dnd-draggable-wrapper .react-trello-board{
-  min-width: 290px !important;
+  min-width: 350px !important;
   min-height: 80px !important;
 }
 /* .iTzKeC {

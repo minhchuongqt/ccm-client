@@ -15,10 +15,10 @@ export const listSprint = ({BacklogState}) => {
             updatedDate: moment(item.updatedAt).format('DD/MMM/YY h:mm A')
     }))
 }
-export const getActiveSprint = ({BacklogState}) => {
-    if(_.isEmpty(BacklogState.sprintActive)) return []
-    return BacklogState.sprintActive
-}
+// export const getActiveSprint = ({BacklogState}) => {
+//     if(_.isEmpty(BacklogState.sprintActive)) return []
+//     return BacklogState.sprintActive
+// }
 
 export const getSprintTypeSelectable = ({BacklogState}) => {
     if(_.isEmpty(BacklogState.listSprint)) return []
