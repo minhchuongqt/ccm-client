@@ -4,9 +4,12 @@ import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import Board from "react-trello";
 import _ from "lodash"
 import "../../styleSheets/sass/components/Sprint/SprintView.scss"
-
-
-const ActiveSprintPage = props => {
+import {storiesOf} from '@storybook/react'
+storiesOf('Basic Functions', module)
+  .add('Tags', () => (
+    <Board/>
+  ));
+  const ActiveSprintPage = props => {
   const { data } = props
   return (
     <div id = "sprint-view" >
@@ -27,8 +30,6 @@ const ActiveSprintPage = props => {
       </div>
       }
     </div >
-
-
   )
 };
 

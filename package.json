@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@atlaskit/css-reset": "^4.0.1",
+    "@storybook/react": "^5.0.11",
     "array-move": "^2.1.0",
     "axios": "^0.18.0",
     "bootstrap": "4.3.1",
