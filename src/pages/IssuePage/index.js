@@ -29,16 +29,17 @@ class IssuePageContainer extends Component {
   }
 
   componentWillMount() {
+    const { selectedFilterForDetailIssueValue, sortType } = this.props;
     this.props.getIssueType(this.getBaseOption());
     this.props.getPriority(this.getBaseOption());
     this.props.getListLabel(this.getBaseOption());
     this.props.getListStoryPoint(this.getBaseOption());
-    this.getListIssue();
+    this.getListIssue(selectedFilterForDetailIssueValue, sortType);
     this.getListUser();
   }
 
   componentWillReceiveProps(newProps) {
-    const { createIssueStatus } = newProps;
+    const { createIssueStatus, selectedFilterForDetailIssueValue, sortType } = newProps;
     // console.log(newProps)
     if (createIssueStatus) {
       toast.success("Create issue successfully");
@@ -47,6 +48,12 @@ class IssuePageContainer extends Component {
       this.props.getListStoryPoint(this.getBaseOption());
       this.getListIssue();
       this.props.resetCreateIssueStatus()
+    }
+    if(selectedFilterForDetailIssueValue !== this.props.selectedFilterForDetailIssueValue) {
+      this.getListIssue(selectedFilterForDetailIssueValue, sortType);
+    }
+    if(sortType !== this.props.sortType) {
+      this.getListIssue(selectedFilterForDetailIssueValue, sortType);
     }
   }
 
@@ -73,13 +80,13 @@ class IssuePageContainer extends Component {
     return params;
   };
 
-  getListIssue = () => {
+  getListIssue = (filter, sort) => {
     const query = {
       query: JSON.stringify({
         project: this.props.selectedProject._id
       }),
       sort: JSON.stringify({
-        createdAt: -1
+        [filter.value]: sort
       })
     };
     this.props.getIssueList(query);
@@ -181,6 +188,33 @@ class IssuePageContainer extends Component {
     return <TestDialog />;
   };
 
+  onChangeFilterForUserIssue = (value) => {
+    const {selectedFilterForDetailIssueValue, sortType} = this.props
+    this.props.changeFilterForUserIssue(value)
+    if(value.key != 'all') {
+      const params = {
+        query: JSON.stringify({
+          project: this.props.selectedProject._id,
+          [value.key]: value.value
+        }),
+        sort: JSON.stringify({
+          [selectedFilterForDetailIssueValue.valu]: sortType,
+        })
+      };
+      this.props.getIssueList(params);
+    } else {
+      const params = {
+        query: JSON.stringify({
+          project: this.props.selectedProject._id,
+        }),
+        sort: JSON.stringify({
+          [selectedFilterForDetailIssueValue.valu]: sortType,
+        })
+      };
+      this.props.getIssueList(params);
+    }
+  }
+
   render() {
     const {
       listIssue,
@@ -193,13 +227,29 @@ class IssuePageContainer extends Component {
       assigneeSelectable,
       labelSelectable,
       userInfo,
-      storyPointSelectable
+      storyPointSelectable,
+      filterableForUserIssue,
+      filterableForDetailIssue,
+      selectedFilterForUserIssueValue,
+      selectedFilterForDetailIssueValue,
+      searchValue,
+      sortType
     } = this.props;
     const { isOpenAddIssueModal } = this.state;
     // console.log(selectedIssue)
     return (
       <div>
         <IssuePageView
+          selectedFilterForUserIssueValue={selectedFilterForUserIssueValue}
+          filterableForUserIssue={filterableForUserIssue}
+          filterableForDetailIssue={filterableForDetailIssue}
+          selectedFilterForDetailIssueValue={selectedFilterForDetailIssueValue}
+          onChangeFilterForUserIssue={(value) => this.onChangeFilterForUserIssue(value)}
+          onChangeFilterForDetailIssue={value => this.props.changeFilterForDetailIssue(value)}
+          onChangeSearchValue={value => this.props.onChangeSearchValue(value)}
+          changeSortType={value => this.props.changeSortType(value)}
+          sortType={sortType}
+          searchValue={searchValue}
           listIssue={listIssue}
           issueInfo={issueInfo}
           userInfo={userInfo}
@@ -251,7 +301,13 @@ const mapState = state => {
   addIssueFormValue: state.IssueState.addIssueFormValue,
   addIssueValueForApi: selectors.generateDataForAddIssue(state),
   issueInfo: selectors.getIssueInfo(state),
-  userInfo: userSelectors.getUserInfo(state)
+  userInfo: userSelectors.getUserInfo(state),
+  filterableForUserIssue: selectors.getFilterableForUserIssue(state),
+  filterableForDetailIssue: selectors.getFilterableForDetailIssue(state),
+  selectedFilterForUserIssueValue: selectors.getSelectedFilterForUserIssueValue(state),
+  selectedFilterForDetailIssueValue: selectors.getSelectedFilterForDetailIssueValue(state),
+  searchValue: selectors.getSearchValue(state),
+  sortType: selectors.getSortType(state)
 }
 };
 
@@ -281,7 +337,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.getListStoryPoint(query));
   },
   changeAddIssueFormValue(key, value) {
-    
     dispatch(actions.changeAddIssueFormValue(key, value));
   },
   resetAddIssueFormValue() {
@@ -298,7 +353,20 @@ const mapDispatchToProps = dispatch => ({
   },
   resetCreateIssueStatus() {
     dispatch(actions.resetCreateIssueStatus())
+  },
+  changeFilterForUserIssue(value) {
+    dispatch(actions.changeFilterForUserIssue(value))
+  },
+  changeFilterForDetailIssue(value) {
+    dispatch(actions.changeFilterForDetailIssue(value))
+  },
+  onChangeSearchValue(value) {
+    dispatch(actions.changeSearchValue(value))
+  },
+  changeSortType(value) {
+    dispatch(actions.changeSortType(value))
   }
+
 });
 
 export default connect(

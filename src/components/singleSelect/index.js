@@ -27,7 +27,7 @@ const ValueOption = props => {
 
 const SearchSelect = (props) => {
   const { isValid } = props;
-  let style = {};
+  let style = {...props.style};
   if (isValid !== null) {
     const color = isValid ? '#3c763d' : '#a94442';
     style = { borderColor: color };

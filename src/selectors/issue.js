@@ -5,7 +5,8 @@ import { createSelector } from 'reselect';
 //params
 export const getListIssue = ({IssueState}) => {
     if(_.isEmpty(IssueState.listIssue)) return []
-    return IssueState.listIssue
+    const {searchValue} = IssueState
+    return IssueState.listIssue.filter(item => item.summary.indexOf(searchValue) > -1 )
     // const result =  IssueState.listIssue.map(item => item)
     // return result.map(item => (
     //     {...item
@@ -21,6 +22,72 @@ export const getListIssue = ({IssueState}) => {
 //         updatedDate: moment(IssueState.issueInfo.updatedAt).format('MMM DD, YYYY')
 //     }
 // }
+
+export const getSearchValue = ({IssueState}) => IssueState.searchValue
+
+export const getFilterableForUserIssue = ({UserState}) => {
+    // if(_.isEmpty(UserState.userInfo)) return {}
+    // return UserState.userInfo
+    const result = [
+        {
+            label: 'All Issues',
+            key: 'all',
+            value: 'all'
+        },
+        {
+            label: 'Open Issues',
+            key: 'closed',
+            value: false
+        },
+        {
+            label: 'Closed Issues',
+            key: 'closed',
+            value: true
+        },
+        {
+            label: 'My Open Issues',
+            key: 'assignee',
+            value: (UserState.userInfo || {})._id || ''
+        },
+    ]
+    return result
+}
+
+export const getSortType = ({IssueState}) => IssueState.sortType
+
+export const getFilterableForDetailIssue = () => {
+    // if(_.isEmpty(UserState.userInfo)) return {}
+    // return UserState.userInfo
+    const result = [
+        {
+            label: 'Priority',
+            value: 'level'
+        },
+        {
+            label: 'Created',
+            value: 'createdAt'
+        },
+        {
+            label: 'Status',
+            value: 'type'
+        },
+        {
+            label: 'Summary',
+            value: 'summary'
+        },
+    ]
+    return result
+}
+
+export const getSelectedFilterForDetailIssueValue = ({IssueState}) => IssueState.selectedFilterForDetailIssueValue
+export const getSelectedFilterForUserIssueValue = createSelector(
+    [
+        ({IssueState}) => IssueState.selectedFilterForUserIssueValue,
+        getFilterableForUserIssue
+    ], (selectedFilterForUserIssueValue, listFilterableForUserIssue) => {
+        return selectedFilterForUserIssueValue
+    }
+)
 
 // export const getSelectedIssue = () => JSON.parse(localStorage.getItem('selectedIssue')) || {}
 

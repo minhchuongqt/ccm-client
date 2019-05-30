@@ -11,6 +11,7 @@ import SearchSelect from "../../components/singleSelect";
 import moment from "moment";
 import Creatable from "react-select/lib/Creatable";
 import TextEditor from "../../components/textEditor";
+import { changeSortType } from "../../actions/issue";
 
 const generateClassForIssueStatus = status => {
   switch (status) {
@@ -38,9 +39,19 @@ const IssuePage = props => {
     labelSelectable,
     storyPointSelectable,
     userInfo,
-    onFocus
+    onFocus,
+    filterableForUserIssue,
+    filterableForDetailIssue,
+    selectedFilterForUserIssueValue,
+    selectedFilterForDetailIssueValue,
+    onChangeFilterForUserIssue,
+    onChangeFilterForDetailIssue,
+    onChangeSearchValue,
+    searchValue,
+    sortType,
+    changeSortType
   } = props;
-  console.log(storyPointSelectable);
+  // console.log(storyPointSelectable);
   // console.log(issueInfo.label)
   let selectableIssueType = issueInfo.issueType
     ? issueTypeSelectable.filter(
@@ -80,14 +91,60 @@ const IssuePage = props => {
         <Breadcrumb>
           <BreadcrumbItem active>Issue</BreadcrumbItem>
         </Breadcrumb>
+        <div className="row">
+          <div id="open-issues" className="col-md-4 p-r-0">
+          </div>
+        </div>
       </div>
       {/* <EditIssueView />
       <AddIssueView /> */}
       <div className="row">
         <div id="open-issues" className="col-md-4 p-r-0">
+          <div style={{ display: "flex"}}>
+            <div style={{ width: "40%", marginBottom: "10px"}}>
+              <SearchSelect
+                // id="issue-page-multi-select-label"
+                value={selectedFilterForUserIssueValue|| {}}
+                options={filterableForUserIssue}
+                onChange={e => onChangeFilterForUserIssue(e)}
+              />
+            </div>
+            <div style={{ width: "50%", marginBottom: "10px", float: "right", marginLeft: 'auto'}}>
+              <div className="form-group has-search">
+                <span className="fa fa-search form-control-feedback"></span>
+                <input style={{height: 38}} type="text" className="form-control" placeholder="Search"
+                  onChange={e => onChangeSearchValue(e.target.value)}
+                  value={searchValue}
+                />
+              </div>
+            </div>
+          </div>
           <div className="box box-success ">
-            <div className="box-header with-border">
-              <h4 className="box-title">Open Issues</h4>
+            <div className="box-header with-border display-flex">
+              <h4 className="box-title" style={{ marginTop: "10px" }}>
+                Open Issues
+              </h4>
+              {(sortType == -1) &&
+                <i
+                  className="fa fa-chevron-down cursor-pointer"
+                  style={{ float: "right", marginTop: "10px", paddingLeft: 10 }}
+                  onClick={() => changeSortType(1)}
+                />
+                || 
+                <i
+                  className="fa fa-chevron-up cursor-pointer"
+                  style={{ float: "right", marginTop: "10px", paddingLeft: 10 }}
+                  onClick={() => changeSortType(-1)}
+                />
+                }
+              <div style={{ width: "150px", float: "right" }}>
+                <SearchSelect
+                  id="issue-page-multi-select-label"
+                  options={filterableForDetailIssue}
+                  value={selectedFilterForDetailIssueValue}
+                  onChange={e => onChangeFilterForDetailIssue(e)}
+                />
+              </div>
             </div>
             <div className="box-body scroll-detail">
               <div className="list-group">
@@ -226,6 +283,15 @@ const IssuePage = props => {
                     >
                       {" "}
                       Done
+                    </button>
+
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm m-b-1"
+
+                    >
+                      {" "}
+                      Close Issue
                     </button>
                   </div>
                   <div className="col-md-8 p-l-0">
@@ -595,7 +661,10 @@ const IssuePage = props => {
                                 );
                               })}
                           </div>
-                          <div className="box box-widget" style={{margin: "10px 0"}}>
+                          <div
+                            className="box box-widget"
+                            style={{ margin: "10px 0" }}
+                          >
                             <div className="box-footer box-comments">
                               <div className="box-comment">
                                 <img

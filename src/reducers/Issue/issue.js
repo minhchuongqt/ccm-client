@@ -11,7 +11,11 @@ import {
   RESET_CREATE_ISSUE_STATUS,
   GET_PRIORITY,
   GET_LIST_LABEL,
-  GET_LIST_STORY_POINT
+  GET_LIST_STORY_POINT,
+  CHANGE_SELECTED_FILTER_FOR_USER_ISSUE_VALUE,
+  CHANGE_SEARCH_VALUE,
+  CHANGE_SELECTED_FILTER_FOR_DETAIL_ISSUE_VALUE,
+  CHANGE_SORT_TYPE
 } from "../../constants/types/issue";
 import { combineReducers } from "redux";
 import _ from 'lodash'
@@ -130,6 +134,46 @@ const selectedIssue = (state = {}, action) => {
   }
 };
 
+const selectedFilterForUserIssueValue = (state = {label: 'All Issue', key: 'all', value: 'all'}, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case CHANGE_SELECTED_FILTER_FOR_USER_ISSUE_VALUE:
+      return payload;
+    default:
+      return state;
+  }
+}
+
+const selectedFilterForDetailIssueValue = (state = {label: 'Priority', value: 'level'}, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case CHANGE_SELECTED_FILTER_FOR_DETAIL_ISSUE_VALUE:
+      return payload;
+    default:
+      return state;
+  }
+}
+
+const searchValue = (state = '', action) => {
+  const {type, payload} = action;
+  switch (type) {
+    case CHANGE_SEARCH_VALUE:
+      return payload
+    default:
+      return state
+  }
+}
+
+const sortType = (state = -1, action) => {
+  const {type, payload} = action;
+  switch (type) {
+    case CHANGE_SORT_TYPE:
+      return payload
+    default:
+      return state
+  }
+}
+
 const IssueState = combineReducers({
   listIssue,
   issueType,
@@ -140,7 +184,11 @@ const IssueState = combineReducers({
   createIssueStatus,
   priority,
   listLabel,
-  listStoryPoint
+  listStoryPoint,
+  selectedFilterForUserIssueValue,
+  selectedFilterForDetailIssueValue,
+  searchValue,
+  sortType
 });
 
 export default IssueState;

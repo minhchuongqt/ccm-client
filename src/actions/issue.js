@@ -1,7 +1,11 @@
 import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
     GET_ISSUE_INFO, RESET_ADD_ISSUE_VALUE, SELECT_ISSUE, REMOVE_FILE_IN_ADD_FORM_VALUE,
     GET_LIST_USER, RESET_CREATE_ISSUE_STATUS,
-    GET_PRIORITY, GET_LIST_LABEL, GET_LIST_STORY_POINT
+    GET_PRIORITY, GET_LIST_LABEL, GET_LIST_STORY_POINT,
+     CHANGE_SELECTED_FILTER_FOR_USER_ISSUE_VALUE,
+     CHANGE_SEARCH_VALUE,
+     CHANGE_SELECTED_FILTER_FOR_DETAIL_ISSUE_VALUE,
+     CHANGE_SORT_TYPE
 } from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
 import BaseApi from '../api/base'
@@ -12,7 +16,7 @@ export const getIssueList = (data) => dispatch => {
     IssueApi.getIssueList(data).then(res => {
         if (res.data) {
             dispatch({ type: GET_ISSUE_LIST, payload: res.data.data })
-            dispatch(getIssueInfo(res.data.data[0]._id))
+            if(res.data.data[0]) dispatch(getIssueInfo(res.data.data[0]._id))
         }
     })
 }
@@ -149,4 +153,20 @@ export const onRemoveFile = id => dispatch => {
 }
 export const resetAddIssueFormValue = () => dispatch => {
     dispatch({ type: RESET_ADD_ISSUE_VALUE })
+}
+
+export const changeFilterForUserIssue = data => dispatch => {
+    dispatch({type: CHANGE_SELECTED_FILTER_FOR_USER_ISSUE_VALUE, payload: data})
+}
+
+export const changeSearchValue = data => dispatch => {
+    dispatch({type: CHANGE_SEARCH_VALUE, payload: data})
+}
+
+export const changeFilterForDetailIssue = data => dispatch => {
+    dispatch({type: CHANGE_SELECTED_FILTER_FOR_DETAIL_ISSUE_VALUE, payload: data})
+}
+
+export const changeSortType = data => dispatch => {
+    dispatch({type: CHANGE_SORT_TYPE, payload: data})
 }
