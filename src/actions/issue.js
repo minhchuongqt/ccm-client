@@ -1,7 +1,7 @@
 import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
     GET_ISSUE_INFO, RESET_ADD_ISSUE_VALUE, SELECT_ISSUE, REMOVE_FILE_IN_ADD_FORM_VALUE,
     GET_LIST_USER, RESET_CREATE_ISSUE_STATUS,
-    GET_PRIORITY, GET_LIST_LABEL, GET_LIST_STORY_POINT
+    GET_PRIORITY, GET_LIST_LABEL, GET_LIST_STORY_POINT, CHANGE_ISSUE_WORKFLOW
 } from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
 import BaseApi from '../api/base'
@@ -149,4 +149,16 @@ export const onRemoveFile = id => dispatch => {
 }
 export const resetAddIssueFormValue = () => dispatch => {
     dispatch({ type: RESET_ADD_ISSUE_VALUE })
+}
+
+export const changeIssueWorkflow = (id, data) => dispatch => {
+    IssueApi.changeIssueWorkflow(id, data).then(res => {
+        if(res.data) {
+            if(res.data.error) {
+                toast.error(res.data.error)
+            } else {
+                dispatch({type: CHANGE_ISSUE_WORKFLOW, payload: res.data.data })
+            }
+        }
+    })
 }

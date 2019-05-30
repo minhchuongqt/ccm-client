@@ -34,6 +34,9 @@ class IssueApi {
     getListUserToAssign = (params) => {
         return API.get('/user/list', {params})
     }
+    changeIssueWorkflow = (id, data) => {
+        return API.put('/issue/' + id, data)
+    }
     
 }
 
