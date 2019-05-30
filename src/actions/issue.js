@@ -5,7 +5,7 @@ import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
      CHANGE_SELECTED_FILTER_FOR_USER_ISSUE_VALUE,
      CHANGE_SEARCH_VALUE,
      CHANGE_SELECTED_FILTER_FOR_DETAIL_ISSUE_VALUE,
-     CHANGE_SORT_TYPE
+     CHANGE_SORT_TYPE, CHANGE_ISSUE_WORKFLOW
 } from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
 import BaseApi from '../api/base'
@@ -169,4 +169,15 @@ export const changeFilterForDetailIssue = data => dispatch => {
 
 export const changeSortType = data => dispatch => {
     dispatch({type: CHANGE_SORT_TYPE, payload: data})
+}
+export const changeIssueWorkflow = (id, data) => dispatch => {
+    IssueApi.changeIssueWorkflow(id, data).then(res => {
+        if(res.data) {
+            if(res.data.error) {
+                toast.error(res.data.error)
+            } else {
+                dispatch({type: CHANGE_ISSUE_WORKFLOW, payload: res.data.data })
+            }
+        }
+    })
 }
