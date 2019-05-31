@@ -15,7 +15,11 @@ import {
   CHANGE_SELECTED_FILTER_FOR_USER_ISSUE_VALUE,
   CHANGE_SEARCH_VALUE,
   CHANGE_SELECTED_FILTER_FOR_DETAIL_ISSUE_VALUE,
-  CHANGE_SORT_TYPE
+  CHANGE_SORT_TYPE,
+  UPDATE_ISSUE_DETAIL_STATUS,
+  RESET_UPDATE_ISSUE_DETAIL_STATUS,
+  CREATE_SUBTASK_STATUS,
+  RESET_CREATE_SUBTASK_STATUS
 } from "../../constants/types/issue";
 import { combineReducers } from "redux";
 import _ from 'lodash'
@@ -124,6 +128,30 @@ const createIssueStatus = (state = false, action) => {
   }
 }
 
+const createSubtaskStatus = (state = false, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case CREATE_SUBTASK_STATUS:
+      return payload;
+    case RESET_CREATE_SUBTASK_STATUS:
+      return false;
+    default:
+      return state;
+  }
+}
+
+const updateIssueStatus = (state = false, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case UPDATE_ISSUE_DETAIL_STATUS:
+      return payload;
+    case RESET_UPDATE_ISSUE_DETAIL_STATUS:
+      return false;
+    default:
+      return state;
+  }
+}
+
 const selectedIssue = (state = {}, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -144,7 +172,7 @@ const selectedFilterForUserIssueValue = (state = {label: 'All Issue', key: 'all'
   }
 }
 
-const selectedFilterForDetailIssueValue = (state = {label: 'Priority', value: 'level'}, action) => {
+const selectedFilterForDetailIssueValue = (state = {label: 'Created', value: 'createdAt'}, action) => {
   const { type, payload } = action;
   switch (type) {
     case CHANGE_SELECTED_FILTER_FOR_DETAIL_ISSUE_VALUE:
@@ -188,7 +216,9 @@ const IssueState = combineReducers({
   selectedFilterForUserIssueValue,
   selectedFilterForDetailIssueValue,
   searchValue,
-  sortType
+  sortType,
+  updateIssueStatus,
+  createSubtaskStatus
 });
 
 export default IssueState;

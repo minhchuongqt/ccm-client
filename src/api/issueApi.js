@@ -37,6 +37,10 @@ class IssueApi {
     changeIssueWorkflow = (id, data) => {
         return API.put('/issue/' + id, data)
     }
+
+    updateIssue = (id, data) => {
+        return API.put('/issue/' + id, data)
+    }
     
 }
 

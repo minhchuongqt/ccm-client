@@ -23,7 +23,12 @@ class IssuePageContainer extends Component {
         description: ""
       },
       isOpenAddIssueModal: false,
-      
+      displayDescriptionEditor: false,
+      description: '',
+      displayAddSubtask: false,
+      subTaskSummary: '',
+      displayEditSummary: false,
+      issueSummary: ''
     };
     // this.assignFocus;
   }
@@ -39,21 +44,42 @@ class IssuePageContainer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { createIssueStatus, selectedFilterForDetailIssueValue, sortType } = newProps;
+    const { createIssueStatus, selectedFilterForDetailIssueValue, 
+      issueInfo,
+      sortType, updateIssueStatus, createSubtaskStatus,
+      issueSummary
+    } = newProps;
     // console.log(newProps)
     if (createIssueStatus) {
       toast.success("Create issue successfully");
       this.setState({ isOpenAddIssueModal: false });
+      newProps.getListLabel(this.getBaseOption());
+      newProps.getListStoryPoint(this.getBaseOption());
+      this.getListIssue(selectedFilterForDetailIssueValue, sortType);
+      newProps.resetCreateIssueStatus()
+    }
+
+    if (updateIssueStatus) {
+      toast.success("Update issue successfully");
       this.props.getListLabel(this.getBaseOption());
       this.props.getListStoryPoint(this.getBaseOption());
-      this.getListIssue();
-      this.props.resetCreateIssueStatus()
+      this.getListIssue(selectedFilterForDetailIssueValue, sortType);
+      this.props.resetUpdateIssueStatus()
+    }
+
+    if (createSubtaskStatus) {
+      toast.success("Create subtask successfully");
+      this.getIssueInfo(issueInfo)
+      this.props.resetCreateSubtaskStatus()
     }
     if(selectedFilterForDetailIssueValue !== this.props.selectedFilterForDetailIssueValue) {
       this.getListIssue(selectedFilterForDetailIssueValue, sortType);
     }
     if(sortType !== this.props.sortType) {
       this.getListIssue(selectedFilterForDetailIssueValue, sortType);
+    }
+    if(issueSummary !== newProps.issueInfo.summary) {
+      this.setState({issueSummary: newProps.issueInfo.summary});
     }
   }
 
@@ -80,7 +106,7 @@ class IssuePageContainer extends Component {
     return params;
   };
 
-  getListIssue = (filter, sort) => {
+  getListIssue = (filter = {}, sort = -1) => {
     const query = {
       query: JSON.stringify({
         project: this.props.selectedProject._id
@@ -198,7 +224,7 @@ class IssuePageContainer extends Component {
           [value.key]: value.value
         }),
         sort: JSON.stringify({
-          [selectedFilterForDetailIssueValue.valu]: sortType,
+          [selectedFilterForDetailIssueValue.value]: sortType,
         })
       };
       this.props.getIssueList(params);
@@ -208,13 +234,73 @@ class IssuePageContainer extends Component {
           project: this.props.selectedProject._id,
         }),
         sort: JSON.stringify({
-          [selectedFilterForDetailIssueValue.valu]: sortType,
+          [selectedFilterForDetailIssueValue.value]: sortType,
         })
       };
       this.props.getIssueList(params);
     }
   }
 
+  updateIssueDetail = (key, value) => {
+    const {issueInfo} = this.props
+    console.log(key, ': ', value)
+    switch (key) {
+      case 'label':
+        this.props.updateIssueDetail(issueInfo._id, {[key]: value.map(item => item.label)})
+        break;
+      case 'storyPoints':
+          this.props.updateIssueDetail(issueInfo._id, {[key]: value.label})
+        break;
+      case 'description':
+        this.setState({[key]: value})
+        break;
+      case 'subTaskSummary':
+        this.setState({subTaskSummary: value})
+        break;
+      case 'summary':
+        this.setState({issueSummary: value})
+        break;
+      default:
+          this.props.updateIssueDetail(issueInfo._id, {[key]: value.value})
+        break;
+    }
+  }
+
+  changeDisplayDescriptionEditor = async (value, text) => {
+    await this.setState({displayDescriptionEditor: value, description: text})
+  }
+
+  changeDisplayCreateSubtask = (value) => {
+    this.setState({displayAddSubtask: value})
+  }
+  changeDisplayEditSummary = (value) => {
+    this.setState({displayEditSummary: value})
+  }
+
+  saveDescription = () => {
+    const {issueInfo} = this.props
+    this.props.updateIssueDetail(issueInfo._id, {description: this.state.description})
+  }
+
+  saveSummary = () => {
+    const {issueInfo} = this.props
+    if(this.state.issueSummary !== issueInfo.summary) {
+      this.props.updateIssueDetail(issueInfo._id, {summary: this.state.issueSummary})
+    }
+  }
+
+  createSubtask = () => {
+    const {selectedProject, issueTypeSelectable, issueInfo, prioritySelectable} = this.props
+    const {subTaskSummary} = this.state
+        const data = {
+          project: selectedProject._id,
+          issueType: issueTypeSelectable.find(item => item.label == 'Sub Task').value,
+          priority: prioritySelectable.find(item => item.label == 'Medium').value,
+          summary: subTaskSummary,
+          subTaskOfIssue: issueInfo._id
+        }
+        this.props.createSubtask(data)
+  }
   render() {
     const {
       listIssue,
@@ -233,9 +319,10 @@ class IssuePageContainer extends Component {
       selectedFilterForUserIssueValue,
       selectedFilterForDetailIssueValue,
       searchValue,
-      sortType
+      sortType,
     } = this.props;
-    const { isOpenAddIssueModal } = this.state;
+    const { isOpenAddIssueModal, displayDescriptionEditor, description,  displayAddSubtask,
+      subTaskSummary, issueSummary } = this.state;
     // console.log(selectedIssue)
     return (
       <div>
@@ -244,10 +331,22 @@ class IssuePageContainer extends Component {
           filterableForUserIssue={filterableForUserIssue}
           filterableForDetailIssue={filterableForDetailIssue}
           selectedFilterForDetailIssueValue={selectedFilterForDetailIssueValue}
+          displayDescriptionEditor={displayDescriptionEditor}
+          descriptionState={description}
+          displayAddSubtask={displayAddSubtask}
+          subTaskSummary={subTaskSummary}
+          issueSummary={issueSummary}
+          changeDisplayDescriptionEditor={(value, text) => this.changeDisplayDescriptionEditor(value, text)}
+          changeDisplayCreateSubtask={value => this.changeDisplayCreateSubtask(value)}
           onChangeFilterForUserIssue={(value) => this.onChangeFilterForUserIssue(value)}
           onChangeFilterForDetailIssue={value => this.props.changeFilterForDetailIssue(value)}
           onChangeSearchValue={value => this.props.onChangeSearchValue(value)}
           changeSortType={value => this.props.changeSortType(value)}
+          updateIssueDetail={(key, value) => this.updateIssueDetail(key, value)}
+          saveDescription={() => this.saveDescription()}
+          createSubtask={() => this.createSubtask()}
+          changeDisplayEditSummary={value => this.changeDisplayEditSummary(value)}
+          saveSummary={() => this.saveSummary()}
           sortType={sortType}
           searchValue={searchValue}
           listIssue={listIssue}
@@ -307,7 +406,9 @@ const mapState = state => {
   selectedFilterForUserIssueValue: selectors.getSelectedFilterForUserIssueValue(state),
   selectedFilterForDetailIssueValue: selectors.getSelectedFilterForDetailIssueValue(state),
   searchValue: selectors.getSearchValue(state),
-  sortType: selectors.getSortType(state)
+  sortType: selectors.getSortType(state),
+  updateIssueStatus: selectors.getUpdateIssueStatus(state),
+  createSubtaskStatus: selectors.getCreateSubtaskStatus(state)
 }
 };
 
@@ -365,8 +466,19 @@ const mapDispatchToProps = dispatch => ({
   },
   changeSortType(value) {
     dispatch(actions.changeSortType(value))
+  },
+  updateIssueDetail(id, data) {
+    dispatch(actions.updateIssueDetail(id, data))
+  },
+  resetUpdateIssueStatus() {
+    dispatch(actions.resetUpdateIssueStatus())
+  },
+  createSubtask(data) {
+    dispatch(actions.createSubtask(data))
+  },
+  resetCreateSubtaskStatus() {
+    dispatch(actions.resetCreateSubtaskStatus())
   }
-
 });
 
 export default connect(

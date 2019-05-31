@@ -60,10 +60,6 @@ export const getFilterableForDetailIssue = () => {
     // return UserState.userInfo
     const result = [
         {
-            label: 'Priority',
-            value: 'level'
-        },
-        {
             label: 'Created',
             value: 'createdAt'
         },
@@ -74,6 +70,10 @@ export const getFilterableForDetailIssue = () => {
         {
             label: 'Summary',
             value: 'summary'
+        },
+        {
+            label: 'Priority',
+            value: 'level'
         },
     ]
     return result
@@ -104,6 +104,16 @@ export const getListPriority = ({IssueState}) => {
 export const getCreateIssueStatus = ({IssueState}) => {
     // if(_.isEmpty(IssueState.createIssueStatus)) return null
     return IssueState.createIssueStatus
+}
+
+export const getUpdateIssueStatus = ({IssueState}) => {
+    // if(_.isEmpty(IssueState.createIssueStatus)) return null
+    return IssueState.updateIssueStatus
+}
+
+export const getCreateSubtaskStatus = ({IssueState}) => {
+    // if(_.isEmpty(IssueState.createIssueStatus)) return null
+    return IssueState.createSubtaskStatus
 }
 
 export const getIssueTypeSelectable = ({IssueState}) => {
@@ -179,7 +189,7 @@ export const generateDataForAddIssue = ({IssueState}) => {
          assignee: (assignee || []).map(item => item.value),
          priority: (priority || {}).value || null,
          label: (label || []).map(item => item.label),
-         storyPoints: (storyPoints || {}).value || null,
+         storyPoints: (storyPoints || {}).label || null,
         }
     return result
 }

@@ -11,7 +11,7 @@ import SearchSelect from "../../components/singleSelect";
 import moment from "moment";
 import Creatable from "react-select/lib/Creatable";
 import TextEditor from "../../components/textEditor";
-import { changeSortType } from "../../actions/issue";
+import { changeSortType, createSubtask } from "../../actions/issue";
 
 const generateClassForIssueStatus = status => {
   switch (status) {
@@ -49,10 +49,21 @@ const IssuePage = props => {
     onChangeSearchValue,
     searchValue,
     sortType,
-    changeSortType
+    changeSortType,
+    updateIssueDetail,
+    changeDisplayDescriptionEditor,
+    displayDescriptionEditor,
+    saveDescription,
+    descriptionState,
+    displayAddSubtask,
+    subTaskSummary,
+    changeDisplayCreateSubtask,
+    createSubtask,
+    issueSummary,
+    saveSummary,
   } = props;
   // console.log(storyPointSelectable);
-  // console.log(issueInfo.label)
+  console.log(issueInfo.issueType)
   let selectableIssueType = issueInfo.issueType
     ? issueTypeSelectable.filter(
         item => item.value !== issueInfo.issueType.value && item
@@ -83,18 +94,13 @@ const IssuePage = props => {
         item => item.value !== issueInfo.priority.value && item
       )
     : prioritySelectable;
-
-  // console.log(issueInfo);
+    
   return (
     <div id="issue-view">
       <div>
         <Breadcrumb>
           <BreadcrumbItem active>Issue</BreadcrumbItem>
         </Breadcrumb>
-        <div className="row">
-          <div id="open-issues" className="col-md-4 p-r-0">
-          </div>
-        </div>
       </div>
       {/* <EditIssueView />
       <AddIssueView /> */}
@@ -127,19 +133,19 @@ const IssuePage = props => {
               {(sortType == -1) &&
                 <i
                   className="fa fa-chevron-down cursor-pointer"
-                  style={{ float: "right", marginTop: "10px", paddingLeft: 10 }}
+                  style={{ float: "right", marginTop: "10px", paddingLeft: 5 }}
                   onClick={() => changeSortType(1)}
                 />
                 || 
                 <i
                   className="fa fa-chevron-up cursor-pointer"
-                  style={{ float: "right", marginTop: "10px", paddingLeft: 10 }}
+                  style={{ float: "right", marginTop: "10px", paddingLeft: 5 }}
                   onClick={() => changeSortType(-1)}
                 />
                 }
-              <div style={{ width: "150px", float: "right" }}>
+              <div style={{ width: "100px", float: "right" }}>
                 <SearchSelect
-                  id="issue-page-multi-select-label"
+                  id="issue-page-multi-select"
                   options={filterableForDetailIssue}
                   value={selectedFilterForDetailIssueValue}
                   onChange={e => onChangeFilterForDetailIssue(e)}
@@ -208,11 +214,19 @@ const IssuePage = props => {
                 <div className="box-body">
                   <div>
                     <div>
-                      <i className="fa fa-trello" /> {issueInfo.issueKey}
+                      <i className="fa fa-trello" /> <span style={{color: "#6d7074"}}>{issueInfo.issueKey}</span>
                     </div>
                   </div>
                   <div id="edit">
-                    <h3>{issueInfo.summary}</h3>
+                      <input 
+                        id="edit-summary"
+                        value={issueSummary} 
+                        className="form-control hover-background" 
+                        style={{height: "38px",fontSize: "20px", border: 'unset'}}
+                        onBlur={() => saveSummary()}
+                        onChange={e => updateIssueDetail('summary', e.target.value)}
+                        onKeyDown={e => {e.key == 'Enter' && saveSummary()}}
+                      />
                   </div>
                   <div className="btn-group m-b-5">
                     <button
@@ -324,13 +338,13 @@ const IssuePage = props => {
                                       id="issue-page-multi-select"
                                       value={issueInfo.issueType || {}}
                                       options={selectableIssueType || []}
-                                      onBlur={() => console.log("bur")}
+                                      onChange={e => updateIssueDetail('issueType', e)}
                                     />
                                   </li>
                                 </ul>
                               </div>
                             </div>
-                            <div className="box-body flex-center">
+                            <div className="box-body flex-center" style={{ height: "40px" }}>
                               <div className="col-md-4">
                                 <ul className="list-unstyled">
                                   <li>Status:</li>
@@ -367,7 +381,7 @@ const IssuePage = props => {
                                       id="issue-page-multi-select"
                                       value={issueInfo.priority || {}}
                                       options={selectablePriority || []}
-                                      onBlur={() => console.log("bur")}
+                                      onChange={e => updateIssueDetail('priority', e)}
                                     />
                                   </li>
                                 </ul>
@@ -389,7 +403,7 @@ const IssuePage = props => {
                                       isClearable={false}
                                       value={issueInfo.label || []}
                                       options={selectableLabel || []}
-                                      onBlur={() => console.log("bur")}
+                                      onChange={e => updateIssueDetail('label', e)}
                                     />
                                   </li>
                                 </ul>
@@ -414,13 +428,14 @@ const IssuePage = props => {
                                       }
                                       options={selectableStoryPoint || []}
                                       onBlur={() => console.log("bur")}
+                                      onChange={e => updateIssueDetail('storyPoints', e)}
                                     />
                                   </li>
                                 </ul>
                               </div>
                             </div>
 
-                            <div className="box-body flex-center">
+                            <div className="box-body flex-center" style={{ height: "40px" }}>
                               <div className="col-md-4">
                                 <ul className="list-unstyled">
                                   <li>Fix Version/s:</li>
@@ -435,7 +450,7 @@ const IssuePage = props => {
                               </div>
                             </div>
 
-                            <div className="box-body flex-center">
+                            <div className="box-body flex-center" style={{ height: "40px" }}>
                               <div className="col-md-4">
                                 <ul className="list-unstyled">
                                   <li>Sprint:</li>
@@ -464,14 +479,39 @@ const IssuePage = props => {
                           </div>
                           <div
                             id="collapseDes"
-                            className="panel-collapse collapse in"
+                            className="box-body panel-collapse collapse in"
                           >
+                            {!displayDescriptionEditor && 
                             <div
-                              className="box-body"
+                              className="box-body fade fade-in cursor-pointer description-text-box"
+                              style={{display: 'block'}}
                               dangerouslySetInnerHTML={{
                                 __html: `${issueInfo.description || ""}`
                               }}
-                            />
+                              onClick={() => changeDisplayDescriptionEditor(true, issueInfo.description)}
+                            /> ||
+                            <div style={{display: 'block', animation: 'flipInX 0.7s both'}}>
+                              <TextEditor 
+                              // className="form-control"
+                                name="textDescription"
+                                id="Des"
+                                rows="5"
+                                
+                                value={descriptionState || ""}
+                                onChange={value => updateIssueDetail("description", value)}
+                              />
+
+                              <div style={{textAlign: 'right'}}>
+                                <button style={{margin: '10px'}} className="btn btn-default pd-5"
+                                  onClick={() => changeDisplayDescriptionEditor(false)}
+                                >Cancel</button>
+                                <button className="btn btn-primary"
+                                  onClick={() => saveDescription()}
+                                >Save</button>
+                              </div>
+                            </div>
+
+                            }
                             {/* {parser.parseFromString(issueInfo.description, 'text/html')}
                           </div> */}
                           </div>
@@ -509,7 +549,8 @@ const IssuePage = props => {
                           </div>
                         )}
 
-                        <div className="panel m-b-0">
+                        {issueInfo.issueType.label != "Sub Task" && 
+                        <div className="panel m-b-0" style={{paddingBottom: 10}}>
                           <div className="box-header with-border pd-0">
                             <h4 className="box-title">
                               <a data-toggle="collapse" href="#collapseSub">
@@ -519,10 +560,12 @@ const IssuePage = props => {
                               </a>
                             </h4>
                             <a className="right cursor-pointer">
-                              <i className="fa fa-plus" />
+                              <i className="fa fa-plus"
+                                onClick={() => changeDisplayCreateSubtask(true)}
+                              />
                             </a>
                           </div>
-                          {!_.isEmpty(issueInfo.subtasks) && (
+                          {!_.isEmpty((issueInfo.subtasks || [])[0]) &&
                             <div
                               id="collapseSub"
                               className="panel-collapse collapse in"
@@ -533,64 +576,57 @@ const IssuePage = props => {
                                   className="table table-bordered table-hover"
                                 >
                                   <tbody>
-                                    <tr>
-                                      <td>1. </td>
-                                      <td>
-                                        <div className="summary">
-                                          Update task status by dragging and
-                                          dropping from column to column >> Try
-                                          dragging this task to "Done"
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <i
-                                          className="fa fa-clone"
-                                          title="The sub-task of the issue"
-                                        />
-                                      </td>
-                                      <td>
-                                        <span className="label label-default">
-                                          TO DO
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <div className="summary">
-                                          minhchuongqt@gmail.com
-                                        </div>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>1. </td>
-                                      <td>
-                                        <div className="summary">
-                                          Update task status by dragging and
-                                          dropping from column to column >> Try
-                                          dragging this task to "Done"
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <i
-                                          className="fa fa-clone"
-                                          title="The sub-task of the issue"
-                                        />
-                                      </td>
-                                      <td>
-                                        <span className="label label-default">
-                                          TO DO
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <div className="summary">
-                                          minhchuongqt@gmail.com
-                                        </div>
-                                      </td>
-                                    </tr>
+                                    {issueInfo.subtasks.map((item, index) => {
+                                      return (
+                                        <tr key={index} className="cursor-pointer" onClick={(item) => selectIssue(item)}>
+                                          <td><img src={API + item.issueType.iconUrl} width="16px"/>  {item.issueKey}</td>
+                                          <td>
+                                            <div className="summary">
+                                              {item.summary}
+                                            </div>
+                                          </td>
+                                          <td>
+                                            {item.priority && <img width="16px" src={API + item.priority.iconUrl || ''}/>}
+                                          </td>
+                                          <td>
+                                            <span className={"label " + generateClassForIssueStatus(item.workflow.type)}>
+                                              {item.workflow.name}
+                                            </span>
+                                          </td>
+                                          {/* <td>
+                                            <div className="summary">
+                                              minhchuongqt@gmail.com
+                                            </div>
+                                          </td> */}
+                                        </tr>
+
+                                      )
+                                    })}
+                                    
                                   </tbody>
                                 </table>
                               </div>
                             </div>
-                          )}
-                        </div>
+                          }
+                          {displayAddSubtask && 
+                            <div className="box-body">
+                              <input
+                                type="text"
+                                className="form-control"
+                                value={subTaskSummary || ''}
+                                onChange={e => updateIssueDetail("subTaskSummary", e.target.value)}
+                              />
+                              <div style={{textAlign: 'right'}}>
+                                <button style={{margin: '10px'}} className="btn btn-default pd-5"
+                                  onClick={() => changeDisplayCreateSubtask(false)}
+                                >Cancel</button>
+                                <button className="btn btn-primary"
+                                  onClick={() => createSubtask()}
+                                >Create</button>
+                              </div>
+                            </div>
+                          }
+                        </div>}
 
                         <div className="panel m-b-0">
                           <div className="box-header with-border pd-0">
@@ -760,7 +796,7 @@ const IssuePage = props => {
                                         value={a}
                                         isClearable={true}
                                         options={selectableAssignee || []}
-                                        onBlur={() => console.log("bur")}
+                                        onChange={value => updateIssueDetail("assignee", value)}
                                       />
                                     );
                                   })}
@@ -770,14 +806,21 @@ const IssuePage = props => {
                                     placeholder="Add another"
                                     isClearable={true}
                                     options={selectableAssignee || []}
-                                    onBlur={() => console.log("bur")}
+                                    onChange={value => updateIssueDetail("assignee", value)}
                                   />
                                 </li>
                               </ul>
                               {/* } */}
                               <ul className="list-unstyled">
                                 <li>Creator:</li>
-                                <li>{issueInfo.creator}</li>
+                                <li>
+                                  <div className="box-body">
+                                    {issueInfo.creator.avatarUrl && 
+                                    <img src={API + issueInfo.creator.avatarUrl} width="35px" height="35px" style={{borderRadius: "50%"}}/>
+                                    }&nbsp;&nbsp;
+                                    {issueInfo.creator.displayName || issueInfo.creator.fullName}
+                                  </div>
+                                </li>
                               </ul>
                             </div>
                           </div>
@@ -797,14 +840,12 @@ const IssuePage = props => {
                             id="collapseDate"
                             className="panel-collapse collapse in"
                           >
-                            <div className="box-body">
+                            <div className="box-body" style={{color: "#6d7074"}}>
                               <ul className="list-unstyled">
-                                <li>Created:</li>
-                                <li>{issueInfo.createdDate}</li>
+                                <li>Created: {issueInfo.createdDate}</li>
                               </ul>
                               <ul className="list-unstyled">
-                                <li>Updated:</li>
-                                <li>{issueInfo.updatedDate}</li>
+                                <li>Updated: {issueInfo.updatedDate}</li>
                               </ul>
                             </div>
                           </div>

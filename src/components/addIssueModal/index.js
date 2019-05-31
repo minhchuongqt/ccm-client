@@ -13,6 +13,7 @@ class AddIssueModalContainer extends Component {
   constructor(props) {
     super(props);
     
+    
   }
 
   getListSprint = () => {
