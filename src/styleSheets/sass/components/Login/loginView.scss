@@ -1,0 +1,162 @@
+#login-view {
+    .text-info{
+        color: white;
+        font-family: Avenir;
+    
+    }
+    .content-wrapper{
+        margin-left: 0px !important;
+    }
+    .language-selector{
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
+    .language-title{
+        position: relative;
+        bottom: -1px;
+        margin-right: 20px;
+        border-right: 3px solid white;
+        padding: 8px 20px;
+    }
+    .pad-bottom{
+        padding-bottom: 20px;
+    }
+    .custom-language{
+        right: 0;
+    }
+    .login-box{
+        font-family: 'Averir';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        width: 40%;
+        margin: 5% auto;
+    }
+    .login-main{
+        display: flex;
+        box-shadow: 0 0 14px #CCC;
+        border-radius: 10px;
+    }
+    .forgot{
+        text-align: center;
+    }
+    .pointer-login{
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .pointer-login:hover{
+        color: rgb(6, 6, 185);
+      }
+    .login-image{
+        width: 100%;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+    .register-title {
+        font-size: 37px !important;
+    }
+    .box-register-custom {
+        padding: 30px 40px !important;
+        background-color: #ffffffd1;
+        margin-bottom: 0px !important;
+        border-bottom-right-radius: 10px !important;
+        border-top-right-radius: 10px !important;
+    }
+    .box-login-custom{
+        padding: 50px 60px !important;
+        background-color: #ffffffd1;
+        margin-bottom: 0px !important;
+        border-bottom-right-radius: 10px !important;
+        border-top-right-radius: 10px !important;
+    }
+    .login-image-box{
+        margin-right: -2px;
+    }
+    .p-login {
+        margin: 0 0 10px;
+    }
+    .p-register{
+        margin: 0 0 0 0px;
+    }
+    .login-box-title{
+        text-align: center;
+        color: #7bbb49;
+        font-family: 'Averir';
+        font-style: normal;
+        font-weight: 900;
+        font-size: 42px;
+    }
+    .btn-login{
+        transition: .3s;
+        background-color: #7bbb49;
+        font-family: 'Averir';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 15px;
+    }
+    .box {
+        margin-bottom: 0px;
+    }
+    .btn-login::after{
+        position: absolute;
+        -webkit-transition: .3s;
+        transition: .3s;
+        content: '';
+        left: 50%;
+        bottom: 0;
+        background: #f7f7f7;
+    }
+    .btn-login::after{
+        border-radius: 20px;
+    }
+    .forgot-pass{
+        color: black;
+    }
+    
+    .login-input {
+            background-color: ghostwhite;
+            border: 0px solid;
+    }
+    .has-feedback .password {
+        letter-spacing: 5px;
+    }
+    .login-box input{
+        color: #7bbb49 !important;
+        font-size: 23px;
+    }
+    @media (max-width : 600px){
+        .login-image-box{
+            display: none;
+        }
+        .login-main {
+            display: inline;
+        }
+        .box-login-custom {
+            padding: 50px 30px !important;
+            border-bottom-left-radius: 10px !important;
+            border-top-left-radius: 10px !important;
+        }
+        .login-box {
+            width: 90%;
+        }
+    }
+    
+    @media (max-width: 1300px) and (min-width: 600px){
+        .login-image-box{
+            display: none;
+        }
+        .login-main {
+            display: inline;
+        }
+        .box-login-custom {
+            padding: 50px 30px !important;
+            border-bottom-left-radius: 10px !important;
+            border-top-left-radius: 10px !important;
+        }
+        .login-box {
+            width: 50%;
+        }
+    }
+    
+}

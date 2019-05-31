@@ -1,61 +1,61 @@
 import React from "react";
+import * as PATH from "../../constants/data/routeConstants"
+import { HashRouter as Link } from "react-router-dom";
+import "../../styleSheets/sass/components/Login/loginView.scss";
 // import Propstype from 
 const RegisterPage = props => {
   return (
-    <div>
-      <div className="register-box">
-        <div className="register-logo">
-          <a ><b>CCM</b>Application</a>
-        </div>
+    <div id="login-view">
+      <div className="login-box">
+        <div class="login-main">
 
-        <div className="register-box-body">
-          <p className="login-box-msg">Register a new membership</p>
-
+          <div className="login-box-body box box-primary box-register-custom">
+            <p class="login-box-title p-register register-title">REGISTER</p>
+            {/* <p className="login-box-msg">Sign in to start your session</p> */}
+            <p className="p-register">Full name</p>
             <div className="form-group has-feedback">
-              <input type="text" className="form-control" placeholder="Full name"
-                value = {props.fullName}
+              <input type="text" className="form-control login-custom login-input" 
+                value={props.fullName}
                 onChange={e => props.changeValue('fullName', e.target.value)}
               />
-              <span className="glyphicon glyphicon-user form-control-feedback"></span>
+              <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/man-user.svg')} alt=""></img>
             </div>
+            <p className="p-register">Email Adress</p>
             <div className="form-group has-feedback">
-              <input type="email" className="form-control" placeholder="Email" 
-              value = {props.email}
-              onChange={e => props.changeValue('email', e.target.value)}
+              <input type="email" className="form-control login-custom login-input" 
+                value={props.email}
+                onChange={e => props.changeValue('email', e.target.value)}
               />
-              <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
+              <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/man-user.svg')} alt=""></img>
             </div>
+            <p className="p-register">Password</p>
             <div className="form-group has-feedback">
-              <input type="password" className="form-control" placeholder="Password" 
-              value = {props.password}
-              onChange={e => props.changeValue('password', e.target.value)}/>
-              <span className="glyphicon glyphicon-lock form-control-feedback"></span>
+              <input type="password" className="form-control login-custom login-input password" 
+                value={props.password}
+                onChange={e => props.changeValue('password', e.target.value)} />
+                <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/password.svg')} alt=""></img>
             </div>
+            <p className="p-register">Retype password</p>
             <div className="form-group has-feedback">
-              <input type="password" className="form-control" placeholder="Retype password" 
-              value = {props.retypePassword}
-              onChange={e => props.changeValue('retypePassword', e.target.value)}
+              <input type="password" className="form-control login-custom login-input password" 
+                value={props.retypePassword}
+                onChange={e => props.changeValue('retypePassword', e.target.value)}
               />
-              <span className="glyphicon glyphicon-log-in form-control-feedback"></span>
+              <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/password.svg')} alt=""></img>
             </div>
-            <div className="row">
-              <div className="col-xs-8">
-                <div className="checkbox icheck">
-                  <label>
-                    <input type="checkbox" /> I agree to the <a>terms</a>
-                  </label>
-                </div>
+
+            <div class="row">
+              <div class="col-xs-12 pad-bottom">
+                <button type="submit" id="btnSubmit" onClick={() => props.register()} class="btn btn-login btn-success" >REGISTER</button>
               </div>
-              <div className="col-xs-4">
-                <button type="submit" className="btn btn-primary btn-block btn-flat"
-                  onClick={() => props.register()}
-                >Register</button>
+              <div class="col-xs-12 forgot">
+                <a class="forgot-pass pointer-login" href="/login">I already have a membership</a>
               </div>
             </div>
-          <a href="login.html" className="text-center">I already have a membership</a>
+
+          </div>
         </div>
       </div>
-
     </div>
   )
 };

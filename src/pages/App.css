@@ -838,3 +838,6 @@ p {
 }
 /* #f1ecec  */
 /* #172b4d */
+.pointer{
+  cursor: pointer;
+}

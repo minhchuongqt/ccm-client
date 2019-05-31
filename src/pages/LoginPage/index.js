@@ -12,12 +12,20 @@ class LoginPageContainer extends Component {
             password: '123456',
         }
     }
-
+    // componentWillMount() {
+    //     document.getElementById('main-body').className += " background "
+    //     // $("html").addClass("background");
+    // }
+    
     componentWillReceiveProps(newProps) {
         const {token} = newProps
         if(token) {
             this.props.history.push('/');
         }
+        // if(newProps.location.pathname === '/login') {
+        // } else {
+            // document.getElementById('html').className = ""/
+        // }
     }
 
     onChange(key, value) {

@@ -7,3 +7,105 @@
 .modal-top {
     top: 0px;
 }
+.background body.login-page{
+    background: transparent !important;
+  }
+.background img{
+    opacity: 0.4 !important;
+  }
+.background {
+    content : "";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-image: url(/src/assets/img/group-2.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: linear-gradient(to bottom, rgba(234, 249, 177, 0), rgba(148, 200, 130, 0.81) 56%, #81c54b);
+  }
+/* .main-sidebar:after {
+    content : "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url(/src/assets/img/bg1.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  } */
+.login-custom{
+    width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    border-radius: 5px !important;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 14px;
+    padding: 0 20px 0 50px;
+    outline: none;
+}
+.login-icon-custom{
+    left: 15px;
+    top: 3px;
+    width: 17px;
+}
+.btn-login{
+    width: 100%;
+    border-radius: 5px;
+    padding: 11px 12px;
+}
+.a {
+    text-decoration: none !important;
+}
+.a:hover {
+    text-decoration: none !important;
+    color: red !important;
+}
+@font-face{
+    font-family: Avenir;
+    src: url("../styleSheets/sass/fonts/Avenir.otf");
+}
+@font-face {
+    font-family: 'Averir';
+    font-style: normal;
+    font-weight: 300;
+    src: url("../styleSheets/sass/fonts/device/Avenir-Light.ttf") format('truetype');
+  }
+   @font-face {
+    font-family: 'Averir';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../styleSheets/sass/fonts/device/Avenir-Light.ttf") format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Averir';
+    font-style: normal;
+    font-weight: 700;
+    src: url("../styleSheets/sass/fonts/device/Avenir-Heavy.ttf") format('truetype');
+  }
+  @font-face {
+    font-family: 'Averir';
+    font-style: normal;
+    font-weight: 800;
+    src: url("../styleSheets/sass/fonts/device/Avenir-Heavy.ttf") format('truetype');
+  }
+  @font-face {
+    font-family: 'Averir';
+    font-style: normal;
+    font-weight: 600;
+    src: url("../styleSheets/sass/fonts/device/Avenir-Medium.ttf") format('truetype');
+  }
+  @font-face {
+    font-family: 'Averir';
+    font-style: normal;
+    font-weight: 500;
+    src: url("../styleSheets/sass/fonts/device/Avenir-Medium.ttf") format('truetype');
+  }
