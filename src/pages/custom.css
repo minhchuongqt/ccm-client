@@ -109,3 +109,17 @@
     font-weight: 500;
     src: url("../styleSheets/sass/fonts/device/Avenir-Medium.ttf") format('truetype');
   }
+  .dropdown-menu-custom {
+    background-color: #333 !important;
+  }
+  .navbar-nav>.notifications-menu>.dropdown-menu>li.header {
+    background-color: #333 !important;
+  }
+  .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+    color: #262626;
+    text-decoration: none;
+    background-color: #333 !important;
+}
+.navbar-nav>.user-menu>.dropdown-menu>.user-footer {
+  background-color: #333 !important;
+}

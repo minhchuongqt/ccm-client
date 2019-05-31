@@ -919,11 +919,11 @@ a:focus {
   margin-right: 10px;
 }
 .dropdown-menu > li > a:hover {
-  background-color: #e1e3e9;
+  background-color: #335;
   color: #333;
 }
 .dropdown-menu > .divider {
-  background-color: #eee;
+  background-color: #333 !important;
 }
 .navbar-nav > .notifications-menu > .dropdown-menu,
 .navbar-nav > .messages-menu > .dropdown-menu,
