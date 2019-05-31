@@ -41,6 +41,7 @@ class BacklogPageContainer extends Component {
   }
   componentWillReceiveProps(newProps) {
     const { createSprintStatus, createIssueStatus } = newProps;
+    console.log(this.props)
     if (createSprintStatus) {
       toast.success("Create sprint successfully");
       this.setState({ isOpenAddSprintModal: false });
@@ -52,7 +53,9 @@ class BacklogPageContainer extends Component {
       this.setState({ isOpenAddIssueModal: false,   addIssueToSprint: null,});
       this.props.getListLabel(this.getBaseOption());
       this.props.getListStoryPoint(this.getBaseOption());
-      this.getListIssue();
+      this.getListSprint();
+      // this.getListIssue()
+      this.getListBacklogIssue();
       this.props.resetCreateIssueStatus()
     }
   }
@@ -95,6 +98,9 @@ class BacklogPageContainer extends Component {
 
   openAddSprintModal = () => {
     this.setState({ isOpenAddSprintModal: true });
+
+    this.props.changeAddIssueFormValue('issueType', this.props.issueTypeSelectable[0])
+    this.props.changeAddIssueFormValue('priority', this.props.prioritySelectable[0])
   };
   closeSprintModal = () => {
     this.setState({
@@ -213,6 +219,7 @@ const mapStateToProps = state => ({
   addIssueFormValue: issueSelectors.getAddIssueFormValue(state),
   sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
   issueTypeSelectable: issueSelectors.getIssueTypeSelectable(state),
+  prioritySelectable: issueSelectors.getPrioritySelectable(state),
   createIssueStatus: issueSelectors.getCreateIssueStatus(state),
 });
 
@@ -237,6 +244,12 @@ const mapDispatchToProps = dispatch => ({
   },
   getListLabel(query) {
     dispatch(issueActions.getListLabel(query));
+  },
+  getListStoryPoint(query) {
+    dispatch(issueActions.getListStoryPoint(query))
+  },
+  resetCreateIssueStatus(query) {
+    dispatch(issueActions.resetCreateIssueStatus(query))
   },
 });
 export default connect(

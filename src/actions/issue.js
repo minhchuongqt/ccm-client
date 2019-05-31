@@ -5,7 +5,11 @@ import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
      CHANGE_SELECTED_FILTER_FOR_USER_ISSUE_VALUE,
      CHANGE_SEARCH_VALUE,
      CHANGE_SELECTED_FILTER_FOR_DETAIL_ISSUE_VALUE,
-     CHANGE_SORT_TYPE, CHANGE_ISSUE_WORKFLOW
+     CHANGE_SORT_TYPE, CHANGE_ISSUE_WORKFLOW,
+     UPDATE_ISSUE_DETAIL_STATUS,
+     RESET_UPDATE_ISSUE_DETAIL_STATUS,
+     CREATE_SUBTASK_STATUS,
+     RESET_CREATE_SUBTASK_STATUS
 } from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
 import BaseApi from '../api/base'
@@ -84,8 +88,28 @@ export const createIssue = (data) =>  dispatch => {
     }
 }
 
+export const createSubtask = (data) => dispatch => {
+    IssueApi.createIssue(data).then(res => {
+        if(res.data) {
+            if(res.data.error) {
+                toast.error(res.data.error)
+            } else {
+                dispatch({type: CREATE_SUBTASK_STATUS, payload: res.data.success })
+            }
+        }
+    })
+}
+
 export const resetCreateIssueStatus = () => dispatch => {
     dispatch({ type: RESET_CREATE_ISSUE_STATUS })
+}
+
+export const resetUpdateIssueStatus = () => dispatch => {
+    dispatch({ type: RESET_UPDATE_ISSUE_DETAIL_STATUS })
+}
+
+export const resetCreateSubtaskStatus = () => dispatch => {
+    dispatch({ type: RESET_CREATE_SUBTASK_STATUS })
 }
 
 export const getIssueType = (data) => dispatch => {
@@ -177,6 +201,20 @@ export const changeIssueWorkflow = (id, data) => dispatch => {
                 toast.error(res.data.error)
             } else {
                 dispatch({type: CHANGE_ISSUE_WORKFLOW, payload: res.data.data })
+            }
+        }
+    })
+}
+
+
+export const updateIssueDetail = (id, data) => dispatch => {
+    console.log(id, ':', data)
+    IssueApi.updateIssue(id, data).then(res => {
+        if(res.data) {
+            if(res.data.error) {
+                toast.error(res.data.error)
+            } else {
+                dispatch({type: UPDATE_ISSUE_DETAIL_STATUS, payload: res.data.success })
             }
         }
     })
