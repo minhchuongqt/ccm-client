@@ -1,6 +1,5 @@
 import _ from 'lodash'
 //params
-import React, { Component }  from 'react';
 import { API } from "../config";
 import ReactHtmlParser from "react-html-parser";
 function unescapeHTML(html) {
@@ -35,3 +34,8 @@ export const generateDataActiveBoard = ({WorkflowState, BacklogState}) => {
       }
   return temp
   }
+
+  export const getSprintActiveInfo = ({BacklogState}) => {
+    if(_.isEmpty(BacklogState.sprintActiveInfo)) return []
+    return BacklogState.sprintActiveInfo
+}

@@ -113,7 +113,7 @@ class DragDropComponents extends React.Component {
       }
     })
     
-    const { openAddSprintModal, initialData, openAddIssueModal } = this.props
+    const { openAddSprintModal, initialData, openAddIssueModal, openStartSprintModal } = this.props
     // console.log(this.props)
     return (
       <div>
@@ -146,6 +146,7 @@ class DragDropComponents extends React.Component {
                       disableAction = {true}
                       startSprint
                       openAddIssueModal={openAddIssueModal}
+                      openStartSprintModal={openStartSprintModal}
                       column={column}
                       tasks={tasks}
                       index={index}
@@ -161,6 +162,7 @@ class DragDropComponents extends React.Component {
                 <div key={column.id}>
                   <Column
                     openAddIssueModal={openAddIssueModal}
+                    openStartSprintModal={openStartSprintModal}
                     sprintActived = {sprintActived}
                     key={column.id}
                     column={column}

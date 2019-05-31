@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { Switch, Route, withRouter } from "react-router-dom";
-import * as PATH from "../../constants/data/routeConstants";
 import * as actions from "../../actions/backlog";
 import * as issueActions from "../../actions/issue";
 
@@ -13,6 +12,7 @@ import * as backlogSelectors from "../../selectors/backlog";
 
 import BacklogPageView from "./BacklogPage";
 import AddSprintModal from "./AddSprintModal";
+import StartSprintModal from "./StartSprintModal";
 import AddIssueModal from "../../components/addIssueModal";
 
 class BacklogPageContainer extends Component {
@@ -26,8 +26,16 @@ class BacklogPageContainer extends Component {
         endDate: "",
         goal: ""
       },
+      startForm: {
+        name: "",
+        sprint: "",
+        startDate: "",
+        endDate: "",
+        goal: ""
+      },
       isOpenAddIssueModal: false,
       isOpenAddSprintModal: false,
+      isOpenStartSprintModal: false,
       addIssueToSprint: null,
     };
   }
@@ -36,14 +44,18 @@ class BacklogPageContainer extends Component {
     this.props.getPriority(this.getBaseOption());
     this.props.getListLabel(this.getBaseOption());
     this.getListSprint();
-    // this.getListIssue()
     this.getListBacklogIssue();
   }
   componentWillReceiveProps(newProps) {
-    const { createSprintStatus, createIssueStatus } = newProps;
+    const { createSprintStatus, createIssueStatus, startSprintStatus } = newProps;
     if (createSprintStatus) {
       toast.success("Create sprint successfully");
       this.setState({ isOpenAddSprintModal: false });
+      this.getListSprint();
+    }
+    if (startSprintStatus) {
+      toast.success("Sprint started");
+      this.setState({ isOpenStartSprintModal: false });
       this.getListSprint();
     }
     // console.log(newProps)
@@ -108,6 +120,34 @@ class BacklogPageContainer extends Component {
     });
     this.setState({ isOpenAddSprintModal: false });
   };
+  openStartSprintModal = (sprintId) => {
+    this.setState({
+      startForm: {
+        sprint: sprintId,
+        project: this.props.selectedProject._id,
+      }
+       });
+       this.setState({ isOpenStartSprintModal: true });
+  };
+  closeStartSprintModal = () => {
+    this.setState({
+      addForm: {
+        name: "",
+        startDate: "",
+        endDate: "",
+        goal: "",
+        project: ""
+      }
+    });
+    this.setState({ isOpenStartSprintModal: false });
+  };
+  openAddIssueModal = (spintId) => {
+    // console.log(data)
+    this.setState({ isOpenAddIssueModal: true, addIssueToSprint: spintId });
+  };
+  closeAddIssueModal = () => {
+    this.setState({ isOpenAddIssueModal: false, addIssueToSprint: null });
+  };
   createSprint = () => {
     const { addForm } = this.state;
     const data = {
@@ -117,6 +157,17 @@ class BacklogPageContainer extends Component {
       // toast.success("OK")
       this.props.createSprint(data);
     }
+  };
+  startSprint = () => {
+    const { startForm } = this.state;
+    const data = {
+      ...startForm
+    };
+    // if (this.validate(data)) {
+    //   toast.success("OK")
+      this.props.startSprint(data);
+    // }
+      // console.log(data)
   };
   validate = data => {
     if (!data.name) {
@@ -140,13 +191,12 @@ class BacklogPageContainer extends Component {
     addForm[name] = value;
     this.setState({ addForm });
   };
-  openAddIssueModal = (spintId) => {
-    // console.log(data)
-    this.setState({ isOpenAddIssueModal: true, addIssueToSprint: spintId });
+  onChangeStartValue = (name, value) => {
+    const startForm = this.state.startForm;
+    startForm[name] = value;
+    this.setState({ startForm });
   };
-  closeAddIssueModal = () => {
-    this.setState({ isOpenAddIssueModal: false, addIssueToSprint: null });
-  };
+  
 
   onChangeAddIssueFormValue = (name, value) => {
     this.props.changeAddIssueFormValue(name, value);
@@ -161,7 +211,9 @@ class BacklogPageContainer extends Component {
     } = this.props;
     const {
       isOpenAddSprintModal,
+      isOpenStartSprintModal,
       addForm,
+      startForm,
       isOpenAddIssueModal,
       addIssueToSprint
     } = this.state;
@@ -173,6 +225,7 @@ class BacklogPageContainer extends Component {
           listSprint={listSprint}
           listBacklogIssue={listBacklogIssue}
           openAddSprintModal={this.openAddSprintModal}
+          openStartSprintModal={data => this.openStartSprintModal(data)}
           chooseActive={active => this.chooseActive(active)}
           initialData={initialData}
           openAddIssueModal={data => this.openAddIssueModal(data)}
@@ -198,6 +251,14 @@ class BacklogPageContainer extends Component {
           validate={data => this.validate(data)}
           onChangeValue={(name, value) => this.onChangeValue(name, value)}
         />
+        <StartSprintModal
+          data={startForm}
+          openStartModal={isOpenStartSprintModal}
+          closeStartModal={this.closeStartSprintModal}
+          startSprint={this.startSprint}
+          validate={data => this.validate(data)}
+          onChangeStartValue={(name, value) => this.onChangeStartValue(name, value)}
+        />
       </div>
     );
   }
@@ -208,6 +269,7 @@ const mapStateToProps = state => ({
   listSprint: selectors.listSprint(state),
   listBacklogIssue: selectors.listBacklogIssue(state),
   createSprintStatus: selectors.createSprintStatus(state),
+  startSprintStatus: selectors.startSprintStatus(state),
   selectedProject: projectSelectors.getSelectedProject(state),
   initialData: selectors.getInitalData(state),
   addIssueFormValue: issueSelectors.getAddIssueFormValue(state),
@@ -237,6 +299,9 @@ const mapDispatchToProps = dispatch => ({
   },
   getListLabel(query) {
     dispatch(issueActions.getListLabel(query));
+  },
+  startSprint(startForm) {
+    dispatch(actions.startSprint(startForm));
   },
 });
 export default connect(

@@ -92,8 +92,7 @@ const Remove = styled.i`
 
 export default class Column extends React.Component {
   render() {
-    const { openAddIssueModal, column, sprintActived, disableAction } = this.props
-    console.log(column)
+    const { openAddIssueModal, column, sprintActived, disableAction, openStartSprintModal } = this.props
     return (
       <Container>
         <div className="box box-success" >
@@ -111,7 +110,7 @@ export default class Column extends React.Component {
               <ToDoCount>{column.count.toDo || ' 0 '}</ToDoCount>
             </IssueCount>
             }
-             { !column.active && column.name && <ButtonGroup><ButtonStart disabled = {sprintActived}>Start</ButtonStart></ButtonGroup>}
+             { !column.active && column.name && <ButtonGroup><ButtonStart disabled = {sprintActived} onClick={() => openStartSprintModal(column._id)}>Start</ButtonStart></ButtonGroup>}
           </TitleRow>
         <Droppable 
         droppableId={this.props.column.id}

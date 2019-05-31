@@ -9,11 +9,19 @@ class BacklogApi {
     getSprintActive = (params) => {
         return API.get('/sprint/board', {params});
     }
-
+    getSprintActiveInfo = (params) => {
+        return API.get('/sprint/active', {params});
+    }
     getListBacklogIssue = (params) => {
         return API.get('/issue/listIssues', {params});
     }
-    
+    startSprint = (data) => {
+        return API.post('/sprint/start', data)
+    }
+    completeSprint = (params) => {
+        return API.post('/sprint/complete', {params});
+    }
+
     createSprint = (data) => {
         return API.post('/sprint', data)
     }

@@ -28,7 +28,7 @@ const CustomLaneHeader = props => {
   )
 }
 const ActiveSprintPage = props => {
-  const { data } = props
+  const { data, activeSprintInfo, openAddSprintModal } = props
 
 
   const handleDragEnd = (cardId, sourceLaneId, targetLaneId, position, card) => {
@@ -45,11 +45,14 @@ const ActiveSprintPage = props => {
       {!_.isEmpty(data) &&
         <div>
           <div>
+          
             <div className="complete-sprint">
+            <li class="active breadcrumb-item sprint-name" aria-current="page">{activeSprintInfo.name}</li>
               <div className="pull-right">
-                <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-addproject"
+              
+              {!_.isEmpty(activeSprintInfo) &&<button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-addproject"
                  
-                >Complete Sprint</button>
+                >Complete Sprint</button>}
               </div>
             </div>
 

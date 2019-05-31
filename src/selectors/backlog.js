@@ -34,7 +34,10 @@ export const createSprintStatus = ({BacklogState}) => {
     // if(_.isEmpty(BacklogState.createSprintStatus)) return null
     return BacklogState.createSprintStatus
 }
-
+export const startSprintStatus = ({BacklogState}) => {
+    // if(_.isEmpty(BacklogState.createSprintStatus)) return null
+    return BacklogState.startSprintStatus
+}
 export const listBacklogIssue = ({BacklogState}) => {
     // if(_.isEmpty(BacklogState.createSprintStatus)) return null
     return BacklogState.listBacklogIssue || []

@@ -5,6 +5,7 @@ import * as issueActions from '../../actions/issue'
 import * as sprintActions from '../../actions/backlog'
 import * as workflowActions from '../../actions/workflow'
 import * as projectSelectors from "../../selectors/project";
+import * as backlogSelectors from "../../selectors/backlog";
 import * as activeSprintSelectors from "../../selectors/activeSprint";
 
 class ActiveSprintPageContainer extends Component {
@@ -20,7 +21,8 @@ class ActiveSprintPageContainer extends Component {
     componentWillMount(){
         // this.getListIssue();
         this.getListWorkflow();
-        this.getActiveSprint()
+        this.getActiveSprint();
+        this.getActiveSprintInfo();
     }
     generateValueBoardData() {
 
@@ -51,6 +53,12 @@ class ActiveSprintPageContainer extends Component {
         };
         this.props.getActiveSprint(query);
     };
+    getActiveSprintInfo = () => {
+        const query = {
+          ...this.getBaseOption()
+        };
+        this.props.getActiveSprintInfo(query);
+    };
 
     handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card) {
         this.setState({
@@ -67,13 +75,27 @@ class ActiveSprintPageContainer extends Component {
     }
 
     render() {
-        const { dataForBoard } = this.props
+        const { dataForBoard, activeSprintInfo } = this.props
+        const {
+          isOpenStartSprintModal,
+          addForm
+        } = this.state;
         return (
             <div>
                 <ActiveSprintPageView 
                    data = {dataForBoard}
+                   activeSprintInfo = {activeSprintInfo}
+                   openAddSprintModal={this.openAddSprintModal}
                    handleDragEnd={(cardId, sourceLaneId, targetLaneId, position, card) => this.handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card)}
                 />
+                {/* <AddSprintModal
+                  data={addForm}
+                  openModal={isOpenStartSprintModal}
+                  closeModal={this.closeStartSprintModal}
+                  startSprint={this.startSprint}
+                  validate={data => this.validate(data)}
+                  onChangeValue={(name, value) => this.onChangeValue(name, value)}
+                /> */}
             </div>
         );
     }
@@ -81,8 +103,9 @@ class ActiveSprintPageContainer extends Component {
 
 const mapStateToProps = state => ({
     selectedProject: projectSelectors.getSelectedProject(state),
-    // activeSprint: sprintSelectors.getActiveSprint(state),
+    // createSprintStatus: backlogSelectors.createSprintStatus(state),
     dataForBoard: activeSprintSelectors.generateDataActiveBoard(state),
+    activeSprintInfo: activeSprintSelectors.getSprintActiveInfo(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -97,7 +120,13 @@ const mapDispatchToProps = dispatch => ({
     },
     getActiveSprint(query) {
         dispatch(sprintActions.getSprintActive(query));
-    }
+    },
+    getActiveSprintInfo(query) {
+        dispatch(sprintActions.getSprintActiveInfo(query));
+    },
+    // startSprint(addForm) {
+    //   dispatch(actions.startSprint(addForm));
+    // },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((ActiveSprintPageContainer));
