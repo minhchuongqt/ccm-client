@@ -89,7 +89,7 @@ const BacklogPage = props => {
         </Breadcrumb>
       </div>
       <div className="row height-fill">
-        <div className={`col-md-${_.isEmpty(issueInfo.summary) && '11 ' || '6 '} p-r-0 scroll-detail`}>
+        <div className={`col-md-${_.isEmpty(issueInfo.summary) && '11 ' || '6 scroll-detail'} p-r-0`}>
         <DragDropComponent 
         openAddIssueModal = {data => openAddIssueModal(data)} 
         openStartSprintModal = {data => openStartSprintModal(data)} 
