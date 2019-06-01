@@ -61,6 +61,9 @@ const IssuePage = props => {
     createSubtask,
     issueSummary,
     saveSummary,
+    removeIssue,
+    refeshListIssue,
+    listIssueIsFetching
   } = props;
   // console.log(storyPointSelectable);
   console.log(issueInfo.issueType)
@@ -76,11 +79,11 @@ const IssuePage = props => {
       )
     : storyPointSelectable;
 
-  let selectableAssignee =
-    assigneeSelectable.map(
-      item =>
-        !(issueInfo.assignee || []).find(i => i.value == item.value) && item
-    ) || [];
+  let selectableAssignee = assigneeSelectable
+    // assigneeSelectable.map(
+    //   item =>
+    //     !(issueInfo.assignee || []).find(i => i.value == item.value) && item
+    // ) || [];
 
   let selectableLabel = labelSelectable
     ? labelSelectable.map(
@@ -128,7 +131,7 @@ const IssuePage = props => {
           <div className="box box-success ">
             <div className="box-header with-border display-flex">
               <h4 className="box-title" style={{ marginTop: "10px" }}>
-                Open Issues
+                {selectedFilterForUserIssueValue.label || ''}
               </h4>
               {(sortType == -1) &&
                 <i
@@ -153,8 +156,10 @@ const IssuePage = props => {
               </div>
             </div>
             <div className="box-body scroll-detail">
-              <div className="list-group">
+              {!listIssueIsFetching && <div className="list-group fade">
                 {listIssue.map((issue, index) => {
+                  const assignee = issue.assignee.map(i => assigneeSelectable.find(a => i == a.value))
+                  console.log(assignee)
                   return (
                     <a
                       className="list-group-item list-group-item-action"
@@ -163,27 +168,52 @@ const IssuePage = props => {
                         selectIssue(issue);
                       }}
                     >
-                      <div>
+                      <div style={{height: '50px'}}>
                         <div>
                           <div>
                             <span>{issue.summary}</span>
                           </div>
+                          {/* <div>
+                            <div></div>
+                            <div></div>
+                          </div> */}
                           {(issue.issueType || {}).iconUrl && (
                             <img src={API + (issue.issueType || {}).iconUrl} />
                           )}
                           &nbsp;<span className="com">{issue.issueKey}</span>
+                          {assignee && assignee.map(a => {
+                            if (a) {
+                              return (
+                                <img src={a.iconUrl} width="25px" height="25px" style={{borderRadius: "50%", float: "right", marginBottom: 10}} />
+                              )
+                            }
+                          })}
                         </div>
                       </div>
                     </a>
                   );
                 })}
-              </div>
             </div>
+            ||
+            <div className="loader fade">
+              <div/>
+          
+              </div>}
+              </div>
             <div className="box-footer">
+              <i className="fa fa-retweet cursor-pointer"
+                  title="Refesh"
+                  style={{ fontSize: '16px',
+                    color: '#5f6c84',
+                    marginTop: '8px',
+                    marginLeft: '10px' }}
+                  onClick={() => refeshListIssue()}
+                />
               <button
                 type="button"
                 className="btn btn-default"
                 onClick={() => openAddIssueModal()}
+                style={{float: 'right'}}
               >
                 <i
                   className="fa fa-plus"
@@ -267,11 +297,11 @@ const IssuePage = props => {
                         <a>Log work</a>
                       </li>
                       <li className="divider" />
-                      <li>
+                      {/* <li>
                         <a>Create a sub-task</a>
-                      </li>
+                      </li> */}
                       <li className="divider" />
-                      <li>
+                      <li onClick={() => removeIssue(issueInfo._id)}>
                         <a>Delete</a>
                       </li>
                     </ul>
@@ -280,6 +310,8 @@ const IssuePage = props => {
                     <button
                       type="button"
                       className="btn btn-default btn-sm m-b-1"
+                      disabled={(issueInfo.workflow || {}).type == 'TODO' || issueInfo.closed == true}
+                      onClick={() => updateIssueDetail('workflow', 'TODO')}
                     >
                       {" "}
                       To Do
@@ -287,6 +319,8 @@ const IssuePage = props => {
                     <button
                       type="button"
                       className="btn btn-primary btn-sm m-b-1"
+                      disabled={(issueInfo.workflow || {}).type == 'INPROGRESS' || issueInfo.closed == true}
+                      onClick={() => updateIssueDetail('workflow', 'INPROGRESS')}
                     >
                       {" "}
                       In Progress
@@ -294,19 +328,34 @@ const IssuePage = props => {
                     <button
                       type="button"
                       className="btn btn-success btn-sm m-b-1"
+                      disabled={(issueInfo.workflow || {}).type == 'DONE' || issueInfo.closed == true}
+                      onClick={() => updateIssueDetail('workflow', 'DONE')}
                     >
                       {" "}
                       Done
                     </button>
 
+                    {!issueInfo.closed && 
                     <button
                       type="button"
                       className="btn btn-danger btn-sm m-b-1"
-
+                      disabled={(issueInfo.workflow || {}).type != 'DONE'}
+                      onClick={() => updateIssueDetail('closed', true)}
                     >
                       {" "}
                       Close Issue
                     </button>
+                  }
+                    {issueInfo.closed && 
+                    <button
+                      type="button"
+                      className="btn btn-default btn-sm m-b-1"
+                      onClick={() => updateIssueDetail('closed', false)}
+                    >
+                      {" "}
+                      Reopen Issue
+                    </button>
+                  }
                   </div>
                   <div className="col-md-8 p-l-0">
                     <div className="box-body">
@@ -645,22 +694,26 @@ const IssuePage = props => {
                             id="collapseActivity"
                             className="panel-collapse collapse in"
                           >
-                            {issueInfo.activities &&
-                              issueInfo.activities.map((item, index) => {
-                                return (
-                                  <div
-                                    key={index}
-                                    className="box-body box-comments comments-conf"
-                                    dangerouslySetInnerHTML={{
-                                      __html: `${item.content +
-                                        "at " +
-                                        moment(item.createdAt).format(
-                                          "MMM DD YYYY, hh:mm:ss a"
-                                        )}`
-                                    }}
-                                  />
-                                );
-                              })}
+                            <div className="box-body">
+                              {issueInfo.activities &&
+                                issueInfo.activities.map((item, index) => {
+                                  return (
+                                    <div
+                                      key={index}
+                                      className="box-comments comments-conf"
+                                      style={{borderBottom: "1px solid #f4f4f4", padding: '10px 0'}}
+                                      dangerouslySetInnerHTML={{
+                                        __html: `${item.content +
+                                          "at " +
+                                          moment(item.createdAt).format(
+                                            "MMM DD YYYY, hh:mm:ss a"
+                                          )}`
+                                      }}
+                                    />
+                                  );
+                                })}
+
+                            </div>
                           </div>
                         </div>
                         <div className="panel m-b-0">
@@ -802,9 +855,9 @@ const IssuePage = props => {
                                   })}
                                   <SearchSelect
                                     id="issue-page-multi-select"
-                                    // value={a}
+                                    value={{label: 'Add another'}}
                                     placeholder="Add another"
-                                    isClearable={true}
+                                    isClearable={false}
                                     options={selectableAssignee || []}
                                     onChange={value => updateIssueDetail("assignee", value)}
                                   />
@@ -815,10 +868,10 @@ const IssuePage = props => {
                                 <li>Creator:</li>
                                 <li>
                                   <div className="box-body">
-                                    {issueInfo.creator.avatarUrl && 
+                                    {issueInfo.creator && issueInfo.creator.avatarUrl &&
                                     <img src={API + issueInfo.creator.avatarUrl} width="35px" height="35px" style={{borderRadius: "50%"}}/>
                                     }&nbsp;&nbsp;
-                                    {issueInfo.creator.displayName || issueInfo.creator.fullName}
+                                    {(issueInfo.creator || {}).displayName || (issueInfo.creator || {}).fullName}
                                   </div>
                                 </li>
                               </ul>

@@ -19,11 +19,13 @@ import {
   UPDATE_ISSUE_DETAIL_STATUS,
   RESET_UPDATE_ISSUE_DETAIL_STATUS,
   CREATE_SUBTASK_STATUS,
-  RESET_CREATE_SUBTASK_STATUS
+  RESET_CREATE_SUBTASK_STATUS,
+  REMOVE_ISSUE_STATUS,
+  RESET_REMOVE_ISSUE_STATUS,
 } from "../../constants/types/issue";
 import { combineReducers } from "redux";
 import _ from 'lodash'
-const listIssue = (state = [], action) => {
+const listIssue = (state = {isFetching: false, data: [], error: null}, action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_ISSUE_LIST:
@@ -202,6 +204,17 @@ const sortType = (state = -1, action) => {
   }
 }
 
+const removeIssueStatus = (state = false, action) => {
+  const {type, payload} = action;
+  switch (type) {
+    case REMOVE_ISSUE_STATUS:
+      return payload
+    case RESET_REMOVE_ISSUE_STATUS:
+      return false
+    default:
+      return state
+  }
+}
 const IssueState = combineReducers({
   listIssue,
   issueType,
@@ -218,7 +231,8 @@ const IssueState = combineReducers({
   searchValue,
   sortType,
   updateIssueStatus,
-  createSubtaskStatus
+  createSubtaskStatus,
+  removeIssueStatus
 });
 
 export default IssueState;
