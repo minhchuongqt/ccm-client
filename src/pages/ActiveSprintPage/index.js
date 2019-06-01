@@ -5,7 +5,6 @@ import * as issueActions from '../../actions/issue'
 import * as sprintActions from '../../actions/backlog'
 import * as workflowActions from '../../actions/workflow'
 import * as projectSelectors from "../../selectors/project";
-import * as backlogSelectors from "../../selectors/backlog";
 import * as activeSprintSelectors from "../../selectors/activeSprint";
 
 class ActiveSprintPageContainer extends Component {

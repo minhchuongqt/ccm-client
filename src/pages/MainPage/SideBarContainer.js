@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SideBarComponent from './SideBar';
-import {Router,Link, withRouter} from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 import {connect} from 'react-redux'
 import * as selectors from '../../selectors/project'
 import _ from 'lodash'

@@ -1,7 +1,6 @@
 import API from './base';
 
 class BacklogApi {
-    constructor() {}
 
     getListSprint = (params) => {
         return API.get('/sprint/notComplete', {params});

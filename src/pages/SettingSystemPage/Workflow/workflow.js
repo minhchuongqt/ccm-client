@@ -76,7 +76,6 @@ const createEngine = () => {
   return engine;
 };
 const WorkflowView = props => {
-  const { onChangeValue } = props;
   return (
     <div>
       <div>
