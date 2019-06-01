@@ -211,7 +211,7 @@ class IssuePageContainer extends Component {
   };
 
   selectIssue = issue => {
-    this.props.selectIssue(issue);
+    // this.props.selectIssue(issue);
     this.getIssueInfo(issue);
     if (document.getElementById("issue-detail-collapse")) {
       document.getElementById("issue-detail-collapse").className +=
@@ -443,12 +443,14 @@ const mapState = state => {
   selectedProject: projectSelectors.getSelectedProject(state),
   // selectedIssue: selectors.getSelectedIssue(state),
   createIssueStatus: selectors.getCreateIssueStatus(state),
+
   storyPointSelectable: selectors.getStoryPointSelectable(state),
   sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
   assigneeSelectable: selectors.getAssigneeSelectable(state),
   issueTypeSelectable: selectors.getIssueTypeSelectable(state),
   prioritySelectable: selectors.getPrioritySelectable(state),
   labelSelectable: selectors.getLabelSelectable(state),
+  
   addIssueFormValue: state.IssueState.addIssueFormValue,
   addIssueValueForApi: selectors.generateDataForAddIssue(state),
   issueInfo: selectors.getIssueInfo(state),

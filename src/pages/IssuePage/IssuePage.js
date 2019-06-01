@@ -39,7 +39,6 @@ const IssuePage = props => {
     labelSelectable,
     storyPointSelectable,
     userInfo,
-    onFocus,
     filterableForUserIssue,
     filterableForDetailIssue,
     selectedFilterForUserIssueValue,
@@ -105,8 +104,7 @@ const IssuePage = props => {
           <BreadcrumbItem active>Issue</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      {/* <EditIssueView />
-      <AddIssueView /> */}
+
       <div className="row">
         <div id="open-issues" className="col-md-4 p-r-0">
           <div style={{ display: "flex"}}>
@@ -225,6 +223,7 @@ const IssuePage = props => {
             </div>
           </div>
         </div>
+
         {!_.isEmpty(issueInfo) && (
           <div id="issue-detail-collapse" className="col-md-8 ">
             <div className="box box-success">

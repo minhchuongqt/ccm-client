@@ -4,11 +4,86 @@ import SortableView from '../../components/sortable/SortableComponent'
 import "../../styleSheets/sass/components/Backlog/BacklogView.scss"
 // import AddIssueView from '../IssuePage/AddIssuePage/index'
 import EditSprintPageView from './EditSprintPage/index';
+import _ from "lodash";
 import DragDropComponent from './DragDropComponents'
+import { API } from "../../config";
+import SearchSelect from "../../components/singleSelect";
+import moment from "moment";
+import Creatable from "react-select/lib/Creatable";
+import TextEditor from "../../components/textEditor";
 
+const generateClassForIssueStatus = status => {
+  switch (status) {
+    case "TODO":
+      return "label-default";
+    case "INPROGRESS":
+      return "label-primary";
+    case "DONE":
+      return "label-success";
+    default:
+      return "";
+  }
+};
 
 const BacklogPage = props => {
-  const { listSprint, listBacklogIssue, openAddSprintModal, chooseActive, initialData, openAddIssueModal, openStartSprintModal } = props
+  const { 
+    listSprint, listBacklogIssue, openAddSprintModal, 
+    chooseActive, initialData, openAddIssueModal, openStartSprintModal,
+    listIssue,
+    selectIssue,
+    issueInfo,
+    closeIssueDetail,
+    assigneeSelectable,
+    prioritySelectable,
+    issueTypeSelectable,
+    labelSelectable,
+    storyPointSelectable,
+    userInfo,
+    updateIssueDetail,
+    changeDisplayDescriptionEditor,
+    displayDescriptionEditor,
+    saveDescription,
+    descriptionState,
+    displayAddSubtask,
+    subTaskSummary,
+    changeDisplayCreateSubtask,
+    createSubtask,
+    issueSummary,
+    saveSummary,
+    removeIssue,
+  } = props
+  let selectableIssueType = issueInfo.issueType
+    ? issueTypeSelectable.filter(
+        item => item.value !== issueInfo.issueType.value && item
+      )
+    : issueTypeSelectable;
+
+  let selectableStoryPoint = issueInfo.storyPoints
+    ? storyPointSelectable.filter(
+        item => item.value != issueInfo.storyPoints.value && item
+      )
+    : storyPointSelectable;
+
+  let selectableAssignee = assigneeSelectable
+    // assigneeSelectable.map(
+    //   item =>
+    //     !(issueInfo.assignee || []).find(i => i.value == item.value) && item
+    // ) || [];
+
+  let selectableLabel = labelSelectable
+    ? labelSelectable.map(
+        item =>
+          !(issueInfo.label || []).find(i => i.value == item.value) && item
+      ) || []
+    : [];
+
+  let selectablePriority = issueInfo.priority
+    ? prioritySelectable.filter(
+        item => item.value !== issueInfo.priority.value && item
+      )
+    : prioritySelectable;
+
+  console.log(issueInfo)
   return (
     <div id="backlog-view">
       <div>
@@ -17,8 +92,11 @@ const BacklogPage = props => {
         </Breadcrumb>
       </div>
       <div className="row height-fill">
-        <div className="col-md-7 p-r-0 scroll-detail">
-        <DragDropComponent openAddIssueModal = {data => openAddIssueModal(data)} openStartSprintModal = {data => openStartSprintModal(data)} onClick={(task)=> console.log(task)} initialData={initialData || {}} />
+        <div className={`col-md-${_.isEmpty(issueInfo.summary) && '11 ' || '6 '} p-r-0 scroll-detail`}>
+        <DragDropComponent 
+        openAddIssueModal = {data => openAddIssueModal(data)} 
+        openStartSprintModal = {data => openStartSprintModal(data)} 
+        onClick={(task)=> selectIssue(task)} initialData={initialData || {}} />
         {/* {listSprint.map((sprint, index) => {
           return (
             <div className="box box-success" key={index}>
@@ -87,123 +165,693 @@ const BacklogPage = props => {
 
 
 
-        <div className="col-md-5 ">
-          <div className="box box-success ">
-            <div className="box-header with-border">
-              <h4 className="box-title">Issue Details</h4>
-            </div>
-            <div className="box-body">
-              <div className="box-body">
-                <div id="edit" >
-                  <h3>As a developer, I can update story and task status</h3>
+        {!_.isEmpty(issueInfo.summary) && (
+          <div id="issue-detail-collapse" className="col-md-6 ">
+            <div id="run-to-left" className="box box-success">
+              <div className="box-header with-border">
+                <h3 className="box-title">Issue Details</h3>
+                <div className="box-tools pull-right">
+                  {/* <button
+                    type="button"
+                    className="btn btn-box-tool"
+                    onClick={() => closeIssueDetail()}
+                  >
+                    <i className="fa fa-times" />
+                  </button> */}
                 </div>
-                <div className="col-md-12 p-l-0">
-                  <div className="box-body">
-                    <div className="box-group" id="accordion">
-                      <div className="panel m-b-0">
-                        <div className="box-header with-border pd-0">
-                          <h4 className="box-title">
-                            <a data-toggle="collapse" href="#collapseDetail">
-                              <h5><b>Details</b></h5>
-                            </a>
-                          </h4>
-                        </div>
-                        <div id="collapseDetail" className="panel-collapse collapse in">
-                          <div className="box-body">
-                            <div className="col-md-4">
-                              <ul className="list-unstyled">
-                                <li>Type:</li>
-                                <li>Status:</li>
-                                <li>Priority:</li>
-                                <li>Fix Version/s:</li>
-                                <li>Labels:</li>
-                                <li>Sprint:</li>
-                              </ul>
+              </div>
+              {issueInfo.summary && (
+                <div className="box-body">
+                  <div>
+                    <div>
+                      <i className="fa fa-trello" /> <span style={{color: "#6d7074"}}>{issueInfo.issueKey}</span>
+                    </div>
+                  </div>
+                  <div id="edit">
+                      <input 
+                        id="edit-summary"
+                        value={issueSummary} 
+                        className="form-control hover-background" 
+                        style={{height: "38px",fontSize: "20px", border: 'unset'}}
+                        onBlur={() => saveSummary()}
+                        onChange={e => updateIssueDetail('summary', e.target.value)}
+                        onKeyDown={e => {e.key == 'Enter' && saveSummary()}}
+                      />
+                  </div>
+                  <div className="btn-group m-b-5">
+                    <button
+                      type="button"
+                      className="btn btn-default btn-sm"
+                      data-toggle="modal"
+                      data-target="#modal-editissue"
+                    >
+                      <i className="fa fa-edit" title="Edit" /> Edit
+                    </button>
+                  </div>
+                  <div className="btn-group m-b-5">
+                    <button type="button" className="btn btn-default btn-sm">
+                      <i className="fa fa-commenting-o" title="Comment" />{" "}
+                      Comment
+                    </button>
+                  </div>
+                  <div className="btn-group m-b-5">
+                    {/* <button
+                    type="button"
+                    htmlFor="assignFocus"
+                    className="btn btn-default btn-sm m-b-1"
+                    // onClick={() => onFocus('assignFocus')}
+                  >
+                    {" "}
+                    Assign
+                  </button> */}
+                    <button
+                      type="button"
+                      className="btn btn-default btn-sm m-b-1 dropdown-toggle"
+                      data-toggle="dropdown"
+                    >
+                      More &nbsp;
+                      <i className="fa fa-angle-down" />
+                    </button>
+                    <ul className="dropdown-menu" role="menu">
+                      <li>
+                        <a>Log work</a>
+                      </li>
+                      <li className="divider" />
+                      {/* <li>
+                        <a>Create a sub-task</a>
+                      </li> */}
+                      <li className="divider" />
+                      <li onClick={() => removeIssue(issueInfo._id)}>
+                        <a>Delete</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="btn-group m-b-5">
+                    <button
+                      type="button"
+                      className="btn btn-default btn-sm m-b-1"
+                      disabled={(issueInfo.workflow || {}).type == 'TODO' || issueInfo.closed == true}
+                      onClick={() => updateIssueDetail('workflow', 'TODO')}
+                    >
+                      {" "}
+                      To Do
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-sm m-b-1"
+                      disabled={(issueInfo.workflow || {}).type == 'INPROGRESS' || issueInfo.closed == true}
+                      onClick={() => updateIssueDetail('workflow', 'INPROGRESS')}
+                    >
+                      {" "}
+                      In Progress
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-success btn-sm m-b-1"
+                      disabled={(issueInfo.workflow || {}).type == 'DONE' || issueInfo.closed == true}
+                      onClick={() => updateIssueDetail('workflow', 'DONE')}
+                    >
+                      {" "}
+                      Done
+                    </button>
+
+                    {!issueInfo.closed && 
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm m-b-1"
+                      disabled={(issueInfo.workflow || {}).type != 'DONE'}
+                      onClick={() => updateIssueDetail('closed', true)}
+                    >
+                      {" "}
+                      Close Issue
+                    </button>
+                  }
+                    {issueInfo.closed && 
+                    <button
+                      type="button"
+                      className="btn btn-default btn-sm m-b-1"
+                      onClick={() => updateIssueDetail('closed', false)}
+                    >
+                      {" "}
+                      Reopen Issue
+                    </button>
+                  }
+                  </div>
+                  <div className="col-md-8 p-l-0">
+                    <div className="box-body">
+                      <div className="box-group" id="accordion">
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a data-toggle="collapse" href="#collapseDetail">
+                                <h5>
+                                  <span>Details</span>
+                                </h5>
+                              </a>
+                            </h4>
+                          </div>
+                          <div
+                            id="collapseDetail"
+                            className="panel-collapse collapse in"
+                          >
+                            <div className="box-body flex-center">
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Type:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li>
+                                    <SearchSelect
+                                      id="issue-page-multi-select"
+                                      value={issueInfo.issueType || {}}
+                                      options={selectableIssueType || []}
+                                      onChange={e => updateIssueDetail('issueType', e)}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
-                            <div className="col-md-8">
-                              <ul className="list-unstyled">
-                                <li>Story</li>
-                                <li><span className="label label-primary">IN PROGRESS</span></li>
-                                <li>High</li>
-                                <li>Version 2.0</li>
-                                <li>None</li>
-                                <li>Sprint 2</li>
-                              </ul>
+                            <div className="box-body flex-center" style={{ height: "40px" }}>
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Status:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li style={{ padding: "0 10px" }}>
+                                    <span
+                                      className={
+                                        "label " +
+                                        generateClassForIssueStatus(
+                                          (issueInfo.workflow || {}).type || ""
+                                        )
+                                      }
+                                    >
+                                      {(issueInfo.workflow || {}).name || ""}
+                                    </span>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
 
+                            <div className="box-body flex-center">
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Priority:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li>
+                                    <SearchSelect
+                                      id="issue-page-multi-select"
+                                      value={issueInfo.priority || {}}
+                                      options={selectablePriority || []}
+                                      onChange={e => updateIssueDetail('priority', e)}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="box-body flex-center">
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Labels:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li>
+                                    <Creatable
+                                      isMulti={true}
+                                      id="issue-page-multi-select-label"
+                                      isClearable={false}
+                                      value={issueInfo.label || []}
+                                      options={selectableLabel || []}
+                                      onChange={e => updateIssueDetail('label', e)}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="box-body flex-center">
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Story Points:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li>
+                                    <Creatable
+                                      id="issue-page-multi-select-label"
+                                      value={
+                                        issueInfo.storyPoints || {
+                                          label: "None"
+                                        }
+                                      }
+                                      options={selectableStoryPoint || []}
+                                      onBlur={() => console.log("bur")}
+                                      onChange={e => updateIssueDetail('storyPoints', e)}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="box-body flex-center" style={{ height: "40px" }}>
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Fix Version/s:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li style={{ padding: "0 10px" }}>
+                                    Version 2.0
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="box-body flex-center" style={{ height: "40px" }}>
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Sprint:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li style={{ padding: "0 10px" }}>
+                                    {(issueInfo.sprint || {}).name || "None"}
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="panel m-b-0">
-                        <div className="box-header with-border pd-0">
-                          <h4 className="box-title">
-                            <a data-toggle="collapse" href="#collapseDes">
-                              <h5><b>Description</b></h5>
-                            </a>
-                          </h4>
-                        </div>
-                        <div id="collapseDes" className="panel-collapse collapse in">
-                          <div className="box-body">
-                            Click to add description
-                        </div>
-                        </div>
-                      </div>
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a data-toggle="collapse" href="#collapseDes">
+                                <h5>
+                                  <span>Description</span>
+                                </h5>
+                              </a>
+                            </h4>
+                          </div>
+                          <div
+                            id="collapseDes"
+                            className="box-body panel-collapse collapse in"
+                          >
+                            {!displayDescriptionEditor && 
+                            <div
+                              className="box-body fade fade-in cursor-pointer description-text-box"
+                              style={{display: 'block'}}
+                              dangerouslySetInnerHTML={{
+                                __html: `${issueInfo.description || ""}`
+                              }}
+                              onClick={() => changeDisplayDescriptionEditor(true, issueInfo.description)}
+                            /> ||
+                            <div style={{display: 'block', animation: 'flipInX 0.7s both'}}>
+                              <TextEditor 
+                              // className="form-control"
+                                name="textDescription"
+                                id="Des"
+                                rows="5"
+                                
+                                value={descriptionState || ""}
+                                onChange={value => updateIssueDetail("description", value)}
+                              />
 
-                      <div className="panel m-b-0">
-                        <div className="box-header with-border pd-0">
-                          <h4 className="box-title">
-                            <a data-toggle="collapse" href="#collapsePeople">
-                              <h5><b>People</b></h5>
-                            </a>
-                          </h4>
-                        </div>
-                        <div id="collapsePeople" className="panel-collapse collapse in">
-                          <div className="box-body">
-                            <ul className="list-unstyled">
-                              <li>Assignee:</li>
-                              <li>minhchuongqt@gmail.com</li>
-                            </ul>
-                            <ul className="list-unstyled">
-                              <li>Reporter:</li>
-                              <li>minhchuongqt@gmail.com</li>
-                            </ul>
+                              <div style={{textAlign: 'right'}}>
+                                <button style={{margin: '10px'}} className="btn btn-default pd-5"
+                                  onClick={() => changeDisplayDescriptionEditor(false)}
+                                >Cancel</button>
+                                <button className="btn btn-primary"
+                                  onClick={() => saveDescription()}
+                                >Save</button>
+                              </div>
+                            </div>
+
+                            }
+                            {/* {parser.parseFromString(issueInfo.description, 'text/html')}
+                          </div> */}
                           </div>
                         </div>
-                      </div>
 
-                      <div className="panel m-b-0">
-                        <div className="box-header with-border pd-0">
-                          <h4 className="box-title">
-                            <a data-toggle="collapse" href="#collapseDate">
-                              <h5><b>Dates</b></h5>
+                        {issueInfo.attachs.length > 0 && (
+                          <div className="panel m-b-0">
+                            <div className="box-header with-border pd-0">
+                              <h4 className="box-title">
+                                <a data-toggle="collapse" href="#collapseDes">
+                                  <h5>
+                                    <span>Attachments</span>
+                                  </h5>
+                                </a>
+                              </h4>
+                            </div>
+                            <div
+                              id="collapseDes"
+                              className="panel-collapse collapse in"
+                            >
+                              <div className="box-body">
+                                {issueInfo.attachs.map((item, aIdx) => {
+                                  return (
+                                    <img
+                                      key={aIdx}
+                                      src={item}
+                                      alt="Image"
+                                      className="dnd-item"
+                                      style={{ maxWidth: "150px" }}
+                                    />
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {issueInfo.issueType.label != "Sub Task" && 
+                        <div className="panel m-b-0" style={{paddingBottom: 10}}>
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a data-toggle="collapse" href="#collapseSub">
+                                <h5>
+                                  <span>Sub-Tasks</span>
+                                </h5>
+                              </a>
+                            </h4>
+                            <a className="right cursor-pointer">
+                              <i className="fa fa-plus"
+                                onClick={() => changeDisplayCreateSubtask(true)}
+                              />
                             </a>
-                          </h4>
+                          </div>
+                          {!_.isEmpty((issueInfo.subtasks || [])[0]) &&
+                            <div
+                              id="collapseSub"
+                              className="panel-collapse collapse in"
+                            >
+                              <div className="box-body">
+                                <table
+                                  id="issuetable"
+                                  className="table table-bordered table-hover"
+                                >
+                                  <tbody>
+                                    {issueInfo.subtasks.map((item, index) => {
+                                      return (
+                                        <tr key={index} className="cursor-pointer" onClick={(item) => selectIssue(item)}>
+                                          <td><img src={API + item.issueType.iconUrl} width="16px"/>  {item.issueKey}</td>
+                                          <td>
+                                            <div className="summary">
+                                              {item.summary}
+                                            </div>
+                                          </td>
+                                          <td>
+                                            {item.priority && <img width="16px" src={API + item.priority.iconUrl || ''}/>}
+                                          </td>
+                                          <td>
+                                            <span className={"label " + generateClassForIssueStatus(item.workflow.type)}>
+                                              {item.workflow.name}
+                                            </span>
+                                          </td>
+                                          {/* <td>
+                                            <div className="summary">
+                                              minhchuongqt@gmail.com
+                                            </div>
+                                          </td> */}
+                                        </tr>
+
+                                      )
+                                    })}
+                                    
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          }
+                          {displayAddSubtask && 
+                            <div className="box-body">
+                              <input
+                                type="text"
+                                className="form-control"
+                                value={subTaskSummary || ''}
+                                onChange={e => updateIssueDetail("subTaskSummary", e.target.value)}
+                              />
+                              <div style={{textAlign: 'right'}}>
+                                <button style={{margin: '10px'}} className="btn btn-default pd-5"
+                                  onClick={() => changeDisplayCreateSubtask(false)}
+                                >Cancel</button>
+                                <button className="btn btn-primary"
+                                  onClick={() => createSubtask()}
+                                >Create</button>
+                              </div>
+                            </div>
+                          }
+                        </div>}
+
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a
+                                data-toggle="collapse"
+                                href="#collapseActivity"
+                              >
+                                <h5>
+                                  <span>Activity</span>
+                                </h5>
+                              </a>
+                            </h4>
+                          </div>
+                          <div
+                            id="collapseActivity"
+                            className="panel-collapse collapse in"
+                          >
+                            <div className="box-body">
+                              {issueInfo.activities &&
+                                issueInfo.activities.map((item, index) => {
+                                  return (
+                                    <div
+                                      key={index}
+                                      className="box-comments comments-conf"
+                                      style={{borderBottom: "1px solid #f4f4f4", padding: '10px 0'}}
+                                      dangerouslySetInnerHTML={{
+                                        __html: `${item.content +
+                                          "at " +
+                                          moment(item.createdAt).format(
+                                            "MMM DD YYYY, hh:mm:ss a"
+                                          )}`
+                                      }}
+                                    />
+                                  );
+                                })}
+
+                            </div>
+                          </div>
                         </div>
-                        <div id="collapseDate" className="panel-collapse collapse in">
-                          <div className="box-body">
-                            <ul className="list-unstyled">
-                              <li>Created:</li>
-                              <li>07/Mar/19 10:12 AM</li>
-                            </ul>
-                            <ul className="list-unstyled">
-                              <li>Updated:</li>
-                              <li>5 days ago</li>
-                            </ul>
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a
+                                data-toggle="collapse"
+                                href="#collapseActivity"
+                              >
+                                <h5>
+                                  <span>Comments</span>
+                                </h5>
+                              </a>
+                            </h4>
+                          </div>
+                          <div
+                            id="collapseActivity"
+                            className="panel-collapse collapse in"
+                          >
+                            {issueInfo.comments &&
+                              issueInfo.comments.map((item, index) => {
+                                return (
+                                  <div
+                                    key={index}
+                                    className="box-body box-comments comments-conf"
+                                    dangerouslySetInnerHTML={{
+                                      __html: `${item.content +
+                                        "at " +
+                                        moment(item.createdAt).format(
+                                          "MMM DD YYYY, hh:mm:ss a"
+                                        )}`
+                                    }}
+                                  />
+                                );
+                              })}
+                          </div>
+                          <div
+                            className="box box-widget"
+                            style={{ margin: "10px 0" }}
+                          >
+                            <div className="box-footer box-comments">
+                              <div className="box-comment">
+                                <img
+                                  className="img-circle img-sm"
+                                  src={API + userInfo.avatarUrl}
+                                  alt="User Image"
+                                  width="70px"
+                                />
+                                <div className="comment-text">
+                                  <span className="username">
+                                    Maria Gonzales
+                                    <span className="text-muted pull-right">
+                                      8:03 PM Today
+                                    </span>
+                                  </span>
+                                  It is a long established fact that a reader
+                                  will be distracted by the readable content of
+                                  a page when looking at its layout.
+                                </div>
+                              </div>
+                              <div className="box-comment">
+                                <img
+                                  className="img-circle img-sm"
+                                  src={API + userInfo.avatarUrl}
+                                  alt="User Image"
+                                  width="70px"
+                                />
+                                <div className="comment-text">
+                                  <span className="username">
+                                    Luna Stark
+                                    <span className="text-muted pull-right">
+                                      8:03 PM Today
+                                    </span>
+                                  </span>
+                                  It is a long established fact that a reader
+                                  will be distracted by the readable content of
+                                  a page when looking at its layout.
+                                </div>
+                              </div>
+                            </div>
+                            <div className="box-footer">
+                              <form action="#" method="post">
+                                <img
+                                  className="img-responsive img-circle img-sm"
+                                  src={API + userInfo.avatarUrl}
+                                  alt="Alt Text"
+                                  width="70px"
+                                />
+                                <div className="img-push">
+                                  <input
+                                    type="text"
+                                    className="form-control input-sm"
+                                    placeholder="Press enter to post comment"
+                                  />
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                          {/* </div> */}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-4 p-l-0">
+                    <div className="box-body">
+                      <div className="box-group">
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a data-toggle="collapse" href="#collapsePeople">
+                                <h5>
+                                  <span>People</span>
+                                </h5>
+                              </a>
+                            </h4>
+                          </div>
+
+                          <div
+                            id="collapsePeople"
+                            className="panel-collapse collapse in"
+                          >
+                            <div className="box-body">
+                              {/* {!_.isEmpty(issueInfo.assignees) && */}
+                              <ul className="list-unstyled">
+                                <li>Assignee:</li>
+                                <li>
+                                  {issueInfo.assignee.map((a, aIdx) => {
+                                    return (
+                                      <SearchSelect
+                                        key={aIdx}
+                                        id="issue-page-multi-select"
+                                        value={a}
+                                        isClearable={true}
+                                        options={selectableAssignee || []}
+                                        onChange={value => updateIssueDetail("assignee", value)}
+                                      />
+                                    );
+                                  })}
+                                  <SearchSelect
+                                    id="issue-page-multi-select"
+                                    value={{label: 'Add another'}}
+                                    placeholder="Add another"
+                                    isClearable={false}
+                                    options={selectableAssignee || []}
+                                    onChange={value => updateIssueDetail("assignee", value)}
+                                  />
+                                </li>
+                              </ul>
+                              {/* } */}
+                              <ul className="list-unstyled">
+                                <li>Creator:</li>
+                                <li>
+                                  <div className="box-body">
+                                    {issueInfo.creator && issueInfo.creator.avatarUrl &&
+                                    <img src={API + issueInfo.creator.avatarUrl} width="35px" height="35px" style={{borderRadius: "50%"}}/>
+                                    }&nbsp;&nbsp;
+                                    {(issueInfo.creator || {}).displayName || (issueInfo.creator || {}).fullName}
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a data-toggle="collapse" href="#collapseDate">
+                                <h5>
+                                  <span>Dates</span>
+                                </h5>
+                              </a>
+                            </h4>
+                          </div>
+                          <div
+                            id="collapseDate"
+                            className="panel-collapse collapse in"
+                          >
+                            <div className="box-body" style={{color: "#6d7074"}}>
+                              <ul className="list-unstyled">
+                                <li>Created: {issueInfo.createdDate}</li>
+                              </ul>
+                              <ul className="list-unstyled">
+                                <li>Updated: {issueInfo.updatedDate}</li>
+                              </ul>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
-
-        </div>
+        )}
       </div>
-
-
     </div >
   )
 };

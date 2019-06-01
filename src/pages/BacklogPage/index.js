@@ -4,11 +4,15 @@ import { toast } from "react-toastify";
 import { Switch, Route, withRouter } from "react-router-dom";
 import * as actions from "../../actions/backlog";
 import * as issueActions from "../../actions/issue";
+import * as workflowActions from "../../actions/workflow";
+// import * as userActions from "../../actions/user";
 
 import * as selectors from "../../selectors/backlog";
 import * as projectSelectors from "../../selectors/project";
 import * as issueSelectors from "../../selectors/issue";
 import * as backlogSelectors from "../../selectors/backlog";
+import * as userSelectors from "../../selectors/user";
+import * as workflowSelectors from "../../selectors/workflow";
 
 import BacklogPageView from "./BacklogPage";
 import AddSprintModal from "./AddSprintModal";
@@ -37,17 +41,30 @@ class BacklogPageContainer extends Component {
       isOpenAddSprintModal: false,
       isOpenStartSprintModal: false,
       addIssueToSprint: null,
+      description: '',
+      displayAddSubtask: false,
+      subTaskSummary: '',
+      displayEditSummary: false,
+      issueSummary: ''
     };
   }
   componentWillMount() {
     this.props.getIssueType(this.getBaseOption());
     this.props.getPriority(this.getBaseOption());
     this.props.getListLabel(this.getBaseOption());
+    this.props.getListStoryPoint(this.getBaseOption());
+    this.getListUser();
     this.getListSprint();
     this.getListBacklogIssue();
+    this.getListWorkflow();
   }
   componentWillReceiveProps(newProps) {
-    const { createSprintStatus, createIssueStatus, startSprintStatus } = newProps;
+    const { createSprintStatus, createIssueStatus, startSprintStatus,
+      updateIssueStatus, createSubtaskStatus,
+      issueSummary,
+      removeIssueStatus,
+      issueInfo
+    } = newProps;
     if (createSprintStatus) {
       toast.success("Create sprint successfully");
       this.setState({ isOpenAddSprintModal: false });
@@ -69,12 +86,42 @@ class BacklogPageContainer extends Component {
       this.getListBacklogIssue();
       this.props.resetCreateIssueStatus()
     }
+
+    if (updateIssueStatus) {
+      toast.success("Update issue successfully");
+      this.props.getListLabel(this.getBaseOption());
+      this.props.getListStoryPoint(this.getBaseOption());
+      this.getIssueInfo(issueInfo)
+      // this.getListIssue(selectedFilterForDetailIssueValue, sortType);
+      this.props.resetUpdateIssueStatus()
+    }
+
+    if (createSubtaskStatus) {
+      toast.success("Create subtask successfully");
+      this.getIssueInfo(issueInfo)
+      this.props.resetCreateSubtaskStatus()
+    }
+
+    if (removeIssueStatus) {
+      toast.success("Remove issue successfully");
+      // this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType)
+      this.props.resetRemoveIssueStatus()
+    }
+
+    if(issueSummary !== newProps.issueInfo.summary) {
+      this.setState({issueSummary: newProps.issueInfo.summary});
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.resetAllData()
   }
 
   getListSprint = () => {
     const params = {
       query: JSON.stringify({
         project: this.props.selectedProject._id,
+
         // completed: false
       }),
       sort: JSON.stringify({
@@ -88,7 +135,8 @@ class BacklogPageContainer extends Component {
   getListBacklogIssue = () => {
     const params = {
       query: JSON.stringify({
-        project: this.props.selectedProject._id
+        project: this.props.selectedProject._id,
+        subTaskOfIssue: null
       }),
       sort: JSON.stringify({
         sequenceInBacklog: -1,
@@ -105,6 +153,42 @@ class BacklogPageContainer extends Component {
       })
     };
     return params;
+  };
+
+  getIssueInfo = issue => {
+    const id = issue._id;
+    const params = {
+      ...this.getBaseOption()
+    };
+    this.props.getIssueInfo(id, params);
+  };
+
+  getListWorkflow = () => {
+    const query = {
+      ...this.getBaseOption()
+    };
+    this.props.getWorkflowList(query);
+  };
+
+  getListUser = () => {
+    const params = {
+      query: JSON.stringify({
+        project: this.props.selectedProject._id,
+      }),
+      sort: JSON.stringify({
+        displayName: -1,
+      })
+    };
+    this.props.getListUser(params);
+  }
+
+  selectIssue = issue => {
+    // this.props.selectIssue(issue);
+    this.getIssueInfo(issue);
+    if (document.getElementById("issue-detail-collapse")) {
+      document.getElementById("issue-detail-collapse").className +=
+        "A detail-visibility";
+    }
   };
 
   openAddSprintModal = () => {
@@ -207,12 +291,93 @@ class BacklogPageContainer extends Component {
     this.props.changeAddIssueFormValue(name, value);
   };
 
+  updateIssueDetail = (key, value) => {
+    const {issueInfo} = this.props
+    console.log(key, ': ', value)
+    switch (key) {
+      case 'label':
+        this.props.updateIssueDetail(issueInfo._id, {[key]: value.map(item => item.label)})
+        break;
+      case 'storyPoints':
+          this.props.updateIssueDetail(issueInfo._id, {[key]: value.label})
+        break;
+      case 'description':
+        this.setState({[key]: value})
+        break;
+      case 'subTaskSummary':
+        this.setState({subTaskSummary: value})
+        break;
+      case 'summary':
+        this.setState({issueSummary: value})
+        break;
+      case 'workflow':
+        this.props.updateIssueDetail(issueInfo._id, {[key]: this.props.listWorkflow.find(i => i.type == value)._id})
+        break;
+      case 'closed':
+        this.props.updateIssueDetail(issueInfo._id, {[key]: value})
+        break;
+      default:
+          this.props.updateIssueDetail(issueInfo._id, {[key]: value.value})
+        break;
+    }
+  }
+
+  changeDisplayDescriptionEditor = async (value, text) => {
+    await this.setState({displayDescriptionEditor: value, description: text})
+  }
+
+  changeDisplayCreateSubtask = (value) => {
+    this.setState({displayAddSubtask: value})
+  }
+  changeDisplayEditSummary = (value) => {
+    this.setState({displayEditSummary: value})
+  }
+
+  saveDescription = () => {
+    const {issueInfo} = this.props
+    this.props.updateIssueDetail(issueInfo._id, {description: this.state.description})
+  }
+
+  saveSummary = () => {
+    const {issueInfo} = this.props
+    if(this.state.issueSummary !== issueInfo.summary) {
+      this.props.updateIssueDetail(issueInfo._id, {summary: this.state.issueSummary})
+    }
+  }
+
+  createSubtask = () => {
+    const {selectedProject, issueTypeSelectable, issueInfo, prioritySelectable} = this.props
+    const {subTaskSummary} = this.state
+        const data = {
+          project: selectedProject._id,
+          issueType: issueTypeSelectable.find(item => item.label == 'Sub Task').value,
+          priority: prioritySelectable.find(item => item.label == 'Medium').value,
+          summary: subTaskSummary,
+          subTaskOfIssue: issueInfo._id
+        }
+        this.props.createSubtask(data)
+  }
+
+  removeIssue = (id) => {
+    this.props.removeIssue(id)
+  }
+
   render() {
     const {
       listSprint,
       listBacklogIssue,
       initialData,
-      addIssueFormValue
+      // addIssueFormValue,
+      issueTypeSelectable,
+      addIssueFormValue,
+      // sprintTypeSelectable,
+      // addIssueValue,
+      issueInfo,
+      prioritySelectable,
+      assigneeSelectable,
+      labelSelectable,
+      userInfo,
+      storyPointSelectable,
     } = this.props;
     const {
       isOpenAddSprintModal,
@@ -220,7 +385,9 @@ class BacklogPageContainer extends Component {
       addForm,
       startForm,
       isOpenAddIssueModal,
-      addIssueToSprint
+      addIssueToSprint,
+      displayDescriptionEditor, description,  displayAddSubtask,
+      subTaskSummary, issueSummary
     } = this.state;
     // console.log("sprint: ", isOpenAddSprintModal);
     // console.log("issue: ", isOpenAddIssueModal);
@@ -234,6 +401,31 @@ class BacklogPageContainer extends Component {
           chooseActive={active => this.chooseActive(active)}
           initialData={initialData}
           openAddIssueModal={data => this.openAddIssueModal(data)}
+
+          displayDescriptionEditor={displayDescriptionEditor}
+          descriptionState={description}
+          displayAddSubtask={displayAddSubtask}
+          subTaskSummary={subTaskSummary}
+          issueSummary={issueSummary}
+          changeDisplayDescriptionEditor={(value, text) => this.changeDisplayDescriptionEditor(value, text)}
+          changeDisplayCreateSubtask={value => this.changeDisplayCreateSubtask(value)}
+          updateIssueDetail={(key, value) => this.updateIssueDetail(key, value)}
+          saveDescription={() => this.saveDescription()}
+          createSubtask={() => this.createSubtask()}
+          changeDisplayEditSummary={value => this.changeDisplayEditSummary(value)}
+          saveSummary={() => this.saveSummary()}
+          removeIssue={(id) => this.removeIssue(id)}
+          selectIssue={issue => this.selectIssue(issue)}
+          issueInfo={issueInfo}
+          userInfo={userInfo}
+          issueTypeSelectable={issueTypeSelectable}
+          labelSelectable={labelSelectable}
+          storyPointSelectable={storyPointSelectable}
+          openAddIssueModal={this.openAddIssueModal}
+          closeIssueDetail={this.closeIssueDetail}
+          selectIssue={issue => this.selectIssue(issue)}
+          assigneeSelectable={assigneeSelectable}
+          prioritySelectable={prioritySelectable}
         />
         <AddIssueModal
           openModal={isOpenAddIssueModal}
@@ -278,10 +470,22 @@ const mapStateToProps = state => ({
   selectedProject: projectSelectors.getSelectedProject(state),
   initialData: selectors.getInitalData(state),
   addIssueFormValue: issueSelectors.getAddIssueFormValue(state),
+
   sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
+  storyPointSelectable: issueSelectors.getStoryPointSelectable(state),
   issueTypeSelectable: issueSelectors.getIssueTypeSelectable(state),
   prioritySelectable: issueSelectors.getPrioritySelectable(state),
+  labelSelectable: issueSelectors.getLabelSelectable(state),
+  assigneeSelectable: issueSelectors.getAssigneeSelectable(state),
+
   createIssueStatus: issueSelectors.getCreateIssueStatus(state),
+  issueInfo: issueSelectors.getIssueInfo(state),
+  userInfo: userSelectors.getUserInfo(state),
+
+  updateIssueStatus: issueSelectors.getUpdateIssueStatus(state),
+  createSubtaskStatus: issueSelectors.getCreateSubtaskStatus(state),
+  listWorkflow: workflowSelectors.getListWorkflow(state),
+  removeIssueStatus: issueSelectors.getRemoveIssueStatus(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -314,7 +518,36 @@ const mapDispatchToProps = dispatch => ({
   },
   resetCreateIssueStatus(query) {
     dispatch(issueActions.resetCreateIssueStatus(query))
-  }
+  },
+  getIssueInfo(id, query) {
+    dispatch(issueActions.getIssueInfo(id, query));
+  },
+  updateIssueDetail(id, data) {
+    dispatch(issueActions.updateIssueDetail(id, data))
+  },
+  resetUpdateIssueStatus() {
+    dispatch(issueActions.resetUpdateIssueStatus())
+  },
+  createSubtask(data) {
+    dispatch(issueActions.createSubtask(data))
+  },
+  resetCreateSubtaskStatus() {
+    dispatch(issueActions.resetCreateSubtaskStatus())
+  },
+  getWorkflowList(query) {
+    dispatch(workflowActions.getWorkflowList(query))
+  },
+  getListUser(query) {
+    dispatch(issueActions.getListUser(query))
+  },
+  removeIssue(id) {
+    dispatch(issueActions.removeIssue(id))
+  },
+  resetRemoveIssueStatus() {
+    dispatch(issueActions.resetRemoveIssueStatus())
+  },
+  // resetAllData() {
+  // }
 });
 export default connect(
   mapStateToProps,
