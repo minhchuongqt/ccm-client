@@ -431,14 +431,6 @@ class BacklogPageContainer extends Component {
           openModal={isOpenAddIssueModal}
           closeModal={this.closeAddIssueModal}
           addIssueToSprint={addIssueToSprint}
-          // createIssue={data => this.createIssue(data)}
-          // validate={data => this.validate(data)}
-          // issueTypeSelectable={issueTypeSelectable}
-          // addIssueFormValue={addIssueFormValue}
-          // sprintTypeSelectable={sprintTypeSelectable}
-          // onChangeValue={(name, value) =>
-          //   this.onChangeAddIssueFormValue(name, value)
-          // }
         />
         <AddSprintModal
           data={addForm}
