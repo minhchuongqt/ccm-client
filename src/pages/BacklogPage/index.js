@@ -230,9 +230,9 @@ class BacklogPageContainer extends Component {
     });
     this.setState({ isOpenStartSprintModal: false });
   };
-  openAddIssueModal = (spintId) => {
+  openAddIssueModal = (sprintId) => {
     // console.log(data)
-    this.setState({ isOpenAddIssueModal: true, addIssueToSprint: spintId });
+    this.setState({ isOpenAddIssueModal: true, addIssueToSprint: sprintId });
   };
   closeAddIssueModal = () => {
     this.setState({ isOpenAddIssueModal: false, addIssueToSprint: null });

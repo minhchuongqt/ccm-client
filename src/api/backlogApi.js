@@ -17,10 +17,9 @@ class BacklogApi {
     startSprint = (data) => {
         return API.post('/sprint/start', data)
     }
-    completeSprint = (params) => {
-        return API.post('/sprint/complete', {params});
+    completeSprint = (data) => {
+        return API.post('/sprint/complete', data);
     }
-
     createSprint = (data) => {
         return API.post('/sprint', data)
     }

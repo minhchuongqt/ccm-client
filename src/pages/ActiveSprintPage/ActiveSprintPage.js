@@ -28,7 +28,7 @@ const CustomLaneHeader = props => {
   )
 }
 const ActiveSprintPage = props => {
-  const { data, activeSprintInfo, openAddSprintModal } = props
+  const { data, activeSprintInfo, openCompleteSprintModal } = props
 
 
   const handleDragEnd = (cardId, sourceLaneId, targetLaneId, position, card) => {
@@ -51,7 +51,7 @@ const ActiveSprintPage = props => {
               <div className="pull-right">
               
               {!_.isEmpty(activeSprintInfo) &&<button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-addproject"
-                 
+                 onClick={() => openCompleteSprintModal()}
                 >Complete Sprint</button>}
               </div>
             </div>

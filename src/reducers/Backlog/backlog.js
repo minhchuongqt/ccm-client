@@ -1,5 +1,5 @@
 import {
-    GET_LIST_SPRINT, CREATE_SPRINT, GET_LIST_BACKLOG_ISSUE, RESET_DATA, GET_SPRINT_ACTIVE, GET_SPRINT_ACTIVE_INFO, START_SPRINT
+    GET_LIST_SPRINT, CREATE_SPRINT, GET_LIST_BACKLOG_ISSUE, RESET_DATA, GET_SPRINT_ACTIVE, GET_SPRINT_ACTIVE_INFO, START_SPRINT, COMPLETE_SPRINT
 } from '../../constants/types/backlog'
 import { combineReducers } from 'redux';
 
@@ -60,6 +60,19 @@ const startSprintStatus = (state = null, action) => {
             return null
     }
 }
+const completeSprintStatus = (state = null, action) => {
+    const {type, payload} = action
+    switch(type) {
+        case COMPLETE_SPRINT:
+            if(payload) {
+                return true
+            } else {
+                return false
+            }
+        default:
+            return null
+    }
+}
 
 
 const listBacklogIssue = (state = [], action) => {
@@ -79,7 +92,8 @@ const BacklogState = combineReducers({
     startSprintStatus,
     listBacklogIssue,
     sprintActive,
-    sprintActiveInfo
+    sprintActiveInfo,
+    completeSprintStatus
 })
 
 export default (state, action) => {

@@ -23,7 +23,7 @@ export const generateDataActiveBoard = ({WorkflowState, BacklogState}) => {
           cards: BacklogState.sprintActive.find(i => i.workflow._id === item._id) && BacklogState.sprintActive.find(i => i.workflow._id === item._id).issues.map(item => ({
             id: item._id,
             title:  item.issueKey,
-            description: ReactHtmlParser(unescapeHTML('<img src='+ API + (item.issueType || {}).iconUrl + '/>&nbsp;&nbsp;' + item.summary )),
+            description: ReactHtmlParser(unescapeHTML('<img src='+ API + (item.issueType || {}).iconUrl + '></img>&nbsp;&nbsp;' + item.summary )),
             tags: item.label.map(i => ({
               title: i ,
               color: 'white',

@@ -1,30 +1,43 @@
 import React, { Component } from 'react';
 import ActiveSprintPageView from './ActiveSprintPage';
 import { connect } from 'react-redux'
+import { toast } from "react-toastify";
 import * as issueActions from '../../actions/issue'
 import * as sprintActions from '../../actions/backlog'
 import * as workflowActions from '../../actions/workflow'
 import * as projectSelectors from "../../selectors/project";
+import * as backlogSelectors from "../../selectors/backlog";
 import * as activeSprintSelectors from "../../selectors/activeSprint";
-
+import CompleteSprintModal from "./CompleteSprintModal";
 class ActiveSprintPageContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
           addForm: {
             workflow: "",
-          }
+          },
+          completeForm: {
+            moveToSprint: "",
+          },
+          isOpenCompleteSprintModal: false,
         };
       }
-    
+      componentWillReceiveProps(newProps) {
+        const { completeSprintStatus
+        } = newProps;
+        if (completeSprintStatus) {
+          toast.success("Complete sprint successfully");
+          this.setState({ isOpenCompleteSprintModal: false });
+          this.getListWorkflow();
+          this.getActiveSprint();
+        }
+      }
+
     componentWillMount(){
         // this.getListIssue();
         this.getListWorkflow();
         this.getActiveSprint();
         this.getActiveSprintInfo();
-    }
-    generateValueBoardData() {
-
     }
     getBaseOption = () => {
         const params = {
@@ -58,7 +71,52 @@ class ActiveSprintPageContainer extends Component {
         };
         this.props.getActiveSprintInfo(query);
     };
-
+    openCompleteSprintModal = () => {
+      this.getListSprint();
+      this.setState({
+        completeForm: {
+          sprint: this.props.activeSprintInfo._id,
+          project: this.props.selectedProject._id
+        }
+      });
+      this.setState({ isOpenCompleteSprintModal: true });
+    };
+    closeCompleteSprintModal = () => {
+      this.setState({
+        completeForm: {
+          sprint: "",
+          project: "",
+          moveToSprint: ""
+        }
+      });
+      this.setState({ isOpenCompleteSprintModal: false });
+    };
+    completeSprint = () => {
+      const { completeForm } = this.state;
+      const data = {
+        ...completeForm
+      };
+        toast.success("Sprint successfully completed")
+        this.props.completeSprint(data);
+        
+    };
+    onChangeCompleteValue = (name, value) => {
+      const completeForm = this.state.completeForm;
+      completeForm[name] = value;
+      this.setState({ completeForm });
+    };
+    getListSprint = () => {
+      const params = {
+        query: JSON.stringify({
+          project: this.props.selectedProject._id
+        }),
+        sort: JSON.stringify({
+          sequenceInSprint: -1,
+          createdAt: -1
+        })
+      };
+      this.props.getListSprint(params);
+    };
     handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card) {
         this.setState({
             addForm: {
@@ -74,27 +132,29 @@ class ActiveSprintPageContainer extends Component {
     }
 
     render() {
-        const { dataForBoard, activeSprintInfo } = this.props
+        const { dataForBoard, activeSprintInfo, sprintTypeSelectable, } = this.props
         const {
-          isOpenStartSprintModal,
-          addForm
+          isOpenCompleteSprintModal,
+          completeForm
         } = this.state;
         return (
             <div>
                 <ActiveSprintPageView 
                    data = {dataForBoard}
                    activeSprintInfo = {activeSprintInfo}
-                   openAddSprintModal={this.openAddSprintModal}
+                   openCompleteSprintModal={() => this.openCompleteSprintModal()}
                    handleDragEnd={(cardId, sourceLaneId, targetLaneId, position, card) => this.handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card)}
                 />
-                {/* <AddSprintModal
-                  data={addForm}
-                  openModal={isOpenStartSprintModal}
-                  closeModal={this.closeStartSprintModal}
-                  startSprint={this.startSprint}
+                <CompleteSprintModal
+                  data={completeForm}
+                  activeSprintInfo = {activeSprintInfo}
+                  openCompleteModal={isOpenCompleteSprintModal}
+                  closeCompleteModal={this.closeCompleteSprintModal}
+                  completeSprint={this.completeSprint}
                   validate={data => this.validate(data)}
-                  onChangeValue={(name, value) => this.onChangeValue(name, value)}
-                /> */}
+                  sprintTypeSelectable={sprintTypeSelectable}
+                  onChangeCompleteValue={(name, value) => this.onChangeCompleteValue(name, value)}
+                />
             </div>
         );
     }
@@ -102,12 +162,16 @@ class ActiveSprintPageContainer extends Component {
 
 const mapStateToProps = state => ({
     selectedProject: projectSelectors.getSelectedProject(state),
-    // createSprintStatus: backlogSelectors.createSprintStatus(state),
+    completeSprintStatus: backlogSelectors.completeSprintStatus(state),
     dataForBoard: activeSprintSelectors.generateDataActiveBoard(state),
-    activeSprintInfo: activeSprintSelectors.getSprintActiveInfo(state)
+    activeSprintInfo: activeSprintSelectors.getSprintActiveInfo(state),
+    sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
 })
 
 const mapDispatchToProps = dispatch => ({
+    getListSprint(query) {
+      dispatch(sprintActions.getListSprint(query));
+    },
     getIssueList(query) {
         dispatch(issueActions.getIssueList(query));
     },
@@ -123,9 +187,9 @@ const mapDispatchToProps = dispatch => ({
     getActiveSprintInfo(query) {
         dispatch(sprintActions.getSprintActiveInfo(query));
     },
-    // startSprint(addForm) {
-    //   dispatch(actions.startSprint(addForm));
-    // },
+    completeSprint(completeForm) {
+      dispatch(sprintActions.completeSprint(completeForm));
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((ActiveSprintPageContainer));
