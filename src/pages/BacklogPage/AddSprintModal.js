@@ -1,7 +1,6 @@
 import React from "react";
 
 import Modal from "../../components/modal";
-import DateTime from 'react-datetime'
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
 // import { createSprint } from "../../../actions/sprint";
 

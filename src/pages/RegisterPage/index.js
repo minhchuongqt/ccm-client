@@ -3,7 +3,6 @@ import RegisterPageView from './RegisterPage';
 import RegisterActions from '../../actions/register';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom'
-import { dispatch } from 'rxjs/internal/observable/pairs';
 
 class RegisterPageContainer extends Component {
     constructor(props) {

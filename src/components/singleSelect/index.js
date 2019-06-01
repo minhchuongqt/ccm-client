@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select, { components } from 'react-select';
-import * as R from 'ramda';
 import makeAnimated from 'react-select/lib/animated';
-import Icon from '../../assets/img/project.png'
 // import 'react-select/dist/react-select.css';
 const { Option, SingleValue  } = components;
 const IconOption = (props) => {

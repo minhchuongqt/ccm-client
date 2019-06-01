@@ -4,9 +4,6 @@ import { connect } from 'react-redux'
 import * as userActions from '../../../../../actions/user'
 import * as userSelectors from "../../../../../selectors/user";
 class ListUserPageContainer extends Component {
-    constructor(props) {
-        super(props);
-    }
     componentWillMount(){
         this.props.getUserInfo();
     }

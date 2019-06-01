@@ -1,6 +1,5 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
-import SortableView from '../../components/sortable/SortableComponent'
 import "../../styleSheets/sass/components/Backlog/BacklogView.scss"
 // import AddIssueView from '../IssuePage/AddIssuePage/index'
 import EditSprintPageView from './EditSprintPage/index';
@@ -27,12 +26,9 @@ const generateClassForIssueStatus = status => {
 
 const BacklogPage = props => {
   const { 
-    listSprint, listBacklogIssue, openAddSprintModal, 
-    chooseActive, initialData, openAddIssueModal, openStartSprintModal,
-    listIssue,
+    initialData, openAddIssueModal, openStartSprintModal,
     selectIssue,
     issueInfo,
-    closeIssueDetail,
     assigneeSelectable,
     prioritySelectable,
     issueTypeSelectable,
@@ -83,7 +79,8 @@ const BacklogPage = props => {
       )
     : prioritySelectable;
 
-  console.log(issueInfo)
+  // console.log(issueInfo)
+  // const {  initialData, openAddIssueModal, openStartSprintModal } = props
   return (
     <div id="backlog-view">
       <div>

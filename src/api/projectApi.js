@@ -1,7 +1,6 @@
 import API from './base';
 
 class ProjectApi {
-    constructor() {}
 
     getListProject = (  ) => {
         return API.get('/project');

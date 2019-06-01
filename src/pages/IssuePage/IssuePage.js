@@ -1,17 +1,14 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
-import imgUser from "../../assets/img/avatar5.png";
 // import AddIssueView from "./AddIssuePage/index";
 // import EditIssueView from "./EditIssuePage/index";
-import MultiSelect from "../../components/multiSelect";
 import _ from "lodash";
 import { API } from "../../config";
 import SearchSelect from "../../components/singleSelect";
 import moment from "moment";
 import Creatable from "react-select/lib/Creatable";
 import TextEditor from "../../components/textEditor";
-import { changeSortType, createSubtask } from "../../actions/issue";
 
 const generateClassForIssueStatus = status => {
   switch (status) {

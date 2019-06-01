@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import * as PATH from "../../constants/data/routeConstants";
-import img from "../../assets/img/ccm-logo.png";
 import userImg from "../../assets/img/avatar5.png";
 const Header = props => {
   const { isShow } = props;

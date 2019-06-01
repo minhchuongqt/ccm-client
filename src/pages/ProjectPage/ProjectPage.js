@@ -5,19 +5,6 @@ import * as PATH from '../../constants/data/routeConstants'
 import { Link } from 'react-router-dom'
 import "../../styleSheets/sass/components/Project/projectView.scss"
 import _ from 'lodash'
-const switchColor = (number) => {
-  if (number % 3 == 1) {
-    return "bg-yellow";
-  }
-  if (number % 3 == 2) {
-    return "bg-red";
-  }
-  if (number % 3 == 0) {
-    return "bg-green";
-  }
-
-}
-
 const ProjectPage = props => {
   const { listProject, columns, openAddProjectModal, selectProject, switchPage } = props
   return (
