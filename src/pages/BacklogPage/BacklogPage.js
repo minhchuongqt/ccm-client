@@ -26,7 +26,7 @@ const generateClassForIssueStatus = status => {
 
 const BacklogPage = props => {
   const { 
-    initialData, openAddIssueModal, openStartSprintModal,
+    initialData, openAddIssueModal, openStartSprintModal, openAddSprintModal,
     selectIssue,
     issueInfo,
     assigneeSelectable,
@@ -93,7 +93,9 @@ const BacklogPage = props => {
         <DragDropComponent 
         openAddIssueModal = {data => openAddIssueModal(data)} 
         openStartSprintModal = {data => openStartSprintModal(data)} 
-        onClick={(task)=> selectIssue(task)} initialData={initialData || {}} />
+        onClick={(task)=> selectIssue(task)} initialData={initialData || {}} 
+        openAddSprintModal={() => openAddSprintModal()}
+        />
         {/* {listSprint.map((sprint, index) => {
           return (
             <div className="box box-success" key={index}>
