@@ -4,15 +4,17 @@ import {API} from '../config'
 import { createSelector } from 'reselect';
 //params
 export const getListIssue = ({IssueState}) => {
-    if(_.isEmpty(IssueState.listIssue)) return []
+    if(_.isEmpty(IssueState.listIssue.data)) return []
     const {searchValue} = IssueState
-    return IssueState.listIssue.filter(item => item.summary.indexOf(searchValue) > -1 )
+    return IssueState.listIssue.data.filter(item => item.summary.indexOf(searchValue) > -1 )
     // const result =  IssueState.listIssue.map(item => item)
     // return result.map(item => (
     //     {...item
        
     // }))
 }
+
+export const getListIssueIsFetching = ({IssueState}) => IssueState.listIssue.isFetching
 
 // export const getIssueInfo = ({IssueState}) => {
 //     if(_.isEmpty(IssueState.issueInfo)) return {}
@@ -200,7 +202,7 @@ export const getAssigneeSelectable = ({IssueState}) => {
         {
             label: item.member.displayName,
             value: item.member._id,
-            iconUrl: API + item.member.avatarUrl,
+            iconUrl: API + (item.member.avatarUrl || '/media/emptyAvatar.png'),
         }
     ))
     return result
@@ -237,8 +239,10 @@ export const getIssueInfo = createSelector(
             label,
             storyPoints,
             attachs: (result.attachs || []).map(item => item && API + item),
-            createdDate: moment(result.createdAt).format('MMM DD, YYYY'),
-            updatedDate: moment(result.updatedAt).format('MMM DD, YYYY')
+            createdDate: moment(result.createdAt).format('MMM DD YYYY, hh:mm:ss a'),
+            updatedDate: moment(result.updatedAt).format('MMM DD YYYY, hh:mm:ss a')
         }
     }
 )
+
+export const getRemoveIssueStatus = ({IssueState}) => IssueState.removeIssueStatus

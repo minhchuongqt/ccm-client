@@ -54,7 +54,7 @@ const ProjectPage = props => {
 
       </div>
       {!_.isEmpty(listProject) &&
-      <div className="row">
+      <div className="row" style={{marginBottom: '50px'}}>
 
         <div className="col-xs-12">
           <div className="box">

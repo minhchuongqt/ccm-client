@@ -9,17 +9,21 @@ import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
      UPDATE_ISSUE_DETAIL_STATUS,
      RESET_UPDATE_ISSUE_DETAIL_STATUS,
      CREATE_SUBTASK_STATUS,
-     RESET_CREATE_SUBTASK_STATUS
+     RESET_CREATE_SUBTASK_STATUS,
+     REMOVE_ISSUE_STATUS,
+     RESET_REMOVE_ISSUE_STATUS,
 } from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
 import BaseApi from '../api/base'
 import {toast} from 'react-toastify'
 import _ from 'lodash'
 import {API} from '../config'
-export const getIssueList = (data) => dispatch => {
-    IssueApi.getIssueList(data).then(res => {
+
+export const getIssueList = (data) => async dispatch => {
+    dispatch({ type: GET_ISSUE_LIST, payload: {isFetching: true, data: [], error: null} })
+    await IssueApi.getIssueList(data).then(res => {
         if (res.data) {
-            dispatch({ type: GET_ISSUE_LIST, payload: res.data.data })
+            dispatch({ type: GET_ISSUE_LIST, payload: {isFetching: false, data: res.data.data, error: null} })
             if(res.data.data[0]) dispatch(getIssueInfo(res.data.data[0]._id))
         }
     })
@@ -179,6 +183,10 @@ export const resetAddIssueFormValue = () => dispatch => {
     dispatch({ type: RESET_ADD_ISSUE_VALUE })
 }
 
+export const resetRemoveIssueStatus = () => dispatch => {
+    dispatch({ type: RESET_REMOVE_ISSUE_STATUS })
+}
+
 export const changeFilterForUserIssue = data => dispatch => {
     dispatch({type: CHANGE_SELECTED_FILTER_FOR_USER_ISSUE_VALUE, payload: data})
 }
@@ -215,6 +223,18 @@ export const updateIssueDetail = (id, data) => dispatch => {
                 toast.error(res.data.error)
             } else {
                 dispatch({type: UPDATE_ISSUE_DETAIL_STATUS, payload: res.data.success })
+            }
+        }
+    })
+}
+
+export const removeIssue = (id) => dispatch => {
+    IssueApi.removeIssue(id).then(res => {
+        if(res.data) {
+            if(res.data.error) {
+                toast.error(res.data.error)
+            } else {
+                dispatch({type: REMOVE_ISSUE_STATUS, payload: res.data.success })
             }
         }
     })

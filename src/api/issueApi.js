@@ -41,6 +41,10 @@ class IssueApi {
     updateIssue = (id, data) => {
         return API.put('/issue/' + id, data)
     }
+
+    removeIssue = (id) => {
+        return API.remove('/issue/' + id)
+    }
     
 }
 
