@@ -241,7 +241,7 @@ class IssuePageContainer extends Component {
 
   onChangeValue = (name, value) => {
     this.props.changeAddIssueFormValue(name, value)
-   }
+  }
 
   showAddIssueModal = () => {
     return <TestDialog />;

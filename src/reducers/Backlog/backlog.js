@@ -65,9 +65,9 @@ const completeSprintStatus = (state = null, action) => {
     switch(type) {
         case COMPLETE_SPRINT:
             if(payload) {
-                return true
-            } else {
                 return false
+            } else {
+                return true
             }
         default:
             return null

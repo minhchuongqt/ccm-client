@@ -96,7 +96,7 @@ class ActiveSprintPageContainer extends Component {
       const data = {
         ...completeForm
       };
-        toast.success("Sprint successfully completed")
+        // toast.success("Sprint successfully completed")
         this.props.completeSprint(data);
         
     };
@@ -104,6 +104,9 @@ class ActiveSprintPageContainer extends Component {
       const completeForm = this.state.completeForm;
       completeForm[name] = value;
       this.setState({ completeForm });
+    };
+    changeCompleteSprintValue = (name, value) => {
+      this.props.changeCompleteSprintValue(name, value)
     };
     getListSprint = () => {
       const params = {
@@ -153,7 +156,7 @@ class ActiveSprintPageContainer extends Component {
                   completeSprint={this.completeSprint}
                   validate={data => this.validate(data)}
                   sprintTypeSelectable={sprintTypeSelectable}
-                  onChangeCompleteValue={(name, value) => this.onChangeCompleteValue(name, value)}
+                  onChangeCompleteValue={(name, value) => this.changeCompleteSprintValue(name, value)}
                 />
             </div>
         );
@@ -189,6 +192,9 @@ const mapDispatchToProps = dispatch => ({
     },
     completeSprint(completeForm) {
       dispatch(sprintActions.completeSprint(completeForm));
+    },
+    changeCompleteSprintValue(key, value) {
+      dispatch(sprintActions.changeCompleteSprintValue(key, value));
     },
 })
 

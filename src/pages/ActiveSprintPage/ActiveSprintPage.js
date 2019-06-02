@@ -50,9 +50,9 @@ const ActiveSprintPage = props => {
             <li class="active breadcrumb-item sprint-name" aria-current="page">{activeSprintInfo.name}</li>
               <div className="pull-right">
               
-              {!_.isEmpty(activeSprintInfo) &&<button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-addproject"
+              <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-addproject"
                  onClick={() => openCompleteSprintModal()}
-                >Complete Sprint</button>}
+                >Complete Sprint</button>
               </div>
             </div>
 

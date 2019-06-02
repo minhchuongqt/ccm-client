@@ -1,7 +1,8 @@
 import { GET_LIST_SPRINT, CREATE_SPRINT, GET_LIST_BACKLOG_ISSUE,
-     GET_SPRINT_ACTIVE, GET_SPRINT_ACTIVE_INFO, START_SPRINT, COMPLETE_SPRINT
+     GET_SPRINT_ACTIVE, GET_SPRINT_ACTIVE_INFO, START_SPRINT, COMPLETE_SPRINT, CHANGE_COMPLETE_SPRINT_VALUE
      } from '../constants/types/backlog';
 import BacklogApi from '../api/backlogApi';
+import toast from 'react-toastify'
 
 export const getListSprint = (data) => dispatch => {
     BacklogApi.getListSprint(data).then(res => {
@@ -54,4 +55,25 @@ export const getListBacklogIssue = (data) => dispatch => {
             dispatch({type: GET_LIST_BACKLOG_ISSUE, payload: res.data.data})
         }
     })
+}
+
+export const changeCompleteSprintValue = (key, value) => dispatch => {
+    // if(key === 'attachs') {
+    //     var FileSize = value.size / 1024 / 1024; // in MB
+    //     if (FileSize > 10) {
+    //         toast.error('File size cannot more than 10MB');
+    //         return;
+    //     }
+    //     const readerBase64 = new FileReader();
+    //     readerBase64.onload = (eventBase64) => {
+    //         const url = eventBase64.target.result;
+    //         const filename = value.name;
+    
+    //         const file = { id: filename, raw: value, filename, url, }
+    //         dispatch({ type: CHANGE_COMPLETE_SPRINT_VALUE, payload: { key, file }});
+    //     };
+    //     readerBase64.readAsDataURL(value);
+    // } else {
+        dispatch({ type: CHANGE_COMPLETE_SPRINT_VALUE, payload: { key, value } })
+    // }
 }
