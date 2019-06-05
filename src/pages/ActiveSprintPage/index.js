@@ -23,11 +23,16 @@ class ActiveSprintPageContainer extends Component {
         };
       }
       componentWillReceiveProps(newProps) {
-        const { completeSprintStatus
+        const { completeSprintStatus, changeIssueWorkflowStatus
         } = newProps;
         if (completeSprintStatus) {
           toast.success("Complete sprint successfully");
           this.setState({ isOpenCompleteSprintModal: false });
+          this.getListWorkflow();
+          this.getActiveSprint();
+        }
+        if (changeIssueWorkflowStatus) {
+          // toast.success("Changed");
           this.getListWorkflow();
           this.getActiveSprint();
         }
@@ -130,19 +135,19 @@ class ActiveSprintPageContainer extends Component {
         const data = {
             ...addForm
         };
-        console.log(data)
         this.props.changeIssueWorkflow(cardId, data);
     }
 
     render() {
-        const { dataForBoard, activeSprintInfo, sprintTypeSelectable, } = this.props
+        const { dataForBoard, activeSprintInfo, sprintTypeSelectable, issueCompleteInfo } = this.props
+        console.log(issueCompleteInfo)
         const {
           isOpenCompleteSprintModal,
           completeForm
         } = this.state;
         return (
             <div>
-                <ActiveSprintPageView 
+                <ActiveSprintPageView
                    data = {dataForBoard}
                    activeSprintInfo = {activeSprintInfo}
                    openCompleteSprintModal={() => this.openCompleteSprintModal()}
@@ -156,6 +161,7 @@ class ActiveSprintPageContainer extends Component {
                   completeSprint={this.completeSprint}
                   validate={data => this.validate(data)}
                   sprintTypeSelectable={sprintTypeSelectable}
+                  issueCompleteInfo = {issueCompleteInfo}
                   onChangeCompleteValue={(name, value) => this.changeCompleteSprintValue(name, value)}
                 />
             </div>
@@ -166,9 +172,11 @@ class ActiveSprintPageContainer extends Component {
 const mapStateToProps = state => ({
     selectedProject: projectSelectors.getSelectedProject(state),
     completeSprintStatus: backlogSelectors.completeSprintStatus(state),
+    changeIssueWorkflowStatus: backlogSelectors.changeIssueWorkflowStatus(state),
     dataForBoard: activeSprintSelectors.generateDataActiveBoard(state),
     activeSprintInfo: activeSprintSelectors.getSprintActiveInfo(state),
     sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
+    issueCompleteInfo: activeSprintSelectors.getIssueCompleteInfo(state),
 })
 
 const mapDispatchToProps = dispatch => ({

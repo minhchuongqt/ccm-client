@@ -39,3 +39,8 @@ export const generateDataActiveBoard = ({WorkflowState, BacklogState}) => {
     if(_.isEmpty(BacklogState.sprintActiveInfo)) return []
     return BacklogState.sprintActiveInfo
 }
+
+export const getIssueCompleteInfo = ({BacklogState}) => {
+  if(_.isEmpty(BacklogState.sprintActive)) return []
+  return BacklogState.sprintActive
+}
