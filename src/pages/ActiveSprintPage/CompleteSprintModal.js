@@ -30,6 +30,8 @@ const CompleteSprintModal = props => {
             )
           })}
           
+          {/* <div className="row"><label className="col-sm-12 ">Incomplete issues will be moved to the backlog</label></div> */}
+          
           
           <div className="row"><label className="col-sm-12 ">Select where all the incomplete issues should be moved:</label></div>
           {/* <label className="col-sm-2 ">Sprint</label> */}
