@@ -11,7 +11,8 @@ const CompleteSprintModal = props => {
     completeSprint,
     sprintTypeSelectable,
     data,
-    activeSprintInfo
+    activeSprintInfo,
+    issueCompleteInfo
   } = props;
   return (
     <Modal isOpen={openCompleteModal} title="Complete Sprint" closeModal={closeCompleteModal} >
@@ -21,8 +22,17 @@ const CompleteSprintModal = props => {
         <div className="modal-body">
           <div className="form-group">
           <div className="row"><label className="col-sm-12 ">{activeSprintInfo.name}</label></div>
-          <div className="row"><label className="col-sm-12 ">0 issues were done</label></div>
-          <div className="row"><label className="col-sm-12 ">1 issue was incomplete</label></div>
+          { issueCompleteInfo && issueCompleteInfo.map((workflow, index) => {
+            return (
+            <div className="row" key={index}>
+              <label className="col-sm-12 ">{workflow.issues.length} issues in {workflow.workflow.name} </label>
+            </div>
+            )
+          })}
+          
+          {/* <div className="row"><label className="col-sm-12 ">Incomplete issues will be moved to the backlog</label></div> */}
+          
+          
           <div className="row"><label className="col-sm-12 ">Select where all the incomplete issues should be moved:</label></div>
           {/* <label className="col-sm-2 ">Sprint</label> */}
           <div className="row">
