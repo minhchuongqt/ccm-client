@@ -15,7 +15,7 @@ import UserPage from './SettingSystemPage/UserPage/index';
 import WorkflowContainer from './SettingSystemPage/Workflow';
 import ActiveSprintPage from './ActiveSprintPage/index';
 import IssuePage from './IssuePage/index';
-import ReleasePage from './ReleasePage/ReleasePage';
+import ReleasePage from './ReleasePage';
 import ReportPage from './ReportPage/ReportPage';
 import * as actions from '../actions/user'
 class App extends Component {

@@ -75,7 +75,8 @@ onChangeValue = (name, value) => {
       openModal,
       closeModal,
       addIssueToSprint,
-      storyPointSelectable
+      storyPointSelectable,
+      versionSelectable
      } = this.props
     // console.log(openModal)
     return (
@@ -87,6 +88,7 @@ onChangeValue = (name, value) => {
       userInfo={userInfo}
       prioritySelectable={prioritySelectable}
       labelSelectable={labelSelectable}
+      versionSelectable={versionSelectable}
       createIssue={data => this.createIssue(data)}
       validate={data => this.validate(data)}
       issueTypeSelectable={issueTypeSelectable}
@@ -115,7 +117,8 @@ const mapStateToProps = state => ({
   addIssueFormValue: selectors.getAddIssueFormValue(state),
   addIssueValueForApi: selectors.generateDataForAddIssue(state),
   issueInfo: selectors.getIssueInfo(state),
-  userInfo: userSelectors.getUserInfo(state)
+  userInfo: userSelectors.getUserInfo(state),
+  versionSelectable: selectors.getVersionSelectable(state)
 })
 
 const mapDispatchToProps = dispatch => ({

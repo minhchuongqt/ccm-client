@@ -35,7 +35,8 @@ const AddIssueModal = props => {
     prioritySelectable,
     labelSelectable,
     addIssueToSprint,
-    storyPointSelectable
+    storyPointSelectable,
+    versionSelectable
   } = props;
   // console.log(addIssueToSprint)
   // result = issueType ? result.filter(item => item.value !== issueType.value) : result
@@ -184,6 +185,13 @@ const AddIssueModal = props => {
               <MultiSelect options={assigneeSelectable} value={addIssueFormValue.assignee || []}
                onChange={data => onChangeValue("assignee", data)}/>
               <a className="pointer" onClick={() => onChangeValue("assignee", [{label: (userInfo.displayName || userInfo.fullName), value: userInfo._id, iconUrl: userInfo.iconUrl}])}>Assign to me</a>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="col-sm-3 control-label">Fix Version</label>
+            <div className="col-sm-9">
+              <SearchSelect options={versionSelectable} value={addIssueFormValue.version || []}
+               onChange={data => onChangeValue("version", data)}/>
             </div>
           </div>
          {addIssueToSprint == null &&

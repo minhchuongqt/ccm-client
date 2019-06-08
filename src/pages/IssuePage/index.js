@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as actions from "../../actions/issue";
 import * as backlogActions from "../../actions/backlog";
 import * as workflowActions from '../../actions/workflow'
+import * as releaseActions from "../../actions/release"
 import * as selectors from "../../selectors/issue";
 import * as backlogSelectors from "../../selectors/backlog";
 import * as projectSelectors from "../../selectors/project";
@@ -44,6 +45,8 @@ class IssuePageContainer extends Component {
     this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType);
     this.getListUser();
     this.getListWorkflow();
+    this.getListVersion();
+    this.getListSprint();
   }
 
   componentWillReceiveProps(newProps) {
@@ -168,7 +171,7 @@ class IssuePageContainer extends Component {
     const params = {
       query: JSON.stringify({
         project: this.props.selectedProject._id,
-        // completed: false
+        active: false,
       }),
       sort: JSON.stringify({
         sequenceInSprint: -1,
@@ -183,6 +186,13 @@ class IssuePageContainer extends Component {
       ...this.getBaseOption()
     };
     this.props.getWorkflowList(query);
+  };
+
+  getListVersion = () => {
+    const query = {
+      ...this.getBaseOption()
+    };
+    this.props.getListVersion(query);
   };
 
   openAddIssueModal = () => {
@@ -368,7 +378,8 @@ class IssuePageContainer extends Component {
       selectedFilterForDetailIssueValue,
       searchValue,
       sortType,
-      listIssueIsFetching
+      listIssueIsFetching,
+      versionSelectable
     } = this.props;
     const { isOpenAddIssueModal, displayDescriptionEditor, description,  displayAddSubtask,
       subTaskSummary, issueSummary } = this.state;
@@ -412,21 +423,19 @@ class IssuePageContainer extends Component {
           selectIssue={issue => this.selectIssue(issue)}
           assigneeSelectable={assigneeSelectable}
           prioritySelectable={prioritySelectable}
+          versionSelectable={versionSelectable}
+          sprintTypeSelectable={sprintTypeSelectable}
           onFocus = {e => this.onFocus(e)}
         />
         <AddIssueModal
           openModal={isOpenAddIssueModal}
           closeModal={this.closeModal}
           userInfo={userInfo}
-          prioritySelectable={prioritySelectable}
-          labelSelectable={labelSelectable}
           createIssue={data => this.createIssue(data)}
           validate={data => this.validate(data)}
-          issueTypeSelectable={issueTypeSelectable}
-          assigneeSelectable={assigneeSelectable}
           addIssueFormValue={addIssueFormValue}
           addIssueValue={addIssueValue}
-          sprintTypeSelectable={sprintTypeSelectable}
+          
           onChangeValue={(name, value) => this.onChangeValue(name, value)}
           onRemoveFile={id => this.props.onRemoveFile(id)}
         />
@@ -465,7 +474,8 @@ const mapState = state => {
   createSubtaskStatus: selectors.getCreateSubtaskStatus(state),
   listWorkflow: workflowSelectors.getListWorkflow(state),
   removeIssueStatus: selectors.getRemoveIssueStatus(state),
-  listIssueIsFetching: selectors.getListIssueIsFetching(state)
+  listIssueIsFetching: selectors.getListIssueIsFetching(state),
+  versionSelectable: selectors.getVersionSelectable(state)
 }
 };
 
@@ -544,6 +554,9 @@ const mapDispatchToProps = dispatch => ({
   },
   resetRemoveIssueStatus() {
     dispatch(actions.resetRemoveIssueStatus())
+  },
+  getListVersion(query) {
+    dispatch(releaseActions.getListVersion(query))
   }
 });
 

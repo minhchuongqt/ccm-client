@@ -2,11 +2,12 @@ import _ from 'lodash'
 import moment from 'moment'
 import {API} from '../config'
 import { createSelector } from 'reselect';
+import { getSprintTypeSelectable } from './backlog';
 //params
 export const getListIssue = ({IssueState}) => {
     if(_.isEmpty(IssueState.listIssue.data)) return []
     const {searchValue} = IssueState
-    return IssueState.listIssue.data.filter(item => item.summary.indexOf(searchValue) > -1 )
+    return IssueState.listIssue.data.filter(item => _.lowerCase(item.summary).indexOf(_.lowerCase(searchValue)) > -1 )
     // const result =  IssueState.listIssue.map(item => item)
     // return result.map(item => (
     //     {...item
@@ -172,13 +173,27 @@ export const getPrioritySelectable = ({IssueState}) => {
     return result
 }
 
+export const getVersionSelectable = ({ReleaseState}) => {
+    if(_.isEmpty(ReleaseState.listVersion)) return []
+    // const { priority } = IssueState.addIssueFormValue
+    let result =  ReleaseState.listVersion.map(item => item.status == 'UNRELEASED' && (
+        {
+            label: item.name,
+            value: item._id,
+        }
+        ))
+    
+    return result
+}
+
 export const getAddIssueFormValue = ({IssueState}) => IssueState.addIssueFormValue
 
 export const generateDataForAddIssue = ({IssueState}) => {
      const {
          sprint, description, summary,
          issueType, attachs, assignee,
-         priority, label, storyPoints
+         priority, label, storyPoints,
+         version
         } = IssueState.addIssueFormValue
     const project = JSON.parse(localStorage.getItem('selectedProject')) || {}
      const result = {
@@ -192,6 +207,7 @@ export const generateDataForAddIssue = ({IssueState}) => {
          priority: (priority || {}).value || null,
          label: (label || []).map(item => item.label),
          storyPoints: (storyPoints || {}).label || null,
+         version: (version || {}).value || null
         }
     return result
 }
@@ -216,8 +232,10 @@ export const getIssueInfo = createSelector(
         getAssigneeSelectable,
         getPrioritySelectable,
         getLabelSelectable,
-        getStoryPointSelectable
-    ], (selectedIssue, listIssue, issueTypeSelectable, assigneeSelectable, prioritySelectable, labelSelectable, storyPointSelectable) => {
+        getStoryPointSelectable,
+        getVersionSelectable,
+        getSprintTypeSelectable
+    ], (selectedIssue, listIssue, issueTypeSelectable, assigneeSelectable, prioritySelectable, labelSelectable, storyPointSelectable, versionSelectable, sprintSelectable) => {
         // console.log(labelSelectable)
         let result = {}
         if(_.isEmpty(selectedIssue)) {
@@ -230,6 +248,8 @@ export const getIssueInfo = createSelector(
         const storyPoints = result.storyPoints ? storyPointSelectable.find(a => result.storyPoints == a.label) : {};
         // console.log(label)
         const issueType = result.issueType ? issueTypeSelectable.find(item => item.value === result.issueType._id) : {};
+        const version = result.version ? versionSelectable.find(item => item.value === result.version) : {};
+        const sprint = result.sprint ? sprintSelectable.find(item => item.value === result.sprint._id) : {};
         const assignee = result.assignee ? result.assignee.map(item => assigneeSelectable.find(a => item === a.value)) : [];
         const priority = result.priority ?  prioritySelectable.find(a => a.value === result.priority._id || a.value === result.priority) : {};
         return {...result,
@@ -238,6 +258,8 @@ export const getIssueInfo = createSelector(
             issueType,
             label,
             storyPoints,
+            version,
+            sprint,
             attachs: (result.attachs || []).map(item => item && API + item),
             createdDate: moment(result.createdAt).format('MMM DD YYYY, hh:mm:ss a'),
             updatedDate: moment(result.updatedAt).format('MMM DD YYYY, hh:mm:ss a')

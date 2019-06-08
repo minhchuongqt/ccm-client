@@ -59,10 +59,12 @@ const IssuePage = props => {
     saveSummary,
     removeIssue,
     refeshListIssue,
-    listIssueIsFetching
+    listIssueIsFetching,
+    versionSelectable,
+    sprintTypeSelectable
   } = props;
   // console.log(storyPointSelectable);
-  console.log(issueInfo.issueType)
+  console.log(sprintTypeSelectable)
   let selectableIssueType = issueInfo.issueType
     ? issueTypeSelectable.filter(
         item => item.value !== issueInfo.issueType.value && item
@@ -488,8 +490,13 @@ const IssuePage = props => {
                               </div>
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
-                                  <li style={{ padding: "0 10px" }}>
-                                    Version 2.0
+                                  <li>
+                                    <SearchSelect 
+                                      id="issue-page-multi-select"
+                                      options={versionSelectable}
+                                      value={issueInfo.version}
+                                      onChange={e => updateIssueDetail('version', e)}
+                                    />
                                   </li>
                                 </ul>
                               </div>
@@ -504,7 +511,12 @@ const IssuePage = props => {
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
                                   <li style={{ padding: "0 10px" }}>
-                                    {(issueInfo.sprint || {}).name || "None"}
+                                    <SearchSelect 
+                                      id="issue-page-multi-select"
+                                      options={sprintTypeSelectable.filter(item => item.active == false)}
+                                      value={issueInfo.sprint}
+                                      onChange={e => updateIssueDetail('sprint', e)}
+                                    />
                                   </li>
                                 </ul>
                               </div>

@@ -18,7 +18,7 @@ const ValueOption = props => {
         {props.data.iconUrl && 
           <img 
             src={props.data.iconUrl} width="16px"/>}&nbsp;
-        {" "+(props.data.label || '')} 
+        {(props.data.label || '')} 
     </SingleValue>
   )
 }
