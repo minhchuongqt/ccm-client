@@ -125,7 +125,6 @@ const ReleasePage = props => {
             </tbody>
           </table>
         </div>
-        }
       </div>
     </div>
   );

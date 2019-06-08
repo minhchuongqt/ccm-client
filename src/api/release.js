@@ -7,7 +7,7 @@ class ReleaseApi {
     }
     
     getListVersion = ( params ) => {
-        return API.get('/releaseVersion', {params});
+        return API.get('/releaseVersion/byProject', {params});
     }
     
 }
