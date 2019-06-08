@@ -3,6 +3,7 @@ import {CREATE_VERSION, GET_LIST_VERSION, RESET_DATA,
   RESET_CREATE_VERSION_STATUS,
   CHANGE_SEARCH_VALUE
 } from '../../constants/types/release'
+import { SELECT_VERSION } from '../../constants/types/release';
 import { combineReducers } from 'redux';
 
 const createVersionStatus = (state = false, action) => {
@@ -48,12 +49,22 @@ const searchValue = (state = '', action) => {
             return state
     }
 }
+const selectedVersion = (state = {}, action) => {
+    const {type, payload} = action
+    switch(type) {
+        case SELECT_VERSION:
+            return payload
+        default:
+            return state
+    }
+}
 
 const ReleaseState = combineReducers({
   createVersionStatus,
   listVersion,
   addVersionFormValue,
-  searchValue
+  searchValue,
+  selectedVersion
 })
 
 export default (state, action) => {

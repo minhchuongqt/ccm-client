@@ -11,7 +11,7 @@ const ProjectPage = props => {
     <div id="project-view">
       <div>
         <Breadcrumb>
-          <BreadcrumbItem active>System Dashboard</BreadcrumbItem>
+          <BreadcrumbItem active>Projects</BreadcrumbItem>
         </Breadcrumb>
       </div>
       

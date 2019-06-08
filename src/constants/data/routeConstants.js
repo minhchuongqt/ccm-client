@@ -23,6 +23,7 @@ export const ISSUE_URL = "/issue";
 
 //Issue pages
 export const RELEASE_URL = "/release";
+export const VERSION_DETAIL_URL = "/versionDetail";
 
 //Issue pages
 export const REPORT_URL = "/report";

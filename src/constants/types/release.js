@@ -1,6 +1,7 @@
 const C = 'RELEASE';
 
 export const CREATE_VERSION = `${C}_CREATE_VERSION`
+export const SELECT_VERSION = `${C}_SELECT_VERSION`
 export const RESET_DATA = `${C}_RESET_DATA`
 export const GET_LIST_VERSION = `${C}_GET_LIST_VERSION`
 export const CHANGE_ADD_VERSION_FORM_VALUE = `${C}_CHANGE_ADD_VERSION_FORM_VALUE`
