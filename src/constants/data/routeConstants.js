@@ -21,10 +21,13 @@ export const SPRINT_URL = "/sprint";
 //Issue pages
 export const ISSUE_URL = "/issue";
 
-//Issue pages
+//Component pages
+export const COMPONENT_URL = "/component";
+
+//Release pages
 export const RELEASE_URL = "/release";
 
-//Issue pages
+//Report pages
 export const REPORT_URL = "/report";
 
 //Project pages

@@ -63,7 +63,7 @@ const IssuePage = props => {
     versionSelectable,
     sprintTypeSelectable
   } = props;
-  // console.log(storyPointSelectable);
+  console.log(issueInfo);
   console.log(sprintTypeSelectable)
   let selectableIssueType = issueInfo.issueType
     ? issueTypeSelectable.filter(
@@ -510,7 +510,7 @@ const IssuePage = props => {
                               </div>
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
-                                  <li style={{ padding: "0 10px" }}>
+                                  <li >
                                     <SearchSelect 
                                       id="issue-page-multi-select"
                                       options={sprintTypeSelectable.filter(item => item.active == false)}

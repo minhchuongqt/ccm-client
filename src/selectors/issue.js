@@ -243,15 +243,16 @@ export const getIssueInfo = createSelector(
         } else {
             result = selectedIssue || {}
         }
-        // console.log(result.label)
+        console.log(sprintSelectable)
+        console.log(result)
         const label = result.label ? result.label.map(item => labelSelectable.find(a => item == a.label) || {}) : [];
         const storyPoints = result.storyPoints ? storyPointSelectable.find(a => result.storyPoints == a.label) : {};
-        // console.log(label)
         const issueType = result.issueType ? issueTypeSelectable.find(item => item.value === result.issueType._id) : {};
         const version = result.version ? versionSelectable.find(item => item.value === result.version) : {};
         const sprint = result.sprint ? sprintSelectable.find(item => item.value === result.sprint._id) : {};
         const assignee = result.assignee ? result.assignee.map(item => assigneeSelectable.find(a => item === a.value)) : [];
         const priority = result.priority ?  prioritySelectable.find(a => a.value === result.priority._id || a.value === result.priority) : {};
+        console.log(sprint)
         return {...result,
             assignee,
             priority,

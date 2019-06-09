@@ -17,6 +17,7 @@ import ActiveSprintPage from './ActiveSprintPage/index';
 import IssuePage from './IssuePage/index';
 import ReleasePage from './ReleasePage';
 import ReportPage from './ReportPage/ReportPage';
+import ComponentPage from './ComponentPage';
 import * as actions from '../actions/user'
 class App extends Component {
     
@@ -52,6 +53,7 @@ class App extends Component {
                             <Route path={PATH.HOME_URL} exact render={() => <ProjectPage />} />
                             <Route path={PATH.BACKLOG_URL} render={() => <BacklogPage />} />
                             <Route path={PATH.ISSUE_URL} component={IssuePage} />
+                            <Route path={PATH.COMPONENT_URL} render={() => <ComponentPage />} />
                             <Route path={PATH.RELEASE_URL} render={() => <ReleasePage />} />
                             <Route path={PATH.REPORT_URL} render={() => <ReportPage />} />
                             <Route path={PATH.SPRINT_URL} render={() => <ActiveSprintPage />} />

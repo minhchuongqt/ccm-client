@@ -42,11 +42,11 @@ class IssuePageContainer extends Component {
     this.props.getPriority(this.getBaseOption());
     this.props.getListLabel(this.getBaseOption());
     this.props.getListStoryPoint(this.getBaseOption());
-    this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType);
+    this.getListSprint();
     this.getListUser();
     this.getListWorkflow();
     this.getListVersion();
-    this.getListSprint();
+    this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType);
   }
 
   componentWillReceiveProps(newProps) {
@@ -199,8 +199,10 @@ class IssuePageContainer extends Component {
     const query = {
       ...this.getBaseOption()
     };
-    this.getListSprint();
+    // this.getListSprint();
     this.setState({ isOpenAddIssueModal: true });
+    this.props.changeAddIssueFormValue('issueType', this.props.issueTypeSelectable.find(item => item.label == "Story"))
+    this.props.changeAddIssueFormValue('priority', this.props.prioritySelectable.find(item => item.label == "Medium"))
   };
 
   closeIssueDetail = () => {

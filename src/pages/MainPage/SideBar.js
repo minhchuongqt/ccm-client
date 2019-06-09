@@ -28,6 +28,9 @@ const SideBar = props => {
               <Link to ={PATH.ISSUE_URL}><i className="fa fa-suitcase"></i> <span> Issues</span></Link>
           </li>
           <li >
+              <Link to ={PATH.COMPONENT_URL}><i className="fa fa-suitcase"></i> <span> Component</span></Link>
+          </li>
+          <li >
               <Link to ={PATH.RELEASE_URL}><i className="fa fa-cube"></i> <span> Releases</span></Link>
           </li>
           <li >
