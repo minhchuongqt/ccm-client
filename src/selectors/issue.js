@@ -3,6 +3,7 @@ import moment from 'moment'
 import {API} from '../config'
 import { createSelector } from 'reselect';
 import { getSprintTypeSelectable } from './backlog';
+import { getComponentSelectable } from './component';
 //params
 export const getListIssue = ({IssueState}) => {
     if(_.isEmpty(IssueState.listIssue.data)) return []
@@ -193,7 +194,7 @@ export const generateDataForAddIssue = ({IssueState}) => {
          sprint, description, summary,
          issueType, attachs, assignee,
          priority, label, storyPoints,
-         version
+         version, component
         } = IssueState.addIssueFormValue
     const project = JSON.parse(localStorage.getItem('selectedProject')) || {}
      const result = {
@@ -207,7 +208,8 @@ export const generateDataForAddIssue = ({IssueState}) => {
          priority: (priority || {}).value || null,
          label: (label || []).map(item => item.label),
          storyPoints: (storyPoints || {}).label || null,
-         version: (version || {}).value || null
+         version: (version || {}).value || null,
+         component: (component || []).map(item => item.value),
         }
     return result
 }
@@ -234,8 +236,11 @@ export const getIssueInfo = createSelector(
         getLabelSelectable,
         getStoryPointSelectable,
         getVersionSelectable,
-        getSprintTypeSelectable
-    ], (selectedIssue, listIssue, issueTypeSelectable, assigneeSelectable, prioritySelectable, labelSelectable, storyPointSelectable, versionSelectable, sprintSelectable) => {
+        getSprintTypeSelectable,
+        getComponentSelectable
+    ], (selectedIssue, listIssue, issueTypeSelectable, assigneeSelectable, 
+        prioritySelectable, labelSelectable, storyPointSelectable,
+         versionSelectable, sprintSelectable, componentSelectable) => {
         // console.log(labelSelectable)
         let result = {}
         if(_.isEmpty(selectedIssue)) {
@@ -243,16 +248,17 @@ export const getIssueInfo = createSelector(
         } else {
             result = selectedIssue || {}
         }
-        console.log(sprintSelectable)
-        console.log(result)
+        // console.log(sprintSelectable)
+        // console.log(result)
         const label = result.label ? result.label.map(item => labelSelectable.find(a => item == a.label) || {}) : [];
         const storyPoints = result.storyPoints ? storyPointSelectable.find(a => result.storyPoints == a.label) : {};
         const issueType = result.issueType ? issueTypeSelectable.find(item => item.value === result.issueType._id) : {};
         const version = result.version ? versionSelectable.find(item => item.value === result.version) : {};
         const sprint = result.sprint ? sprintSelectable.find(item => item.value === result.sprint._id) : {};
         const assignee = result.assignee ? result.assignee.map(item => assigneeSelectable.find(a => item === a.value)) : [];
+        const component = result.component ? result.component.map(item => componentSelectable.find(a => item === a.value)) : [];
         const priority = result.priority ?  prioritySelectable.find(a => a.value === result.priority._id || a.value === result.priority) : {};
-        console.log(sprint)
+        // console.log(sprint)
         return {...result,
             assignee,
             priority,
@@ -261,6 +267,7 @@ export const getIssueInfo = createSelector(
             storyPoints,
             version,
             sprint,
+            component,
             attachs: (result.attachs || []).map(item => item && API + item),
             createdDate: moment(result.createdAt).format('MMM DD YYYY, hh:mm:ss a'),
             updatedDate: moment(result.updatedAt).format('MMM DD YYYY, hh:mm:ss a')

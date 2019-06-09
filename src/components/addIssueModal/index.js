@@ -6,6 +6,7 @@ import * as selectors from '../../selectors/issue'
 import * as backlogSelectors from '../../selectors/backlog'
 import * as projectSelectors from '../../selectors/project'
 import * as userSelectors from '../../selectors/user'
+import * as componentSelectors from '../../selectors/component'
 import {toast} from 'react-toastify'
 import AddIssueModal from "./addIssueModal";
 
@@ -76,7 +77,8 @@ onChangeValue = (name, value) => {
       closeModal,
       addIssueToSprint,
       storyPointSelectable,
-      versionSelectable
+      versionSelectable,
+      componentSelectable
      } = this.props
     // console.log(openModal)
     return (
@@ -89,6 +91,7 @@ onChangeValue = (name, value) => {
       prioritySelectable={prioritySelectable}
       labelSelectable={labelSelectable}
       versionSelectable={versionSelectable}
+      componentSelectable={componentSelectable}
       createIssue={data => this.createIssue(data)}
       validate={data => this.validate(data)}
       issueTypeSelectable={issueTypeSelectable}
@@ -118,7 +121,8 @@ const mapStateToProps = state => ({
   addIssueValueForApi: selectors.generateDataForAddIssue(state),
   issueInfo: selectors.getIssueInfo(state),
   userInfo: userSelectors.getUserInfo(state),
-  versionSelectable: selectors.getVersionSelectable(state)
+  versionSelectable: selectors.getVersionSelectable(state),
+  componentSelectable: componentSelectors.getComponentSelectable(state),
 })
 
 const mapDispatchToProps = dispatch => ({

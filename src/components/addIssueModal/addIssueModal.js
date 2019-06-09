@@ -36,11 +36,12 @@ const AddIssueModal = props => {
     labelSelectable,
     addIssueToSprint,
     storyPointSelectable,
-    versionSelectable
+    versionSelectable,
+    componentSelectable
   } = props;
   // console.log(addIssueToSprint)
   // result = issueType ? result.filter(item => item.value !== issueType.value) : result
-  let selectableIssueType = addIssueFormValue.issueType ?  issueTypeSelectable.filter(item => (item.value !== addIssueFormValue.issueType.value) && item ) : issueTypeSelectable
+  let selectableIssueType = addIssueFormValue.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
   let selectablePriority = addIssueFormValue.priority ?  prioritySelectable.filter(item => (item.value !== addIssueFormValue.priority.value) && item ) : prioritySelectable
   // console.log(assigneeSelectable)
 
@@ -192,6 +193,16 @@ const AddIssueModal = props => {
             <div className="col-sm-9">
               <SearchSelect options={versionSelectable} value={addIssueFormValue.version || []}
                onChange={data => onChangeValue("version", data)}/>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="col-sm-3 control-label">Component</label>
+            <div className="col-sm-9">
+              <MultiSelect
+                options={componentSelectable} 
+                value={addIssueFormValue.component || []}
+                onChange={data => onChangeValue("component", data)}
+              />
             </div>
           </div>
          {addIssueToSprint == null &&

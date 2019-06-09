@@ -5,9 +5,15 @@ import {API} from '../config'
 export const getUserInfo = ({UserState}) => {
     if(_.isEmpty(UserState.userInfo)) return {}
     return UserState.userInfo
-    // const result =  IssueState.listIssue.map(item => item)
-    // return result.map(item => (
-    //     {...item
-       
-    // }))
+}
+
+export const getUserSelectable = ({UserState}) => {
+    if(_.isEmpty(UserState.userInfo)) return {}
+    const result =  UserState.listUser.map(item => ({
+        // ...item,
+        label: item.member.displayName || item.member.fullName,
+        value: item.member._id,
+        iconUrl: API + (item.member.avatarUrl || '/media/emptyAvatar.png'),
+    }))
+    return result
 }

@@ -1,18 +1,24 @@
 import React, { Component } from "react";
 import IssuePageView from "./IssuePage";
 import { connect } from "react-redux";
+import {toast} from "react-toastify";
+
+//actions
 import * as actions from "../../actions/issue";
 import * as backlogActions from "../../actions/backlog";
 import * as workflowActions from '../../actions/workflow'
 import * as releaseActions from "../../actions/release"
+import * as componentActions from "../../actions/component"
+// selector
 import * as selectors from "../../selectors/issue";
 import * as backlogSelectors from "../../selectors/backlog";
 import * as projectSelectors from "../../selectors/project";
 import * as userSelectors from "../../selectors/user";
 import * as workflowSelectors from "../../selectors/workflow";
+import * as componentSelectors from "../../selectors/component";
+//View
 import AddIssueModal from "../../components/addIssueModal";
 import TestDialog from "../../components/modal";
-import {toast} from "react-toastify";
 
 class IssuePageContainer extends Component {
   constructor(props) {
@@ -42,6 +48,7 @@ class IssuePageContainer extends Component {
     this.props.getPriority(this.getBaseOption());
     this.props.getListLabel(this.getBaseOption());
     this.props.getListStoryPoint(this.getBaseOption());
+    this.props.getListComponent(this.getBaseOption())
     this.getListSprint();
     this.getListUser();
     this.getListWorkflow();
@@ -381,7 +388,8 @@ class IssuePageContainer extends Component {
       searchValue,
       sortType,
       listIssueIsFetching,
-      versionSelectable
+      versionSelectable,
+      componentSelectable,
     } = this.props;
     const { isOpenAddIssueModal, displayDescriptionEditor, description,  displayAddSubtask,
       subTaskSummary, issueSummary } = this.state;
@@ -399,6 +407,7 @@ class IssuePageContainer extends Component {
           subTaskSummary={subTaskSummary}
           issueSummary={issueSummary}
           listIssueIsFetching={listIssueIsFetching}
+          componentSelectable={componentSelectable}
           changeDisplayDescriptionEditor={(value, text) => this.changeDisplayDescriptionEditor(value, text)}
           changeDisplayCreateSubtask={value => this.changeDisplayCreateSubtask(value)}
           onChangeFilterForUserIssue={(value) => this.onChangeFilterForUserIssue(value)}
@@ -477,7 +486,8 @@ const mapState = state => {
   listWorkflow: workflowSelectors.getListWorkflow(state),
   removeIssueStatus: selectors.getRemoveIssueStatus(state),
   listIssueIsFetching: selectors.getListIssueIsFetching(state),
-  versionSelectable: selectors.getVersionSelectable(state)
+  versionSelectable: selectors.getVersionSelectable(state),
+  componentSelectable: componentSelectors.getComponentSelectable(state)
 }
 };
 
@@ -559,7 +569,10 @@ const mapDispatchToProps = dispatch => ({
   },
   getListVersion(query) {
     dispatch(releaseActions.getListVersion(query))
-  }
+  },
+  getListComponent(query) {
+    dispatch(componentActions.getListComponent(query))
+  },
 });
 
 export default connect(

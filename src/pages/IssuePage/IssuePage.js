@@ -6,6 +6,7 @@ import "../../styleSheets/sass/components/Issue/IssueView.scss";
 import _ from "lodash";
 import { API } from "../../config";
 import SearchSelect from "../../components/singleSelect";
+import MultiSelect from "../../components/multiSelect";
 import moment from "moment";
 import Creatable from "react-select/lib/Creatable";
 import TextEditor from "../../components/textEditor";
@@ -61,15 +62,12 @@ const IssuePage = props => {
     refeshListIssue,
     listIssueIsFetching,
     versionSelectable,
-    sprintTypeSelectable
+    sprintTypeSelectable,
+    componentSelectable
   } = props;
   console.log(issueInfo);
   console.log(sprintTypeSelectable)
-  let selectableIssueType = issueInfo.issueType
-    ? issueTypeSelectable.filter(
-        item => item.value !== issueInfo.issueType.value && item
-      )
-    : issueTypeSelectable;
+  let selectableIssueType = issueInfo.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
 
   let selectableStoryPoint = issueInfo.storyPoints
     ? storyPointSelectable.filter(
@@ -156,7 +154,7 @@ const IssuePage = props => {
               {!listIssueIsFetching && <div className="list-group fade">
                 {listIssue.map((issue, index) => {
                   const assignee = issue.assignee.map(i => assigneeSelectable.find(a => i == a.value))
-                  console.log(assignee)
+                  // console.log(assignee)
                   return (
                     <a
                       className="list-group-item list-group-item-action"
@@ -383,6 +381,7 @@ const IssuePage = props => {
                                   <li>
                                     <SearchSelect
                                       id="issue-page-multi-select"
+                                      isDisabled={issueInfo.issueType.label == 'Sub Task'}
                                       value={issueInfo.issueType || {}}
                                       options={selectableIssueType || []}
                                       onChange={e => updateIssueDetail('issueType', e)}
@@ -469,9 +468,7 @@ const IssuePage = props => {
                                     <Creatable
                                       id="issue-page-multi-select-label"
                                       value={
-                                        issueInfo.storyPoints || {
-                                          label: "None"
-                                        }
+                                        issueInfo.storyPoints || {}
                                       }
                                       options={selectableStoryPoint || []}
                                       onBlur={() => console.log("bur")}
@@ -496,6 +493,26 @@ const IssuePage = props => {
                                       options={versionSelectable}
                                       value={issueInfo.version}
                                       onChange={e => updateIssueDetail('version', e)}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="box-body flex-center" style={{ height: "40px" }}>
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Component:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li>
+                                    <MultiSelect 
+                                      id="issue-page-multi-select"
+                                      options={componentSelectable}
+                                      value={issueInfo.component}
+                                      onChange={e => updateIssueDetail('component', e)}
                                     />
                                   </li>
                                 </ul>
@@ -606,7 +623,7 @@ const IssuePage = props => {
                           </div>
                         )}
 
-                        {issueInfo.issueType.label != "Sub Task" && 
+                        {(issueInfo.issueType || {}).label != "Sub Task" && 
                         <div className="panel m-b-0" style={{paddingBottom: 10}}>
                           <div className="box-header with-border pd-0">
                             <h4 className="box-title">

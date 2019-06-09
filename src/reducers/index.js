@@ -7,6 +7,7 @@ import IssueState from './Issue/issue'
 import BacklogState from './Backlog/backlog'
 import WorkflowState from './Workflow/workflow'
 import ReleaseState from './Release/index'
+import ComponentState from './Component'
 import VersionState from './Version/version'
 
 const rootReducer = combineReducers({
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
     BacklogState,
     WorkflowState,
     ReleaseState,
-    VersionState
+    VersionState,
+    ComponentState
 });
 
 export default rootReducer;
