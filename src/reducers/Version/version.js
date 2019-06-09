@@ -1,6 +1,7 @@
 import {GET_LIST_VERSION} from '../../constants/types/version'
 import { combineReducers } from 'redux';
 
+
 export const listVersion = (state = null, action) => {
     const {type, payload} = action
     switch(type) {

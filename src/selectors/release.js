@@ -14,3 +14,8 @@ export const getCreateVersionStatus = ({ReleaseState}) => ReleaseState.createVer
 export const getAddVersionFormValue = ({ReleaseState}) => ReleaseState.addVersionFormValue
 
 export const getSearchValue = ({ReleaseState}) => ReleaseState.searchValue
+
+export const getSelectedVersion = ({ReleaseState}) => {
+  // if(_.isEmpty(ReleaseState.selectedVersion)) return []
+  return ReleaseState.selectedVersion
+}

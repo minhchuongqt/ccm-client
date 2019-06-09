@@ -1,6 +1,6 @@
 import {CREATE_VERSION, GET_LIST_VERSION, RESET_DATA,
   CHANGE_ADD_VERSION_FORM_VALUE,
-  RESET_CREATE_VERSION_STATUS, CHANGE_SEARCH_VALUE } from '../constants/types/release';
+  RESET_CREATE_VERSION_STATUS, CHANGE_SEARCH_VALUE, SELECT_VERSION } from '../constants/types/release';
 import ReleaseApi from '../api/release';
 import {toast} from 'react-toastify'
 
@@ -13,6 +13,9 @@ export const getListVersion = (data) => dispatch => {
       toast.error(res.data.error)
     }
   })
+}
+export const selectVersion = (data) => dispatch => {
+  dispatch({type: SELECT_VERSION, payload: data})
 }
 
 export const createVersion = (data) => dispatch => {

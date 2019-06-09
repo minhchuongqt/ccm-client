@@ -26,6 +26,7 @@ export const COMPONENT_URL = "/component";
 
 //Release pages
 export const RELEASE_URL = "/release";
+export const VERSION_DETAIL_URL = "/versionDetail";
 
 //Report pages
 export const REPORT_URL = "/report";

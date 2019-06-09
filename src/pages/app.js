@@ -15,7 +15,8 @@ import UserPage from './SettingSystemPage/UserPage/index';
 import WorkflowContainer from './SettingSystemPage/Workflow';
 import ActiveSprintPage from './ActiveSprintPage/index';
 import IssuePage from './IssuePage/index';
-import ReleasePage from './ReleasePage';
+import ReleasePage from './ReleasePage/index';
+import VersionDetailPage from './ReleasePage/VersionDetailPage/index';
 import ReportPage from './ReportPage/ReportPage';
 import ComponentPage from './ComponentPage';
 import * as actions from '../actions/user'
@@ -55,6 +56,7 @@ class App extends Component {
                             <Route path={PATH.ISSUE_URL} component={IssuePage} />
                             <Route path={PATH.COMPONENT_URL} render={() => <ComponentPage />} />
                             <Route path={PATH.RELEASE_URL} render={() => <ReleasePage />} />
+                            <Route path={PATH.VERSION_DETAIL_URL} render={() => <VersionDetailPage />} />
                             <Route path={PATH.REPORT_URL} render={() => <ReportPage />} />
                             <Route path={PATH.SPRINT_URL} render={() => <ActiveSprintPage />} />
                             <Route path={PATH.USER_URL} render={() => <UserPage />} />

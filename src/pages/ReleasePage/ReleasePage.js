@@ -1,7 +1,8 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import moment from "moment";
-
+import { Link } from 'react-router-dom'
+import * as PATH from '../../constants/data/routeConstants'
 const generateClassForVersionStatus = status => {
   switch (status) {
     case "RELEASED":
@@ -18,7 +19,8 @@ const ReleasePage = props => {
     openCreateVersionModal,
     listVersion,
     searchValue,
-    onChangeSearchValue
+    onChangeSearchValue,
+    selectVersion
   } = props;
   console.log(listVersion);
   return (
@@ -76,8 +78,9 @@ const ReleasePage = props => {
             <tbody>
               {listVersion.map((item, index) => {
                 return (
+                  
                   <tr key={{ index }} className="cursor-pointer">
-                    <td>{item.name}</td>
+                    <td onClick={() => selectVersion(item)}><Link  to={PATH.VERSION_DETAIL_URL}>{item.name}</Link></td>
                     <td>
                       <span
                         className={
@@ -125,7 +128,6 @@ const ReleasePage = props => {
             </tbody>
           </table>
         </div>
-        }
       </div>
     </div>
   );

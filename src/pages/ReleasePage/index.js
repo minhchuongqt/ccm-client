@@ -64,6 +64,9 @@ class ReleasePageContainer extends Component {
         const {addVersionFormValue, selectedProject} = this.props
         this.props.createVersion({...addVersionFormValue, status: 'UNRELEASED', project: selectedProject._id})
     }
+    selectVersion = (version) => {
+        this.props.selectVersion(version)
+    }
 
     render() {
         const {isOpenAddModal} = this.state
@@ -74,6 +77,7 @@ class ReleasePageContainer extends Component {
                     openCreateVersionModal = {this.openCreateVersionModal}
                     listVersion={listVersion}
                     searchValue={searchValue}
+                    selectVersion={(version) => this.selectVersion(version)}
                     onChangeSearchValue={(value) => changeSearchValue(value)}
                 />
                 <CreateVertionModal 
@@ -111,6 +115,9 @@ const mapDispatchToProps = dispatch => ({
     },
     changeSearchValue(value) {
         dispatch(actions.changeSearchValue(value))
+    },
+    selectVersion(version) {
+        dispatch(actions.selectVersion(version))
     }
 })
 
