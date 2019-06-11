@@ -10,6 +10,7 @@ import MultiSelect from "../../components/multiSelect";
 import moment from "moment";
 import Creatable from "react-select/lib/Creatable";
 import TextEditor from "../../components/textEditor";
+import { postComment } from "../../actions/issue";
 
 const generateClassForIssueStatus = status => {
   switch (status) {
@@ -63,37 +64,53 @@ const IssuePage = props => {
     listIssueIsFetching,
     versionSelectable,
     sprintTypeSelectable,
-    componentSelectable
+    componentSelectable,
+    onChangeCommentValue,
+    postComment,
+    handleKeyPress
   } = props;
-  console.log(issueInfo);
-  console.log(sprintTypeSelectable)
-  let selectableIssueType = issueInfo.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
+  // window.onload=function(){
+    // var input = document.getElementById("comment");
+    // console.log(input)
+    //   input.addEventListener("keyup", function (e) {
+    //     console.log(e)
+    //     if (e.keyCode === 13) { 
+    //         // postComment();
+    //         e.preventDefault();
+    //         // alert('Hello World!')
+    //     }
+    // });
+    
+  // }
+ 
+  
+  let selectableIssueType = issueInfo.issueType ? issueTypeSelectable.filter(item => item.label != 'Sub Task') : issueTypeSelectable
 
   let selectableStoryPoint = issueInfo.storyPoints
     ? storyPointSelectable.filter(
-        item => item.value != issueInfo.storyPoints.value && item
-      )
+      item => item.value != issueInfo.storyPoints.value && item
+    )
     : storyPointSelectable;
 
   let selectableAssignee = assigneeSelectable
-    // assigneeSelectable.map(
-    //   item =>
-    //     !(issueInfo.assignee || []).find(i => i.value == item.value) && item
-    // ) || [];
+  // assigneeSelectable.map(
+  //   item =>
+  //     !(issueInfo.assignee || []).find(i => i.value == item.value) && item
+  // ) || [];
 
   let selectableLabel = labelSelectable
     ? labelSelectable.map(
-        item =>
-          !(issueInfo.label || []).find(i => i.value == item.value) && item
-      ) || []
+      item =>
+        !(issueInfo.label || []).find(i => i.value == item.value) && item
+    ) || []
     : [];
 
   let selectablePriority = issueInfo.priority
     ? prioritySelectable.filter(
-        item => item.value !== issueInfo.priority.value && item
-      )
+      item => item.value !== issueInfo.priority.value && item
+    )
     : prioritySelectable;
-    
+
   return (
     <div id="issue-view">
       <div>
@@ -104,19 +121,19 @@ const IssuePage = props => {
 
       <div className="row">
         <div id="open-issues" className="col-md-4 p-r-0">
-          <div style={{ display: "flex"}}>
-            <div style={{ width: "40%", marginBottom: "10px"}}>
+          <div style={{ display: "flex" }}>
+            <div style={{ width: "40%", marginBottom: "10px" }}>
               <SearchSelect
                 // id="issue-page-multi-select-label"
-                value={selectedFilterForUserIssueValue|| {}}
+                value={selectedFilterForUserIssueValue || {}}
                 options={filterableForUserIssue}
                 onChange={e => onChangeFilterForUserIssue(e)}
               />
             </div>
-            <div style={{ width: "50%", marginBottom: "10px", float: "right", marginLeft: 'auto'}}>
+            <div style={{ width: "50%", marginBottom: "10px", float: "right", marginLeft: 'auto' }}>
               <div className="form-group has-search">
                 <span className="fa fa-search form-control-feedback"></span>
-                <input style={{height: 38}} type="text" className="form-control" placeholder="Search"
+                <input style={{ height: 38 }} type="text" className="form-control" placeholder="Search"
                   onChange={e => onChangeSearchValue(e.target.value)}
                   value={searchValue}
                 />
@@ -134,13 +151,13 @@ const IssuePage = props => {
                   style={{ float: "right", marginTop: "10px", paddingLeft: 5 }}
                   onClick={() => changeSortType(1)}
                 />
-                || 
+                ||
                 <i
                   className="fa fa-chevron-up cursor-pointer"
                   style={{ float: "right", marginTop: "10px", paddingLeft: 5 }}
                   onClick={() => changeSortType(-1)}
                 />
-                }
+              }
               <div style={{ width: "100px", float: "right" }}>
                 <SearchSelect
                   id="issue-page-multi-select"
@@ -163,7 +180,7 @@ const IssuePage = props => {
                         selectIssue(issue);
                       }}
                     >
-                      <div style={{height: '50px'}}>
+                      <div style={{ height: '50px' }}>
                         <div>
                           <div>
                             <span>{issue.summary}</span>
@@ -179,7 +196,7 @@ const IssuePage = props => {
                           {assignee && assignee.map(a => {
                             if (a) {
                               return (
-                                <img src={a.iconUrl} width="25px" height="25px" style={{borderRadius: "50%", float: "right", marginBottom: 10}} />
+                                <img src={a.iconUrl} width="25px" height="25px" style={{ borderRadius: "50%", float: "right", marginBottom: 10 }} />
                               )
                             }
                           })}
@@ -188,27 +205,29 @@ const IssuePage = props => {
                     </a>
                   );
                 })}
-            </div>
-            ||
-            <div className="loader fade">
-              <div/>
-          
-              </div>}
               </div>
+                ||
+                <div className="loader fade">
+                  <div />
+
+                </div>}
+            </div>
             <div className="box-footer">
               <i className="fa fa-retweet cursor-pointer"
-                  title="Refesh"
-                  style={{ fontSize: '16px',
-                    color: '#5f6c84',
-                    marginTop: '8px',
-                    marginLeft: '10px' }}
-                  onClick={() => refeshListIssue()}
-                />
+                title="Refesh"
+                style={{
+                  fontSize: '16px',
+                  color: '#5f6c84',
+                  marginTop: '8px',
+                  marginLeft: '10px'
+                }}
+                onClick={() => refeshListIssue()}
+              />
               <button
                 type="button"
                 className="btn btn-default"
                 onClick={() => openAddIssueModal()}
-                style={{float: 'right'}}
+                style={{ float: 'right' }}
               >
                 <i
                   className="fa fa-plus"
@@ -240,19 +259,19 @@ const IssuePage = props => {
                 <div className="box-body">
                   <div>
                     <div>
-                      <i className="fa fa-trello" /> <span style={{color: "#6d7074"}}>{issueInfo.issueKey}</span>
+                      <i className="fa fa-trello" /> <span style={{ color: "#6d7074" }}>{issueInfo.issueKey}</span>
                     </div>
                   </div>
                   <div id="edit">
-                      <input 
-                        id="edit-summary"
-                        value={issueSummary} 
-                        className="form-control hover-background" 
-                        style={{height: "38px",fontSize: "20px", border: 'unset'}}
-                        onBlur={() => saveSummary()}
-                        onChange={e => updateIssueDetail('summary', e.target.value)}
-                        onKeyDown={e => {e.key == 'Enter' && saveSummary()}}
-                      />
+                    <input
+                      id="edit-summary"
+                      value={issueSummary}
+                      className="form-control hover-background"
+                      style={{ height: "38px", fontSize: "20px", border: 'unset' }}
+                      onBlur={() => saveSummary()}
+                      onChange={e => updateIssueDetail('summary', e.target.value)}
+                      onKeyDown={e => { e.key == 'Enter' && saveSummary() }}
+                    />
                   </div>
                   <div className="btn-group m-b-5">
                     <button
@@ -331,27 +350,27 @@ const IssuePage = props => {
                       Done
                     </button>
 
-                    {!issueInfo.closed && 
-                    <button
-                      type="button"
-                      className="btn btn-danger btn-sm m-b-1"
-                      disabled={(issueInfo.workflow || {}).type != 'DONE'}
-                      onClick={() => updateIssueDetail('closed', true)}
-                    >
-                      {" "}
-                      Close Issue
+                    {!issueInfo.closed &&
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm m-b-1"
+                        disabled={(issueInfo.workflow || {}).type != 'DONE'}
+                        onClick={() => updateIssueDetail('closed', true)}
+                      >
+                        {" "}
+                        Close Issue
                     </button>
-                  }
-                    {issueInfo.closed && 
-                    <button
-                      type="button"
-                      className="btn btn-default btn-sm m-b-1"
-                      onClick={() => updateIssueDetail('closed', false)}
-                    >
-                      {" "}
-                      Reopen Issue
+                    }
+                    {issueInfo.closed &&
+                      <button
+                        type="button"
+                        className="btn btn-default btn-sm m-b-1"
+                        onClick={() => updateIssueDetail('closed', false)}
+                      >
+                        {" "}
+                        Reopen Issue
                     </button>
-                  }
+                    }
                   </div>
                   <div className="col-md-8 p-l-0">
                     <div className="box-body">
@@ -381,7 +400,7 @@ const IssuePage = props => {
                                   <li>
                                     <SearchSelect
                                       id="issue-page-multi-select"
-                                      isDisabled={issueInfo.issueType.label == 'Sub Task'}
+                                      isDisabled={(issueInfo.issueType || {}).label == 'Sub Task' }
                                       value={issueInfo.issueType || {}}
                                       options={selectableIssueType || []}
                                       onChange={e => updateIssueDetail('issueType', e)}
@@ -488,7 +507,7 @@ const IssuePage = props => {
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
                                   <li>
-                                    <SearchSelect 
+                                    <SearchSelect
                                       id="issue-page-multi-select"
                                       options={versionSelectable}
                                       value={issueInfo.version}
@@ -508,7 +527,7 @@ const IssuePage = props => {
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
                                   <li>
-                                    <MultiSelect 
+                                    <MultiSelect
                                       id="issue-page-multi-select"
                                       options={componentSelectable}
                                       value={issueInfo.component}
@@ -528,7 +547,7 @@ const IssuePage = props => {
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
                                   <li >
-                                    <SearchSelect 
+                                    <SearchSelect
                                       id="issue-page-multi-select"
                                       options={sprintTypeSelectable.filter(item => item.active == false)}
                                       value={issueInfo.sprint}
@@ -555,35 +574,35 @@ const IssuePage = props => {
                             id="collapseDes"
                             className="box-body panel-collapse collapse in"
                           >
-                            {!displayDescriptionEditor && 
-                            <div
-                              className="box-body fade fade-in cursor-pointer description-text-box"
-                              style={{display: 'block'}}
-                              dangerouslySetInnerHTML={{
-                                __html: `${issueInfo.description || ""}`
-                              }}
-                              onClick={() => changeDisplayDescriptionEditor(true, issueInfo.description)}
-                            /> ||
-                            <div style={{display: 'block', animation: 'flipInX 0.7s both'}}>
-                              <TextEditor 
-                              // className="form-control"
-                                name="textDescription"
-                                id="Des"
-                                rows="5"
-                                
-                                value={descriptionState || ""}
-                                onChange={value => updateIssueDetail("description", value)}
-                              />
+                            {!displayDescriptionEditor &&
+                              <div
+                                className="box-body fade fade-in cursor-pointer description-text-box"
+                                style={{ display: 'block' }}
+                                dangerouslySetInnerHTML={{
+                                  __html: `${issueInfo.description || ""}`
+                                }}
+                                onClick={() => changeDisplayDescriptionEditor(true, issueInfo.description)}
+                              /> ||
+                              <div style={{ display: 'block', animation: 'flipInX 0.7s both' }}>
+                                <TextEditor
+                                  // className="form-control"
+                                  name="textDescription"
+                                  id="Des"
+                                  rows="5"
 
-                              <div style={{textAlign: 'right'}}>
-                                <button style={{margin: '10px'}} className="btn btn-default pd-5"
-                                  onClick={() => changeDisplayDescriptionEditor(false)}
-                                >Cancel</button>
-                                <button className="btn btn-primary"
-                                  onClick={() => saveDescription()}
-                                >Save</button>
+                                  value={descriptionState || ""}
+                                  onChange={value => updateIssueDetail("description", value)}
+                                />
+
+                                <div style={{ textAlign: 'right' }}>
+                                  <button style={{ margin: '10px' }} className="btn btn-default pd-5"
+                                    onClick={() => changeDisplayDescriptionEditor(false)}
+                                  >Cancel</button>
+                                  <button className="btn btn-primary"
+                                    onClick={() => saveDescription()}
+                                  >Save</button>
+                                </div>
                               </div>
-                            </div>
 
                             }
                             {/* {parser.parseFromString(issueInfo.description, 'text/html')}
@@ -595,7 +614,7 @@ const IssuePage = props => {
                           <div className="panel m-b-0">
                             <div className="box-header with-border pd-0">
                               <h4 className="box-title">
-                                <a data-toggle="collapse" href="#collapseDes">
+                                <a data-toggle="collapse" href="#collapseAtt">
                                   <h5>
                                     <span>Attachments</span>
                                   </h5>
@@ -603,7 +622,7 @@ const IssuePage = props => {
                               </h4>
                             </div>
                             <div
-                              id="collapseDes"
+                              id="collapseAtt"
                               className="panel-collapse collapse in"
                             >
                               <div className="box-body">
@@ -623,84 +642,84 @@ const IssuePage = props => {
                           </div>
                         )}
 
-                        {(issueInfo.issueType || {}).label != "Sub Task" && 
-                        <div className="panel m-b-0" style={{paddingBottom: 10}}>
-                          <div className="box-header with-border pd-0">
-                            <h4 className="box-title">
-                              <a data-toggle="collapse" href="#collapseSub">
-                                <h5>
-                                  <span>Sub-Tasks</span>
-                                </h5>
+                        {(issueInfo.issueType || {}).label != "Sub Task" &&
+                          <div className="panel m-b-0" style={{ paddingBottom: 10 }}>
+                            <div className="box-header with-border pd-0">
+                              <h4 className="box-title">
+                                <a data-toggle="collapse" href="#collapseSub">
+                                  <h5>
+                                    <span>Sub-Tasks</span>
+                                  </h5>
+                                </a>
+                              </h4>
+                              <a className="right cursor-pointer">
+                                <i className="fa fa-plus"
+                                  onClick={() => changeDisplayCreateSubtask(true)}
+                                />
                               </a>
-                            </h4>
-                            <a className="right cursor-pointer">
-                              <i className="fa fa-plus"
-                                onClick={() => changeDisplayCreateSubtask(true)}
-                              />
-                            </a>
-                          </div>
-                          {!_.isEmpty((issueInfo.subtasks || [])[0]) &&
-                            <div
-                              id="collapseSub"
-                              className="panel-collapse collapse in"
-                            >
-                              <div className="box-body">
-                                <table
-                                  id="issuetable"
-                                  className="table table-bordered table-hover"
-                                >
-                                  <tbody>
-                                    {issueInfo.subtasks.map((item, index) => {
-                                      return (
-                                        <tr key={index} className="cursor-pointer" onClick={(item) => selectIssue(item)}>
-                                          <td><img src={API + item.issueType.iconUrl} width="16px"/>  {item.issueKey}</td>
-                                          <td>
-                                            <div className="summary">
-                                              {item.summary}
-                                            </div>
-                                          </td>
-                                          <td>
-                                            {item.priority && <img width="16px" src={API + item.priority.iconUrl || ''}/>}
-                                          </td>
-                                          <td>
-                                            <span className={"label " + generateClassForIssueStatus(item.workflow.type)}>
-                                              {item.workflow.name}
-                                            </span>
-                                          </td>
-                                          {/* <td>
+                            </div>
+                            {!_.isEmpty((issueInfo.subtasks || [])[0]) &&
+                              <div
+                                id="collapseSub"
+                                className="panel-collapse collapse in"
+                              >
+                                <div className="box-body">
+                                  <table
+                                    id="issuetable"
+                                    className="table table-bordered table-hover"
+                                  >
+                                    <tbody>
+                                      {issueInfo.subtasks.map((item, index) => {
+                                        return (
+                                          <tr key={index} className="cursor-pointer" onClick={(item) => selectIssue(item)}>
+                                            <td><img src={API + item.issueType.iconUrl} width="16px" />  {item.issueKey}</td>
+                                            <td>
+                                              <div className="summary">
+                                                {item.summary}
+                                              </div>
+                                            </td>
+                                            <td>
+                                              {item.priority && <img width="16px" src={API + item.priority.iconUrl || ''} />}
+                                            </td>
+                                            <td>
+                                              <span className={"label " + generateClassForIssueStatus(item.workflow.type)}>
+                                                {item.workflow.name}
+                                              </span>
+                                            </td>
+                                            {/* <td>
                                             <div className="summary">
                                               minhchuongqt@gmail.com
                                             </div>
                                           </td> */}
-                                        </tr>
+                                          </tr>
 
-                                      )
-                                    })}
-                                    
-                                  </tbody>
-                                </table>
+                                        )
+                                      })}
+
+                                    </tbody>
+                                  </table>
+                                </div>
                               </div>
-                            </div>
-                          }
-                          {displayAddSubtask && 
-                            <div className="box-body">
-                              <input
-                                type="text"
-                                className="form-control"
-                                value={subTaskSummary || ''}
-                                onChange={e => updateIssueDetail("subTaskSummary", e.target.value)}
-                              />
-                              <div style={{textAlign: 'right'}}>
-                                <button style={{margin: '10px'}} className="btn btn-default pd-5"
-                                  onClick={() => changeDisplayCreateSubtask(false)}
-                                >Cancel</button>
-                                <button className="btn btn-primary"
-                                  onClick={() => createSubtask()}
-                                >Create</button>
+                            }
+                            {displayAddSubtask &&
+                              <div className="box-body">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  value={subTaskSummary || ''}
+                                  onChange={e => updateIssueDetail("subTaskSummary", e.target.value)}
+                                />
+                                <div style={{ textAlign: 'right' }}>
+                                  <button style={{ margin: '10px' }} className="btn btn-default pd-5"
+                                    onClick={() => changeDisplayCreateSubtask(false)}
+                                  >Cancel</button>
+                                  <button className="btn btn-primary"
+                                    onClick={() => createSubtask()}
+                                  >Create</button>
+                                </div>
                               </div>
-                            </div>
-                          }
-                        </div>}
+                            }
+                          </div>}
 
                         <div className="panel m-b-0">
                           <div className="box-header with-border pd-0">
@@ -717,7 +736,7 @@ const IssuePage = props => {
                           </div>
                           <div
                             id="collapseActivity"
-                            className="panel-collapse collapse in"
+                            className="panel-collapse collapse"
                           >
                             <div className="box-body">
                               {issueInfo.activities &&
@@ -726,7 +745,7 @@ const IssuePage = props => {
                                     <div
                                       key={index}
                                       className="box-comments comments-conf"
-                                      style={{borderBottom: "1px solid #f4f4f4", padding: '10px 0'}}
+                                      style={{ borderBottom: "1px solid #f4f4f4", padding: '10px 0' }}
                                       dangerouslySetInnerHTML={{
                                         __html: `${item.content +
                                           "at " +
@@ -746,7 +765,7 @@ const IssuePage = props => {
                             <h4 className="box-title">
                               <a
                                 data-toggle="collapse"
-                                href="#collapseActivity"
+                                href="#collapseComment"
                               >
                                 <h5>
                                   <span>Comments</span>
@@ -755,7 +774,7 @@ const IssuePage = props => {
                             </h4>
                           </div>
                           <div
-                            id="collapseActivity"
+                            id="collapseComment"
                             className="panel-collapse collapse in"
                           >
                             {issueInfo.comments &&
@@ -765,180 +784,133 @@ const IssuePage = props => {
                                     key={index}
                                     className="box-body box-comments comments-conf"
                                     dangerouslySetInnerHTML={{
-                                      __html: `${item.content +
-                                        "at " +
-                                        moment(item.createdAt).format(
-                                          "MMM DD YYYY, hh:mm:ss a"
-                                        )}`
+                                      __html: `${"<strong>" + item.creator + "</strong>" + "&nbsp;" +  moment(item.createdAt).startOf('hour').fromNow()
+                                       + "</br>" + item.content
+                                      }`
                                     }}
                                   />
                                 );
                               })}
-                          </div>
-                          <div
-                            className="box box-widget"
-                            style={{ margin: "10px 0" }}
-                          >
-                            <div className="box-footer box-comments">
-                              <div className="box-comment">
-                                <img
-                                  className="img-circle img-sm"
-                                  src={API + userInfo.avatarUrl}
-                                  alt="User Image"
-                                  width="70px"
-                                />
-                                <div className="comment-text">
-                                  <span className="username">
-                                    Maria Gonzales
-                                    <span className="text-muted pull-right">
-                                      8:03 PM Today
-                                    </span>
-                                  </span>
-                                  It is a long established fact that a reader
-                                  will be distracted by the readable content of
-                                  a page when looking at its layout.
+                            <div
+                              className="box box-widget"
+                              // style={{ margin: "10px 0" }}
+                            >
+                              <div className="box-footer">
+                                <div className="input-group input-group-config">
+                                  <input 
+                                  id="commentInput" className="form-control input-sm"
+                                  onKeyPress={e => handleKeyPress(e)}
+                                  placeholder="Press enter to post comment"
+                                  onChange={e => onChangeCommentValue(e.target.value)}/>
+
+                                    {/* <div className="input-group-btn">
+                                      <button onClick = {() => postComment()} className="btn btn-primary btn-sm"><i className="fa fa-comment"></i></button>
+                                    </div> */}
                                 </div>
                               </div>
-                              <div className="box-comment">
-                                <img
-                                  className="img-circle img-sm"
-                                  src={API + userInfo.avatarUrl}
-                                  alt="User Image"
-                                  width="70px"
-                                />
-                                <div className="comment-text">
-                                  <span className="username">
-                                    Luna Stark
-                                    <span className="text-muted pull-right">
-                                      8:03 PM Today
-                                    </span>
-                                  </span>
-                                  It is a long established fact that a reader
-                                  will be distracted by the readable content of
-                                  a page when looking at its layout.
-                                </div>
                               </div>
                             </div>
-                            <div className="box-footer">
-                              <form action="#" method="post">
-                                <img
-                                  className="img-responsive img-circle img-sm"
-                                  src={API + userInfo.avatarUrl}
-                                  alt="Alt Text"
-                                  width="70px"
-                                />
-                                <div className="img-push">
-                                  <input
-                                    type="text"
-                                    className="form-control input-sm"
-                                    placeholder="Press enter to post comment"
-                                  />
-                                </div>
-                              </form>
-                            </div>
                           </div>
-                          {/* </div> */}
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="col-md-4 p-l-0">
-                    <div className="box-body">
-                      <div className="box-group">
-                        <div className="panel m-b-0">
-                          <div className="box-header with-border pd-0">
-                            <h4 className="box-title">
-                              <a data-toggle="collapse" href="#collapsePeople">
-                                <h5>
-                                  <span>People</span>
-                                </h5>
-                              </a>
-                            </h4>
-                          </div>
+                    <div className="col-md-4 p-l-0">
+                      <div className="box-body">
+                        <div className="box-group">
+                          <div className="panel m-b-0">
+                            <div className="box-header with-border pd-0">
+                              <h4 className="box-title">
+                                <a data-toggle="collapse" href="#collapsePeople">
+                                  <h5>
+                                    <span>People</span>
+                                  </h5>
+                                </a>
+                              </h4>
+                            </div>
 
-                          <div
-                            id="collapsePeople"
-                            className="panel-collapse collapse in"
-                          >
-                            <div className="box-body">
-                              {/* {!_.isEmpty(issueInfo.assignees) && */}
-                              <ul className="list-unstyled">
-                                <li>Assignee:</li>
-                                <li>
-                                  {issueInfo.assignee.map((a, aIdx) => {
-                                    return (
-                                      <SearchSelect
-                                        key={aIdx}
-                                        id="issue-page-multi-select"
-                                        value={a}
-                                        isClearable={true}
-                                        options={selectableAssignee || []}
-                                        onChange={value => updateIssueDetail("assignee", value)}
-                                      />
-                                    );
-                                  })}
-                                  <SearchSelect
-                                    id="issue-page-multi-select"
-                                    value={{label: 'Add another'}}
-                                    placeholder="Add another"
-                                    isClearable={false}
-                                    options={selectableAssignee || []}
-                                    onChange={value => updateIssueDetail("assignee", value)}
-                                  />
-                                </li>
-                              </ul>
-                              {/* } */}
-                              <ul className="list-unstyled">
-                                <li>Creator:</li>
-                                <li>
-                                  <div className="box-body">
-                                    {issueInfo.creator && issueInfo.creator.avatarUrl &&
-                                    <img src={API + issueInfo.creator.avatarUrl} width="35px" height="35px" style={{borderRadius: "50%"}}/>
-                                    }&nbsp;&nbsp;
+                            <div
+                              id="collapsePeople"
+                              className="panel-collapse collapse in"
+                            >
+                              <div className="box-body">
+                                {/* {!_.isEmpty(issueInfo.assignees) && */}
+                                <ul className="list-unstyled">
+                                  <li>Assignee:</li>
+                                  <li>
+                                    {issueInfo.assignee.map((a, aIdx) => {
+                                      return (
+                                        <SearchSelect
+                                          key={aIdx}
+                                          id="issue-page-multi-select"
+                                          value={a}
+                                          isClearable={true}
+                                          options={selectableAssignee || []}
+                                          onChange={value => updateIssueDetail("assignee", value)}
+                                        />
+                                      );
+                                    })}
+                                    <SearchSelect
+                                      id="issue-page-multi-select"
+                                      value={{ label: 'Add another' }}
+                                      placeholder="Add another"
+                                      isClearable={false}
+                                      options={selectableAssignee || []}
+                                      onChange={value => updateIssueDetail("assignee", value)}
+                                    />
+                                  </li>
+                                </ul>
+                                {/* } */}
+                                <ul className="list-unstyled">
+                                  <li>Creator:</li>
+                                  <li>
+                                    <div className="box-body">
+                                      {issueInfo.creator && issueInfo.creator.avatarUrl &&
+                                        <img src={API + issueInfo.creator.avatarUrl} width="35px" height="35px" style={{ borderRadius: "50%" }} />
+                                      }&nbsp;&nbsp;
                                     {(issueInfo.creator || {}).displayName || (issueInfo.creator || {}).fullName}
-                                  </div>
-                                </li>
-                              </ul>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div className="panel m-b-0">
-                          <div className="box-header with-border pd-0">
-                            <h4 className="box-title">
-                              <a data-toggle="collapse" href="#collapseDate">
-                                <h5>
-                                  <span>Dates</span>
-                                </h5>
-                              </a>
-                            </h4>
-                          </div>
-                          <div
-                            id="collapseDate"
-                            className="panel-collapse collapse in"
-                          >
-                            <div className="box-body" style={{color: "#6d7074"}}>
-                              <ul className="list-unstyled">
-                                <li>Created: {issueInfo.createdDate}</li>
-                              </ul>
-                              <ul className="list-unstyled">
-                                <li>Updated: {issueInfo.updatedDate}</li>
-                              </ul>
+                          <div className="panel m-b-0">
+                            <div className="box-header with-border pd-0">
+                              <h4 className="box-title">
+                                <a data-toggle="collapse" href="#collapseDate">
+                                  <h5>
+                                    <span>Dates</span>
+                                  </h5>
+                                </a>
+                              </h4>
+                            </div>
+                            <div
+                              id="collapseDate"
+                              className="panel-collapse collapse in"
+                            >
+                              <div className="box-body" style={{ color: "#6d7074" }}>
+                                <ul className="list-unstyled">
+                                  <li>Created: {issueInfo.createdDate}</li>
+                                </ul>
+                                <ul className="list-unstyled">
+                                  <li>Updated: {issueInfo.updatedDate}</li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                  )}
             </div>
           </div>
-        )}
+            )}
       </div>
-    </div>
-  );
-};
-
-export default IssuePage;
+          </div>
+        );
+        };
+        
+        export default IssuePage;

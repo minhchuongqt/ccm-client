@@ -47,6 +47,9 @@ const BacklogPage = props => {
     issueSummary,
     saveSummary,
     removeIssue,
+    onChangeCommentValue,
+    postComment,
+    handleKeyPress
   } = props
   let selectableIssueType = issueInfo.issueType
     ? issueTypeSelectable.filter(
@@ -508,7 +511,7 @@ const BacklogPage = props => {
                           <div className="panel m-b-0">
                             <div className="box-header with-border pd-0">
                               <h4 className="box-title">
-                                <a data-toggle="collapse" href="#collapseDes">
+                                <a data-toggle="collapse" href="#collapseAtt">
                                   <h5>
                                     <span>Attachments</span>
                                   </h5>
@@ -516,7 +519,7 @@ const BacklogPage = props => {
                               </h4>
                             </div>
                             <div
-                              id="collapseDes"
+                              id="collapseAtt"
                               className="panel-collapse collapse in"
                             >
                               <div className="box-body">
@@ -630,7 +633,7 @@ const BacklogPage = props => {
                           </div>
                           <div
                             id="collapseActivity"
-                            className="panel-collapse collapse in"
+                            className="panel-collapse collapse"
                           >
                             <div className="box-body">
                               {issueInfo.activities &&
@@ -659,7 +662,7 @@ const BacklogPage = props => {
                             <h4 className="box-title">
                               <a
                                 data-toggle="collapse"
-                                href="#collapseActivity"
+                                href="#collapseComment"
                               >
                                 <h5>
                                   <span>Comments</span>
@@ -668,7 +671,7 @@ const BacklogPage = props => {
                             </h4>
                           </div>
                           <div
-                            id="collapseActivity"
+                            id="collapseComment"
                             className="panel-collapse collapse in"
                           >
                             {issueInfo.comments &&
@@ -678,80 +681,33 @@ const BacklogPage = props => {
                                     key={index}
                                     className="box-body box-comments comments-conf"
                                     dangerouslySetInnerHTML={{
-                                      __html: `${item.content +
-                                        "at " +
-                                        moment(item.createdAt).format(
-                                          "MMM DD YYYY, hh:mm:ss a"
-                                        )}`
+                                      __html: `${"<strong>" + item.creator + "</strong>" + "&nbsp;" +  moment(item.createdAt).startOf('hour').fromNow()
+                                       + "</br>" + item.content
+                                      }`
                                     }}
                                   />
                                 );
                               })}
-                          </div>
-                          <div
-                            className="box box-widget"
-                            style={{ margin: "10px 0" }}
-                          >
-                            <div className="box-footer box-comments">
-                              <div className="box-comment">
-                                <img
-                                  className="img-circle img-sm"
-                                  src={API + userInfo.avatarUrl}
-                                  alt="User Image"
-                                  width="70px"
-                                />
-                                <div className="comment-text">
-                                  <span className="username">
-                                    Maria Gonzales
-                                    <span className="text-muted pull-right">
-                                      8:03 PM Today
-                                    </span>
-                                  </span>
-                                  It is a long established fact that a reader
-                                  will be distracted by the readable content of
-                                  a page when looking at its layout.
+                            <div
+                              className="box box-widget"
+                              // style={{ margin: "10px 0" }}
+                            >
+                              <div className="box-footer">
+                                <div className="input-group input-group-config">
+                                  <input 
+                                  id="commentInput" className="form-control input-sm"
+                                  placeholder="Press enter to post comment"
+                                  onKeyPress={e => handleKeyPress(e)}
+                                  onChange={e => onChangeCommentValue(e.target.value)}/>
+
+                                    {/* <div className="input-group-btn">
+                                      <button type="button" onClick = {() => postComment()} className="btn btn-primary btn-sm"><i className="fa fa-comment"></i></button>
+                                    </div> */}
                                 </div>
                               </div>
-                              <div className="box-comment">
-                                <img
-                                  className="img-circle img-sm"
-                                  src={API + userInfo.avatarUrl}
-                                  alt="User Image"
-                                  width="70px"
-                                />
-                                <div className="comment-text">
-                                  <span className="username">
-                                    Luna Stark
-                                    <span className="text-muted pull-right">
-                                      8:03 PM Today
-                                    </span>
-                                  </span>
-                                  It is a long established fact that a reader
-                                  will be distracted by the readable content of
-                                  a page when looking at its layout.
-                                </div>
                               </div>
                             </div>
-                            <div className="box-footer">
-                              <form action="#" method="post">
-                                <img
-                                  className="img-responsive img-circle img-sm"
-                                  src={API + userInfo.avatarUrl}
-                                  alt="Alt Text"
-                                  width="70px"
-                                />
-                                <div className="img-push">
-                                  <input
-                                    type="text"
-                                    className="form-control input-sm"
-                                    placeholder="Press enter to post comment"
-                                  />
-                                </div>
-                              </form>
-                            </div>
                           </div>
-                          {/* </div> */}
-                        </div>
                       </div>
                     </div>
                   </div>

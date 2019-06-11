@@ -119,6 +119,10 @@ export const getCreateSubtaskStatus = ({IssueState}) => {
     // if(_.isEmpty(IssueState.createIssueStatus)) return null
     return IssueState.createSubtaskStatus
 }
+export const getPostCommentStatus = ({IssueState}) => {
+    // if(_.isEmpty(IssueState.createIssueStatus)) return null
+    return IssueState.postCommentStatus
+}
 
 export const getIssueTypeSelectable = ({IssueState}) => {
     if(_.isEmpty(IssueState.issueType)) return []
