@@ -77,7 +77,7 @@ class IssuePageContainer extends Component {
     }
 
     if (updateIssueStatus) {
-      toast.success("Update issue successfully");
+      // toast.success("Update issue successfully");
       this.props.getListLabel(this.getBaseOption());
       this.props.getListStoryPoint(this.getBaseOption());
       this.getIssueInfo(issueInfo)

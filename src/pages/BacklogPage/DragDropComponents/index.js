@@ -37,6 +37,7 @@ class DragDropComponents extends React.Component {
     this.setState({ homeIndex: null });
     // document.body.style.color = 'inherit'
     const { destination, source, draggableId } = result;
+    this.props.changeIssueSprint(draggableId, source.droppableId, destination.droppableId)
     if (!destination) {
       return;
     }

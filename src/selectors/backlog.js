@@ -11,8 +11,22 @@ export const listSprint = ({BacklogState}) => {
     const result =  listSprint.map(item => item)
     return result.map(item => (
         {...item,
-            createdDate: moment(item.createdAt).format('DD/MMM/YY h:mm A'),
-            updatedDate: moment(item.updatedAt).format('DD/MMM/YY h:mm A')
+            createdDate: moment(item.createdAt).calendar(null, {
+                sameDay: 'hh:mm:ss a, [Today]',
+                nextDay: 'hh:mm:ss a, [Tomorrow]',
+                nextWeek: 'hh:mm:ss a, dddd',
+                lastDay: 'hh:mm:ss a, [Yesterday]',
+                lastWeek: 'hh:mm:ss a, [Last] dddd',
+                sameElse: 'hh:mm:ss a, MMM DD YYYY'
+              }),
+            updatedDate: moment(item.updatedAt).calendar(null, {
+                sameDay: 'hh:mm:ss a, [Today]',
+                nextDay: 'hh:mm:ss a, [Tomorrow]',
+                nextWeek: 'hh:mm:ss a, dddd',
+                lastDay: 'hh:mm:ss a, [Yesterday]',
+                lastWeek: 'hh:mm:ss a, [Last] dddd',
+                sameElse: 'hh:mm:ss a, MMM DD YYYY'
+              })
     }))
 }
 // export const getActiveSprint = ({BacklogState}) => {

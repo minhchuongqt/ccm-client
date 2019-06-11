@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
+
 import * as actions from "../../actions/backlog";
 import * as issueActions from "../../actions/issue";
 import * as workflowActions from "../../actions/workflow";
 // import * as userActions from "../../actions/user";
+import * as releaseActions from "../../actions/release"
+import * as componentActions from "../../actions/component"
 
 import * as selectors from "../../selectors/backlog";
 import * as projectSelectors from "../../selectors/project";
@@ -13,6 +16,7 @@ import * as issueSelectors from "../../selectors/issue";
 import * as backlogSelectors from "../../selectors/backlog";
 import * as userSelectors from "../../selectors/user";
 import * as workflowSelectors from "../../selectors/workflow";
+import * as componentSelectors from "../../selectors/component";
 
 import BacklogPageView from "./BacklogPage";
 import AddSprintModal from "./AddSprintModal";
@@ -53,11 +57,14 @@ class BacklogPageContainer extends Component {
     this.props.getPriority(this.getBaseOption());
     this.props.getListLabel(this.getBaseOption());
     this.props.getListStoryPoint(this.getBaseOption());
-    this.getListUser();
+    this.props.getListComponent(this.getBaseOption())
     this.getListSprint();
+    this.getListUser();
     this.getListBacklogIssue();
     this.getListWorkflow();
+    this.getListVersion();
   }
+
   componentWillReceiveProps(newProps) {
     const { createSprintStatus, createIssueStatus, startSprintStatus,
       updateIssueStatus, createSubtaskStatus,
@@ -89,10 +96,11 @@ class BacklogPageContainer extends Component {
     }
 
     if (updateIssueStatus) {
-      toast.success("Update issue successfully");
+      // toast.success("Update successfully");
       this.props.getListLabel(this.getBaseOption());
       this.props.getListStoryPoint(this.getBaseOption());
       this.getIssueInfo(issueInfo)
+      this.getListBacklogIssue();
       // this.getListIssue(selectedFilterForDetailIssueValue, sortType);
       this.props.resetUpdateIssueStatus()
     }
@@ -186,6 +194,13 @@ class BacklogPageContainer extends Component {
     };
     this.props.getListUser(params);
   }
+
+  getListVersion = () => {
+    const query = {
+      ...this.getBaseOption()
+    };
+    this.props.getListVersion(query);
+  };
 
   selectIssue = issue => {
     // this.props.selectIssue(issue);
@@ -384,6 +399,11 @@ class BacklogPageContainer extends Component {
     this.props.removeIssue(id)
   }
 
+  changeIssueSprint = (issueId, fromSprint, toSprint) => {
+    // console.log('issue: ', issueId, ' move from ', fromSprint, ' to', toSprint)
+    this.props.updateIssueDetail(issueId, {sprint: toSprint})
+  }
+
   render() {
     const {
       listSprint,
@@ -392,7 +412,7 @@ class BacklogPageContainer extends Component {
       // addIssueFormValue,
       issueTypeSelectable,
       addIssueFormValue,
-      // sprintTypeSelectable,
+      sprintTypeSelectable,
       // addIssueValue,
       issueInfo,
       prioritySelectable,
@@ -400,6 +420,8 @@ class BacklogPageContainer extends Component {
       labelSelectable,
       userInfo,
       storyPointSelectable,
+      versionSelectable,
+      componentSelectable,
     } = this.props;
     const {
       isOpenAddSprintModal,
@@ -423,7 +445,7 @@ class BacklogPageContainer extends Component {
           chooseActive={active => this.chooseActive(active)}
           initialData={initialData}
           openAddIssueModal={data => this.openAddIssueModal(data)}
-
+          changeIssueSprint={(issueId, fromSprint, toSprint) => this.changeIssueSprint(issueId, fromSprint, toSprint)}
           displayDescriptionEditor={displayDescriptionEditor}
           descriptionState={description}
           displayAddSubtask={displayAddSubtask}
@@ -448,9 +470,9 @@ class BacklogPageContainer extends Component {
           selectIssue={issue => this.selectIssue(issue)}
           assigneeSelectable={assigneeSelectable}
           prioritySelectable={prioritySelectable}
-          onChangeCommentValue={(value) => this.onChangeCommentValue(value)}
-          postComment={() => this.postComment()}
-          handleKeyPress={(e) => this.handleKeyPress(e)}
+          componentSelectable={componentSelectable}
+          versionSelectable={versionSelectable}
+          sprintTypeSelectable={sprintTypeSelectable}
         />
         <AddIssueModal
           openModal={isOpenAddIssueModal}
@@ -494,6 +516,8 @@ const mapStateToProps = state => ({
   prioritySelectable: issueSelectors.getPrioritySelectable(state),
   labelSelectable: issueSelectors.getLabelSelectable(state),
   assigneeSelectable: issueSelectors.getAssigneeSelectable(state),
+  versionSelectable: issueSelectors.getVersionSelectable(state),
+  componentSelectable: componentSelectors.getComponentSelectable(state),
 
   createIssueStatus: issueSelectors.getCreateIssueStatus(state),
   issueInfo: issueSelectors.getIssueInfo(state),
@@ -566,6 +590,12 @@ const mapDispatchToProps = dispatch => ({
   },
   resetRemoveIssueStatus() {
     dispatch(issueActions.resetRemoveIssueStatus())
+  },
+  getListVersion(query) {
+    dispatch(releaseActions.getListVersion(query))
+  },
+  getListComponent(query) {
+    dispatch(componentActions.getListComponent(query))
   },
   postComment(data) {
     dispatch(issueActions.postComment(data))

@@ -7,6 +7,7 @@ import _ from "lodash";
 import DragDropComponent from './DragDropComponents'
 import { API } from "../../config";
 import SearchSelect from "../../components/singleSelect";
+import MultiSelect from "../../components/multiSelect";
 import moment from "moment";
 import Creatable from "react-select/lib/Creatable";
 import TextEditor from "../../components/textEditor";
@@ -47,6 +48,10 @@ const BacklogPage = props => {
     issueSummary,
     saveSummary,
     removeIssue,
+    changeIssueSprint,
+    versionSelectable,
+    sprintTypeSelectable,
+    componentSelectable,
     onChangeCommentValue,
     postComment,
     handleKeyPress
@@ -93,7 +98,8 @@ const BacklogPage = props => {
       </div>
       <div className="row height-fill">
         <div className={`col-md-${_.isEmpty(issueInfo.summary) && '11 ' || '6 scroll-detail'} p-r-0`}>
-        <DragDropComponent 
+        <DragDropComponent
+        changeIssueSprint={(issueId, fromSprint, toSprint) => changeIssueSprint(issueId, fromSprint, toSprint)}
         openAddIssueModal = {data => openAddIssueModal(data)} 
         openStartSprintModal = {data => openStartSprintModal(data)} 
         openAddSprintModal={openAddSprintModal}
@@ -433,8 +439,33 @@ const BacklogPage = props => {
                               </div>
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
-                                  <li style={{ padding: "0 10px" }}>
-                                    Version 2.0
+                                  <li>
+                                    <SearchSelect 
+                                      id="issue-page-multi-select"
+                                      options={versionSelectable}
+                                      value={issueInfo.version}
+                                      onChange={e => updateIssueDetail('version', e)}
+                                    />
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                            <div className="box-body flex-center" style={{ height: "40px" }}>
+                              <div className="col-md-4">
+                                <ul className="list-unstyled">
+                                  <li>Component:</li>
+                                </ul>
+                              </div>
+                              <div className="col-md-8">
+                                <ul className="list-unstyled">
+                                  <li>
+                                    <MultiSelect 
+                                      id="issue-page-multi-select"
+                                      options={componentSelectable}
+                                      value={issueInfo.component}
+                                      onChange={e => updateIssueDetail('component', e)}
+                                    />
                                   </li>
                                 </ul>
                               </div>
@@ -448,12 +479,18 @@ const BacklogPage = props => {
                               </div>
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
-                                  <li style={{ padding: "0 10px" }}>
-                                    {(issueInfo.sprint || {}).name || "None"}
+                                  <li >
+                                    <SearchSelect 
+                                      id="issue-page-multi-select"
+                                      options={sprintTypeSelectable.filter(item => item.active == false)}
+                                      value={issueInfo.sprint}
+                                      onChange={e => updateIssueDetail('sprint', e)}
+                                    />
                                   </li>
                                 </ul>
                               </div>
                             </div>
+
                           </div>
                         </div>
 
@@ -646,9 +683,14 @@ const BacklogPage = props => {
                                       dangerouslySetInnerHTML={{
                                         __html: `${item.content +
                                           "at " +
-                                          moment(item.createdAt).format(
-                                            "MMM DD YYYY, hh:mm:ss a"
-                                          )}`
+                                          moment(item.createdAt).calendar(null, {
+                                            sameDay: 'hh:mm:ss a, [Today]',
+                                            nextDay: 'hh:mm:ss a, [Tomorrow]',
+                                            nextWeek: 'hh:mm:ss a, dddd',
+                                            lastDay: 'hh:mm:ss a, [Yesterday]',
+                                            lastWeek: 'hh:mm:ss a, [Last] dddd',
+                                            sameElse: 'hh:mm:ss a, MMM DD YYYY'
+                                          })}`
                                       }}
                                     />
                                   );
@@ -681,9 +723,16 @@ const BacklogPage = props => {
                                     key={index}
                                     className="box-body box-comments comments-conf"
                                     dangerouslySetInnerHTML={{
-                                      __html: `${"<strong>" + item.creator + "</strong>" + "&nbsp;" +  moment(item.createdAt).startOf('hour').fromNow()
-                                       + "</br>" + item.content
-                                      }`
+                                      __html: `${item.content +
+                                        "at " +
+                                        moment(item.createdAt).calendar(null, {
+                                          sameDay: 'hh:mm:ss a, [Today]',
+                                          nextDay: 'hh:mm:ss a, [Tomorrow]',
+                                          nextWeek: 'hh:mm:ss a, dddd',
+                                          lastDay: 'hh:mm:ss a, [Yesterday]',
+                                          lastWeek: 'hh:mm:ss a, [Last] dddd',
+                                          sameElse: 'hh:mm:ss a, MMM DD YYYY'
+                                        })}`
                                     }}
                                   />
                                 );
@@ -797,6 +846,36 @@ const BacklogPage = props => {
                             </div>
                           </div>
                         </div>
+
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a data-toggle="collapse" href="#collapseDate">
+                                <h5>
+                                  <span>Sprint History</span>
+                                </h5>
+                              </a>
+                            </h4>
+                          </div>
+                          <div
+                            id="collapseDate"
+                            className="panel-collapse collapse in"
+                          >
+                            <div className="box-body" style={{color: "#6d7074"}}>
+                              {issueInfo.sprintHistory.map((item, idx) => {
+                                if(idx > 0) {
+                                  return (
+                                    <ul key={idx} className="list-unstyled">
+                                      <li>{issueInfo.sprintHistory[idx - 1].label} &nbsp;&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;&nbsp; {item.label}</li>
+                                    </ul>
+                                  ) 
+                                } 
+                              })}
+                              
+                            </div>
+                          </div>
+                        </div>
+                        
                       </div>
                     </div>
                   </div>

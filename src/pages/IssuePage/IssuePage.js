@@ -69,22 +69,9 @@ const IssuePage = props => {
     postComment,
     handleKeyPress
   } = props;
-  // window.onload=function(){
-    // var input = document.getElementById("comment");
-    // console.log(input)
-    //   input.addEventListener("keyup", function (e) {
-    //     console.log(e)
-    //     if (e.keyCode === 13) { 
-    //         // postComment();
-    //         e.preventDefault();
-    //         // alert('Hello World!')
-    //     }
-    // });
-    
-  // }
- 
-  
-  let selectableIssueType = issueInfo.issueType ? issueTypeSelectable.filter(item => item.label != 'Sub Task') : issueTypeSelectable
+  // console.log(issueInfo);
+  // console.log(sprintTypeSelectable)
+  let selectableIssueType = issueInfo.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
 
   let selectableStoryPoint = issueInfo.storyPoints
     ? storyPointSelectable.filter(
@@ -193,10 +180,10 @@ const IssuePage = props => {
                             <img src={API + (issue.issueType || {}).iconUrl} />
                           )}
                           &nbsp;<span className="com">{issue.issueKey}</span>
-                          {assignee && assignee.map(a => {
+                          {assignee && assignee.map((a, aIdx) => {
                             if (a) {
                               return (
-                                <img src={a.iconUrl} width="25px" height="25px" style={{ borderRadius: "50%", float: "right", marginBottom: 10 }} />
+                                <img key={aIdx} src={a.iconUrl} width="25px" height="25px" style={{borderRadius: "50%", float: "right", marginBottom: 10}} />
                               )
                             }
                           })}
@@ -557,6 +544,7 @@ const IssuePage = props => {
                                 </ul>
                               </div>
                             </div>
+                            
                           </div>
                         </div>
 
@@ -749,9 +737,14 @@ const IssuePage = props => {
                                       dangerouslySetInnerHTML={{
                                         __html: `${item.content +
                                           "at " +
-                                          moment(item.createdAt).format(
-                                            "MMM DD YYYY, hh:mm:ss a"
-                                          )}`
+                                          moment(item.createdAt).calendar(null, {
+                                            sameDay: 'hh:mm:ss a, [Today]',
+                                            nextDay: 'hh:mm:ss a, [Tomorrow]',
+                                            nextWeek: 'hh:mm:ss a, dddd',
+                                            lastDay: 'hh:mm:ss a, [Yesterday]',
+                                            lastWeek: 'hh:mm:ss a, [Last] dddd',
+                                            sameElse: 'hh:mm:ss a, MMM DD YYYY'
+                                          })}`
                                       }}
                                     />
                                   );
@@ -784,9 +777,16 @@ const IssuePage = props => {
                                     key={index}
                                     className="box-body box-comments comments-conf"
                                     dangerouslySetInnerHTML={{
-                                      __html: `${"<strong>" + item.creator + "</strong>" + "&nbsp;" +  moment(item.createdAt).startOf('hour').fromNow()
-                                       + "</br>" + item.content
-                                      }`
+                                      __html: `${item.content +
+                                        "at " +
+                                        moment(item.createdAt).calendar(null, {
+                                          sameDay: 'hh:mm:ss a, [Today]',
+                                          nextDay: 'hh:mm:ss a, [Tomorrow]',
+                                          nextWeek: 'hh:mm:ss a, dddd',
+                                          lastDay: 'hh:mm:ss a, [Yesterday]',
+                                          lastWeek: 'hh:mm:ss a, [Last] dddd',
+                                          sameElse: 'hh:mm:ss a, MMM DD YYYY'
+                                        })}`
                                     }}
                                   />
                                 );
@@ -901,6 +901,36 @@ const IssuePage = props => {
                             </div>
                           </div>
                         </div>
+
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a data-toggle="collapse" href="#collapseDate">
+                                <h5>
+                                  <span>Sprint History</span>
+                                </h5>
+                              </a>
+                            </h4>
+                          </div>
+                          <div
+                            id="collapseDate"
+                            className="panel-collapse collapse in"
+                          >
+                            <div className="box-body" style={{color: "#6d7074"}}>
+                              {issueInfo.sprintHistory.map((item, idx) => {
+                                if(idx > 0) {
+                                  return (
+                                    <ul key={idx} className="list-unstyled">
+                                      <li>{issueInfo.sprintHistory[idx - 1].label} &nbsp;&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;&nbsp; {item.label}</li>
+                                    </ul>
+                                  ) 
+                                } 
+                              })}
+                              
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                   </div>
