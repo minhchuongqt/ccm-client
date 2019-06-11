@@ -21,6 +21,8 @@ import {
   RESET_CREATE_SUBTASK_STATUS,
   REMOVE_ISSUE_STATUS,
   RESET_REMOVE_ISSUE_STATUS,
+  POST_COMMENT_STATUS,
+  RESET_POST_COMMENT_STATUS
 } from "../../constants/types/issue";
 import { combineReducers } from "redux";
 import _ from 'lodash'
@@ -140,6 +142,17 @@ const createSubtaskStatus = (state = false, action) => {
       return state;
   }
 }
+const postCommentStatus = (state = false, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case POST_COMMENT_STATUS:
+      return payload;
+    case RESET_POST_COMMENT_STATUS:
+      return false;
+    default:
+      return state;
+  }
+}
 
 const updateIssueStatus = (state = false, action) => {
   const { type, payload } = action;
@@ -231,7 +244,8 @@ const IssueState = combineReducers({
   sortType,
   updateIssueStatus,
   createSubtaskStatus,
-  removeIssueStatus
+  removeIssueStatus,
+  postCommentStatus
 });
 
 export default IssueState;

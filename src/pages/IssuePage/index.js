@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import IssuePageView from "./IssuePage";
 import { connect } from "react-redux";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 //actions
 import * as actions from "../../actions/issue";
@@ -34,6 +34,7 @@ class IssuePageContainer extends Component {
       isOpenAddIssueModal: false,
       displayDescriptionEditor: false,
       description: '',
+      comment: '',
       displayAddSubtask: false,
       subTaskSummary: '',
       displayEditSummary: false,
@@ -57,10 +58,11 @@ class IssuePageContainer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { createIssueStatus, selectedFilterForDetailIssueValue, 
+    const { createIssueStatus, selectedFilterForDetailIssueValue,
       selectedFilterForUserIssueValue,
       issueInfo,
       sortType, updateIssueStatus, createSubtaskStatus,
+      postCommentStatus,
       issueSummary,
       removeIssueStatus
     } = newProps;
@@ -88,6 +90,12 @@ class IssuePageContainer extends Component {
       this.getIssueInfo(issueInfo)
       this.props.resetCreateSubtaskStatus()
     }
+    if (postCommentStatus) {
+      this.getIssueInfo(issueInfo)
+      this.props.resetPostCommentStatus()
+      this.setState({ comment: "" });
+       
+    }
 
     if (removeIssueStatus) {
       toast.success("Remove issue successfully");
@@ -95,14 +103,14 @@ class IssuePageContainer extends Component {
       this.props.resetRemoveIssueStatus()
     }
 
-    if(selectedFilterForDetailIssueValue !== this.props.selectedFilterForDetailIssueValue) {
+    if (selectedFilterForDetailIssueValue !== this.props.selectedFilterForDetailIssueValue) {
       this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType);
     }
-    if(sortType !== this.props.sortType) {
+    if (sortType !== this.props.sortType) {
       this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType);
     }
-    if(issueSummary !== newProps.issueInfo.summary) {
-      this.setState({issueSummary: newProps.issueInfo.summary});
+    if (issueSummary !== newProps.issueInfo.summary) {
+      this.setState({ issueSummary: newProps.issueInfo.summary });
     }
   }
 
@@ -112,7 +120,7 @@ class IssuePageContainer extends Component {
         // this.assignFocus.focus()
         document.getElementById("assignFocus").click()
         break;
-    
+
       default:
         break;
     }
@@ -129,8 +137,8 @@ class IssuePageContainer extends Component {
     return params;
   };
 
-  getListIssue = ( query = {}, filter = {}, sort = -1) => {
-    if(query.key != 'all') {
+  getListIssue = (query = {}, filter = {}, sort = -1) => {
+    if (query.key != 'all') {
       const params = {
         query: JSON.stringify({
           project: this.props.selectedProject._id,
@@ -241,19 +249,19 @@ class IssuePageContainer extends Component {
   createIssue = () => {
     this.props.createIssue(this.props.addIssueValueForApi)
   }
-  
+
   validate = (data) => {
     if (!data.summary) {
-        toast.error("Please enter issue summary");
-        return false;
+      toast.error("Please enter issue summary");
+      return false;
     }
     if (!data.issueType) {
-        toast.error("Please choose issue type");
-        return false;
+      toast.error("Please choose issue type");
+      return false;
     }
     if (!data.sprint) {
-        toast.error("Please enter issue summary");
-        return false;
+      toast.error("Please enter issue summary");
+      return false;
     }
     return true;
   }
@@ -267,9 +275,9 @@ class IssuePageContainer extends Component {
   };
 
   onChangeFilterForUserIssue = (value) => {
-    const {selectedFilterForDetailIssueValue, sortType} = this.props
+    const { selectedFilterForDetailIssueValue, sortType } = this.props
     this.props.changeFilterForUserIssue(value)
-    if(value.key != 'all') {
+    if (value.key != 'all') {
       const params = {
         query: JSON.stringify({
           project: this.props.selectedProject._id,
@@ -294,78 +302,94 @@ class IssuePageContainer extends Component {
   }
 
   updateIssueDetail = (key, value) => {
-    const {issueInfo} = this.props
+    const { issueInfo } = this.props
     console.log(key, ': ', value)
     switch (key) {
       case 'label':
-        this.props.updateIssueDetail(issueInfo._id, {[key]: value.map(item => item.label)})
+        this.props.updateIssueDetail(issueInfo._id, { [key]: value.map(item => item.label) })
         break;
       case 'storyPoints':
-          this.props.updateIssueDetail(issueInfo._id, {[key]: value.label})
+        this.props.updateIssueDetail(issueInfo._id, { [key]: value.label })
         break;
       case 'description':
-        this.setState({[key]: value})
+        this.setState({ [key]: value })
         break;
       case 'subTaskSummary':
-        this.setState({subTaskSummary: value})
+        this.setState({ subTaskSummary: value })
         break;
       case 'summary':
-        this.setState({issueSummary: value})
+        this.setState({ issueSummary: value })
         break;
       case 'workflow':
-        this.props.updateIssueDetail(issueInfo._id, {[key]: this.props.listWorkflow.find(i => i.type == value)._id})
+        this.props.updateIssueDetail(issueInfo._id, { [key]: this.props.listWorkflow.find(i => i.type == value)._id })
         break;
       case 'closed':
-        this.props.updateIssueDetail(issueInfo._id, {[key]: value})
+        this.props.updateIssueDetail(issueInfo._id, { [key]: value })
         break;
       default:
-          this.props.updateIssueDetail(issueInfo._id, {[key]: value.value})
+        this.props.updateIssueDetail(issueInfo._id, { [key]: value.value })
         break;
     }
   }
 
   changeDisplayDescriptionEditor = async (value, text) => {
-    await this.setState({displayDescriptionEditor: value, description: text})
+    await this.setState({ displayDescriptionEditor: value, description: text })
   }
 
   changeDisplayCreateSubtask = (value) => {
-    this.setState({displayAddSubtask: value})
+    this.setState({ displayAddSubtask: value })
   }
   changeDisplayEditSummary = (value) => {
-    this.setState({displayEditSummary: value})
+    this.setState({ displayEditSummary: value })
   }
 
+  onChangeCommentValue = (value) => {
+    this.setState({ comment: value })
+  };
+
   saveDescription = () => {
-    const {issueInfo} = this.props
-    this.props.updateIssueDetail(issueInfo._id, {description: this.state.description})
+    const { issueInfo } = this.props
+    this.props.updateIssueDetail(issueInfo._id, { description: this.state.description })
   }
 
   saveSummary = () => {
-    const {issueInfo} = this.props
-    if(this.state.issueSummary !== issueInfo.summary) {
-      this.props.updateIssueDetail(issueInfo._id, {summary: this.state.issueSummary})
+    const { issueInfo } = this.props
+    if (this.state.issueSummary !== issueInfo.summary) {
+      this.props.updateIssueDetail(issueInfo._id, { summary: this.state.issueSummary })
     }
   }
 
+  postComment = () => {
+    const data = {
+      issue: this.props.issueInfo._id,
+      content: this.state.comment
+    }
+    this.props.postComment(data)
+    document.getElementById('commentInput').value = ''
+  }
   createSubtask = () => {
-    const {selectedProject, issueTypeSelectable, issueInfo, prioritySelectable} = this.props
-    const {subTaskSummary} = this.state
-        const data = {
-          project: selectedProject._id,
-          issueType: issueTypeSelectable.find(item => item.label == 'Sub Task').value,
-          priority: prioritySelectable.find(item => item.label == 'Medium').value,
-          summary: subTaskSummary,
-          subTaskOfIssue: issueInfo._id
-        }
-        this.props.createSubtask(data)
+    const { selectedProject, issueTypeSelectable, issueInfo, prioritySelectable } = this.props
+    const { subTaskSummary } = this.state
+    const data = {
+      project: selectedProject._id,
+      issueType: issueTypeSelectable.find(item => item.label == 'Sub Task').value,
+      priority: prioritySelectable.find(item => item.label == 'Medium').value,
+      summary: subTaskSummary,
+      subTaskOfIssue: issueInfo._id
+    }
+    this.props.createSubtask(data)
   }
 
   removeIssue = (id) => {
     this.props.removeIssue(id)
   }
+  handleKeyPress = (e) => {
+    if(e.charCode === 13)
+    this.postComment()
+  }
 
   refeshListIssue = () => {
-    const {selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType} = this.props
+    const { selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType } = this.props
     this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType)
   }
   render() {
@@ -391,7 +415,7 @@ class IssuePageContainer extends Component {
       versionSelectable,
       componentSelectable,
     } = this.props;
-    const { isOpenAddIssueModal, displayDescriptionEditor, description,  displayAddSubtask,
+    const { isOpenAddIssueModal, displayDescriptionEditor, description, displayAddSubtask,
       subTaskSummary, issueSummary } = this.state;
     // console.log(selectedIssue)
     return (
@@ -413,6 +437,9 @@ class IssuePageContainer extends Component {
           onChangeFilterForUserIssue={(value) => this.onChangeFilterForUserIssue(value)}
           onChangeFilterForDetailIssue={value => this.props.changeFilterForDetailIssue(value)}
           onChangeSearchValue={value => this.props.onChangeSearchValue(value)}
+          onChangeCommentValue={(value) => this.onChangeCommentValue(value)}
+          postComment={() => this.postComment()}
+          handleKeyPress={(e) => this.handleKeyPress(e)}
           changeSortType={value => this.props.changeSortType(value)}
           updateIssueDetail={(key, value) => this.updateIssueDetail(key, value)}
           saveDescription={() => this.saveDescription()}
@@ -436,7 +463,7 @@ class IssuePageContainer extends Component {
           prioritySelectable={prioritySelectable}
           versionSelectable={versionSelectable}
           sprintTypeSelectable={sprintTypeSelectable}
-          onFocus = {e => this.onFocus(e)}
+          onFocus={e => this.onFocus(e)}
         />
         <AddIssueModal
           openModal={isOpenAddIssueModal}
@@ -446,7 +473,6 @@ class IssuePageContainer extends Component {
           validate={data => this.validate(data)}
           addIssueFormValue={addIssueFormValue}
           addIssueValue={addIssueValue}
-          
           onChangeValue={(name, value) => this.onChangeValue(name, value)}
           onRemoveFile={id => this.props.onRemoveFile(id)}
         />
@@ -456,39 +482,40 @@ class IssuePageContainer extends Component {
 }
 
 const mapState = state => {
-  return{
-  sprint: state.SprintState,
-  issue: state.IssueState,
-  listIssue: selectors.getListIssue(state),
-  selectedProject: projectSelectors.getSelectedProject(state),
-  // selectedIssue: selectors.getSelectedIssue(state),
-  createIssueStatus: selectors.getCreateIssueStatus(state),
+  return {
+    sprint: state.SprintState,
+    issue: state.IssueState,
+    listIssue: selectors.getListIssue(state),
+    selectedProject: projectSelectors.getSelectedProject(state),
+    // selectedIssue: selectors.getSelectedIssue(state),
+    createIssueStatus: selectors.getCreateIssueStatus(state),
 
-  storyPointSelectable: selectors.getStoryPointSelectable(state),
-  sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
-  assigneeSelectable: selectors.getAssigneeSelectable(state),
-  issueTypeSelectable: selectors.getIssueTypeSelectable(state),
-  prioritySelectable: selectors.getPrioritySelectable(state),
-  labelSelectable: selectors.getLabelSelectable(state),
-  
-  addIssueFormValue: state.IssueState.addIssueFormValue,
-  addIssueValueForApi: selectors.generateDataForAddIssue(state),
-  issueInfo: selectors.getIssueInfo(state),
-  userInfo: userSelectors.getUserInfo(state),
-  filterableForUserIssue: selectors.getFilterableForUserIssue(state),
-  filterableForDetailIssue: selectors.getFilterableForDetailIssue(state),
-  selectedFilterForUserIssueValue: selectors.getSelectedFilterForUserIssueValue(state),
-  selectedFilterForDetailIssueValue: selectors.getSelectedFilterForDetailIssueValue(state),
-  searchValue: selectors.getSearchValue(state),
-  sortType: selectors.getSortType(state),
-  updateIssueStatus: selectors.getUpdateIssueStatus(state),
-  createSubtaskStatus: selectors.getCreateSubtaskStatus(state),
-  listWorkflow: workflowSelectors.getListWorkflow(state),
-  removeIssueStatus: selectors.getRemoveIssueStatus(state),
-  listIssueIsFetching: selectors.getListIssueIsFetching(state),
-  versionSelectable: selectors.getVersionSelectable(state),
-  componentSelectable: componentSelectors.getComponentSelectable(state)
-}
+    storyPointSelectable: selectors.getStoryPointSelectable(state),
+    sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
+    assigneeSelectable: selectors.getAssigneeSelectable(state),
+    issueTypeSelectable: selectors.getIssueTypeSelectable(state),
+    prioritySelectable: selectors.getPrioritySelectable(state),
+    labelSelectable: selectors.getLabelSelectable(state),
+
+    addIssueFormValue: state.IssueState.addIssueFormValue,
+    addIssueValueForApi: selectors.generateDataForAddIssue(state),
+    issueInfo: selectors.getIssueInfo(state),
+    userInfo: userSelectors.getUserInfo(state),
+    filterableForUserIssue: selectors.getFilterableForUserIssue(state),
+    filterableForDetailIssue: selectors.getFilterableForDetailIssue(state),
+    selectedFilterForUserIssueValue: selectors.getSelectedFilterForUserIssueValue(state),
+    selectedFilterForDetailIssueValue: selectors.getSelectedFilterForDetailIssueValue(state),
+    searchValue: selectors.getSearchValue(state),
+    sortType: selectors.getSortType(state),
+    updateIssueStatus: selectors.getUpdateIssueStatus(state),
+    createSubtaskStatus: selectors.getCreateSubtaskStatus(state),
+    postCommentStatus: selectors.getPostCommentStatus(state),
+    listWorkflow: workflowSelectors.getListWorkflow(state),
+    removeIssueStatus: selectors.getRemoveIssueStatus(state),
+    listIssueIsFetching: selectors.getListIssueIsFetching(state),
+    versionSelectable: selectors.getVersionSelectable(state),
+    componentSelectable: componentSelectors.getComponentSelectable(state)
+  }
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -558,6 +585,9 @@ const mapDispatchToProps = dispatch => ({
   resetCreateSubtaskStatus() {
     dispatch(actions.resetCreateSubtaskStatus())
   },
+  resetPostCommentStatus() {
+    dispatch(actions.resetPostCommentStatus())
+  },
   getWorkflowList(query) {
     dispatch(workflowActions.getWorkflowList(query))
   },
@@ -573,6 +603,9 @@ const mapDispatchToProps = dispatch => ({
   getListComponent(query) {
     dispatch(componentActions.getListComponent(query))
   },
+  postComment(data) {
+    dispatch(actions.postComment(data))
+  }
 });
 
 export default connect(

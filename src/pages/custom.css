@@ -68,6 +68,9 @@
     text-decoration: none !important;
     color: red !important;
 }
+.input-group-config {
+  display: block;
+}
 @font-face{
     font-family: Avenir;
     src: url("../styleSheets/sass/fonts/Avenir.otf");

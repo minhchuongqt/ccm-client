@@ -70,7 +70,8 @@ class BacklogPageContainer extends Component {
       updateIssueStatus, createSubtaskStatus,
       issueSummary,
       removeIssueStatus,
-      issueInfo
+      issueInfo,
+      postCommentStatus
     } = newProps;
     if (createSprintStatus) {
       toast.success("Create sprint successfully");
@@ -108,6 +109,10 @@ class BacklogPageContainer extends Component {
       toast.success("Create subtask successfully");
       this.getIssueInfo(issueInfo)
       this.props.resetCreateSubtaskStatus()
+    }
+    if (postCommentStatus) {
+      this.getIssueInfo(issueInfo)
+      this.props.resetPostCommentStatus()
     }
 
     if (removeIssueStatus) {
@@ -294,6 +299,7 @@ class BacklogPageContainer extends Component {
     const addForm = this.state.addForm;
     addForm[name] = value;
     this.setState({ addForm });
+    console.log(value)
   };
   onChangeStartValue = (name, value) => {
     const startForm = this.state.startForm;
@@ -359,7 +365,23 @@ class BacklogPageContainer extends Component {
       this.props.updateIssueDetail(issueInfo._id, {summary: this.state.issueSummary})
     }
   }
+  onChangeCommentValue = (value) => {
+    this.setState({ comment: value })
+  };
 
+  postComment = () => {
+    const data = {
+      issue: this.props.issueInfo._id,
+      content: this.state.comment
+    }
+    this.props.postComment(data)
+    document.getElementById('commentInput').value = ''
+    
+  }
+  handleKeyPress = (e) => {
+    if(e.charCode === 13)
+    this.postComment()
+  }
   createSubtask = () => {
     const {selectedProject, issueTypeSelectable, issueInfo, prioritySelectable} = this.props
     const {subTaskSummary} = this.state
@@ -503,6 +525,7 @@ const mapStateToProps = state => ({
 
   updateIssueStatus: issueSelectors.getUpdateIssueStatus(state),
   createSubtaskStatus: issueSelectors.getCreateSubtaskStatus(state),
+  postCommentStatus: issueSelectors.getPostCommentStatus(state),
   listWorkflow: workflowSelectors.getListWorkflow(state),
   removeIssueStatus: issueSelectors.getRemoveIssueStatus(state),
 });
@@ -553,6 +576,9 @@ const mapDispatchToProps = dispatch => ({
   resetCreateSubtaskStatus() {
     dispatch(issueActions.resetCreateSubtaskStatus())
   },
+  resetPostCommentStatus() {
+    dispatch(issueActions.resetPostCommentStatus())
+  },
   getWorkflowList(query) {
     dispatch(workflowActions.getWorkflowList(query))
   },
@@ -571,6 +597,9 @@ const mapDispatchToProps = dispatch => ({
   getListComponent(query) {
     dispatch(componentActions.getListComponent(query))
   },
+  postComment(data) {
+    dispatch(issueActions.postComment(data))
+  }
   // resetAllData() {
   // }
 });

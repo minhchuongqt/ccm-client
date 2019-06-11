@@ -46,6 +46,11 @@ class IssueApi {
     removeIssue = (id) => {
         return API.remove('/issue/' + id)
     }
+
+    postComment = (data) => {
+        return API.post('/comment/', data)
+    }
+
     
 }
 

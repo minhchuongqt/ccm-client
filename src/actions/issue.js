@@ -12,6 +12,9 @@ import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
      RESET_CREATE_SUBTASK_STATUS,
      REMOVE_ISSUE_STATUS,
      RESET_REMOVE_ISSUE_STATUS,
+     POST_COMMENT,
+     RESET_POST_COMMENT_STATUS,
+     POST_COMMENT_STATUS
 } from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
 import BaseApi from '../api/base'
@@ -104,6 +107,20 @@ export const createSubtask = (data) => dispatch => {
     })
 }
 
+
+export const postComment = (data) => dispatch => {
+    IssueApi.postComment(data).then(res => {
+        if(res.data) {
+            if(res.data.error) {
+                toast.error(res.data.error)
+            } else {
+                dispatch({type: POST_COMMENT_STATUS, payload: res.data.success })
+            }
+        }
+    })
+}
+
+
 export const resetCreateIssueStatus = () => dispatch => {
     dispatch({ type: RESET_CREATE_ISSUE_STATUS })
 }
@@ -114,6 +131,9 @@ export const resetUpdateIssueStatus = () => dispatch => {
 
 export const resetCreateSubtaskStatus = () => dispatch => {
     dispatch({ type: RESET_CREATE_SUBTASK_STATUS })
+}
+export const resetPostCommentStatus = () => dispatch => {
+    dispatch({ type: RESET_POST_COMMENT_STATUS })
 }
 
 export const getIssueType = (data) => dispatch => {
