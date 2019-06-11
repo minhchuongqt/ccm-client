@@ -67,12 +67,15 @@ export const listBacklogIssue = ({BacklogState}) => {
     return BacklogState.listBacklogIssue || []
 }
 
+export const getSearchValue = ({ BacklogState }) => BacklogState.searchValue;
+
 export const getInitalData = createSelector (
     [
         listSprint,
-        listBacklogIssue
+        listBacklogIssue,
+        getSearchValue
     ],
-    (sprints, issues) => {
+    (sprints, issues, searchValue) => {
         const result = {
             tasks: {},
             columns: {
@@ -94,7 +97,7 @@ export const getInitalData = createSelector (
             result.columnOrder.push(sprint._id)
         })
         result.columnOrder.push('backlog-column');
-        issues.map(issue => {
+        issues.filter(issue => issue.summary.indexOf(searchValue) > -1 && issue).map(issue => {
             result.tasks[issue._id] = {
             ...issue,
             completed: (issue.workflow || {}).type == 'DONE' ? true : false,

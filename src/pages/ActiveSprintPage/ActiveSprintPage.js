@@ -28,7 +28,7 @@ const CustomLaneHeader = props => {
   )
 }
 const ActiveSprintPage = props => {
-  const { data, activeSprintInfo, openCompleteSprintModal } = props
+  const { data, activeSprintInfo, openCompleteSprintModal, searchValue, onChangeSearchValue } = props
 
 
   const handleDragEnd = (cardId, sourceLaneId, targetLaneId, position, card) => {
@@ -57,16 +57,25 @@ const ActiveSprintPage = props => {
             </div>
 
           </div>
+          <div style={{ width: "20%", marginBottom: "10px", display: 'flex' }}>
+              <div className="form-group">
+                {/* <span className="fa fa-search form-control-feedback"></span> */}
+                <input style={{ height: 38, width: 270 }} type="text" className="form-control" placeholder="Search"
+                  onChange={e => onChangeSearchValue(e.target.value)}
+                  value={searchValue || ''}
+                />
+              </div>
+            </div>
           <div className="row">
-          <Board className="board-background-color board-content"
-            data={data}
-            draggable
-            cardDragClass="draggingCard"
-            laneDraggable={false}
-            customLaneHeader={<CustomLaneHeader />}
-            draggable
-            handleDragEnd={handleDragEnd}
-          />
+            <Board className="board-background-color board-content"
+              data={data}
+              draggable
+              cardDragClass="draggingCard"
+              laneDraggable={false}
+              customLaneHeader={<CustomLaneHeader />}
+              draggable
+              handleDragEnd={handleDragEnd}
+            />
           </div>
         </div>
       }

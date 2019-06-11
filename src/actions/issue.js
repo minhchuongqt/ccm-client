@@ -22,12 +22,12 @@ import {toast} from 'react-toastify'
 import _ from 'lodash'
 import {API} from '../config'
 
-export const getIssueList = (data) => async dispatch => {
+export const getIssueList = (data, setSelectedIssue) => async dispatch => {
     dispatch({ type: GET_ISSUE_LIST, payload: {isFetching: true, data: [], error: null} })
     await IssueApi.getIssueList(data).then(res => {
         if (res.data) {
             dispatch({ type: GET_ISSUE_LIST, payload: {isFetching: false, data: res.data.data, error: null} })
-            if(res.data.data[0]) dispatch(getIssueInfo(res.data.data[0]._id))
+            if(res.data.data[0] && setSelectedIssue) dispatch(getIssueInfo(res.data.data[0]._id))
         }
     })
 }

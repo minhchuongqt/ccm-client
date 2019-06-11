@@ -88,6 +88,7 @@ class IssuePageContainer extends Component {
     if (createSubtaskStatus) {
       toast.success("Create subtask successfully");
       this.getIssueInfo(issueInfo)
+      this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType, false)
       this.props.resetCreateSubtaskStatus()
     }
     if (postCommentStatus) {
@@ -137,7 +138,7 @@ class IssuePageContainer extends Component {
     return params;
   };
 
-  getListIssue = (query = {}, filter = {}, sort = -1) => {
+  getListIssue = (query = {}, filter = {}, sort = -1, setSelectedIssue = true) => {
     if (query.key != 'all') {
       const params = {
         query: JSON.stringify({
@@ -148,7 +149,7 @@ class IssuePageContainer extends Component {
           [filter.value]: sort
         })
       };
-      this.props.getIssueList(params);
+      this.props.getIssueList(params, setSelectedIssue);
     } else {
       const params = {
         query: JSON.stringify({
@@ -158,7 +159,7 @@ class IssuePageContainer extends Component {
           [filter.value]: sort
         })
       };
-      this.props.getIssueList(params);
+      this.props.getIssueList(params, setSelectedIssue);
     }
   };
 
@@ -239,6 +240,12 @@ class IssuePageContainer extends Component {
 
   selectIssue = issue => {
     // this.props.selectIssue(issue);
+    console.log(issue)
+    if(issue.subTaskOfIssue) {
+      const { selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType } = this.props
+      this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType)
+    }
+
     this.getIssueInfo(issue);
     if (document.getElementById("issue-detail-collapse")) {
       document.getElementById("issue-detail-collapse").className +=
@@ -369,6 +376,7 @@ class IssuePageContainer extends Component {
   }
   createSubtask = () => {
     const { selectedProject, issueTypeSelectable, issueInfo, prioritySelectable } = this.props
+    const { selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType } = this.props
     const { subTaskSummary } = this.state
     const data = {
       project: selectedProject._id,
@@ -378,6 +386,7 @@ class IssuePageContainer extends Component {
       subTaskOfIssue: issueInfo._id
     }
     this.props.createSubtask(data)
+    
   }
 
   removeIssue = (id) => {
@@ -519,8 +528,8 @@ const mapState = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getIssueList(query) {
-    dispatch(actions.getIssueList(query));
+  getIssueList(query, setSelectedIssue) {
+    dispatch(actions.getIssueList(query, setSelectedIssue));
   },
   getIssueInfo(id, query) {
     dispatch(actions.getIssueInfo(id, query));

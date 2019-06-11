@@ -9,6 +9,7 @@ import WorkflowState from './Workflow/workflow'
 import ReleaseState from './Release/index'
 import ComponentState from './Component'
 import VersionState from './Version/version'
+import ActivitySprintState from './ActivitySprint'
 
 const rootReducer = combineReducers({
     LoginState,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
     WorkflowState,
     ReleaseState,
     VersionState,
-    ComponentState
+    ComponentState,
+    ActivitySprintState
 });
 
 export default rootReducer;

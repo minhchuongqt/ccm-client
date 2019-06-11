@@ -54,7 +54,9 @@ const BacklogPage = props => {
     componentSelectable,
     onChangeCommentValue,
     postComment,
-    handleKeyPress
+    handleKeyPress,
+    searchValue,
+    onChangeSearchValue,
   } = props
   let selectableIssueType = issueInfo.issueType
     ? issueTypeSelectable.filter(
@@ -96,6 +98,15 @@ const BacklogPage = props => {
           <BreadcrumbItem active>Backlog</BreadcrumbItem>
         </Breadcrumb>
       </div>
+      <div style={{ width: "20%", display: 'flex', marginLeft: 8 }}>
+              <div className="form-group">
+                {/* <span className="fa fa-search form-control-feedback"></span> */}
+                <input style={{ height: 38, width: 270 }} type="text" className="form-control" placeholder="Search"
+                  onChange={e => onChangeSearchValue(e.target.value)}
+                  value={searchValue || ''}
+                />
+              </div>
+            </div>
       <div className="row height-fill">
         <div className={`col-md-${_.isEmpty(issueInfo.summary) && '11 ' || '6 scroll-detail'} p-r-0`}>
         <DragDropComponent

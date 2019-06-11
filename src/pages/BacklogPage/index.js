@@ -404,6 +404,10 @@ class BacklogPageContainer extends Component {
     this.props.updateIssueDetail(issueId, {sprint: toSprint})
   }
 
+  onChangeSearchValue = value => {
+    this.props.changeSearchValue(value)
+  }
+
   render() {
     const {
       listSprint,
@@ -422,6 +426,7 @@ class BacklogPageContainer extends Component {
       storyPointSelectable,
       versionSelectable,
       componentSelectable,
+      searchValue,
     } = this.props;
     const {
       isOpenAddSprintModal,
@@ -434,7 +439,8 @@ class BacklogPageContainer extends Component {
       subTaskSummary, issueSummary
     } = this.state;
     // console.log("sprint: ", isOpenAddSprintModal);
-    // console.log("issue: ", isOpenAddIssueModal);
+    // console.log("issue: ", isOpenAddIssueModal);searchValue,
+    
     return (
       <div>
         <BacklogPageView
@@ -444,6 +450,7 @@ class BacklogPageContainer extends Component {
           openStartSprintModal={data => this.openStartSprintModal(data)}
           chooseActive={active => this.chooseActive(active)}
           initialData={initialData}
+          searchValue={searchValue}
           openAddIssueModal={data => this.openAddIssueModal(data)}
           changeIssueSprint={(issueId, fromSprint, toSprint) => this.changeIssueSprint(issueId, fromSprint, toSprint)}
           displayDescriptionEditor={displayDescriptionEditor}
@@ -460,6 +467,7 @@ class BacklogPageContainer extends Component {
           saveSummary={() => this.saveSummary()}
           removeIssue={(id) => this.removeIssue(id)}
           selectIssue={issue => this.selectIssue(issue)}
+          onChangeSearchValue={(value) => this.onChangeSearchValue(value)}
           issueInfo={issueInfo}
           userInfo={userInfo}
           issueTypeSelectable={issueTypeSelectable}
@@ -508,6 +516,7 @@ const mapStateToProps = state => ({
   startSprintStatus: selectors.startSprintStatus(state),
   selectedProject: projectSelectors.getSelectedProject(state),
   initialData: selectors.getInitalData(state),
+  searchValue: selectors.getSearchValue(state),
   addIssueFormValue: issueSelectors.getAddIssueFormValue(state),
 
   sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
@@ -554,6 +563,9 @@ const mapDispatchToProps = dispatch => ({
   },
   startSprint(startForm) {
     dispatch(actions.startSprint(startForm));
+  },
+  changeSearchValue(value) {
+    dispatch(actions.changeSearchValue(value));
   },
   getListStoryPoint(query) {
     dispatch(issueActions.getListStoryPoint(query))

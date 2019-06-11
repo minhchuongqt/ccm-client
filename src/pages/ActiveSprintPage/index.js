@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import ActiveSprintPageView from './ActiveSprintPage';
 import { connect } from 'react-redux'
 import { toast } from "react-toastify";
+
 import * as issueActions from '../../actions/issue'
 import * as sprintActions from '../../actions/backlog'
 import * as workflowActions from '../../actions/workflow'
+import * as activitySprintActions from '../../actions/activitySprint'
+
 import * as projectSelectors from "../../selectors/project";
 import * as backlogSelectors from "../../selectors/backlog";
 import * as activeSprintSelectors from "../../selectors/activeSprint";
@@ -138,9 +141,13 @@ class ActiveSprintPageContainer extends Component {
         this.props.changeIssueWorkflow(cardId, data);
     }
 
+    onChangeSearchValue = (value) => {
+      this.props.changeSearchValue(value)
+    }
+
     render() {
-        const { dataForBoard, activeSprintInfo, sprintTypeSelectable, issueCompleteInfo } = this.props
-        console.log(issueCompleteInfo)
+        const { dataForBoard, activeSprintInfo, sprintTypeSelectable, issueCompleteInfo, searchValue } = this.props
+        // console.log(issueCompleteInfo)
         const {
           isOpenCompleteSprintModal,
           completeForm
@@ -150,6 +157,8 @@ class ActiveSprintPageContainer extends Component {
                 <ActiveSprintPageView
                    data = {dataForBoard}
                    activeSprintInfo = {activeSprintInfo}
+                   searchValue={searchValue}
+                   onChangeSearchValue={value => this.onChangeSearchValue(value)}
                    openCompleteSprintModal={() => this.openCompleteSprintModal()}
                    handleDragEnd={(cardId, sourceLaneId, targetLaneId, position, card) => this.handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card)}
                 />
@@ -177,6 +186,7 @@ const mapStateToProps = state => ({
     activeSprintInfo: activeSprintSelectors.getSprintActiveInfo(state),
     sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
     issueCompleteInfo: activeSprintSelectors.getIssueCompleteInfo(state),
+    searchValue: activeSprintSelectors.getSearchValue(state),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -204,6 +214,9 @@ const mapDispatchToProps = dispatch => ({
     changeCompleteSprintValue(key, value) {
       dispatch(sprintActions.changeCompleteSprintValue(key, value));
     },
+    changeSearchValue(value) {
+      dispatch(activitySprintActions.changeSearchValue(value))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((ActiveSprintPageContainer));
