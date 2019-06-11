@@ -30,9 +30,6 @@ class ProjectPageContainer extends Component {
                 },
                 {
                     header: 'Update Date', poiter: 'updatedDate'
-                },
-                {
-                    header: 'Action', poiter: 'nothing'
                 }
             ],
             addForm: {

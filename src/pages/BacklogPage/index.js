@@ -481,6 +481,9 @@ class BacklogPageContainer extends Component {
           componentSelectable={componentSelectable}
           versionSelectable={versionSelectable}
           sprintTypeSelectable={sprintTypeSelectable}
+          handleKeyPress={(e) => this.handleKeyPress(e)}
+          onChangeCommentValue={(value) => this.onChangeCommentValue(value)}
+          postComment={() => this.postComment()}
         />
         <AddIssueModal
           openModal={isOpenAddIssueModal}

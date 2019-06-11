@@ -5,7 +5,7 @@
 }
 
 .modal-top {
-    top: 0px;
+    top: 100px;
 }
 .background body.login-page{
     background: transparent !important;

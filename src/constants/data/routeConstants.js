@@ -33,6 +33,7 @@ export const REPORT_URL = "/report";
 
 //Project pages
 export const PROJECT_URL = "/project";
+export const PROJECT_SETTING_URL = "/systemSetting";
 export const PROJECT_DETAIL_URL = "/project/:id/detail";
 export const PROJECT_VIEW_URL = "/project/view";
 export const PROJECT_CREATE_URL = "/project/create";
