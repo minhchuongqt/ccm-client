@@ -387,7 +387,9 @@ class IssuePageContainer extends Component {
     if(e.charCode === 13)
     this.postComment()
   }
-
+  moveToComment = () => {
+    document.getElementById('commentInput').focus();
+  }
   refeshListIssue = () => {
     const { selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType } = this.props
     this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType)
@@ -463,6 +465,7 @@ class IssuePageContainer extends Component {
           prioritySelectable={prioritySelectable}
           versionSelectable={versionSelectable}
           sprintTypeSelectable={sprintTypeSelectable}
+          moveToComment={() => this.moveToComment()}
           onFocus={e => this.onFocus(e)}
         />
         <AddIssueModal

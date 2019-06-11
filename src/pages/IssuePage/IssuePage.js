@@ -66,7 +66,7 @@ const IssuePage = props => {
     sprintTypeSelectable,
     componentSelectable,
     onChangeCommentValue,
-    postComment,
+    moveToComment,
     handleKeyPress
   } = props;
   // console.log(issueInfo);
@@ -271,7 +271,7 @@ const IssuePage = props => {
                     </button>
                   </div>
                   <div className="btn-group m-b-5">
-                    <button type="button" className="btn btn-default btn-sm">
+                    <button onClick = {() => moveToComment()} type="button" className="btn btn-default btn-sm">
                       <i className="fa fa-commenting-o" title="Comment" />{" "}
                       Comment
                     </button>
