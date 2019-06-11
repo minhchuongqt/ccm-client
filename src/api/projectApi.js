@@ -13,6 +13,9 @@ class ProjectApi {
     createProject = (data) => {
         return API.post('/project', data)
     }
+    deleteProject = (id) => {
+        return API.remove('/project/' + id)
+    }
 }
 
 const projectApi = new ProjectApi()

@@ -46,6 +46,7 @@ const SideBar = props => {
               <ul className="treeview-menu">
               <li><Link to={PATH.USER_URL}><i className="fa fa-circle-o"></i> User Management</Link></li>
               <li><Link to={PATH.WORKFLOW_URL}><i className="fa fa-circle-o"></i> Workflow</Link></li>
+              <li><Link to={PATH.PROJECT_SETTING_URL}><i className="fa fa-circle-o"></i> System Setting</Link></li>
               </ul>
             </li>
         </ul>
