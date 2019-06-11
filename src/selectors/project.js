@@ -7,8 +7,22 @@ export const listProject = ({ProjectState}) => {
     const result =  ProjectState.listProject.map(item => ({...item.project, count: item.count }))
     return result.map(item => (
         {...item, 
-        createdDate: moment(item.createdAt).format('MMM DD, YYYY'),
-        updatedDate: moment(item.updatedAt).format('MMM DD, YYYY')
+        createdDate: moment(item.createdAt).calendar(null, {
+            sameDay: 'hh:mm:ss a, [Today]',
+            nextDay: 'hh:mm:ss a, [Tomorrow]',
+            nextWeek: 'hh:mm:ss a, dddd',
+            lastDay: 'hh:mm:ss a, [Yesterday]',
+            lastWeek: 'hh:mm:ss a, [Last] dddd',
+            sameElse: 'hh:mm:ss a, MMM DD YYYY'
+          }),
+        updatedDate: moment(item.updatedAt).calendar(null, {
+            sameDay: 'hh:mm:ss a, [Today]',
+            nextDay: 'hh:mm:ss a, [Tomorrow]',
+            nextWeek: 'hh:mm:ss a, dddd',
+            lastDay: 'hh:mm:ss a, [Yesterday]',
+            lastWeek: 'hh:mm:ss a, [Last] dddd',
+            sameElse: 'hh:mm:ss a, MMM DD YYYY'
+          })
     }))
 }
 

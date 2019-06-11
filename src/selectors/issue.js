@@ -259,6 +259,8 @@ export const getIssueInfo = createSelector(
         const component = result.component ? result.component.map(item => componentSelectable.find(a => item === a.value)) : [];
         const priority = result.priority ?  prioritySelectable.find(a => a.value === result.priority._id || a.value === result.priority) : {};
         // console.log(sprint)
+        //sprint history
+        const sprintHistory = result.sprintHistory ? result.sprintHistory.map(item => sprintSelectable.find(s => s.value == item)) : []
         return {...result,
             assignee,
             priority,
@@ -267,10 +269,25 @@ export const getIssueInfo = createSelector(
             storyPoints,
             version,
             sprint,
+            sprintHistory,
             component,
             attachs: (result.attachs || []).map(item => item && API + item),
-            createdDate: moment(result.createdAt).format('MMM DD YYYY, hh:mm:ss a'),
-            updatedDate: moment(result.updatedAt).format('MMM DD YYYY, hh:mm:ss a')
+            createdDate: moment(result.createdAt).calendar(null, {
+                sameDay: 'hh:mm:ss a, [Today]',
+                nextDay: 'hh:mm:ss a, [Tomorrow]',
+                nextWeek: 'hh:mm:ss a, dddd',
+                lastDay: 'hh:mm:ss a, [Yesterday]',
+                lastWeek: 'hh:mm:ss a, [Last] dddd',
+                sameElse: 'hh:mm:ss a, MMM DD YYYY'
+              }),
+            updatedDate: moment(result.updatedAt).calendar(null, {
+                sameDay: 'hh:mm:ss a, [Today]',
+                nextDay: 'hh:mm:ss a, [Tomorrow]',
+                nextWeek: 'hh:mm:ss a, dddd',
+                lastDay: 'hh:mm:ss a, [Yesterday]',
+                lastWeek: 'hh:mm:ss a, [Last] dddd',
+                sameElse: 'hh:mm:ss a, MMM DD YYYY'
+              })
         }
     }
 )
