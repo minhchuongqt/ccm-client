@@ -49,7 +49,8 @@ class BacklogPageContainer extends Component {
       displayAddSubtask: false,
       subTaskSummary: '',
       displayEditSummary: false,
-      issueSummary: ''
+      issueSummary: '',
+      isOpenConfirmMoveIssueInActiveSprintModal: false,
     };
   }
   componentWillMount() {
@@ -408,6 +409,13 @@ class BacklogPageContainer extends Component {
     this.props.changeSearchValue(value)
   }
 
+  // openConfirmMoveIssueInActiveSprintModal = () => {
+  //   this.setState({isOpenConfirmMoveIssueInActiveSprintModal: true})
+  // }
+  // closeConfirmMoveIssueInActiveSprintModal = () => {
+  //   this.setState({isOpenConfirmMoveIssueInActiveSprintModal: false})
+  // }
+
   render() {
     const {
       listSprint,
@@ -436,7 +444,7 @@ class BacklogPageContainer extends Component {
       isOpenAddIssueModal,
       addIssueToSprint,
       displayDescriptionEditor, description,  displayAddSubtask,
-      subTaskSummary, issueSummary
+      subTaskSummary, issueSummary, isOpenConfirmMoveIssueInActiveSprintModal
     } = this.state;
     // console.log("sprint: ", isOpenAddSprintModal);
     // console.log("issue: ", isOpenAddIssueModal);searchValue,
@@ -451,6 +459,9 @@ class BacklogPageContainer extends Component {
           chooseActive={active => this.chooseActive(active)}
           initialData={initialData}
           searchValue={searchValue}
+          getListSprint={() => this.getListSprint()}
+          // openConfirmMoveIssueInActiveSprintModal={this.openConfirmMoveIssueInActiveSprintModal()}
+          
           openAddIssueModal={data => this.openAddIssueModal(data)}
           changeIssueSprint={(issueId, fromSprint, toSprint) => this.changeIssueSprint(issueId, fromSprint, toSprint)}
           displayDescriptionEditor={displayDescriptionEditor}
@@ -506,6 +517,10 @@ class BacklogPageContainer extends Component {
           validate={data => this.validate(data)}
           onChangeStartValue={(name, value) => this.onChangeStartValue(name, value)}
         />
+        {/* <ConfirmModal 
+          isOpenConfirmMoveIssueInActiveSprintModal={isOpenConfirmMoveIssueInActiveSprintModal}
+          closeModal={this.closeConfirmMoveIssueInActiveSprintModal}
+        /> */}
       </div>
     );
   }

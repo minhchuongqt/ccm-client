@@ -57,6 +57,8 @@ const BacklogPage = props => {
     handleKeyPress,
     searchValue,
     onChangeSearchValue,
+    openConfirmMoveIssueInActiveSprintModal,
+    getListSprint
   } = props
   let selectableIssueType = issueInfo.issueType
     ? issueTypeSelectable.filter(
@@ -110,6 +112,8 @@ const BacklogPage = props => {
       <div className="row height-fill">
         <div className={`col-md-${_.isEmpty(issueInfo.summary) && '11 ' || '6 scroll-detail'} p-r-0`}>
         <DragDropComponent
+        getListSprint={() => getListSprint()}
+        openConfirmMoveIssueInActiveSprintModal={openConfirmMoveIssueInActiveSprintModal}
         changeIssueSprint={(issueId, fromSprint, toSprint) => changeIssueSprint(issueId, fromSprint, toSprint)}
         openAddIssueModal = {data => openAddIssueModal(data)} 
         openStartSprintModal = {data => openStartSprintModal(data)} 

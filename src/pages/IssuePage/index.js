@@ -376,7 +376,6 @@ class IssuePageContainer extends Component {
   }
   createSubtask = () => {
     const { selectedProject, issueTypeSelectable, issueInfo, prioritySelectable } = this.props
-    const { selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType } = this.props
     const { subTaskSummary } = this.state
     const data = {
       project: selectedProject._id,

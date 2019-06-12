@@ -6,10 +6,16 @@ import initialData from "./initial-data";
 import Column from "./column";
 import "@atlaskit/css-reset";
 import * as selectors from '../../../selectors/backlog'
+import ConfirmModal from './ConfirmModal'
 class DragDropComponents extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { ...this.props.initialData }
+    this.state = { 
+      ...this.props.initialData,
+      isOpenModal: false,
+      confirmMessage: '',
+      moveIssueData: {}
+     }
   }
 
   componentWillReceiveProps(newProps) {
@@ -33,11 +39,11 @@ class DragDropComponents extends React.Component {
   //   document.body.style.backgroundColor = `rgba(153, 141, 217, ${opacity}`
   // }
 
-  onDragEnd = result => {
+  moveIssue = async (result) => {
     this.setState({ homeIndex: null });
-    // document.body.style.color = 'inherit'
     const { destination, source, draggableId } = result;
-    this.props.changeIssueSprint(draggableId, source.droppableId, destination.droppableId)
+    await this.props.changeIssueSprint(draggableId, source.droppableId, destination.droppableId)
+    this.props.getListSprint()
     if (!destination) {
       return;
     }
@@ -98,7 +104,30 @@ class DragDropComponents extends React.Component {
       }
     };
     this.setState(newState);
+  }
+
+  onDragEnd = async result => {
+    
+    const {sprintSelectable} = this.props
+    // document.body.style.color = 'inherit'
+    console.log(result)
+    const { destination, source, draggableId } = result;
+    if(sprintSelectable.find(item => item.value === source.droppableId).active) {
+      const sourceSprint = sprintSelectable.find(item => item.value === source.droppableId)
+      const destinationSprint = sprintSelectable.find(item => item.value === destination.droppableId)
+      const text = `This issue will be moved from sprint &nbsp;<b>${destinationSprint.label}</b>&nbsp; to sprint &nbsp;<b>${sourceSprint.label}</b>`
+      await this.setState({isOpenModal: true, confirmMessage: text, moveIssueData: result})
+      // console.log('warning')
+    } else {
+      this.moveIssue(result)
+    }
+
+    
   };
+
+  closeModal = () => {
+    this.setState({isOpenModal: false, moveIssueData: {}})
+  }
 
   render() {
     const backlogColumn = {
@@ -115,9 +144,16 @@ class DragDropComponents extends React.Component {
     })
     
     const { openAddSprintModal, initialData, openAddIssueModal, openStartSprintModal } = this.props
-    // console.log(this.props)
+    const {isOpenModal, confirmMessage, moveIssueData} = this.state
+    console.log(isOpenModal)
     return (
       <div>
+        <ConfirmModal 
+          openModal={isOpenModal}
+          closeModal={this.closeModal}
+          confirmMessage={confirmMessage}
+          moveIssue={() => this.moveIssue(moveIssueData)}
+        />
         <DragDropContext
           onDragStart={this.onDragStart}
           // onDragUpdate={this.onDragUpdate}
@@ -177,6 +213,7 @@ class DragDropComponents extends React.Component {
             }
           })}
         </DragDropContext>
+        
       </div>
     );
   }
@@ -184,6 +221,7 @@ class DragDropComponents extends React.Component {
 
 const mapStateToProp = state => ({
   // initialData: selectors.getInitalData(state)
+  sprintSelectable: selectors.getSprintTypeSelectable(state)
 })
 
 const mapDispatchToProp = dispatch => ({
