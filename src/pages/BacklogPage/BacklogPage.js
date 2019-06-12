@@ -88,7 +88,7 @@ const BacklogPage = props => {
       )
     : prioritySelectable;
 
-  // console.log(issueInfo)
+  console.log(issueInfo)
   // const {  initialData, openAddIssueModal, openStartSprintModal } = props
   return (
     <div id="backlog-view">
@@ -685,7 +685,7 @@ const BacklogPage = props => {
                           </div>
                           <div
                             id="collapseActivity"
-                            className="panel-collapse collapse"
+                            className="panel-collapse"
                           >
                             <div className="box-body">
                               {issueInfo.activities &&
@@ -733,6 +733,7 @@ const BacklogPage = props => {
                           >
                             {issueInfo.comments &&
                               issueInfo.comments.map((item, index) => {
+                                if (item.content)
                                 return (
                                   <div
                                     key={index}
@@ -877,7 +878,7 @@ const BacklogPage = props => {
                             className="panel-collapse collapse in"
                           >
                             <div className="box-body" style={{color: "#6d7074"}}>
-                              {issueInfo.sprintHistory.map((item, idx) => {
+                              {issueInfo.sprintHistory && issueInfo.sprintHistory.map((item, idx) => {
                                 if(idx > 0) {
                                   return (
                                     <ul key={idx} className="list-unstyled">

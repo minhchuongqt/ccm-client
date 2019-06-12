@@ -61,6 +61,7 @@ class BacklogPageContainer extends Component {
     this.props.getListLabel(this.getBaseOption());
     this.props.getListStoryPoint(this.getBaseOption());
     this.props.getListComponent(this.getBaseOption())
+    this.props.getListAllSprint(this.getBaseOption())
     this.getListSprint();
     this.getListUser();
     this.getListBacklogIssue();
@@ -121,6 +122,7 @@ class BacklogPageContainer extends Component {
     if (removeIssueStatus) {
       toast.success("Remove issue successfully");
       // this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType)
+      this.getListBacklogIssue();
       this.props.resetRemoveIssueStatus()
     }
 
@@ -646,6 +648,9 @@ const mapDispatchToProps = dispatch => ({
   createIssue(data) {
     dispatch(issueActions.createIssue(data));
   },
+  getListAllSprint(query) {
+    dispatch(actions.getListAllSprint(query))
+  }
   // resetAllData() {
   // }
 });

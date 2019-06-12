@@ -2,7 +2,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import {API} from '../config'
 import { createSelector } from 'reselect';
-import { getSprintTypeSelectable } from './backlog';
+import { getSprintTypeSelectable, getListAllSprint } from './backlog';
 import { getComponentSelectable } from './component';
 //params
 export const getListIssue = ({IssueState}) => {
@@ -241,10 +241,11 @@ export const getIssueInfo = createSelector(
         getStoryPointSelectable,
         getVersionSelectable,
         getSprintTypeSelectable,
-        getComponentSelectable
+        getComponentSelectable,
+        getListAllSprint,
     ], (selectedIssue, listIssue, issueTypeSelectable, assigneeSelectable, 
         prioritySelectable, labelSelectable, storyPointSelectable,
-         versionSelectable, sprintSelectable, componentSelectable) => {
+         versionSelectable, sprintSelectable, componentSelectable, listAllSprint) => {
         // console.log(labelSelectable)
         let result = {}
         if(_.isEmpty(selectedIssue)) {
@@ -264,7 +265,7 @@ export const getIssueInfo = createSelector(
         const priority = result.priority ?  prioritySelectable.find(a => a.value === result.priority._id || a.value === result.priority) : {};
         // console.log(sprint)
         //sprint history
-        const sprintHistory = result.sprintHistory ? result.sprintHistory.map(item => sprintSelectable.find(s => s.value == item)) : []
+        const sprintHistory = result.sprintHistory ? result.sprintHistory.map(item => listAllSprint.find(s => s.value == item)) : []
         return {...result,
             assignee,
             priority,

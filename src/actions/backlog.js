@@ -1,6 +1,7 @@
 import { GET_LIST_SPRINT, CREATE_SPRINT, GET_LIST_BACKLOG_ISSUE,
      GET_SPRINT_ACTIVE, GET_SPRINT_ACTIVE_INFO, START_SPRINT, COMPLETE_SPRINT, CHANGE_COMPLETE_SPRINT_VALUE,
-     CHANGE_SEARCH_VALUE
+     CHANGE_SEARCH_VALUE,
+     GET_LIST_ALL_SPRINT
      } from '../constants/types/backlog';
 import BacklogApi from '../api/backlogApi';
 import toast from 'react-toastify'
@@ -81,4 +82,12 @@ export const changeCompleteSprintValue = (key, value) => dispatch => {
 
 export const changeSearchValue = value => dispatch => {
     dispatch({type: CHANGE_SEARCH_VALUE, payload: value})
+}
+
+export const getListAllSprint = data => dispatch => {
+    BacklogApi.getListAllSprint(data).then(res => {
+        if(res.data) {
+            dispatch({type: GET_LIST_ALL_SPRINT, payload: res.data.data})
+        }
+    })
 }

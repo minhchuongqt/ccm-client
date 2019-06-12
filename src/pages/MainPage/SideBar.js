@@ -28,7 +28,7 @@ const SideBar = props => {
               <Link to ={PATH.ISSUE_URL}><i className="fa fa-suitcase"></i> <span> Issues</span></Link>
           </li>
           <li >
-              <Link to ={PATH.COMPONENT_URL}><i className="fa fa-suitcase"></i> <span> Component</span></Link>
+              <Link to ={PATH.COMPONENT_URL}><i className="fa fa-th-large"></i> <span> Component</span></Link>
           </li>
           <li >
               <Link to ={PATH.RELEASE_URL}><i className="fa fa-cube"></i> <span> Releases</span></Link>
@@ -38,7 +38,7 @@ const SideBar = props => {
           </li>
 
           <li className="treeview">
-              <a><i className="fa fa-gear"></i> Setting
+              <a className="cursor-pointer"><i className="fa fa-gear"></i> Setting
                 <span className="pull-right-container">
                   <i className="fa fa-angle-left pull-right"></i>
                 </span>

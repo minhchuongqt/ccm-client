@@ -155,7 +155,7 @@ export default class Column extends React.Component {
     this.setState({isShowInput: true})
   }
   render() {
-    const { openAddIssueModal, column, sprintActived, disableAction, openStartSprintModal, selectableIssueType, createIssue } = this.props
+    const { openAddIssueModal, column, sprintActived, disableAction, openStartSprintModal, selectableIssueType, createIssue, tasks } = this.props
     const {isShowInput, summary, issueType} = this.state
     const storyType =  (selectableIssueType || []).find(item => item.label == 'Story' && item)
     // console.log(issueType)
@@ -178,7 +178,13 @@ export default class Column extends React.Component {
               <ToDoCount>{column.count.toDo || ' 0 '}</ToDoCount>
             </IssueCount>
             }
-             { !column.active && column.name && <ButtonGroup><ButtonStart disabled = {sprintActived} onClick={() => openStartSprintModal(column._id)}>Start</ButtonStart></ButtonGroup>}
+             { !column.active && column.name && 
+              <ButtonGroup>
+                <ButtonStart disabled = {sprintActived || tasks.length <= 0} onClick={() => openStartSprintModal(column._id)}>
+                  Start
+                  </ButtonStart>
+                </ButtonGroup>
+            }
           </TitleRow>
         <Droppable 
         droppableId={this.props.column.id}

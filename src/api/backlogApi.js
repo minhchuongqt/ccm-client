@@ -23,6 +23,9 @@ class BacklogApi {
     createSprint = (data) => {
         return API.post('/sprint', data)
     }
+    getListAllSprint = (params) => {
+        return API.get('/sprint', {params})
+    }
 }
 
 const backlogApi = new BacklogApi()

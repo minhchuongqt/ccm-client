@@ -43,7 +43,9 @@ class ActiveSprintPageContainer extends Component {
         }
         
         if(_.isEmpty(completeForm.moveToSprint)) {
-          const temp = _.cloneDeep(sprintTypeSelectable).filter(item => item.active != true && item.completed != true)[0]
+          let temp = _.cloneDeep(sprintTypeSelectable) 
+          temp.push({label: 'Backlog', value: ''})
+          temp = temp.filter(item => item.active != true && item.completed != true)[0]
           completeForm = {...completeForm, moveToSprint: temp}
           this.setState({completeForm})
         }

@@ -61,6 +61,8 @@ const issueInfo = (state = {}, action) => {
   switch (type) {
     case GET_ISSUE_INFO:
       return payload;
+    case RESET_REMOVE_ISSUE_STATUS:
+      return {};
     default:
       return state;
   }

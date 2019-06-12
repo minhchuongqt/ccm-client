@@ -772,6 +772,8 @@ const IssuePage = props => {
                           >
                             {issueInfo.comments &&
                               issueInfo.comments.map((item, index) => {
+                                console.log(item)
+                                if (item.content)
                                 return (
                                   <div
                                     key={index}

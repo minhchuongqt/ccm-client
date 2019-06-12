@@ -37,43 +37,7 @@ const AddSprintModal = props => {
             </div>
           </div>
 
-              {/* <DateTime 
-                timeFormat={false}
-                inputProps={{placeholder: "Date picker here"}}
-              /> */}
-          <div className="form-group">
-            <label  className="col-sm-3 control-label">Start date</label>
-            <div className="col-sm-9">
-              {/* <div className="input-group date"> */}
-                {/* <div className="input-group-addon">
-                  <i htmlFor="startsssr" className="fa fa-calendar"></i>
-                </div> */}
-                <DatePicker 
-                  id="startsssr"
-                  width= "100%"
-                  // showTimeSelect
-                  // placeholderText="20/12/2018"
-                  selected={data.startDate}
-                  onChange={e => onChangeValue('startDate', e)}
-              />
-              {/* </div> */}
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label  className="col-sm-3 control-label">End date</label>
-            <div className="col-sm-9">
-              {/* <div className="input-group date"> */}
-                {/* <div className="input-group-addon">
-                  <i className="fa fa-calendar"></i>
-                </div> */}
-                <DatePicker 
-                  selected={data.endDate}
-                  onChange={e => onChangeValue('endDate', e)}
-                />
-              {/* </div> */}
-            </div>
-          </div>
+          
           <div className="form-group">
             <label className="col-sm-3 control-label">Sprint goal</label>
             <div className="col-sm-9">
