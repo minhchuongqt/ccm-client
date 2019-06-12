@@ -88,7 +88,7 @@ const BacklogPage = props => {
       )
     : prioritySelectable;
 
-  console.log(issueInfo)
+  // console.log(issueInfo)
   // const {  initialData, openAddIssueModal, openStartSprintModal } = props
   return (
     <div id="backlog-view">

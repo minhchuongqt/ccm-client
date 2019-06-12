@@ -245,10 +245,10 @@ export const getIssueInfo = createSelector(
         getListAllSprint,
     ], (selectedIssue, listIssue, issueTypeSelectable, assigneeSelectable, 
         prioritySelectable, labelSelectable, storyPointSelectable,
-         versionSelectable, sprintSelectable, componentSelectable, listAllSprint) => {
-        // console.log(labelSelectable)
+         versionSelectable, sprintSelectable, componentSelectable, listAllSprint) => (backlog = false) => {
+        // console.log(backlog)
         let result = {}
-        if(_.isEmpty(selectedIssue)) {
+        if(_.isEmpty(selectedIssue) && backlog !=true) {
             result = (listIssue[0]) || {}
         } else {
             result = selectedIssue || {}

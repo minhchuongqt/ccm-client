@@ -50,6 +50,7 @@ class IssuePageContainer extends Component {
     this.props.getListLabel(this.getBaseOption());
     this.props.getListStoryPoint(this.getBaseOption());
     this.props.getListComponent(this.getBaseOption())
+    this.props.getListAllSprint(this.getBaseOption())
     this.getListSprint();
     this.getListUser();
     this.getListWorkflow();
@@ -113,6 +114,11 @@ class IssuePageContainer extends Component {
     if (issueSummary !== newProps.issueInfo.summary) {
       this.setState({ issueSummary: newProps.issueInfo.summary });
     }
+  }
+
+  componentWillUnmount = () => {
+    console.log('unmount')
+    this.props.resetRemoveIssueStatus()
   }
 
   onFocus = (e) => {
@@ -510,7 +516,7 @@ const mapState = state => {
 
     addIssueFormValue: state.IssueState.addIssueFormValue,
     addIssueValueForApi: selectors.generateDataForAddIssue(state),
-    issueInfo: selectors.getIssueInfo(state),
+    issueInfo: selectors.getIssueInfo(state)(false),
     userInfo: userSelectors.getUserInfo(state),
     filterableForUserIssue: selectors.getFilterableForUserIssue(state),
     filterableForDetailIssue: selectors.getFilterableForDetailIssue(state),
@@ -562,6 +568,9 @@ const mapDispatchToProps = dispatch => ({
   },
   getListSprint(query) {
     dispatch(backlogActions.getListSprint(query));
+  },
+  getListAllSprint(query) {
+    dispatch(backlogActions.getListAllSprint(query));
   },
   selectIssue(issue) {
     dispatch(actions.selectIssue(issue));
@@ -616,6 +625,9 @@ const mapDispatchToProps = dispatch => ({
   },
   postComment(data) {
     dispatch(actions.postComment(data))
+  },
+  resetAllData() {
+    dispatch(actions.resetAllData())
   }
 });
 

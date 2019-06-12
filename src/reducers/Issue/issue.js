@@ -22,7 +22,8 @@ import {
   REMOVE_ISSUE_STATUS,
   RESET_REMOVE_ISSUE_STATUS,
   POST_COMMENT_STATUS,
-  RESET_POST_COMMENT_STATUS
+  RESET_POST_COMMENT_STATUS,
+  RESET_DATA
 } from "../../constants/types/issue";
 import { combineReducers } from "redux";
 import _ from 'lodash'
@@ -62,6 +63,7 @@ const issueInfo = (state = {}, action) => {
     case GET_ISSUE_INFO:
       return payload;
     case RESET_REMOVE_ISSUE_STATUS:
+      console.log("voo roi")
       return {};
     default:
       return state;
@@ -250,4 +252,10 @@ const IssueState = combineReducers({
   postCommentStatus
 });
 
-export default IssueState;
+export default (state, action) => {
+  const { type } = action;
+  if (type === RESET_DATA) {
+    return {};
+  }
+  return IssueState(state, action);
+};

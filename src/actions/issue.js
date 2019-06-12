@@ -14,7 +14,8 @@ import { GET_ISSUE_LIST, CREATE_ISSUE, GET_ISSUE_TYPE, CHANGE_ADD_ISSUE_VALUE,
      RESET_REMOVE_ISSUE_STATUS,
      POST_COMMENT,
      RESET_POST_COMMENT_STATUS,
-     POST_COMMENT_STATUS
+     POST_COMMENT_STATUS,
+     RESET_DATA
 } from '../constants/types/issue';
 import IssueApi from '../api/issueApi';
 import BaseApi from '../api/base'
@@ -258,4 +259,8 @@ export const removeIssue = (id) => dispatch => {
             }
         }
     })
+}
+
+export const resetAllData = () => dispatch => {
+    dispatch({type: RESET_DATA})
 }

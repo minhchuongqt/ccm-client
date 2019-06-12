@@ -562,7 +562,7 @@ const mapStateToProps = state => ({
   componentSelectable: componentSelectors.getComponentSelectable(state),
 
   createIssueStatus: issueSelectors.getCreateIssueStatus(state),
-  issueInfo: issueSelectors.getIssueInfo(state),
+  issueInfo: issueSelectors.getIssueInfo(state)(true),
   userInfo: userSelectors.getUserInfo(state),
 
   updateIssueStatus: issueSelectors.getUpdateIssueStatus(state),

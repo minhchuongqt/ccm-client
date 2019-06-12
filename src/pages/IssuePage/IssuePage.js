@@ -69,7 +69,7 @@ const IssuePage = props => {
     moveToComment,
     handleKeyPress
   } = props;
-  console.log(issueInfo);
+  // console.log(issueInfo);
   // console.log(sprintTypeSelectable)
   let selectableIssueType = issueInfo.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
 
@@ -772,7 +772,7 @@ const IssuePage = props => {
                           >
                             {issueInfo.comments &&
                               issueInfo.comments.map((item, index) => {
-                                console.log(item)
+                                // console.log(item)
                                 if (item.content)
                                 return (
                                   <div
@@ -919,11 +919,11 @@ const IssuePage = props => {
                             className="panel-collapse collapse in"
                           >
                             <div className="box-body" style={{color: "#6d7074"}}>
-                              {issueInfo.sprintHistory.map((item, idx) => {
+                              {issueInfo.sprintHistory && issueInfo.sprintHistory.map((item, idx) => {
                                 if(idx > 0) {
                                   return (
                                     <ul key={idx} className="list-unstyled">
-                                      <li>{issueInfo.sprintHistory[idx - 1].label} &nbsp;&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;&nbsp; {item.label}</li>
+                                      <li>{issueInfo.sprintHistory[idx - 1].label} &nbsp;&nbsp;<i className="fa fa-arrow-right"></i>&nbsp;&nbsp; {item.label}</li>
                                     </ul>
                                   ) 
                                 } 

@@ -15,7 +15,7 @@ const CompleteSprintModal = props => {
     issueCompleteInfo,
     doneAll
   } = props;
-  console.log(doneAll)
+  // console.log(doneAll)
   
   return (
     <Modal isOpen={openCompleteModal} title={`Complete Sprint: ${activeSprintInfo.name}`} closeModal={closeCompleteModal} >
