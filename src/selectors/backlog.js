@@ -40,7 +40,8 @@ export const getSprintTypeSelectable = ({BacklogState}) => {
         {
             label: item.name,
             value: item._id,
-            active: item.active
+            active: item.active,
+            completed: item.completed,
         }
         ))
     return result

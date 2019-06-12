@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select, { components } from 'react-select';
+import makeAnimated from 'react-select/lib/animated';
 // import 'react-select/dist/react-select.css';
-const { Option, MultiValue  } = components;
+const { Option, SingleValue  } = components;
 const IconOption = (props) => {
   return (
     <Option {...props}>
@@ -13,18 +14,17 @@ const IconOption = (props) => {
 
 const ValueOption = props => {
   return (
-    <MultiValue {...props} style> 
+    <SingleValue {...props}> 
         {props.data.iconUrl && 
           <img 
             src={props.data.iconUrl} width="16px"/>}&nbsp;
-        {" "+(props.data.label || '')} 
-    </MultiValue>
+    </SingleValue>
   )
 }
 
-const MultiSelect = (props) => {
+const IconSelect = (props) => {
   const { isValid } = props;
-  let style = {};
+  let style = {...props.style};
   if (isValid !== null) {
     const color = isValid ? '#3c763d' : '#a94442';
     style = { borderColor: color };
@@ -32,24 +32,24 @@ const MultiSelect = (props) => {
 
   return (
     <Select
-      closeMenuOnSelect={false}
-      components={{Option: IconOption, MultiValue: ValueOption  }}
+      closeMenuOnSelect={true}
+      components={makeAnimated()}
       {...props}
       style={style}
-      isMulti
       name="colors"
-      className="basic-multi-select"
+      components={ {Option: IconOption, SingleValue: ValueOption  } }
+      // className="basic-multi-select"
       classNamePrefix="select"
     />
   );
 };
 
-MultiSelect.propTypes = {
+IconSelect.propTypes = {
   isValid: PropTypes.bool,
 };
 
-MultiSelect.defaultProps = {
+IconSelect.defaultProps = {
   isValid: null,
 };
 
-export default MultiSelect;
+export default IconSelect;

@@ -22,6 +22,7 @@ import BacklogPageView from "./BacklogPage";
 import AddSprintModal from "./AddSprintModal";
 import StartSprintModal from "./StartSprintModal";
 import AddIssueModal from "../../components/addIssueModal";
+import moment from "moment";
 
 class BacklogPageContainer extends Component {
   constructor(props) {
@@ -35,11 +36,11 @@ class BacklogPageContainer extends Component {
         goal: ""
       },
       startForm: {
-        name: "",
+        // name: "",
         sprint: "",
-        startDate: "",
-        endDate: "",
-        goal: ""
+        startDate: new Date(),
+        endDate: new Date(moment().add(14, 'days')),
+        // goal: ""
       },
       isOpenAddIssueModal: false,
       isOpenAddSprintModal: false,
@@ -51,6 +52,7 @@ class BacklogPageContainer extends Component {
       displayEditSummary: false,
       issueSummary: '',
       isOpenConfirmMoveIssueInActiveSprintModal: false,
+      startSprintName: '',
     };
   }
   componentWillMount() {
@@ -231,13 +233,17 @@ class BacklogPageContainer extends Component {
     this.setState({ isOpenAddSprintModal: false });
   };
   openStartSprintModal = (sprintId) => {
+    const {startForm} = this.state
     this.setState({
       startForm: {
+        ...startForm,
         sprint: sprintId,
         project: this.props.selectedProject._id,
       }
        });
-       this.setState({ isOpenStartSprintModal: true });
+       const {sprintTypeSelectable} = this.props
+       const startSprintName = sprintTypeSelectable.find(sprint => sprint.value == sprintId && sprint).label || ''
+       this.setState({ isOpenStartSprintModal: true , startSprintName});
   };
   closeStartSprintModal = () => {
     this.setState({
@@ -265,6 +271,7 @@ class BacklogPageContainer extends Component {
     };
     if (this.validate(data)) {
       // toast.success("OK")
+      // console.log(data)
       this.props.createSprint(data);
     }
   };
@@ -416,6 +423,11 @@ class BacklogPageContainer extends Component {
   //   this.setState({isOpenConfirmMoveIssueInActiveSprintModal: false})
   // }
 
+  createIssue = (summary, issueType, sprint) => {
+    const {selectedProject} = this.props
+    this.props.createIssue({summary, issueType, sprint, project: selectedProject._id})
+  }
+
   render() {
     const {
       listSprint,
@@ -444,7 +456,7 @@ class BacklogPageContainer extends Component {
       isOpenAddIssueModal,
       addIssueToSprint,
       displayDescriptionEditor, description,  displayAddSubtask,
-      subTaskSummary, issueSummary, isOpenConfirmMoveIssueInActiveSprintModal
+      subTaskSummary, issueSummary, isOpenConfirmMoveIssueInActiveSprintModal, startSprintName
     } = this.state;
     // console.log("sprint: ", isOpenAddSprintModal);
     // console.log("issue: ", isOpenAddIssueModal);searchValue,
@@ -461,7 +473,7 @@ class BacklogPageContainer extends Component {
           searchValue={searchValue}
           getListSprint={() => this.getListSprint()}
           // openConfirmMoveIssueInActiveSprintModal={this.openConfirmMoveIssueInActiveSprintModal()}
-          
+          createIssue={(summary, issueType, sprint) => this.createIssue(summary, issueType, sprint)}
           openAddIssueModal={data => this.openAddIssueModal(data)}
           changeIssueSprint={(issueId, fromSprint, toSprint) => this.changeIssueSprint(issueId, fromSprint, toSprint)}
           displayDescriptionEditor={displayDescriptionEditor}
@@ -511,6 +523,7 @@ class BacklogPageContainer extends Component {
         />
         <StartSprintModal
           data={startForm}
+          startSprintName={startSprintName}
           openStartModal={isOpenStartSprintModal}
           closeStartModal={this.closeStartSprintModal}
           startSprint={this.startSprint}
@@ -629,7 +642,10 @@ const mapDispatchToProps = dispatch => ({
   },
   postComment(data) {
     dispatch(issueActions.postComment(data))
-  }
+  },
+  createIssue(data) {
+    dispatch(issueActions.createIssue(data));
+  },
   // resetAllData() {
   // }
 });

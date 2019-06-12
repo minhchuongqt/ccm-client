@@ -58,13 +58,10 @@ const BacklogPage = props => {
     searchValue,
     onChangeSearchValue,
     openConfirmMoveIssueInActiveSprintModal,
-    getListSprint
+    getListSprint,
+    createIssue
   } = props
-  let selectableIssueType = issueInfo.issueType
-    ? issueTypeSelectable.filter(
-        item => item.value !== issueInfo.issueType.value && item
-      )
-    : issueTypeSelectable;
+  let selectableIssueType = issueInfo.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
 
   let selectableStoryPoint = issueInfo.storyPoints
     ? storyPointSelectable.filter(
@@ -112,6 +109,8 @@ const BacklogPage = props => {
       <div className="row height-fill">
         <div className={`col-md-${_.isEmpty(issueInfo.summary) && '11 ' || '6 scroll-detail'} p-r-0`}>
         <DragDropComponent
+        selectableIssueType={selectableIssueType}
+        createIssue={(summary, issueType, sprint) => createIssue(summary, issueType, sprint)}
         getListSprint={() => getListSprint()}
         openConfirmMoveIssueInActiveSprintModal={openConfirmMoveIssueInActiveSprintModal}
         changeIssueSprint={(issueId, fromSprint, toSprint) => changeIssueSprint(issueId, fromSprint, toSprint)}
@@ -348,6 +347,7 @@ const BacklogPage = props => {
                                     <SearchSelect
                                       id="issue-page-multi-select"
                                       value={issueInfo.issueType || {}}
+                                      isDisabled={(issueInfo.issueType || {}).label == 'Sub Task' }
                                       options={selectableIssueType || []}
                                       onChange={e => updateIssueDetail('issueType', e)}
                                     />

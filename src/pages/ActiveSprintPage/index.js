@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ActiveSprintPageView from './ActiveSprintPage';
 import { connect } from 'react-redux'
 import { toast } from "react-toastify";
+import _ from 'lodash'
 
 import * as issueActions from '../../actions/issue'
 import * as sprintActions from '../../actions/backlog'
@@ -20,14 +21,15 @@ class ActiveSprintPageContainer extends Component {
             workflow: "",
           },
           completeForm: {
-            moveToSprint: "",
+            moveToSprint: {},
           },
           isOpenCompleteSprintModal: false,
         };
       }
       componentWillReceiveProps(newProps) {
-        const { completeSprintStatus, changeIssueWorkflowStatus
+        const { completeSprintStatus, changeIssueWorkflowStatus, sprintTypeSelectable
         } = newProps;
+        let {completeForm} = this.state
         if (completeSprintStatus) {
           toast.success("Complete sprint successfully");
           this.setState({ isOpenCompleteSprintModal: false });
@@ -38,6 +40,12 @@ class ActiveSprintPageContainer extends Component {
           // toast.success("Changed");
           this.getListWorkflow();
           this.getActiveSprint();
+        }
+        
+        if(_.isEmpty(completeForm.moveToSprint)) {
+          const temp = _.cloneDeep(sprintTypeSelectable).filter(item => item.active != true && item.completed != true)[0]
+          completeForm = {...completeForm, moveToSprint: temp}
+          this.setState({completeForm})
         }
       }
 
@@ -102,9 +110,11 @@ class ActiveSprintPageContainer extends Component {
     completeSprint = () => {
       const { completeForm } = this.state;
       const data = {
-        ...completeForm
+        ...completeForm,
+        moveToSprint: completeForm.moveToSprint.value
       };
         // toast.success("Sprint successfully completed")
+        // console.log(data)
         this.props.completeSprint(data);
         
     };
@@ -114,7 +124,9 @@ class ActiveSprintPageContainer extends Component {
       this.setState({ completeForm });
     };
     changeCompleteSprintValue = (name, value) => {
-      this.props.changeCompleteSprintValue(name, value)
+      let completeForm = this.state.completeForm
+      completeForm[name] = value
+      this.setState({completeForm})
     };
     getListSprint = () => {
       const params = {
@@ -146,12 +158,14 @@ class ActiveSprintPageContainer extends Component {
     }
 
     render() {
-        const { dataForBoard, activeSprintInfo, sprintTypeSelectable, issueCompleteInfo, searchValue } = this.props
-        // console.log(issueCompleteInfo)
+        const { dataForBoard, activeSprintInfo, sprintTypeSelectable, issueCompleteInfo, searchValue, doneAll } = this.props
+        // console.log(doneAll)
         const {
           isOpenCompleteSprintModal,
           completeForm
         } = this.state;
+        let sprintSelectable = _.cloneDeep(sprintTypeSelectable).filter(item => item.active != true && item.completed != true)
+        !_.isEmpty(sprintTypeSelectable) && sprintSelectable.push({label: 'Backlog', value: ''})
         return (
             <div>
                 <ActiveSprintPageView
@@ -164,12 +178,13 @@ class ActiveSprintPageContainer extends Component {
                 />
                 <CompleteSprintModal
                   data={completeForm}
+                  doneAll={doneAll}
                   activeSprintInfo = {activeSprintInfo}
                   openCompleteModal={isOpenCompleteSprintModal}
                   closeCompleteModal={this.closeCompleteSprintModal}
                   completeSprint={this.completeSprint}
                   validate={data => this.validate(data)}
-                  sprintTypeSelectable={sprintTypeSelectable}
+                  sprintTypeSelectable={sprintSelectable}
                   issueCompleteInfo = {issueCompleteInfo}
                   onChangeCompleteValue={(name, value) => this.changeCompleteSprintValue(name, value)}
                 />
@@ -187,6 +202,7 @@ const mapStateToProps = state => ({
     sprintTypeSelectable: backlogSelectors.getSprintTypeSelectable(state),
     issueCompleteInfo: activeSprintSelectors.getIssueCompleteInfo(state),
     searchValue: activeSprintSelectors.getSearchValue(state),
+    doneAll: activeSprintSelectors.getDoneAllStatus(state),
 })
 
 const mapDispatchToProps = dispatch => ({

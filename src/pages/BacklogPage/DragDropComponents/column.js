@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components'
 import {Droppable} from 'react-beautiful-dnd'
 import Task from './task'
-
+import IconSelect from '../../../components/iconSelect'
+import _ from 'lodash'
 const Container = styled.div`
   background-color: white;
   margin: 8px;
@@ -88,11 +89,78 @@ const Remove = styled.i`
   color: red;
   cursor: pointer;
 `;
+const InputSummary = styled.input`
+  margin-left: 5px;
+  border: unset;
+  width: 100%;
+  height: 34px;
+`;
+
+const Save = styled.span`
+  float: right;
+  color: blue;
+  padding: 0 15px;
+  cursor: pointer;
+  &:hover {
+    blackground: #ddd;
+  }
+`;
+const Cancel = styled.span`
+  float: right;
+  cursor: pointer;
+  color: #777777;
+  &:hover {
+    blackground: #ddd;
+  }
+`;
+
+const OpenPopup = styled.span`
+  float: right;
+  cursor: pointer;
+  color: #777777;
+  &:hover {
+    blackground: #ddd;
+  }
+`;
+
+const TypeIssue = styled.div`
+  width: 60px;
+  .select__dropdown-indicator {
+    padding: unset;
+  }
+  .select__menu {
+    width: 200px
+  }
+`
 
 
 export default class Column extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isShowInput: false,
+      issueType: {},
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    const {selectableIssueType} = newProps;
+    const {issueType} = this.state
+    if(_.isEmpty(issueType)) {
+      this.setState({issueType: (selectableIssueType || []).find(item => item.label == 'Story' && item)})
+    }
+  }
+  
+  showInput = () => {
+    this.setState({isShowInput: true})
+  }
   render() {
-    const { openAddIssueModal, column, sprintActived, disableAction, openStartSprintModal } = this.props
+    const { openAddIssueModal, column, sprintActived, disableAction, openStartSprintModal, selectableIssueType, createIssue } = this.props
+    const {isShowInput, summary, issueType} = this.state
+    const storyType =  (selectableIssueType || []).find(item => item.label == 'Story' && item)
+    // console.log(issueType)
+    // _.isEmpty(issueType) && this.setState({issueType: storyType})
+    // console.log(selectableIssueType)
     return (
       <Container>
         <div className="box box-success" >
@@ -130,8 +198,34 @@ export default class Column extends React.Component {
         )}
         </Droppable>
         <div className="box-footer">
-              <button className="btn btn-default" onClick={() => openAddIssueModal(column._id)}>
-                <i className="fa fa-plus" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
+              {isShowInput &&
+                <div>
+                  <div style={{display: "flex"}}>
+                    <TypeIssue>
+                      <IconSelect
+                        value={issueType}
+                        options={selectableIssueType}
+                        onChange={e => this.setState({issueType: e})}
+                      />
+                    </TypeIssue>
+                    <InputSummary placeholder="What needs to be done?"
+                      value={summary || ''}
+                      onChange={e => this.setState({summary: e.target.value})}
+                    />
+
+                  </div>
+                  <div>
+                    <OpenPopup onClick={() => {openAddIssueModal(column._id); this.setState({isShowInput: false})}}>Open Modal</OpenPopup>
+                    <Save onClick={() => {createIssue(summary, issueType.value, column._id); this.setState({summary: '', issueType: storyType})}}>Save</Save>
+                    <Cancel onClick={() => this.setState({isShowInput: false, summary: '', issueType: storyType})}>Cancel</Cancel>
+                  </div>
+                </div>
+              }
+              {!isShowInput && 
+                <button className="btn btn-default" onClick={() => this.showInput()}>
+                <i className="fa fa-plus" style={{ fontSize: '11px' }}></i> &nbsp;Create issue
+                </button>
+              }
             </div>
         </div>
       </Container>

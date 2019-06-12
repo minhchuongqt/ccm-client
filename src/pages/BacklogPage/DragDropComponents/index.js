@@ -143,9 +143,9 @@ class DragDropComponents extends React.Component {
       }
     })
     
-    const { openAddSprintModal, initialData, openAddIssueModal, openStartSprintModal } = this.props
+    const { openAddSprintModal, initialData, openAddIssueModal, openStartSprintModal, selectableIssueType, createIssue } = this.props
     const {isOpenModal, confirmMessage, moveIssueData} = this.state
-    console.log(isOpenModal)
+    // console.log(isOpenModal)
     return (
       <div>
         <ConfirmModal 
@@ -168,7 +168,7 @@ class DragDropComponents extends React.Component {
               return (
                 <div key={column.id}>
                   <div className="create-sprint">
-                      <div className="btn-group pull-right">
+                      <div className="btn-group pull-right" style={{marginRight: 9}}>
                         <button
                           type="button"
                           className="btn btn-success"
@@ -180,6 +180,7 @@ class DragDropComponents extends React.Component {
                     </div>
                   <div >
                     <Column
+                      createIssue={(summary, issueType) => createIssue(summary, issueType)}
                       disableAction = {true}
                       startSprint
                       openAddIssueModal={openAddIssueModal}
@@ -189,6 +190,7 @@ class DragDropComponents extends React.Component {
                       index={index}
                       sprintActived = {sprintActived}
                       onClick={(task) => this.props.onClick(task)}
+                      selectableIssueType={selectableIssueType}
                     />
                     
                   </div>
@@ -198,14 +200,15 @@ class DragDropComponents extends React.Component {
               return (
                 <div key={column.id}>
                   <Column
+                    createIssue={(summary, issueType, sprint) => createIssue(summary, issueType, sprint)}
                     openAddIssueModal={openAddIssueModal}
                     openStartSprintModal={openStartSprintModal}
                     sprintActived = {sprintActived}
-                    key={column.id}
                     column={column}
                     tasks={tasks}
                     index={index}
                     onClick={(task) => this.props.onClick(task)}
+                    selectableIssueType={selectableIssueType}
                   />
                   
                 </div>

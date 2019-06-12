@@ -69,7 +69,7 @@ const IssuePage = props => {
     moveToComment,
     handleKeyPress
   } = props;
-  // console.log(issueInfo);
+  console.log(issueInfo);
   // console.log(sprintTypeSelectable)
   let selectableIssueType = issueInfo.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
 
@@ -724,7 +724,7 @@ const IssuePage = props => {
                           </div>
                           <div
                             id="collapseActivity"
-                            className="panel-collapse collapse"
+                            className="panel-collapse"
                           >
                             <div className="box-body">
                               {issueInfo.activities &&

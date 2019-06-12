@@ -24,7 +24,7 @@ export const generateDataActiveBoard = createSelector(
     const sprintActive = BacklogState.sprintActive.map(item =>
       item.issues.map(i => (i.summary.indexOf(searchValue) > -1 ? i : null))
     );
-    console.log(BacklogState.sprintActive);
+    // console.log(BacklogState.sprintActive);
     let a = 1074 / WorkflowState.listWorkflow.length;
     const temp = {
       lanes:
@@ -51,14 +51,20 @@ export const generateDataActiveBoard = createSelector(
                 )
                 .map(item => ({
                   id: item._id,
-                  title: item.issueKey,
+                  title: ReactHtmlParser(
+                    unescapeHTML(`<span style="font-size: 14px; font-weight: normal">${item.summary}</span>`)
+                  ),
                   description: ReactHtmlParser(
-                    unescapeHTML(
-                      "<img src=" +
-                        API +
-                        (item.issueType || {}).iconUrl +
-                        "></img>&nbsp;&nbsp;" +
-                        item.summary
+                    unescapeHTML(`
+                    <img src="${API +(item.issueType || {}).iconUrl}"></img>&nbsp;&nbsp;
+                    <img src="${API + ((item.priority || {}).iconUrl || '/media/medium.svg')}" width="17"></img>&nbsp;&nbsp;
+                    ${item.assignee.map(a => {
+                      return (
+                        `<img style="float: right; border-radius: 50%" src="${API + (a.avatarUrl)}" width="28" height="28"></img>&nbsp;&nbsp;`
+                      )
+                    })}
+                    &nbsp;&nbsp;<div style="float: right">${item.issueKey}</div>
+                    `
                     )
                   ),
                   tags: item.label.map(i => ({
@@ -70,10 +76,22 @@ export const generateDataActiveBoard = createSelector(
             []
         }))
     };
-    console.log(temp);
+    // console.log(temp);
     return temp;
   }
 );
+
+export const getDoneAllStatus = ({BacklogState}) => {
+  let done = true;
+  BacklogState.sprintActive.map(item => {
+    if(item.workflow.type == "TODO" || item.workflow.type == "INPROGRESS") {
+      if (item.issues.length > 0) done = false
+      return done
+    }
+  })
+  // console.log(done)
+  return done
+}
 
 export const getSprintActiveInfo = ({ BacklogState }) => {
   if (_.isEmpty(BacklogState.sprintActiveInfo)) return [];

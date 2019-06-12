@@ -3,6 +3,7 @@ import React from "react";
 import Modal from "../../components/modal";
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
 // import { createSprint } from "../../../actions/sprint";
+import DatePicker from "react-datepicker";
 
 const AddSprintModal = props => {
   // Modal.setAppElement('body')
@@ -43,24 +44,34 @@ const AddSprintModal = props => {
           <div className="form-group">
             <label  className="col-sm-3 control-label">Start date</label>
             <div className="col-sm-9">
-              <div className="input-group date">
-                <div className="input-group-addon">
-                  <i className="fa fa-calendar"></i>
-                </div>
-                <input type="text" className="form-control pull-right" id="datepicker" />
-              </div>
+              {/* <div className="input-group date"> */}
+                {/* <div className="input-group-addon">
+                  <i htmlFor="startsssr" className="fa fa-calendar"></i>
+                </div> */}
+                <DatePicker 
+                  id="startsssr"
+                  width= "100%"
+                  // showTimeSelect
+                  // placeholderText="20/12/2018"
+                  selected={data.startDate}
+                  onChange={e => onChangeValue('startDate', e)}
+              />
+              {/* </div> */}
             </div>
           </div>
 
           <div className="form-group">
             <label  className="col-sm-3 control-label">End date</label>
             <div className="col-sm-9">
-              <div className="input-group date">
-                <div className="input-group-addon">
+              {/* <div className="input-group date"> */}
+                {/* <div className="input-group-addon">
                   <i className="fa fa-calendar"></i>
-                </div>
-                <input type="text" className="form-control pull-right" id="datepicker" />
-              </div>
+                </div> */}
+                <DatePicker 
+                  selected={data.endDate}
+                  onChange={e => onChangeValue('endDate', e)}
+                />
+              {/* </div> */}
             </div>
           </div>
           <div className="form-group">

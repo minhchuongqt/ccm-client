@@ -66,7 +66,7 @@ export const getListStoryPoint = (data) => dispatch => {
 
 export const createIssue = (data) =>  dispatch => {
     let copyData = _.cloneDeep(data)
-    if(copyData.attachs.length > 0) {
+    if(copyData.attachs && copyData.attachs.length > 0) {
         let promises = (copyData.attachs || []).map(i => {
             // console.log(i)
             return i.raw

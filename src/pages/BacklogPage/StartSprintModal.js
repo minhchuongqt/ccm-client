@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "../../components/modal";
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
+import DatePicker from "react-datepicker";
 
 const StartSprintModal = props => {
   const {
@@ -9,27 +10,16 @@ const StartSprintModal = props => {
     openStartModal,
     startSprint,
     data,
+    startSprintName
   } = props;
+  console.log(data)
   return (
-    <Modal isOpen={openStartModal} title="Start Sprint" closeModal={closeStartModal} >
+    <Modal isOpen={openStartModal} title={`Start Sprint: ${startSprintName}`} closeModal={closeStartModal} >
       {/* <div className="modal fade" id="modal-addsprint"> */}
 
       <div id="issue-view" className="form-horizontal">
         <div className="modal-body">
-          <div className="form-group">
-            <label className="col-sm-3 control-label">
-              Sprint name<span style={{ color: "red" }}>*</span>
-            </label>
-            <div className="col-sm-9">
-              <input
-                type="text"
-                className="form-control"
-                id="inputSum"
-                value={data.name}
-                onChange={e => onChangeStartValue("name", e.target.value)}
-              />
-            </div>
-          </div>
+          
 
               {/* <DateTime 
                 timeFormat={false}
@@ -38,39 +28,23 @@ const StartSprintModal = props => {
           <div className="form-group">
             <label  className="col-sm-3 control-label">Start date</label>
             <div className="col-sm-9">
-              <div className="input-group date">
-                <div className="input-group-addon">
-                  <i className="fa fa-calendar"></i>
-                </div>
-                <input type="text" className="form-control pull-right" id="datepicker" />
-              </div>
+            <DatePicker 
+                  selected={data.startDate}
+                  onChange={e => onChangeStartValue('startDate', e)}
+                />
             </div>
           </div>
 
           <div className="form-group">
             <label  className="col-sm-3 control-label">End date</label>
             <div className="col-sm-9">
-              <div className="input-group date">
-                <div className="input-group-addon">
-                  <i className="fa fa-calendar"></i>
-                </div>
-                <input type="text" className="form-control pull-right" id="datepicker" />
-              </div>
+            <DatePicker 
+                  selected={data.endDate}
+                  onChange={e => onChangeStartValue('endDate', e)}
+                />
             </div>
           </div>
-          <div className="form-group">
-            <label className="col-sm-3 control-label">Sprint goal</label>
-            <div className="col-sm-9">
-              <textarea
-                className="form-control"
-                name="textDescription"
-                id="Des"
-                rows="3"
-                value={data.goal}
-                onChange={e => onChangeStartValue("goal", e.target.value)}
-              />
-            </div>
-          </div>
+          
         </div>
       </div>
       <div className="modal-footer">
