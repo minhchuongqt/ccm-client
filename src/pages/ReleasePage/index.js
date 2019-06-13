@@ -48,7 +48,7 @@ class ReleasePageContainer extends Component {
     }
 
     openCreateVersionModal = (t) => {
-        console.log(t)
+        // console.log(t)
         this.setState({isOpenAddModal: true})
     }
 

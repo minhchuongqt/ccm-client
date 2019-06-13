@@ -25,7 +25,7 @@ const AddVersionModal = props => {
           </div>
           <div className="form-group">
             <label className="col-sm-3 control-label">Start Date</label>
-            <div className="col-sm-9">
+            <div className="col-sm-6">
               <DatePicker 
                   // showTimeSelect
                   // placeholderText="20/12/2018"
@@ -36,7 +36,7 @@ const AddVersionModal = props => {
           </div>
           <div className="form-group">
             <label className="col-sm-3 control-label">Release Date</label>
-            <div className="col-sm-9">
+            <div className="col-sm-6">
               <DatePicker 
                 // showTimeSelect
                 // placeholderText="20/12/2018"

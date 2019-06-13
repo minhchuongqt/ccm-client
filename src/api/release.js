@@ -9,6 +9,10 @@ class ReleaseApi {
     getListVersion = ( params ) => {
         return API.get('/releaseVersion', {params});
     }
+
+    getVersionDetail = ( id ) => {
+        return API.get('/releaseVersion/' + id);
+    }
     
 }
 

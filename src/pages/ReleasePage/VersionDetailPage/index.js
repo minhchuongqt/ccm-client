@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import VersionDetailPageView from './VersionDetailPage';
 import {connect} from 'react-redux'
-import { toast } from 'react-toastify' 
-
+import { toast } from 'react-toastify'
+import {withRouter} from 'react-router-dom'
+import _ from 'lodash'
 import * as actions from '../../../actions/release';
 
 //selector data
@@ -19,6 +20,23 @@ class VersionDetailPageContainer extends Component {
     }
     
     componentWillMount() {
+        const {selectedVersion} = this.props
+        if(_.isEmpty(selectedVersion)) {
+            this.props.history.push("/release")
+        } else {
+            this.getVersionDetail(selectedVersion._id)
+        }
+    }
+
+    getVersionDetail = id => {
+        this.props.getVersionDetail(id)
+    }
+
+    componentWillReceiveProps(newProps) {
+        // const {selectedVersion} = newProps
+        // if(_.isEmpty(selectedVersion)) {
+        //     newProps.history.push("/release")
+        // }
     }
 
 
@@ -36,12 +54,14 @@ class VersionDetailPageContainer extends Component {
 
 
     render() {
-        const {selectedVersion} = this.props
-        console.log(selectedVersion)
+        const {selectedVersion, listIssueOfVersion, issueCount} = this.props
+        console.log(listIssueOfVersion)
         return (
             <div>
                 <VersionDetailPageView 
                     selectedVersion = {selectedVersion}
+                    listIssueOfVersion={listIssueOfVersion}
+                    issueCount={issueCount}
                 />
                
             </div>
@@ -51,10 +71,14 @@ class VersionDetailPageContainer extends Component {
 
 const mapStateToProps = state => ({
     selectedVersion: selectors.getSelectedVersion(state),
+    listIssueOfVersion: selectors.getListIssueOfVersion(state),
+    issueCount: selectors.getIssueCount(state)
 })
 
 const mapDispatchToProps = dispatch => ({
-   
+    getVersionDetail(id) {
+        dispatch(actions.getVersionDetail(id))
+    }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps) (VersionDetailPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps) (withRouter(VersionDetailPageContainer));

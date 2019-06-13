@@ -845,3 +845,20 @@ p {
 .pointer{
   cursor: pointer;
 }
+
+.color-green {
+  color: #01875a;
+}
+
+.color-blue {
+  color: #0053cc;
+}
+
+.color-grey {
+  color: #dfe0e6;
+}
+
+.progress-bar-grey,
+.progress-bar-default {
+  background-color: #ddd;
+}

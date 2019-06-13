@@ -1,7 +1,7 @@
 import {CREATE_VERSION, GET_LIST_VERSION, RESET_DATA,
   CHANGE_ADD_VERSION_FORM_VALUE,
   RESET_CREATE_VERSION_STATUS,
-  CHANGE_SEARCH_VALUE
+  CHANGE_SEARCH_VALUE, GET_VERSION_DETAIL
 } from '../../constants/types/release'
 import { SELECT_VERSION } from '../../constants/types/release';
 import { combineReducers } from 'redux';
@@ -28,7 +28,17 @@ const listVersion = (state = [], action) => {
     }
 }
 
-const addVersionFormValue = (state = {}, action) => {
+const versionDetail = (state = [], action) => {
+    const {type, payload} = action
+    switch(type) {
+        case GET_VERSION_DETAIL:
+            return payload
+        default:
+            return state
+    }
+}
+
+const addVersionFormValue = (state = {startDate: new Date(), releaseDate: new Date()}, action) => {
     const {type, payload} = action
     switch(type) {
         case CHANGE_ADD_VERSION_FORM_VALUE:
@@ -64,7 +74,8 @@ const ReleaseState = combineReducers({
   listVersion,
   addVersionFormValue,
   searchValue,
-  selectedVersion
+  selectedVersion,
+  versionDetail
 })
 
 export default (state, action) => {

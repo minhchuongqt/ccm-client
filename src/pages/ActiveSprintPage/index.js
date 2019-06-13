@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ActiveSprintPageView from './ActiveSprintPage';
 import { connect } from 'react-redux'
 import { toast } from "react-toastify";
+import {withRouter} from 'react-router-dom'
 import _ from 'lodash'
 
 import * as issueActions from '../../actions/issue'
@@ -33,8 +34,9 @@ class ActiveSprintPageContainer extends Component {
         if (completeSprintStatus) {
           toast.success("Complete sprint successfully");
           this.setState({ isOpenCompleteSprintModal: false });
-          this.getListWorkflow();
-          this.getActiveSprint();
+          this.props.history.push('/report')
+          // this.getListWorkflow();
+          // this.getActiveSprint();
         }
         if (changeIssueWorkflowStatus) {
           // toast.success("Changed");
@@ -237,4 +239,4 @@ const mapDispatchToProps = dispatch => ({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps) ((ActiveSprintPageContainer));
+export default connect(mapStateToProps, mapDispatchToProps) (withRouter(ActiveSprintPageContainer));
