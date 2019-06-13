@@ -31,6 +31,7 @@ const VersionDetailPage = props => {
     <div id="version-view">
       <div>
         <Breadcrumb>
+          <BreadcrumbItem ><a href="/release">Release</a></BreadcrumbItem>
           <BreadcrumbItem active>Version Detail</BreadcrumbItem>
         </Breadcrumb>
       </div>
