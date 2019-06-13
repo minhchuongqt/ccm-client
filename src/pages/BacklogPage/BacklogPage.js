@@ -59,7 +59,8 @@ const BacklogPage = props => {
     onChangeSearchValue,
     openConfirmMoveIssueInActiveSprintModal,
     getListSprint,
-    createIssue
+    createIssue,
+    moveToComment
   } = props
   let selectableIssueType = issueInfo.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
 
@@ -230,7 +231,7 @@ const BacklogPage = props => {
                     </button>
                   </div>
                   <div className="btn-group m-b-5">
-                    <button type="button" className="btn btn-default btn-sm">
+                    <button  onClick={() => moveToComment()} type="button" className="btn btn-default btn-sm">
                       <i className="fa fa-commenting-o" title="Comment" />{" "}
                       Comment
                     </button>
@@ -735,39 +736,56 @@ const BacklogPage = props => {
                               issueInfo.comments.map((item, index) => {
                                 if (item.content)
                                 return (
-                                  <div
-                                    key={index}
-                                    className="box-body box-comments comments-conf"
-                                    dangerouslySetInnerHTML={{
-                                      __html: `${item.content +
-                                        "at " +
-                                        moment(item.createdAt).calendar(null, {
-                                          sameDay: 'hh:mm:ss a, [Today]',
-                                          nextDay: 'hh:mm:ss a, [Tomorrow]',
-                                          nextWeek: 'hh:mm:ss a, dddd',
-                                          lastDay: 'hh:mm:ss a, [Yesterday]',
-                                          lastWeek: 'hh:mm:ss a, [Last] dddd',
-                                          sameElse: 'hh:mm:ss a, MMM DD YYYY'
-                                        })}`
-                                    }}
-                                  />
+                                  <div key={index} className="box-comments">
+                                    <img
+                                      className="img-circle img-sm avatar-comment-conf"
+                                      src={API + userInfo.avatarUrl}
+                                      alt="User Image"
+                                      width="70px"
+                                    />
+                                    <div
+                                      className="box-body box-comments comments-conf"
+                                      dangerouslySetInnerHTML={{
+                                        __html: `${ "<strong>" + userInfo.fullName + "</strong>" + 
+                                        //  "&nbsp; &nbsp;&nbsp; &nbsp;" + 
+                                         " at " + 
+                                          moment(item.createdAt).calendar(null, {
+                                            sameDay: 'hh:mm:ss a, [Today]',
+                                            nextDay: 'hh:mm:ss a, [Tomorrow]',
+                                            nextWeek: 'hh:mm:ss a, dddd',
+                                            lastDay: 'hh:mm:ss a, [Yesterday]',
+                                            lastWeek: 'hh:mm:ss a, [Last] dddd',
+                                            sameElse: 'hh:mm:ss a, MMM DD YYYY'
+                                          })}` + "<br/>" + item.content
+                                      }}
+                                    />
+                                  </div>
                                 );
                               })}
                             <div
                               className="box box-widget"
                               // style={{ margin: "10px 0" }}
                             >
-                              <div className="box-footer">
-                                <div className="input-group input-group-config">
-                                  <input 
-                                  id="commentInput" className="form-control input-sm"
-                                  placeholder="Press enter to post comment"
-                                  onKeyPress={e => handleKeyPress(e)}
-                                  onChange={e => onChangeCommentValue(e.target.value)}/>
+                               <div className="box-footer box-comments">
+                                <img
+                                  className="img-circle img-sm"
+                                  src={API + userInfo.avatarUrl}
+                                  alt="User Image"
+                                  width="70px"
+                                />
+                                <div className="comment-text">
+
+                                  <div className="input-group input-group-config">
+                                    <input
+                                      id="commentInputBL" className="form-control input-sm"
+                                      onKeyPress={e => handleKeyPress(e)}
+                                      placeholder="Press enter to post comment"
+                                      onChange={e => onChangeCommentValue(e.target.value)} />
 
                                     {/* <div className="input-group-btn">
-                                      <button type="button" onClick = {() => postComment()} className="btn btn-primary btn-sm"><i className="fa fa-comment"></i></button>
+                                      <button onClick = {() => postComment()} className="btn btn-primary btn-sm"><i className="fa fa-comment"></i></button>
                                     </div> */}
+                                  </div>
                                 </div>
                               </div>
                               </div>

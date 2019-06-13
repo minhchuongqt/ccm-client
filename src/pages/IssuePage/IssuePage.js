@@ -71,7 +71,7 @@ const IssuePage = props => {
   } = props;
   // console.log(issueInfo);
   // console.log(sprintTypeSelectable)
-  let selectableIssueType = issueInfo.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
+  let selectableIssueType = issueInfo.issueType ? issueTypeSelectable.filter(item => item.label != 'Sub Task') : issueTypeSelectable
 
   let selectableStoryPoint = issueInfo.storyPoints
     ? storyPointSelectable.filter(
@@ -183,7 +183,7 @@ const IssuePage = props => {
                           {assignee && assignee.map((a, aIdx) => {
                             if (a) {
                               return (
-                                <img key={aIdx} src={a.iconUrl} width="25px" height="25px" style={{borderRadius: "50%", float: "right", marginBottom: 10}} />
+                                <img key={aIdx} src={a.iconUrl} width="25px" height="25px" style={{ borderRadius: "50%", float: "right", marginBottom: 10 }} />
                               )
                             }
                           })}
@@ -271,7 +271,7 @@ const IssuePage = props => {
                     </button>
                   </div>
                   <div className="btn-group m-b-5">
-                    <button onClick = {() => moveToComment()} type="button" className="btn btn-default btn-sm">
+                    <button onClick={() => moveToComment()} type="button" className="btn btn-default btn-sm">
                       <i className="fa fa-commenting-o" title="Comment" />{" "}
                       Comment
                     </button>
@@ -387,7 +387,7 @@ const IssuePage = props => {
                                   <li>
                                     <SearchSelect
                                       id="issue-page-multi-select"
-                                      isDisabled={(issueInfo.issueType || {}).label == 'Sub Task' }
+                                      isDisabled={(issueInfo.issueType || {}).label == 'Sub Task'}
                                       value={issueInfo.issueType || {}}
                                       options={selectableIssueType || []}
                                       onChange={e => updateIssueDetail('issueType', e)}
@@ -544,7 +544,7 @@ const IssuePage = props => {
                                 </ul>
                               </div>
                             </div>
-                            
+
                           </div>
                         </div>
 
@@ -772,134 +772,124 @@ const IssuePage = props => {
                           >
                             {issueInfo.comments &&
                               issueInfo.comments.map((item, index) => {
-                                // console.log(item)
                                 if (item.content)
-                                return (
-                                  <div
-                                    key={index}
-                                    className="box-body box-comments comments-conf"
-                                    dangerouslySetInnerHTML={{
-                                      __html: `${item.content +
-                                        "at " +
-                                        moment(item.createdAt).calendar(null, {
-                                          sameDay: 'hh:mm:ss a, [Today]',
-                                          nextDay: 'hh:mm:ss a, [Tomorrow]',
-                                          nextWeek: 'hh:mm:ss a, dddd',
-                                          lastDay: 'hh:mm:ss a, [Yesterday]',
-                                          lastWeek: 'hh:mm:ss a, [Last] dddd',
-                                          sameElse: 'hh:mm:ss a, MMM DD YYYY'
-                                        })}`
-                                    }}
-                                  />
-                                );
+                                  return (
+                                    <div key={index} className="box-comments">
+                                      <img
+                                        className="img-circle img-sm avatar-comment-conf"
+                                        src={API + userInfo.avatarUrl}
+                                        alt="User Image"
+                                        width="70px"
+                                      />
+                                      <div
+                                        className="box-body box-comments comments-conf"
+                                        dangerouslySetInnerHTML={{
+                                          __html: `${ "<strong>" + userInfo.fullName + "</strong>" + 
+                                          //  "&nbsp; &nbsp;&nbsp; &nbsp;" + 
+                                           " at " + 
+                                            moment(item.createdAt).calendar(null, {
+                                              sameDay: 'hh:mm:ss a, [Today]',
+                                              nextDay: 'hh:mm:ss a, [Tomorrow]',
+                                              nextWeek: 'hh:mm:ss a, dddd',
+                                              lastDay: 'hh:mm:ss a, [Yesterday]',
+                                              lastWeek: 'hh:mm:ss a, [Last] dddd',
+                                              sameElse: 'hh:mm:ss a, MMM DD YYYY'
+                                            })}` + "<br/>" + item.content
+                                        }}
+                                      />
+                                    </div>
+                                  );
                               })}
                             <div
                               className="box box-widget"
-                              // style={{ margin: "10px 0" }}
+                            // style={{ margin: "10px 0" }}
                             >
-                              <div className="box-footer">
-                                <div className="input-group input-group-config">
-                                  <input 
-                                  id="commentInput" className="form-control input-sm"
-                                  onKeyPress={e => handleKeyPress(e)}
-                                  placeholder="Press enter to post comment"
-                                  onChange={e => onChangeCommentValue(e.target.value)}/>
+                              <div className="box-footer box-comments">
+                                <img
+                                  className="img-circle img-sm"
+                                  src={API + userInfo.avatarUrl}
+                                  alt="User Image"
+                                  width="70px"
+                                />
+                                <div className="comment-text">
+
+                                  <div className="input-group input-group-config">
+                                    <input
+                                      id="commentInputIS" className="form-control input-sm"
+                                      onKeyPress={e => handleKeyPress(e)}
+                                      placeholder="Press enter to post comment"
+                                      onChange={e => onChangeCommentValue(e.target.value)} />
 
                                     {/* <div className="input-group-btn">
                                       <button onClick = {() => postComment()} className="btn btn-primary btn-sm"><i className="fa fa-comment"></i></button>
                                     </div> */}
+                                  </div>
                                 </div>
-                              </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="col-md-4 p-l-0">
-                      <div className="box-body">
-                        <div className="box-group">
-                          <div className="panel m-b-0">
-                            <div className="box-header with-border pd-0">
-                              <h4 className="box-title">
-                                <a data-toggle="collapse" href="#collapsePeople">
-                                  <h5>
-                                    <span>People</span>
-                                  </h5>
-                                </a>
-                              </h4>
-                            </div>
-
-                            <div
-                              id="collapsePeople"
-                              className="panel-collapse collapse in"
-                            >
-                              <div className="box-body">
-                                {/* {!_.isEmpty(issueInfo.assignees) && */}
-                                <ul className="list-unstyled">
-                                  <li>Assignee:</li>
-                                  <li>
-                                    {issueInfo.assignee.map((a, aIdx) => {
-                                      return (
-                                        <SearchSelect
-                                          key={aIdx}
-                                          id="issue-page-multi-select"
-                                          value={a}
-                                          isClearable={true}
-                                          options={selectableAssignee || []}
-                                          onChange={value => updateIssueDetail("assignee", value)}
-                                        />
-                                      );
-                                    })}
-                                    <SearchSelect
-                                      id="issue-page-multi-select"
-                                      value={{ label: 'Add another' }}
-                                      placeholder="Add another"
-                                      isClearable={false}
-                                      options={selectableAssignee || []}
-                                      onChange={value => updateIssueDetail("assignee", value)}
-                                    />
-                                  </li>
-                                </ul>
-                                {/* } */}
-                                <ul className="list-unstyled">
-                                  <li>Creator:</li>
-                                  <li>
-                                    <div className="box-body">
-                                      {issueInfo.creator && issueInfo.creator.avatarUrl &&
-                                        <img src={API + issueInfo.creator.avatarUrl} width="35px" height="35px" style={{ borderRadius: "50%" }} />
-                                      }&nbsp;&nbsp;
-                                    {(issueInfo.creator || {}).displayName || (issueInfo.creator || {}).fullName}
-                                    </div>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
+                  <div className="col-md-4 p-l-0">
+                    <div className="box-body">
+                      <div className="box-group">
+                        <div className="panel m-b-0">
+                          <div className="box-header with-border pd-0">
+                            <h4 className="box-title">
+                              <a data-toggle="collapse" href="#collapsePeople">
+                                <h5>
+                                  <span>People</span>
+                                </h5>
+                              </a>
+                            </h4>
                           </div>
 
-                          <div className="panel m-b-0">
-                            <div className="box-header with-border pd-0">
-                              <h4 className="box-title">
-                                <a data-toggle="collapse" href="#collapseDate">
-                                  <h5>
-                                    <span>Dates</span>
-                                  </h5>
-                                </a>
-                              </h4>
-                            </div>
-                            <div
-                              id="collapseDate"
-                              className="panel-collapse collapse in"
-                            >
-                              <div className="box-body" style={{ color: "#6d7074" }}>
-                                <ul className="list-unstyled">
-                                  <li>Created: {issueInfo.createdDate}</li>
-                                </ul>
-                                <ul className="list-unstyled">
-                                  <li>Updated: {issueInfo.updatedDate}</li>
-                                </ul>
-                              </div>
+                          <div
+                            id="collapsePeople"
+                            className="panel-collapse collapse in"
+                          >
+                            <div className="box-body">
+                              {/* {!_.isEmpty(issueInfo.assignees) && */}
+                              <ul className="list-unstyled">
+                                <li>Assignee:</li>
+                                <li>
+                                  {issueInfo.assignee.map((a, aIdx) => {
+                                    return (
+                                      <SearchSelect
+                                        key={aIdx}
+                                        id="issue-page-multi-select"
+                                        value={a}
+                                        isClearable={true}
+                                        options={selectableAssignee || []}
+                                        onChange={value => updateIssueDetail("assignee", value)}
+                                      />
+                                    );
+                                  })}
+                                  <SearchSelect
+                                    id="issue-page-multi-select"
+                                    value={{ label: 'Add another' }}
+                                    placeholder="Add another"
+                                    isClearable={false}
+                                    options={selectableAssignee || []}
+                                    onChange={value => updateIssueDetail("assignee", value)}
+                                  />
+                                </li>
+                              </ul>
+                              {/* } */}
+                              <ul className="list-unstyled">
+                                <li>Creator:</li>
+                                <li>
+                                  <div className="box-body">
+                                    {issueInfo.creator && issueInfo.creator.avatarUrl &&
+                                      <img src={API + issueInfo.creator.avatarUrl} width="35px" height="35px" style={{ borderRadius: "50%" }} />
+                                    }&nbsp;&nbsp;
+                                    {(issueInfo.creator || {}).displayName || (issueInfo.creator || {}).fullName}
+                                  </div>
+                                </li>
+                              </ul>
                             </div>
                           </div>
                         </div>
@@ -909,7 +899,7 @@ const IssuePage = props => {
                             <h4 className="box-title">
                               <a data-toggle="collapse" href="#collapseDate">
                                 <h5>
-                                  <span>Sprint History</span>
+                                  <span>Dates</span>
                                 </h5>
                               </a>
                             </h4>
@@ -918,31 +908,57 @@ const IssuePage = props => {
                             id="collapseDate"
                             className="panel-collapse collapse in"
                           >
-                            <div className="box-body" style={{color: "#6d7074"}}>
-                              {issueInfo.sprintHistory && issueInfo.sprintHistory.map((item, idx) => {
-                                if(idx > 0) {
-                                  return (
-                                    <ul key={idx} className="list-unstyled">
-                                      <li>{issueInfo.sprintHistory[idx - 1].label} &nbsp;&nbsp;<i className="fa fa-arrow-right"></i>&nbsp;&nbsp; {item.label}</li>
-                                    </ul>
-                                  ) 
-                                } 
-                              })}
-                              
+                            <div className="box-body" style={{ color: "#6d7074" }}>
+                              <ul className="list-unstyled">
+                                <li>Created: {issueInfo.createdDate}</li>
+                              </ul>
+                              <ul className="list-unstyled">
+                                <li>Updated: {issueInfo.updatedDate}</li>
+                              </ul>
                             </div>
                           </div>
                         </div>
-
                       </div>
+
+                      <div className="panel m-b-0">
+                        <div className="box-header with-border pd-0">
+                          <h4 className="box-title">
+                            <a data-toggle="collapse" href="#collapseDate">
+                              <h5>
+                                <span>Sprint History</span>
+                              </h5>
+                            </a>
+                          </h4>
+                        </div>
+                        <div
+                          id="collapseDate"
+                          className="panel-collapse collapse in"
+                        >
+                          <div className="box-body" style={{ color: "#6d7074" }}>
+                            {issueInfo.sprintHistory && issueInfo.sprintHistory.map((item, idx) => {
+                              if (idx > 0) {
+                                return (
+                                  <ul key={idx} className="list-unstyled">
+                                    <li>{issueInfo.sprintHistory[idx - 1].label} &nbsp;&nbsp;<i className="fa fa-arrow-right"></i>&nbsp;&nbsp; {item.label}</li>
+                                  </ul>
+                                )
+                              }
+                            })}
+
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
-                  )}
+                </div>
+              )}
             </div>
           </div>
-            )}
+        )}
       </div>
-          </div>
-        );
-        };
-        
-        export default IssuePage;
+    </div>
+  );
+};
+
+export default IssuePage;

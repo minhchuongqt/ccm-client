@@ -75,7 +75,29 @@ const createEngine = () => {
   engine.setDiagramModel(model);
   return engine;
 };
+
+const generateClassForWorkflowStatus = status => {
+  switch (status) {
+    case "TODO":
+      return "label-default";
+    case "INPROGRESS":
+      return "label-primary";
+    case "DONE":
+      return "label-success";
+    default:
+      return "label-default";
+  }
+};
+const generateClassForLinkStatus = link => {
+  if (link)
+    return "fa-check-circle"
+  else
+    return "fa-times-circle"
+};
+
+
 const WorkflowView = props => {
+  const { listWorkflow } = props;
   return (
     <div>
       <div>
@@ -89,20 +111,55 @@ const WorkflowView = props => {
           <BreadcrumbItem active>Workflow Management</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      <DiagramContent>
-        <div className="box-tools pull-right">
-          <button
-            type="button"
-            className="btn btn-default"
-          >
-            Add Status
-          </button>
+      <div className="box box-success">
+        <div className="box-header">
+          <h3 className="box-title">Software Simplified Workflow Scheme</h3>
+          <div className="box-tools pull-right">
+            <button type="button" className="btn btn-success">Add Step</button>
+          </div>
         </div>
-        <SRD.DiagramWidget
-          className="srd-demo-canvas"
-          diagramEngine={createEngine()}
-        />
-      </DiagramContent>
+
+        <div className="box-body">
+          <table className="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Step name</th>
+                <th>Status</th>
+                <th className="text-align-center">Link to others</th>
+              </tr>
+            </thead>
+            <tbody>
+              {listWorkflow.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{item.name}</td>
+                    <td><span
+                      className={
+                        "label " +
+                        generateClassForWorkflowStatus(
+                          item.type || ""
+                        )
+                      }
+                    >
+                      {item.name}
+                    </span>
+                    </td>
+                    <td className="text-align-center"><i
+                      className={
+                        "fa " +
+                        generateClassForLinkStatus(
+                          item.linkAll || ""
+                        )
+                      }></i>
+                    </td>
+                  </tr>
+                )
+              })}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

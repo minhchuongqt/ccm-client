@@ -385,7 +385,7 @@ class BacklogPageContainer extends Component {
       content: this.state.comment
     }
     this.props.postComment(data)
-    document.getElementById('commentInput').value = ''
+    document.getElementById('commentInputBL').value = ''
     
   }
   handleKeyPress = (e) => {
@@ -413,7 +413,9 @@ class BacklogPageContainer extends Component {
     // console.log('issue: ', issueId, ' move from ', fromSprint, ' to', toSprint)
     this.props.updateIssueDetail(issueId, {sprint: toSprint})
   }
-
+  moveToComment = () => {
+    document.getElementById('commentInputBL').focus();
+  }
   onChangeSearchValue = value => {
     this.props.changeSearchValue(value)
   }
@@ -509,6 +511,7 @@ class BacklogPageContainer extends Component {
           handleKeyPress={(e) => this.handleKeyPress(e)}
           onChangeCommentValue={(value) => this.onChangeCommentValue(value)}
           postComment={() => this.postComment()}
+          moveToComment={() => this.moveToComment()}
         />
         <AddIssueModal
           openModal={isOpenAddIssueModal}
