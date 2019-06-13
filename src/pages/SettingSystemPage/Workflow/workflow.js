@@ -75,6 +75,27 @@ const createEngine = () => {
   engine.setDiagramModel(model);
   return engine;
 };
+
+const generateClassForWorkflowStatus = status => {
+  switch (status) {
+    case "TODO":
+      return "label-default";
+    case "INPROGRESS":
+      return "label-primary";
+    case "DONE":
+      return "label-success";
+    default:
+      return "";
+  }
+};
+const generateClassForLinkStatus = link => {
+  if (link)
+    return "fa-check-circle"
+  else
+    return "fa-times-circle"
+};
+
+
 const WorkflowView = props => {
   const { listWorkflow } = props;
   return (
@@ -97,36 +118,44 @@ const WorkflowView = props => {
             <button type="button" className="btn btn-success">Add Step</button>
           </div>
         </div>
-        
+
         <div className="box-body">
-          <table class="responsive-table-input-matrix">
+          <table className="table table-bordered table-hover">
             <thead>
               <tr>
                 <th>Step name</th>
                 <th>Status</th>
-                <th>Transition</th>
+                <th className="text-align-center">Link to others</th>
               </tr>
             </thead>
             <tbody>
-            {listWorkflow.map((item, index) => {
+              {listWorkflow.map((item, index) => {
                 return (
-                  <tr  key = {index}>
+                  <tr key={index}>
                     <td>{item.name}</td>
-                    <td>{item.name}</td>
-                    <td>
-                    {listWorkflow.map((it, idx) => {
-                        return (
-                          <tr  key = {idx}>
-                          <td>{it.name} >> {it.name}</td>
-                          </tr>
-                          )
-                        })}
-                      </td>
+                    <td><span
+                      className={
+                        "label " +
+                        generateClassForWorkflowStatus(
+                          item.type || ""
+                        )
+                      }
+                    >
+                      {item.name}
+                    </span>
+                    </td>
+                    <td className="text-align-center"><i
+                      className={
+                        "fa " +
+                        generateClassForLinkStatus(
+                          item.linkAll || ""
+                        )
+                      }></i>
+                    </td>
                   </tr>
                 )
-                
-                })}
-                
+              })}
+
             </tbody>
           </table>
         </div>
