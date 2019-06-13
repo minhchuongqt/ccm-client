@@ -71,6 +71,9 @@
 .input-group-config {
   display: block;
 }
+.avatar-comment-conf {
+  margin: 10px
+}
 @font-face{
     font-family: Avenir;
     src: url("../styleSheets/sass/fonts/Avenir.otf");

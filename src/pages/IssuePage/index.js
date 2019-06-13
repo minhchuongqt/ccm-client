@@ -378,7 +378,7 @@ class IssuePageContainer extends Component {
       content: this.state.comment
     }
     this.props.postComment(data)
-    document.getElementById('commentInput').value = ''
+    document.getElementById('commentInputIS').value = ''
   }
   createSubtask = () => {
     const { selectedProject, issueTypeSelectable, issueInfo, prioritySelectable } = this.props
@@ -402,7 +402,7 @@ class IssuePageContainer extends Component {
     this.postComment()
   }
   moveToComment = () => {
-    document.getElementById('commentInput').focus();
+    document.getElementById('commentInputIS').focus();
   }
   refeshListIssue = () => {
     const { selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType } = this.props
