@@ -5,3 +5,8 @@ export const getListWorkflow = ({WorkflowState}) => {
     return WorkflowState.listWorkflow
 }
 
+export const getLengthListWorkflow = ({WorkflowState}) => {
+    if(_.isEmpty(WorkflowState.listWorkflow)) return []
+    return WorkflowState.listWorkflow.length
+}
+

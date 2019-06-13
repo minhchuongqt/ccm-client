@@ -27,6 +27,7 @@ const CustomLaneHeader = props => {
     </div>
   )
 }
+
 const ActiveSprintPage = props => {
   const { data, activeSprintInfo, openCompleteSprintModal, searchValue, onChangeSearchValue } = props
 
@@ -34,7 +35,7 @@ const ActiveSprintPage = props => {
   const handleDragEnd = (cardId, sourceLaneId, targetLaneId, position, card) => {
     props.handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card)
   }
-
+  
   return (
     <div id="sprint-view" >
       <div>

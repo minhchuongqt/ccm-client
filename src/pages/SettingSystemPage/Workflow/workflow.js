@@ -85,7 +85,7 @@ const generateClassForWorkflowStatus = status => {
     case "DONE":
       return "label-success";
     default:
-      return "";
+      return "label-default";
   }
 };
 const generateClassForLinkStatus = link => {

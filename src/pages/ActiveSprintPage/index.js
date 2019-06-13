@@ -3,6 +3,7 @@ import ActiveSprintPageView from './ActiveSprintPage';
 import { connect } from 'react-redux'
 import { toast } from "react-toastify";
 import _ from 'lodash'
+import ReactDOM from 'react-dom';
 
 import * as issueActions from '../../actions/issue'
 import * as sprintActions from '../../actions/backlog'
@@ -12,6 +13,7 @@ import * as activitySprintActions from '../../actions/activitySprint'
 import * as projectSelectors from "../../selectors/project";
 import * as backlogSelectors from "../../selectors/backlog";
 import * as activeSprintSelectors from "../../selectors/activeSprint";
+import * as workflowSelectors from "../../selectors/workflow";
 import CompleteSprintModal from "./CompleteSprintModal";
 class ActiveSprintPageContainer extends Component {
     constructor(props) {
@@ -23,7 +25,7 @@ class ActiveSprintPageContainer extends Component {
           completeForm: {
             moveToSprint: {},
           },
-          isOpenCompleteSprintModal: false,
+          isOpenCompleteSprintModal: false
         };
       }
       componentWillReceiveProps(newProps) {
@@ -56,6 +58,34 @@ class ActiveSprintPageContainer extends Component {
         this.getListWorkflow();
         this.getActiveSprint();
         this.getActiveSprintInfo();
+        
+    }
+    componentWillUpdate() {
+      this.responsiveWidth();
+    }
+    responsiveWidth = ()  =>   {
+      var wfLength = this.props.workflow.length
+      if(wfLength === 0) wfLength = 3
+      const width = 1050  / wfLength
+      var d = document.getElementsByClassName("bqdzcI")[0];
+      // d.getElementsByClassName("bqdzcI")[0].innerHTML = "Milk";
+
+      console.log(d)
+      switch (wfLength) {
+        case 3:
+        ((document.getElementsByClassName("bqdzcI")[0]) || {}).classList += " bqdzcI3";
+          break;
+        case 4:
+        ((document.getElementsByClassName("bqdzcI")[0]) || {}).classList += " bqdzcI4";
+          break;
+        case 5:
+        ((document.getElementsByClassName("bqdzcI")[0]) || {}).classList += " bqdzcI5";
+          break;
+        default:
+          break;
+      }
+      
+     
     }
     getBaseOption = () => {
         const params = {
@@ -158,9 +188,9 @@ class ActiveSprintPageContainer extends Component {
     onChangeSearchValue = (value) => {
       this.props.changeSearchValue(value)
     }
-
+    
     render() {
-        const { dataForBoard, activeSprintInfo, sprintTypeSelectable, issueCompleteInfo, searchValue, doneAll } = this.props
+        const { dataForBoard, activeSprintInfo, sprintTypeSelectable, issueCompleteInfo, searchValue, doneAll, workflow } = this.props
         // console.log(doneAll)
         const {
           isOpenCompleteSprintModal,
@@ -205,6 +235,8 @@ const mapStateToProps = state => ({
     issueCompleteInfo: activeSprintSelectors.getIssueCompleteInfo(state),
     searchValue: activeSprintSelectors.getSearchValue(state),
     doneAll: activeSprintSelectors.getDoneAllStatus(state),
+    workflow: workflowSelectors.getListWorkflow(state),
+    workflowLength: workflowSelectors.getLengthListWorkflow(state)
 })
 
 const mapDispatchToProps = dispatch => ({
