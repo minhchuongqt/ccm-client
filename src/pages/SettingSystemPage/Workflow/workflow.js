@@ -76,6 +76,7 @@ const createEngine = () => {
   return engine;
 };
 const WorkflowView = props => {
+  const { listWorkflow } = props;
   return (
     <div>
       <div>
@@ -89,20 +90,47 @@ const WorkflowView = props => {
           <BreadcrumbItem active>Workflow Management</BreadcrumbItem>
         </Breadcrumb>
       </div>
-      <DiagramContent>
-        <div className="box-tools pull-right">
-          <button
-            type="button"
-            className="btn btn-default"
-          >
-            Add Status
-          </button>
+      <div className="box box-success">
+        <div className="box-header">
+          <h3 className="box-title">Software Simplified Workflow Scheme</h3>
+          <div className="box-tools pull-right">
+            <button type="button" className="btn btn-success">Add Step</button>
+          </div>
         </div>
-        <SRD.DiagramWidget
-          className="srd-demo-canvas"
-          diagramEngine={createEngine()}
-        />
-      </DiagramContent>
+        
+        <div className="box-body">
+          <table class="responsive-table-input-matrix">
+            <thead>
+              <tr>
+                <th>Step name</th>
+                <th>Status</th>
+                <th>Transition</th>
+              </tr>
+            </thead>
+            <tbody>
+            {listWorkflow.map((item, index) => {
+                return (
+                  <tr  key = {index}>
+                    <td>{item.name}</td>
+                    <td>{item.name}</td>
+                    <td>
+                    {listWorkflow.map((it, idx) => {
+                        return (
+                          <tr  key = {idx}>
+                          <td>{it.name} >> {it.name}</td>
+                          </tr>
+                          )
+                        })}
+                      </td>
+                  </tr>
+                )
+                
+                })}
+                
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };
