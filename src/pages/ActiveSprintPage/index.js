@@ -83,6 +83,12 @@ class ActiveSprintPageContainer extends Component {
         case 5:
         ((document.getElementsByClassName("bqdzcI")[0]) || {}).classList += " bqdzcI5";
           break;
+        case 6:
+        ((document.getElementsByClassName("bqdzcI")[0]) || {}).classList += " bqdzcI6";
+          break;
+        case 7:
+        ((document.getElementsByClassName("bqdzcI")[0]) || {}).classList += " bqdzcI7";
+          break;
         default:
           break;
       }

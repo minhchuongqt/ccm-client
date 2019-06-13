@@ -9,4 +9,6 @@ export const getLengthListWorkflow = ({WorkflowState}) => {
     if(_.isEmpty(WorkflowState.listWorkflow)) return []
     return WorkflowState.listWorkflow.length
 }
-
+export const addStepStatus = ({WorkflowState}) => {
+    return WorkflowState.addStepStatus
+}
