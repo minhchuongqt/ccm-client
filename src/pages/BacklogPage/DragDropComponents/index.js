@@ -42,6 +42,7 @@ class DragDropComponents extends React.Component {
   moveIssue = async (result) => {
     this.setState({ homeIndex: null });
     const { destination, source, draggableId } = result;
+    if(!destination) return
     await this.props.changeIssueSprint(draggableId, source.droppableId, destination.droppableId)
     this.props.getListSprint()
     if (!destination) {

@@ -48,7 +48,7 @@ const ActiveSprintPage = props => {
           <div>
           
             <div className="complete-sprint">
-            <li class="active breadcrumb-item sprint-name" aria-current="page">{activeSprintInfo.name}</li>
+            <li className="active breadcrumb-item sprint-name" aria-current="page">{activeSprintInfo.name}</li>
               <div className="pull-right">
               
               <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-addproject"

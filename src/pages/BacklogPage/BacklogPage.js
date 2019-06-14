@@ -89,6 +89,7 @@ const BacklogPage = props => {
       )
     : prioritySelectable;
 
+  const disabled = issueInfo.released || issueInfo.closed || false;
   // console.log(issueInfo)
   // const {  initialData, openAddIssueModal, openStartSprintModal } = props
   return (
@@ -216,6 +217,7 @@ const BacklogPage = props => {
                         className="form-control hover-background" 
                         style={{height: "38px",fontSize: "20px", border: 'unset'}}
                         onBlur={() => saveSummary()}
+                        disabled
                         onChange={e => updateIssueDetail('summary', e.target.value)}
                         onKeyDown={e => {e.key == 'Enter' && saveSummary()}}
                       />
@@ -226,6 +228,7 @@ const BacklogPage = props => {
                       className="btn btn-default btn-sm"
                       data-toggle="modal"
                       data-target="#modal-editissue"
+                      disabled
                     >
                       <i className="fa fa-edit" title="Edit" /> Edit
                     </button>
@@ -250,6 +253,7 @@ const BacklogPage = props => {
                       type="button"
                       className="btn btn-default btn-sm m-b-1 dropdown-toggle"
                       data-toggle="dropdown"
+                      disabled
                     >
                       More &nbsp;
                       <i className="fa fa-angle-down" />
@@ -270,6 +274,7 @@ const BacklogPage = props => {
                   </div>
                   <div className="btn-group m-b-5">
                     <button
+                      disabled
                       type="button"
                       className="btn btn-default btn-sm m-b-1"
                       disabled={(issueInfo.workflow || {}).type == 'TODO' || issueInfo.closed == true}
@@ -279,6 +284,7 @@ const BacklogPage = props => {
                       To Do
                     </button>
                     <button
+                      disabled
                       type="button"
                       className="btn btn-primary btn-sm m-b-1"
                       disabled={(issueInfo.workflow || {}).type == 'INPROGRESS' || issueInfo.closed == true}
@@ -288,6 +294,7 @@ const BacklogPage = props => {
                       In Progress
                     </button>
                     <button
+                      disabled
                       type="button"
                       className="btn btn-success btn-sm m-b-1"
                       disabled={(issueInfo.workflow || {}).type == 'DONE' || issueInfo.closed == true}
@@ -299,6 +306,7 @@ const BacklogPage = props => {
 
                     {!issueInfo.closed && 
                     <button
+                      disabled
                       type="button"
                       className="btn btn-danger btn-sm m-b-1"
                       disabled={(issueInfo.workflow || {}).type != 'DONE'}
@@ -348,7 +356,7 @@ const BacklogPage = props => {
                                     <SearchSelect
                                       id="issue-page-multi-select"
                                       value={issueInfo.issueType || {}}
-                                      isDisabled={(issueInfo.issueType || {}).label == 'Sub Task' }
+                                      isDisabled={disabled || (issueInfo.issueType || {}).label == 'Sub Task' }
                                       options={selectableIssueType || []}
                                       onChange={e => updateIssueDetail('issueType', e)}
                                     />
@@ -391,6 +399,7 @@ const BacklogPage = props => {
                                   <li>
                                     <SearchSelect
                                       id="issue-page-multi-select"
+                                      isDisabled={disabled}
                                       value={issueInfo.priority || {}}
                                       options={selectablePriority || []}
                                       onChange={e => updateIssueDetail('priority', e)}
@@ -413,6 +422,7 @@ const BacklogPage = props => {
                                       isMulti={true}
                                       id="issue-page-multi-select-label"
                                       isClearable={false}
+                                      isDisabled={disabled}
                                       value={issueInfo.label || []}
                                       options={selectableLabel || []}
                                       onChange={e => updateIssueDetail('label', e)}
@@ -438,6 +448,7 @@ const BacklogPage = props => {
                                           label: "None"
                                         }
                                       }
+                                      isDisabled={disabled}
                                       options={selectableStoryPoint || []}
                                       onBlur={() => console.log("bur")}
                                       onChange={e => updateIssueDetail('storyPoints', e)}
@@ -457,6 +468,7 @@ const BacklogPage = props => {
                                 <ul className="list-unstyled">
                                   <li>
                                     <SearchSelect 
+                                      isDisabled={disabled}
                                       id="issue-page-multi-select"
                                       options={versionSelectable}
                                       value={issueInfo.version}
@@ -477,6 +489,7 @@ const BacklogPage = props => {
                                 <ul className="list-unstyled">
                                   <li>
                                     <MultiSelect 
+                                      isDisabled={disabled}
                                       id="issue-page-multi-select"
                                       options={componentSelectable}
                                       value={issueInfo.component}
@@ -497,6 +510,7 @@ const BacklogPage = props => {
                                 <ul className="list-unstyled">
                                   <li >
                                     <SearchSelect 
+                                      isDisabled={disabled}
                                       id="issue-page-multi-select"
                                       options={sprintTypeSelectable.filter(item => item.active == false)}
                                       value={issueInfo.sprint}
@@ -531,7 +545,7 @@ const BacklogPage = props => {
                               dangerouslySetInnerHTML={{
                                 __html: `${issueInfo.description || ""}`
                               }}
-                              onClick={() => changeDisplayDescriptionEditor(true, issueInfo.description)}
+                              onClick={() => !disabled && changeDisplayDescriptionEditor(true, issueInfo.description)}
                             /> ||
                             <div style={{display: 'block', animation: 'flipInX 0.7s both'}}>
                               <TextEditor 
@@ -604,7 +618,7 @@ const BacklogPage = props => {
                             </h4>
                             <a className="right cursor-pointer">
                               <i className="fa fa-plus"
-                                onClick={() => changeDisplayCreateSubtask(true)}
+                                onClick={() => !disabled && changeDisplayCreateSubtask(true)}
                               />
                             </a>
                           </div>
@@ -778,7 +792,7 @@ const BacklogPage = props => {
                                   <div className="input-group input-group-config">
                                     <input
                                       id="commentInputBL" className="form-control input-sm"
-                                      onKeyPress={e => handleKeyPress(e)}
+                                      onKeyPress={e => !disabled && handleKeyPress(e)}
                                       placeholder="Press enter to post comment"
                                       onChange={e => onChangeCommentValue(e.target.value)} />
 
@@ -824,6 +838,7 @@ const BacklogPage = props => {
                                         key={aIdx}
                                         id="issue-page-multi-select"
                                         value={a}
+                                        isDisabled={disabled}
                                         isClearable={true}
                                         options={selectableAssignee || []}
                                         onChange={value => updateIssueDetail("assignee", value)}
@@ -835,6 +850,7 @@ const BacklogPage = props => {
                                     value={{label: 'Add another'}}
                                     placeholder="Add another"
                                     isClearable={false}
+                                    isDisabled={disabled}
                                     options={selectableAssignee || []}
                                     onChange={value => updateIssueDetail("assignee", value)}
                                   />

@@ -98,7 +98,7 @@ const IssuePage = props => {
     )
     : prioritySelectable;
     
-    const disabled = issueInfo.released || false;
+    const disabled = issueInfo.released || issueInfo.closed || false;
 
     // console.log()
   return (
@@ -358,7 +358,6 @@ const IssuePage = props => {
                     {issueInfo.closed &&
                       <button
                         type="button"
-                        disabled
                         className="btn btn-default btn-sm m-b-1"
                         onClick={() => updateIssueDetail('closed', false)}
                       >

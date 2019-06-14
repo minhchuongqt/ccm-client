@@ -9,4 +9,9 @@
     .sprint-name {
         display: inline-block;
     }
+    .smooth-dnd-draggable-wrapper {
+        article {
+            max-width: unset;
+        }
+    }
 }
