@@ -124,14 +124,14 @@ const VersionDetailPage = props => {
                 {listIssueOfVersion && 
                 listIssueOfVersion.map((issue, index) => {
                   return (
-                    <tr className="cursor-pointer" key={index} onClick={() => selectIssue(issue._id)}>
+                    <tr key={index} className="cursor-pointer" onClick={() => selectIssue(issue._id)}>
                       <td><img src={API + ((issue.priority || {}).iconUrl || '/media/medium.svg')} width="18"/></td>
                       <td><img src={API + (issue.issueType || {}).iconUrl}/></td>
                       <td>{issue.issueKey}</td>
                       <td>{issue.summary}</td>
-                      <td>{issue.assignee.map(item => {
+                      <td>{issue.assignee.map((item, idx) => {
                         return (
-                          <span>
+                          <span key={idx}>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <img 
                               style={{borderRadius: "50%"}} 

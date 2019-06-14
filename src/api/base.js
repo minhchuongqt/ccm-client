@@ -29,14 +29,14 @@ export const put = (path, data) => {
   ).put(path, data);
 }
 
-export const remove = (path) => {
+export const remove = (path, data) => {
   console.log("Method DELETE is called...");
   return createFetch(
     {headers: {
      'Content-Type': 'application/json',
       'access-token': sessionStorage.getItem('access-token')|| ''
     }}
-  ).delete(path);
+  ).delete(path, data);
 }
 
 export const  uploadFile = (file) => {

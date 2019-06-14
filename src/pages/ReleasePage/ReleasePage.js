@@ -14,15 +14,20 @@ const generateClassForVersionStatus = status => {
   }
 };
 
+
 const ReleasePage = props => {
   const {
     openCreateVersionModal,
     listVersion,
     searchValue,
     onChangeSearchValue,
-    selectVersion
+    selectVersion,
+    releaseVersion,
+    unreleaseVersion,
+    editVersion,
+    deleteVersion
   } = props;
-  console.log(listVersion);
+  // console.log(listVersion);
   return (
     <div id="version-view">
       <div>
@@ -77,9 +82,15 @@ const ReleasePage = props => {
             </thead>
             <tbody>
               {listVersion.map((item, index) => {
+                // console.log(item)
+                const progressDone = (item.count.done / item.issueTotal) * 100
+                // console.log(progressDone)
+                const progressInProgress = (item.count.inProgress / item.issueTotal) * 100
+                const progressToDo = 100 - progressDone - progressInProgress
+                
                 return (
                   
-                  <tr key={{ index }} className="cursor-pointer">
+                  <tr key={index} className="cursor-pointer">
                     <td onClick={() => selectVersion(item)}><Link  to={PATH.VERSION_DETAIL_URL}>{item.name}</Link></td>
                     <td>
                       <span
@@ -94,30 +105,46 @@ const ReleasePage = props => {
                       <div className="progress sm">
                         <div
                           className="progress-bar progress-bar-green"
-                          style={{ width: "30%" }}
-                        />
-                        <div
-                          className="progress-bar progress-bar-yellow"
-                          style={{ width: "40%" }}
+                          style={{ width: `${progressDone}%` }}
                         />
                         <div
                           className="progress-bar progress-bar-blue"
-                          style={{ width: "30%" }}
+                          style={{ width: `${progressInProgress}%` }}
+                        />
+                        <div
+                          className="progress-bar progress-bar-default"
+                          style={{ width: `${progressToDo}%` }}
                         />
                       </div>
                     </td>
-                    <td>{moment(item.startDate).format("MMM DD YYYY")}</td>
-                    <td>{moment(item.releaseDate).format("MMM DD YYYY")}</td>
+                    <td>{moment(item.startDate).format("MMM DD, YYYY")}</td>
+                    <td>{moment(item.releaseDate).format("MMM DD, YYYY")}</td>
                     <td>{item.description}</td>
                     <td>
                       <div className="btn-group">
-                        <button type="button" className="btn btn-primary">
+                        {item.released &&
+                        <button type="button" className="btn btn-default" style={{margin: "0 5px"}}
+                           onClick={() => unreleaseVersion(item._id)}
+                        >
+                          <i className="fa fa-cube" title="Unrelease" />
+                        </button>
+                        ||
+                        <button type="button" className="btn btn-primary" style={{margin: "0 5px"}}
+                           onClick={() => releaseVersion(item._id)}
+                        >
                           <i className="fa fa-cube" title="Release" />
                         </button>
-                        <button type="button" className="btn btn-success">
+                      }
+                        <button type="button" className="btn btn-success" style={{margin: "0 5px"}}
+                          disabled={item.released}
+                          onClick={() => editVersion(item)}
+                        >
                           <i className="fa fa-edit" title="Edit" />
                         </button>
-                        <button type="button" className="btn btn-danger">
+                        <button type="button" className="btn btn-danger" style={{margin: "0 5px"}}
+                          disabled={item.released}
+                          onClick={() => deleteVersion(item)}
+                        >
                           <i className="fa fa-trash-o" title="Remove" />
                         </button>
                       </div>

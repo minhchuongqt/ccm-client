@@ -11,6 +11,10 @@ export const getListVersion = ({ReleaseState}) => {
 
 export const getCreateVersionStatus = ({ReleaseState}) => ReleaseState.createVersionStatus
 
+export const getUpdateVersionStatus = ({ReleaseState}) => ReleaseState.updateVersionStatus
+
+export const getDeleteVersionStatus = ({ReleaseState}) => ReleaseState.deleteVersionStatus
+
 export const getAddVersionFormValue = ({ReleaseState}) => ReleaseState.addVersionFormValue
 
 export const getSearchValue = ({ReleaseState}) => ReleaseState.searchValue
@@ -26,6 +30,16 @@ export const getListIssueOfVersion = ({ReleaseState}) => ReleaseState.versionDet
 export const getIssueCount = ({ReleaseState}) => ReleaseState.versionDetail &&  ReleaseState.versionDetail.count || {}
 
 export const getSelectedVersion = ({ReleaseState}) => {
-  // if(_.isEmpty(ReleaseState.selectedVersion)) return []
   return ReleaseState.selectedVersion
+}
+
+export const getVersionSelectable = ({ReleaseState}) => {
+  if(_.isEmpty(ReleaseState.listVersion)) return []
+  let result =  ReleaseState.listVersion.map(item => item.status == 'UNRELEASED' && (
+    {
+        label: item.name,
+        value: item._id,
+    }
+  ))
+  return result
 }

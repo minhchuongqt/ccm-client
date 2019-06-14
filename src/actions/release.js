@@ -2,7 +2,7 @@ import {CREATE_VERSION, GET_LIST_VERSION, RESET_DATA,
   CHANGE_ADD_VERSION_FORM_VALUE,
   RESET_CREATE_VERSION_STATUS, CHANGE_SEARCH_VALUE, SELECT_VERSION,
   GET_VERSION_DETAIL, RELEASE_VERSION_STATUS, UNRELEASE_VERSION_STATUS,
-  RESET_RELEASE_STATUS
+  RESET_RELEASE_STATUS, UPDATE_VERSION, DELETE_VERSION
  } from '../constants/types/release';
 import ReleaseApi from '../api/release';
 import {toast} from 'react-toastify'
@@ -23,8 +23,28 @@ export const selectVersion = (data) => dispatch => {
 
 export const createVersion = (data) => dispatch => {
   ReleaseApi.createVersion(data).then(res => {
-    if(res.data) {
+    if(res.data.success) {
       dispatch({type: CREATE_VERSION, payload: true})
+    } else if (res.data.error) {
+      toast.error(res.data.error)
+    }
+  })
+}
+
+export const updateVersion = (id, data) => dispatch => {
+  ReleaseApi.updateVersion(id, data).then(res => {
+    if(res.data) {
+      dispatch({type: UPDATE_VERSION, payload: true})
+    } else if (res.data.error) {
+      toast.error(res.data.error)
+    }
+  })
+}
+
+export const deleteVersion = (id, data) => dispatch => {
+  ReleaseApi.deleteVersion(id, data).then(res => {
+    if(res.data) {
+      dispatch({type: DELETE_VERSION, payload: true})
     } else if (res.data.error) {
       toast.error(res.data.error)
     }
