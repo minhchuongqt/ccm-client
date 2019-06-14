@@ -4,6 +4,9 @@ class WorkflowApi {
     getWorkflowList = (params) => {
         return API.get('/workflow/list', {params});
     }
+    addStep = (data) => {
+        return API.post('/workflow', data)
+    }
 }
 
 const workflowApi = new WorkflowApi()

@@ -97,7 +97,7 @@ const generateClassForLinkStatus = link => {
 
 
 const WorkflowView = props => {
-  const { listWorkflow } = props;
+  const { listWorkflow, openAddStepModal } = props;
   return (
     <div>
       <div>
@@ -115,7 +115,7 @@ const WorkflowView = props => {
         <div className="box-header">
           <h3 className="box-title">Software Simplified Workflow Scheme</h3>
           <div className="box-tools pull-right">
-            <button type="button" className="btn btn-success">Add Step</button>
+            <button  onClick={() => openAddStepModal()} type="button" className="btn btn-success">Add Step</button>
           </div>
         </div>
 

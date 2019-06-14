@@ -1,1 +1,2 @@
 export const GET_LIST_WORKFLOW = 'GET_LIST_WORKFLOW'
+export const CREATE_STEP = 'CREATE_STEP'

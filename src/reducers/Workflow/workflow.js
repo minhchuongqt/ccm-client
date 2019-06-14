@@ -1,4 +1,4 @@
-import { GET_LIST_WORKFLOW } from "../../constants/types/workflow";
+import { GET_LIST_WORKFLOW, CREATE_STEP } from "../../constants/types/workflow";
   import { combineReducers } from "redux";
   import _ from 'lodash'
   const listWorkflow = (state = [], action) => {
@@ -10,8 +10,22 @@ import { GET_LIST_WORKFLOW } from "../../constants/types/workflow";
         return state;
     }
   };
+  const addStepStatus = (state = null, action) => {
+    const {type, payload} = action
+    switch(type) {
+        case CREATE_STEP:
+            if(payload) {
+                return true
+            } else {
+                return false
+            }
+        default:
+            return null
+    }
+}
   const WorkflowState = combineReducers({
-    listWorkflow
+    listWorkflow,
+    addStepStatus
   });
   
   export default WorkflowState;
