@@ -1,7 +1,8 @@
 import {CREATE_VERSION, GET_LIST_VERSION, RESET_DATA,
   CHANGE_ADD_VERSION_FORM_VALUE,
   RESET_CREATE_VERSION_STATUS, CHANGE_SEARCH_VALUE, SELECT_VERSION,
-  GET_VERSION_DETAIL
+  GET_VERSION_DETAIL, RELEASE_VERSION_STATUS, UNRELEASE_VERSION_STATUS,
+  RESET_RELEASE_STATUS
  } from '../constants/types/release';
 import ReleaseApi from '../api/release';
 import {toast} from 'react-toastify'
@@ -50,4 +51,28 @@ export const getVersionDetail = (id) => dispatch => {
         toast.error(res.data.error)
       }
     })
+}
+
+export const releaseVersion = id => dispatch => {
+  ReleaseApi.releaseVersion(id).then(res => {
+    if(res.data.success) {
+      dispatch({type: RELEASE_VERSION_STATUS, payload: res.data.success})
+    } else {
+      toast.error(res.data.error)
+    }
+  })
+}
+
+export const unreleaseVersion = id => dispatch => {
+  ReleaseApi.unreleaseVersion(id).then(res => {
+    if(res.data.success) {
+      dispatch({type: UNRELEASE_VERSION_STATUS, payload: res.data.success})
+    } else {
+      toast.error(res.data.error)
+    }
+  })
+}
+
+export const resetReleaseStatus = () => dispatch => {
+  dispatch({type: RESET_RELEASE_STATUS})
 }

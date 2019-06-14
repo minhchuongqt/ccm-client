@@ -15,6 +15,12 @@ export const getAddVersionFormValue = ({ReleaseState}) => ReleaseState.addVersio
 
 export const getSearchValue = ({ReleaseState}) => ReleaseState.searchValue
 
+export const getReleaseStatus = ({ReleaseState}) => ReleaseState.releaseStatus
+
+export const getUnreleaseStatus = ({ReleaseState}) => ReleaseState.unreleaseStatus
+
+export const getVersionDetail = ({ReleaseState}) => ReleaseState.versionDetail
+
 export const getListIssueOfVersion = ({ReleaseState}) => ReleaseState.versionDetail &&  ReleaseState.versionDetail.issues || []
 
 export const getIssueCount = ({ReleaseState}) => ReleaseState.versionDetail &&  ReleaseState.versionDetail.count || {}

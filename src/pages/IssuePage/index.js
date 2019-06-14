@@ -44,7 +44,7 @@ class IssuePageContainer extends Component {
   }
 
   componentWillMount() {
-    const { selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType } = this.props;
+    const { selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType, issueInfo } = this.props;
     this.props.getIssueType(this.getBaseOption());
     this.props.getPriority(this.getBaseOption());
     this.props.getListLabel(this.getBaseOption());
@@ -55,7 +55,11 @@ class IssuePageContainer extends Component {
     this.getListUser();
     this.getListWorkflow();
     this.getListVersion();
-    this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType);
+    if(issueInfo) {
+      this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType, false);
+    } else {
+      this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType);
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -149,7 +153,8 @@ class IssuePageContainer extends Component {
       const params = {
         query: JSON.stringify({
           project: this.props.selectedProject._id,
-          [query.key]: query.value
+          [query.key]: query.value,
+          released: false,
         }),
         sort: JSON.stringify({
           [filter.value]: sort
@@ -160,6 +165,7 @@ class IssuePageContainer extends Component {
       const params = {
         query: JSON.stringify({
           project: this.props.selectedProject._id,
+          released: false,
         }),
         sort: JSON.stringify({
           [filter.value]: sort

@@ -13,6 +13,14 @@ class ReleaseApi {
     getVersionDetail = ( id ) => {
         return API.get('/releaseVersion/' + id);
     }
+
+    releaseVersion = id => {
+        return API.post('/releaseVersion/release/' + id)
+    }
+
+    unreleaseVersion = id => {
+        return API.post('/releaseVersion/unrelease/' + id)
+    }
     
 }
 

@@ -2,6 +2,7 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import {API} from '../../../config'
 import moment from 'moment'
+import { selectIssue } from "../../../actions/issue";
 const generateStatus = type => {
   switch (type) {
     case 'DONE':
@@ -22,7 +23,7 @@ const generateStatus = type => {
   }
 }
 const VersionDetailPage = props => {
-  const { selectedVersion, listIssueOfVersion, issueCount } = props;
+  const { selectedVersion, listIssueOfVersion, issueCount, releaseVersion, unreleaseVersion, selectIssue } = props;
   const sumIssues = (issueCount.done || 0) + (issueCount.inProgress || 0) + (issueCount.toDo || 0) || 0
   const progressDone = (issueCount.done / sumIssues) * 100
   const progressInProgress = (issueCount.inProgress / sumIssues) * 100
@@ -47,7 +48,7 @@ const VersionDetailPage = props => {
               </span>
               &nbsp;&nbsp;
               <span className="label label-primary">
-                {selectedVersion.status || 'unrelease'}
+                {selectedVersion.status || 'UNRELEASED'}
               </span>
               <br/>
               <span>Start Date: {moment(selectedVersion.startDate).format("MMM DD, YYYY")}</span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -56,9 +57,18 @@ const VersionDetailPage = props => {
               <span>Description: {selectedVersion.description || 'description'}</span>
             </div>
             <div className="group-btn col-md-2">
-              <button type="submit" className="btn btn-primary" style={{ float: "right" }}>
-                Release
+              { selectedVersion.released &&
+              <button type="submit" className="btn btn-primary" style={{ float: "right" }}
+                onClick={() => unreleaseVersion(selectedVersion._id)}
+              >
+                Unrelease
               </button>
+              ||
+              <button type="submit" className="btn btn-primary" style={{ float: "right" }}
+                onClick={() => releaseVersion(selectedVersion._id)}
+              >
+                Release
+              </button>}
             </div>
             
           </div>
@@ -114,7 +124,7 @@ const VersionDetailPage = props => {
                 {listIssueOfVersion && 
                 listIssueOfVersion.map((issue, index) => {
                   return (
-                    <tr className="">
+                    <tr className="cursor-pointer" key={index} onClick={() => selectIssue(issue._id)}>
                       <td><img src={API + ((issue.priority || {}).iconUrl || '/media/medium.svg')} width="18"/></td>
                       <td><img src={API + (issue.issueType || {}).iconUrl}/></td>
                       <td>{issue.issueKey}</td>

@@ -154,7 +154,8 @@ class BacklogPageContainer extends Component {
     const params = {
       query: JSON.stringify({
         project: this.props.selectedProject._id,
-        subTaskOfIssue: null
+        subTaskOfIssue: null,
+        released: false,
       }),
       sort: JSON.stringify({
         sequenceInBacklog: -1,

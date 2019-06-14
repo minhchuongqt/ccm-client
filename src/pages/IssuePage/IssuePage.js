@@ -97,7 +97,10 @@ const IssuePage = props => {
       item => item.value !== issueInfo.priority.value && item
     )
     : prioritySelectable;
+    
+    const disabled = issueInfo.released || false;
 
+    // console.log()
   return (
     <div id="issue-view">
       <div>
@@ -253,6 +256,7 @@ const IssuePage = props => {
                     <input
                       id="edit-summary"
                       value={issueSummary}
+                      disabled
                       className="form-control hover-background"
                       style={{ height: "38px", fontSize: "20px", border: 'unset' }}
                       onBlur={() => saveSummary()}
@@ -266,6 +270,7 @@ const IssuePage = props => {
                       className="btn btn-default btn-sm"
                       data-toggle="modal"
                       data-target="#modal-editissue"
+                      disabled
                     >
                       <i className="fa fa-edit" title="Edit" /> Edit
                     </button>
@@ -290,6 +295,7 @@ const IssuePage = props => {
                       type="button"
                       className="btn btn-default btn-sm m-b-1 dropdown-toggle"
                       data-toggle="dropdown"
+                      disabled
                     >
                       More &nbsp;
                       <i className="fa fa-angle-down" />
@@ -312,8 +318,9 @@ const IssuePage = props => {
                     <button
                       type="button"
                       className="btn btn-default btn-sm m-b-1"
-                      disabled={(issueInfo.workflow || {}).type == 'TODO' || issueInfo.closed == true}
+                      disabled={disabled || ((issueInfo.workflow || {}).type == 'TODO' || issueInfo.closed == true)}
                       onClick={() => updateIssueDetail('workflow', 'TODO')}
+                      
                     >
                       {" "}
                       To Do
@@ -321,7 +328,7 @@ const IssuePage = props => {
                     <button
                       type="button"
                       className="btn btn-primary btn-sm m-b-1"
-                      disabled={(issueInfo.workflow || {}).type == 'INPROGRESS' || issueInfo.closed == true}
+                      disabled={disabled || ((issueInfo.workflow || {}).type == 'INPROGRESS' || issueInfo.closed == true)}
                       onClick={() => updateIssueDetail('workflow', 'INPROGRESS')}
                     >
                       {" "}
@@ -330,7 +337,7 @@ const IssuePage = props => {
                     <button
                       type="button"
                       className="btn btn-success btn-sm m-b-1"
-                      disabled={(issueInfo.workflow || {}).type == 'DONE' || issueInfo.closed == true}
+                      disabled={disabled || ((issueInfo.workflow || {}).type == 'DONE' || issueInfo.closed == true)}
                       onClick={() => updateIssueDetail('workflow', 'DONE')}
                     >
                       {" "}
@@ -341,7 +348,7 @@ const IssuePage = props => {
                       <button
                         type="button"
                         className="btn btn-danger btn-sm m-b-1"
-                        disabled={(issueInfo.workflow || {}).type != 'DONE'}
+                        disabled={disabled || (issueInfo.workflow || {}).type != 'DONE'}
                         onClick={() => updateIssueDetail('closed', true)}
                       >
                         {" "}
@@ -351,6 +358,7 @@ const IssuePage = props => {
                     {issueInfo.closed &&
                       <button
                         type="button"
+                        disabled
                         className="btn btn-default btn-sm m-b-1"
                         onClick={() => updateIssueDetail('closed', false)}
                       >
@@ -387,7 +395,7 @@ const IssuePage = props => {
                                   <li>
                                     <SearchSelect
                                       id="issue-page-multi-select"
-                                      isDisabled={(issueInfo.issueType || {}).label == 'Sub Task'}
+                                      isDisabled={disabled || (issueInfo.issueType || {}).label == 'Sub Task'}
                                       value={issueInfo.issueType || {}}
                                       options={selectableIssueType || []}
                                       onChange={e => updateIssueDetail('issueType', e)}
@@ -433,6 +441,7 @@ const IssuePage = props => {
                                       id="issue-page-multi-select"
                                       value={issueInfo.priority || {}}
                                       options={selectablePriority || []}
+                                      isDisabled={disabled}
                                       onChange={e => updateIssueDetail('priority', e)}
                                     />
                                   </li>
@@ -453,6 +462,7 @@ const IssuePage = props => {
                                       isMulti={true}
                                       id="issue-page-multi-select-label"
                                       isClearable={false}
+                                      isDisabled={disabled}
                                       value={issueInfo.label || []}
                                       options={selectableLabel || []}
                                       onChange={e => updateIssueDetail('label', e)}
@@ -476,6 +486,7 @@ const IssuePage = props => {
                                       value={
                                         issueInfo.storyPoints || {}
                                       }
+                                      isDisabled={disabled}
                                       options={selectableStoryPoint || []}
                                       onBlur={() => console.log("bur")}
                                       onChange={e => updateIssueDetail('storyPoints', e)}
@@ -498,6 +509,7 @@ const IssuePage = props => {
                                       id="issue-page-multi-select"
                                       options={versionSelectable}
                                       value={issueInfo.version}
+                                      isDisabled={disabled}
                                       onChange={e => updateIssueDetail('version', e)}
                                     />
                                   </li>
@@ -518,6 +530,7 @@ const IssuePage = props => {
                                       id="issue-page-multi-select"
                                       options={componentSelectable}
                                       value={issueInfo.component}
+                                      isDisabled={disabled}
                                       onChange={e => updateIssueDetail('component', e)}
                                     />
                                   </li>
@@ -536,6 +549,7 @@ const IssuePage = props => {
                                   <li >
                                     <SearchSelect
                                       id="issue-page-multi-select"
+                                      isDisabled={disabled}
                                       options={sprintTypeSelectable.filter(item => item.active == false)}
                                       value={issueInfo.sprint}
                                       onChange={e => updateIssueDetail('sprint', e)}
@@ -569,7 +583,7 @@ const IssuePage = props => {
                                 dangerouslySetInnerHTML={{
                                   __html: `${issueInfo.description || ""}`
                                 }}
-                                onClick={() => changeDisplayDescriptionEditor(true, issueInfo.description)}
+                                onClick={() => !disabled && changeDisplayDescriptionEditor(true, issueInfo.description)}
                               /> ||
                               <div style={{ display: 'block', animation: 'flipInX 0.7s both' }}>
                                 <TextEditor
@@ -642,7 +656,7 @@ const IssuePage = props => {
                               </h4>
                               <a className="right cursor-pointer">
                                 <i className="fa fa-plus"
-                                  onClick={() => changeDisplayCreateSubtask(true)}
+                                  onClick={() => !disabled && changeDisplayCreateSubtask(true)}
                                 />
                               </a>
                             </div>
@@ -815,10 +829,11 @@ const IssuePage = props => {
 
                                   <div className="input-group input-group-config">
                                     <input
+                                      disabled
                                       id="commentInputIS" className="form-control input-sm"
-                                      onKeyPress={e => handleKeyPress(e)}
+                                      onKeyPress={e => !disabled && handleKeyPress(e)}
                                       placeholder="Press enter to post comment"
-                                      onChange={e => onChangeCommentValue(e.target.value)} />
+                                      onChange={e =>!disabled && onChangeCommentValue(e.target.value)} />
 
                                     {/* <div className="input-group-btn">
                                       <button onClick = {() => postComment()} className="btn btn-primary btn-sm"><i className="fa fa-comment"></i></button>
@@ -862,6 +877,7 @@ const IssuePage = props => {
                                         key={aIdx}
                                         id="issue-page-multi-select"
                                         value={a}
+                                        isDisabled={disabled}
                                         isClearable={true}
                                         options={selectableAssignee || []}
                                         onChange={value => updateIssueDetail("assignee", value)}
@@ -873,6 +889,7 @@ const IssuePage = props => {
                                     value={{ label: 'Add another' }}
                                     placeholder="Add another"
                                     isClearable={false}
+                                    isDisabled={disabled}
                                     options={selectableAssignee || []}
                                     onChange={value => updateIssueDetail("assignee", value)}
                                   />

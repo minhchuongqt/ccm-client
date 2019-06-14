@@ -66,6 +66,7 @@ class ReleasePageContainer extends Component {
     }
     selectVersion = (version) => {
         this.props.selectVersion(version)
+        this.props.getVersionDetail(version._id)
     }
 
     render() {
@@ -118,6 +119,9 @@ const mapDispatchToProps = dispatch => ({
     },
     selectVersion(version) {
         dispatch(actions.selectVersion(version))
+    },
+    getVersionDetail(version) {
+        dispatch(actions.getVersionDetail(version))
     }
 })
 
