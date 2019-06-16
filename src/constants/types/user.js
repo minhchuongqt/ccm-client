@@ -2,3 +2,6 @@ const C = "USER"
 
 export const GET_USER_INFO = `${C}_GET_USER_INFO`
 export const GET_LIST_USER = `${C}_GET_LIST_USER`
+export const GET_LIST_EMAIL = `${C}_GET_LIST_EMAIL`
+export const INVITE_USER_STATUS = `${C}_INVITE_USER_STATUS`
+export const RESET_INVITE_USER_STATUS = `${C}_RESET_INVITE_USER_STATUS`

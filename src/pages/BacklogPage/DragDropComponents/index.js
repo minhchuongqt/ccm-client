@@ -111,9 +111,10 @@ class DragDropComponents extends React.Component {
     
     const {sprintSelectable} = this.props
     // document.body.style.color = 'inherit'
-    console.log(result)
     const { destination, source, draggableId } = result;
-    if(sprintSelectable.find(item => item.value === source.droppableId).active) {
+    if((sprintSelectable.find(item => item.value === source.droppableId) || {}).active || 
+    (sprintSelectable.find(item => item.value === destination.droppableId) || {}).active
+    ) {
       const sourceSprint = sprintSelectable.find(item => item.value === source.droppableId)
       const destinationSprint = sprintSelectable.find(item => item.value === destination.droppableId)
       const text = `This issue will be moved from sprint &nbsp;<b>${destinationSprint.label}</b>&nbsp; to sprint &nbsp;<b>${sourceSprint.label}</b>`
