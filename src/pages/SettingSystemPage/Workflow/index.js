@@ -23,11 +23,14 @@ class WorkflowContainer extends Component {
     this.getListWorkflow();
 }
 componentWillReceiveProps(newProps) {
-  const { addStepStatus
+  const { addStepStatus, updateWorkflowStatus
   } = newProps;
   if (addStepStatus) {
     toast.success("Add step successfully");
     this.setState({ isOpenAddStepModal: false });
+    this.getListWorkflow();
+  }
+  if (updateWorkflowStatus) {
     this.getListWorkflow();
   }
 }
@@ -73,7 +76,6 @@ addStep = () => {
     
 };
 updateWorkflow = async (id, value) => {
-  // console.log(id, ': ', value.map(item => item.value))
   const workflowForm = this.state.workflowForm
   workflowForm["to"] = value.map(item => item.value)
   this.setState({ workflowForm });
@@ -122,6 +124,7 @@ const mapStateToProps = state => ({
   selectedProject: projectSelectors.getSelectedProject(state),
   workflow: workflowSelectors.getListWorkflow(state),
   addStepStatus: workflowSelectors.addStepStatus(state),
+  updateWorkflowStatus: workflowSelectors.updateWorkflowStatus(state),
   selectableStatus: workflowSelectors.createStepSelectable(),
   workflowSelectable: workflowSelectors.getWorkflowSelectable(state),
 })

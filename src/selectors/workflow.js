@@ -9,6 +9,9 @@ export const getLengthListWorkflow = ({WorkflowState}) => {
 export const addStepStatus = ({WorkflowState}) => {
     return WorkflowState.addStepStatus
 }
+export const updateWorkflowStatus = ({WorkflowState}) => {
+    return WorkflowState.updateWorkflowStatus
+}
 
 export const createStepSelectable = () => {
     let result =  [

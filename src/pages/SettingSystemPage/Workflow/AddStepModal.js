@@ -41,7 +41,7 @@ const AddStepModal = props => {
                 <SearchSelect
                   options={selectableStatus}
                   value={selectableStatus.label}
-                  onChange={e => onChangeValue("status", e.value)}
+                  onChange={e => onChangeValue("type", e.value)}
                 />
               </div>
           </div>
