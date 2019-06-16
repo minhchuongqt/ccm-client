@@ -31,3 +31,14 @@ export const createStepSelectable = () => {
     console.log(result)
     return result
 }
+
+export const getWorkflowSelectable = ({WorkflowState}) => {
+    if(_.isEmpty(WorkflowState.listWorkflow)) return []
+    const result =  WorkflowState.listWorkflow.map(item => (
+        {
+            label: item.name,
+            value: item._id,
+        }
+    ))
+    return result
+}

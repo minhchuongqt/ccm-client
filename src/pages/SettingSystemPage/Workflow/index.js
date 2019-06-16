@@ -3,7 +3,7 @@ import WorkflowView from "./workflow.js";
 import * as workflowActions from '../../../actions/workflow'
 import * as projectSelectors from "../../../selectors/project";
 import * as workflowSelectors from "../../../selectors/workflow";
-import AddStepModal from "./AddStepModal";
+import AddStepModal from "./AddStepModal"
 import {toast} from "react-toastify"
 import { connect } from 'react-redux'
 class WorkflowContainer extends Component {
@@ -13,20 +13,9 @@ class WorkflowContainer extends Component {
       addForm: {
         project: this.props.selectedProject._id,
       },
+      workflowForm: {
+      },
       isOpenAddStepModal: false,
-      // selectableStatus : [
-      //     { 
-      //       label: "TO DO",
-      //       value: "TODO" },
-      //     {
-      //       label: "IN PROGRESS",
-      //       value: "INPROGRESS",
-      //     },
-      //     {
-      //       label: "DONE",
-      //       value: "DONE",
-      //     }
-      // ]
     }
   }
   componentWillMount(){
@@ -72,6 +61,12 @@ onChangeValue = (name, value) => {
   addForm[name] = value;
   this.setState({ addForm });
 };
+onChangeWorkflowValue = (name, value) => {
+  const workflowForm = this.state.workflowForm;
+  workflowForm[name] = value;
+  this.setState({ workflowForm });
+  console.log(workflowForm)
+};
 addStep = () => {
   const { addForm } = this.state;
   const data = {
@@ -94,17 +89,19 @@ validate = (data) => {
   return true;
 }
   render() {
-    const {workflow} = this.props
-    const {selectableStatus} = this.props
+    const {workflow, selectableStatus, workflowSelectable} = this.props
     const {
       isOpenAddStepModal,
-      addForm
+      addForm,
+      workflowForm
     } = this.state;
-    console.log(selectableStatus)
     return (
       <div>
-        <WorkflowView onChangeValue={(key, value) => this.setState({[key]: value}) }
+        <WorkflowView 
         listWorkflow = {workflow}
+        onChangeWorkflowValue={(name, value) => this.onChangeWorkflowValue(name, value)}
+        workflowForm={workflowForm}
+        workflowSelectable={workflowSelectable}
         openAddStepModal={() => this.openAddStepModal()}
         />
          <AddStepModal
@@ -124,6 +121,7 @@ const mapStateToProps = state => ({
   workflow: workflowSelectors.getListWorkflow(state),
   addStepStatus: workflowSelectors.addStepStatus(state),
   selectableStatus: workflowSelectors.createStepSelectable(),
+  workflowSelectable: workflowSelectors.getWorkflowSelectable(state),
 })
 
 

@@ -958,7 +958,7 @@ const IssuePage = props => {
                               if (idx > 0) {
                                 return (
                                   <ul key={idx} className="list-unstyled">
-                                    <li>{issueInfo.sprintHistory[idx - 1].label} &nbsp;&nbsp;<i className="fa fa-arrow-right"></i>&nbsp;&nbsp; {item.label}</li>
+                                    <li>{issueInfo.sprintHistory[idx - 1].label} &nbsp;&nbsp;<i className="fa fa-arrow-right"></i>&nbsp;&nbsp; {item && item.label}</li>
                                   </ul>
                                 )
                               }
