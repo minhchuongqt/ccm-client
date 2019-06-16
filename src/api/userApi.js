@@ -6,9 +6,19 @@ export const getUserInfo = ( ) => {
 
 const getListUser = (params) => {
     return API.get('/user/list', {params})
+};
+
+const getListEmail = (params) => {
+    return API.get('/user/email', {params})
+}
+
+const inviteUser = (data) => {
+    return API.post('/project/addMember', data)
 }
 
 export default {
     getUserInfo,
-    getListUser
+    getListUser,
+    getListEmail,
+    inviteUser
 }

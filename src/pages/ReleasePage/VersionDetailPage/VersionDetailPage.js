@@ -1,5 +1,6 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
+import {Link} from 'react-router-dom'
 import {API} from '../../../config'
 import moment from 'moment'
 import { selectIssue } from "../../../actions/issue";
@@ -32,7 +33,7 @@ const VersionDetailPage = props => {
     <div id="version-view">
       <div>
         <Breadcrumb>
-          <BreadcrumbItem ><a href="/release">Release</a></BreadcrumbItem>
+          <BreadcrumbItem ><Link to="/release">Release</Link></BreadcrumbItem>
           <BreadcrumbItem active>Version Detail</BreadcrumbItem>
         </Breadcrumb>
       </div>
@@ -123,6 +124,7 @@ const VersionDetailPage = props => {
               <tbody>
                 {listIssueOfVersion && 
                 listIssueOfVersion.map((issue, index) => {
+                  if(issue.summary)
                   return (
                     <tr key={index} className="cursor-pointer" onClick={() => selectIssue(issue._id)}>
                       <td><img src={API + ((issue.priority || {}).iconUrl || '/media/medium.svg')} width="18"/></td>

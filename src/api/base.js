@@ -1,5 +1,6 @@
 import createFetch from "../utils/fetch";
-
+import socket from 'socket.io-client'
+// const io = socket()
 export const get = (path, params) => {
   console.log("Method GET is called...");
   return createFetch({
@@ -67,10 +68,11 @@ export const  uploadFile = (file) => {
   // });
 }
 
+
 export default {
     get,
     post,
     put,
     remove,
-    uploadFile
+    uploadFile,
 }

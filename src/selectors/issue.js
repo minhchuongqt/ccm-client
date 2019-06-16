@@ -75,10 +75,10 @@ export const getFilterableForDetailIssue = () => {
             label: 'Summary',
             value: 'summary'
         },
-        // {
-        //     label: 'Priority',
-        //     value: 'level'
-        // },
+        {
+            label: 'Priority',
+            value: 'priority'
+        },
     ]
     return result
 }

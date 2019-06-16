@@ -182,6 +182,9 @@ const IssuePage = props => {
                           {(issue.issueType || {}).iconUrl && (
                             <img src={API + (issue.issueType || {}).iconUrl} />
                           )}
+                          {(issue.priority || {}).iconUrl && (
+                            <img src={API + (issue.priority || {}).iconUrl} width="18"/>
+                          )}
                           &nbsp;<span className="com" style={{textDecorationLine: `${issue.workflow.type == "DONE" && "line-through" || ""}`}}>{issue.issueKey}</span>
                           {assignee && assignee.map((a, aIdx) => {
                             if (a) {

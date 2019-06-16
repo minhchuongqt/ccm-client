@@ -40,7 +40,7 @@ const SearchSelect = (props) => {
       name="colors"
       components={ {Option: IconOption, SingleValue: ValueOption  } }
       // className="basic-multi-select"
-      classNamePrefix="select"
+      classNamePrefix="select"  
     />
   );
 };
