@@ -60,6 +60,7 @@ const WorkflowView = props => {
             </thead>
             <tbody>
               {listWorkflow.map((item, index) => {
+                // console.log(item)
                 return (
                   <tr key={index}>
                     <td>{item.name}</td>
@@ -84,8 +85,9 @@ const WorkflowView = props => {
                     </td> */}
                     <td className="text-align-center">
                         <div className="col-sm-9">
-                          <MultiSelect options={workflowSelectable}
-                          //  value={workflowSelectable.label || []}
+                          <MultiSelect 
+                           value={item.to || []}
+                           options={workflowSelectable}
                           onChange={e => updateWorkflow(item._id, e)} />
                         </div>
                     </td>

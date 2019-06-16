@@ -32,7 +32,7 @@ const ListUserPage = props => {
                           <tr key={index}>
                             <td>{member.email}</td>
                             <td>{member.fullName}</td>
-                            <td>{(member.group || {}).name}</td>
+                            <td>{''}</td>
                             <td><span className="label label-success">{member.active? "Active": "Deactive"}</span></td>
                             <td>CCM Application</td>
                             <td>

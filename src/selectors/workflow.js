@@ -1,9 +1,6 @@
 import _ from 'lodash'
+import {createSelector} from 'reselect'
 //params
-export const getListWorkflow = ({WorkflowState}) => {
-    if(_.isEmpty(WorkflowState.listWorkflow)) return []
-    return WorkflowState.listWorkflow
-}
 
 export const getLengthListWorkflow = ({WorkflowState}) => {
     if(_.isEmpty(WorkflowState.listWorkflow)) return []
@@ -42,3 +39,17 @@ export const getWorkflowSelectable = ({WorkflowState}) => {
     ))
     return result
 }
+
+export const getListWorkflow = createSelector(
+    [
+        ({WorkflowState}) => WorkflowState.listWorkflow,
+        getWorkflowSelectable
+    ], (listWorkflow, workflowSelectable) => {
+        if(_.isEmpty(listWorkflow)) return []
+        listWorkflow.map(item => {
+            item.to = item.to.map(i => workflowSelectable.find(w => w.value == i))
+        })
+        // console.log(listWorkflow)
+        return listWorkflow
+    }
+)

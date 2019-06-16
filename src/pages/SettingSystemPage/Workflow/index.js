@@ -72,14 +72,13 @@ addStep = () => {
   }
     
 };
-updateWorkflow = (id, value) => {
-  console.log(id, ': ', value.map(item => item.value))
+updateWorkflow = async (id, value) => {
+  // console.log(id, ': ', value.map(item => item.value))
   const workflowForm = this.state.workflowForm
   workflowForm["to"] = value.map(item => item.value)
   this.setState({ workflowForm });
   this.props.updateWorkflow(id, workflowForm)
-  
-  }
+}
 validate = (data) => {
   if (!data.name || data.name.length < 1) {
     toast.error("Please enter step name!");
