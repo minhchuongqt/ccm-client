@@ -70,7 +70,6 @@ const ActiveSprintPage = props => {
           <div className="row">
             <Board className="board-background-color board-content"
               data={data}
-              draggable
               cardDragClass="draggingCard"
               laneDraggable={false}
               customLaneHeader={<CustomLaneHeader />}

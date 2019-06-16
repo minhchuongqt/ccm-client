@@ -4,6 +4,7 @@ import * as SRD from "storm-react-diagrams";
 import "storm-react-diagrams/dist/style.min.css";
 import styled from "styled-components";
 import MultiSelect from "../../../components/multiSelect";
+import { updateWorkflow } from "../../../actions/workflow";
 
 const generateClassForWorkflowStatus = status => {
   switch (status) {
@@ -26,7 +27,7 @@ const generateClassForLinkStatus = link => {
 
 
 const WorkflowView = props => {
-  const { listWorkflow, openAddStepModal, workflowSelectable, workflowForm, onChangeWorkflowValue} = props;
+  const { listWorkflow, openAddStepModal, workflowSelectable, updateWorkflow} = props;
   return (
     <div>
       <div>
@@ -85,7 +86,7 @@ const WorkflowView = props => {
                         <div className="col-sm-9">
                           <MultiSelect options={workflowSelectable}
                           //  value={workflowSelectable.label || []}
-                            onChange={data => onChangeWorkflowValue("workflow", data)} />
+                          onChange={e => updateWorkflow(item._id, e)} />
                         </div>
                     </td>
                   </tr>

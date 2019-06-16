@@ -14,6 +14,7 @@ class WorkflowContainer extends Component {
         project: this.props.selectedProject._id,
       },
       workflowForm: {
+        project: this.props.selectedProject._id,
       },
       isOpenAddStepModal: false,
     }
@@ -61,12 +62,6 @@ onChangeValue = (name, value) => {
   addForm[name] = value;
   this.setState({ addForm });
 };
-onChangeWorkflowValue = (name, value) => {
-  const workflowForm = this.state.workflowForm;
-  workflowForm[name] = value;
-  this.setState({ workflowForm });
-  console.log(workflowForm)
-};
 addStep = () => {
   const { addForm } = this.state;
   const data = {
@@ -77,6 +72,14 @@ addStep = () => {
   }
     
 };
+updateWorkflow = (id, value) => {
+  console.log(id, ': ', value.map(item => item.value))
+  const workflowForm = this.state.workflowForm
+  workflowForm["to"] = value.map(item => item.value)
+  this.setState({ workflowForm });
+  this.props.updateWorkflow(id, workflowForm)
+  
+  }
 validate = (data) => {
   if (!data.name || data.name.length < 1) {
     toast.error("Please enter step name!");
@@ -89,7 +92,7 @@ validate = (data) => {
   return true;
 }
   render() {
-    const {workflow, selectableStatus, workflowSelectable} = this.props
+    const {workflow, selectableStatus, workflowSelectable, workflowInfo} = this.props
     const {
       isOpenAddStepModal,
       addForm,
@@ -99,7 +102,7 @@ validate = (data) => {
       <div>
         <WorkflowView 
         listWorkflow = {workflow}
-        onChangeWorkflowValue={(name, value) => this.onChangeWorkflowValue(name, value)}
+        updateWorkflow={(id, value) => this.updateWorkflow(id, value)}
         workflowForm={workflowForm}
         workflowSelectable={workflowSelectable}
         openAddStepModal={() => this.openAddStepModal()}
@@ -131,7 +134,10 @@ const mapDispatchToProps = dispatch => ({
 },
 addStep(addForm) {
   dispatch(workflowActions.addStep(addForm));
-}
+},
+updateWorkflow(id, data) {
+  dispatch(workflowActions.updateWorkflow(id, data))
+},
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((WorkflowContainer));

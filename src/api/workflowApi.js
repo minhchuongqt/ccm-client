@@ -7,8 +7,10 @@ class WorkflowApi {
     addStep = (data) => {
         return API.post('/workflow', data)
     }
+    updateWorkflow = (id, data) => {
+        return API.put('/workflow/' + id, data)
+    }
 }
-
 const workflowApi = new WorkflowApi()
 
 export default workflowApi
