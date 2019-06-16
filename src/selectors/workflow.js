@@ -12,3 +12,22 @@ export const getLengthListWorkflow = ({WorkflowState}) => {
 export const addStepStatus = ({WorkflowState}) => {
     return WorkflowState.addStepStatus
 }
+
+export const createStepSelectable = () => {
+    let result =  [
+        {
+            label: "TO DO",
+            value: "TODO"
+        },
+        {
+            label: "IN PROGRESS",
+            value: "INPROGRESS"
+        },
+        {
+            label: "DONE",
+            value: "DONE"
+        }
+    ]
+    console.log(result)
+    return result
+}

@@ -62,9 +62,9 @@ class ActiveSprintPageContainer extends Component {
         this.getActiveSprintInfo();
         
     }
-    componentWillUpdate() {
-      this.responsiveWidth();
-    }
+    // componentWillUpdate() {
+    //   this.responsiveWidth();
+    // }
     responsiveWidth = ()  =>   {
       var wfLength = this.props.workflow.length
       if(wfLength === 0) wfLength = 3

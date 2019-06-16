@@ -3,7 +3,7 @@ import React from "react";
 import Modal from "../../../components/modal";
 import "../../../styleSheets/sass/components/Issue/IssueView.scss";
 import DatePicker from "react-datepicker";
-
+import SearchSelect from "../../../components/singleSelect";
 const AddStepModal = props => {
   // Modal.setAppElement('body')
   const {
@@ -11,7 +11,8 @@ const AddStepModal = props => {
     closeModal,
     addStep,
     openModal,
-    data
+    data,
+    selectableStatus
   } = props;
  
   return (
@@ -33,6 +34,16 @@ const AddStepModal = props => {
                 onChange={e => onChangeValue("name", e.target.value)}
               />
             </div>
+          </div>
+          <div className="form-group">
+            <label className="col-sm-3 control-label">Status</label>
+              <div className="col-sm-9">
+                <SearchSelect
+                  options={selectableStatus}
+                  value={selectableStatus.label}
+                  onChange={e => onChangeValue("status", e.value)}
+                />
+              </div>
           </div>
         </div>
       </div>

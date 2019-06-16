@@ -25,7 +25,7 @@ export const generateDataActiveBoard = createSelector(
       item.issues.map(i => (i.summary.indexOf(searchValue) > -1 ? i : null))
     );
     // console.log(BacklogState.sprintActive);
-    let a = 1074 / WorkflowState.listWorkflow.length;
+    // let a = 1074 / WorkflowState.listWorkflow.length;
     const temp = {
       lanes:
         WorkflowState.listWorkflow &&
@@ -37,7 +37,7 @@ export const generateDataActiveBoard = createSelector(
             BacklogState.sprintActive.find(i => i.workflow._id === item._id)
               .issues.length + " issues",
           style: {
-            width: a,
+            // width: a,
             backgroundColor: "#f4f5f7",
             color: "#172b4d",
             boxShadow: "2px 2px 4px 0px rgba(0,0,0,0.75)"

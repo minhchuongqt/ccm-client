@@ -141,7 +141,7 @@ const WorkflowView = props => {
                         )
                       }
                     >
-                      {item.name}
+                      {item.type}
                     </span>
                     </td>
                     <td className="text-align-center"><i

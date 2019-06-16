@@ -14,6 +14,19 @@ class WorkflowContainer extends Component {
         project: this.props.selectedProject._id,
       },
       isOpenAddStepModal: false,
+      // selectableStatus : [
+      //     { 
+      //       label: "TO DO",
+      //       value: "TODO" },
+      //     {
+      //       label: "IN PROGRESS",
+      //       value: "INPROGRESS",
+      //     },
+      //     {
+      //       label: "DONE",
+      //       value: "DONE",
+      //     }
+      // ]
     }
   }
   componentWillMount(){
@@ -48,7 +61,8 @@ openAddStepModal = () => {
 closeStepModal = () => {
   this.setState({
     addForm: {
-      name: ""
+      name: "",
+      status: ""
     }
   });
   this.setState({ isOpenAddStepModal: false });
@@ -57,7 +71,6 @@ onChangeValue = (name, value) => {
   const addForm = this.state.addForm;
   addForm[name] = value;
   this.setState({ addForm });
-  console.log(value)
 };
 addStep = () => {
   const { addForm } = this.state;
@@ -82,10 +95,12 @@ validate = (data) => {
 }
   render() {
     const {workflow} = this.props
+    const {selectableStatus} = this.props
     const {
       isOpenAddStepModal,
-      addForm,
+      addForm
     } = this.state;
+    console.log(selectableStatus)
     return (
       <div>
         <WorkflowView onChangeValue={(key, value) => this.setState({[key]: value}) }
@@ -94,6 +109,7 @@ validate = (data) => {
         />
          <AddStepModal
           data={addForm}
+          selectableStatus={selectableStatus}
           openModal={isOpenAddStepModal}
           closeModal={this.closeStepModal}
           addStep={this.addStep}
@@ -107,6 +123,7 @@ const mapStateToProps = state => ({
   selectedProject: projectSelectors.getSelectedProject(state),
   workflow: workflowSelectors.getListWorkflow(state),
   addStepStatus: workflowSelectors.addStepStatus(state),
+  selectableStatus: workflowSelectors.createStepSelectable(),
 })
 
 
@@ -116,7 +133,7 @@ const mapDispatchToProps = dispatch => ({
 },
 addStep(addForm) {
   dispatch(workflowActions.addStep(addForm));
-},
+}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((WorkflowContainer));
