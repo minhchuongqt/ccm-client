@@ -6,15 +6,19 @@ import * as workflowSelectors from "../../../selectors/workflow";
 import AddStepModal from "./AddStepModal"
 import {toast} from "react-toastify"
 import { connect } from 'react-redux'
+import _ from "lodash"
 class WorkflowContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       addForm: {
-        project: this.props.selectedProject._id,
+        project: this.props.selectedProject._id
       },
       workflowForm: {
-        project: this.props.selectedProject._id,
+        project: this.props.selectedProject._id
+      },
+      changeForm: {
+        project: this.props.selectedProject._id
       },
       isOpenAddStepModal: false,
     }
@@ -23,7 +27,7 @@ class WorkflowContainer extends Component {
     this.getListWorkflow();
 }
 componentWillReceiveProps(newProps) {
-  const { addStepStatus, updateWorkflowStatus
+  const { addStepStatus, updateWorkflowStatus, swapWorkflowStatus
   } = newProps;
   if (addStepStatus) {
     toast.success("Add step successfully");
@@ -31,6 +35,9 @@ componentWillReceiveProps(newProps) {
     this.getListWorkflow();
   }
   if (updateWorkflowStatus) {
+    this.getListWorkflow();
+  }
+  if (swapWorkflowStatus) {
     this.getListWorkflow();
   }
 }
@@ -67,6 +74,7 @@ onChangeValue = (name, value) => {
 };
 addStep = () => {
   const { addForm } = this.state;
+  addForm["sequence"] = this.props.workflow.length + 1
   const data = {
     ...addForm
   };
@@ -78,8 +86,21 @@ addStep = () => {
 updateWorkflow = async (id, value) => {
   const workflowForm = this.state.workflowForm
   workflowForm["to"] = value.map(item => item.value)
+  if(_.isEmpty(workflowForm.to)) {
+    workflowForm["linkAll"] = true
+  }
+  else {
+    workflowForm["linkAll"]= false
+  }
   this.setState({ workflowForm });
   this.props.updateWorkflow(id, workflowForm)
+}
+swapWorkflow =  (source, destination) => {
+  const changeForm = this.state.changeForm
+  changeForm["source"] = source
+  changeForm["destination"] = destination
+  this.setState({changeForm});
+  this.props.swapWorkflow(changeForm);
 }
 validate = (data) => {
   if (!data.name || data.name.length < 1) {
@@ -92,6 +113,7 @@ validate = (data) => {
   }
   return true;
 }
+
   render() {
     const {workflow, selectableStatus, workflowSelectable, workflowInfo} = this.props
     const {
@@ -107,6 +129,8 @@ validate = (data) => {
         workflowForm={workflowForm}
         workflowSelectable={workflowSelectable}
         openAddStepModal={() => this.openAddStepModal()}
+        swapWorkflow={(source, destination) => this.swapWorkflow(source, destination)}
+        workflowDown={() => this.workflowDown()}
         />
          <AddStepModal
           data={addForm}
@@ -125,6 +149,7 @@ const mapStateToProps = state => ({
   workflow: workflowSelectors.getListWorkflow(state),
   addStepStatus: workflowSelectors.addStepStatus(state),
   updateWorkflowStatus: workflowSelectors.updateWorkflowStatus(state),
+  swapWorkflowStatus: workflowSelectors.swapWorkflowStatus(state),
   selectableStatus: workflowSelectors.createStepSelectable(),
   workflowSelectable: workflowSelectors.getWorkflowSelectable(state),
 })
@@ -140,6 +165,9 @@ addStep(addForm) {
 updateWorkflow(id, data) {
   dispatch(workflowActions.updateWorkflow(id, data))
 },
+swapWorkflow(data) {
+  dispatch(workflowActions.swapWorkflow(data))
+}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) ((WorkflowContainer));

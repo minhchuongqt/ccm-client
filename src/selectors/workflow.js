@@ -12,7 +12,9 @@ export const addStepStatus = ({WorkflowState}) => {
 export const updateWorkflowStatus = ({WorkflowState}) => {
     return WorkflowState.updateWorkflowStatus
 }
-
+export const swapWorkflowStatus = ({WorkflowState}) => {
+    return WorkflowState.swapWorkflowStatus
+}
 export const createStepSelectable = () => {
     let result =  [
         {

@@ -259,24 +259,13 @@ const IssuePage = props => {
                     <input
                       id="edit-summary"
                       value={issueSummary}
-                      disabled
+                      disabled = {disabled}
                       className="form-control hover-background"
                       style={{ height: "38px", fontSize: "20px", border: 'unset' }}
                       onBlur={() => saveSummary()}
                       onChange={e => updateIssueDetail('summary', e.target.value)}
                       onKeyDown={e => { e.key == 'Enter' && saveSummary() }}
                     />
-                  </div>
-                  <div className="btn-group m-b-5">
-                    <button
-                      type="button"
-                      className="btn btn-default btn-sm"
-                      data-toggle="modal"
-                      data-target="#modal-editissue"
-                      disabled
-                    >
-                      <i className="fa fa-edit" title="Edit" /> Edit
-                    </button>
                   </div>
                   <div className="btn-group m-b-5">
                     <button onClick={() => moveToComment()} type="button" className="btn btn-default btn-sm">
@@ -298,20 +287,12 @@ const IssuePage = props => {
                       type="button"
                       className="btn btn-default btn-sm m-b-1 dropdown-toggle"
                       data-toggle="dropdown"
-                      disabled
+                      disabled = {disabled}
                     >
                       More &nbsp;
                       <i className="fa fa-angle-down" />
                     </button>
                     <ul className="dropdown-menu" role="menu">
-                      <li>
-                        <a>Log work</a>
-                      </li>
-                      <li className="divider" />
-                      {/* <li>
-                        <a>Create a sub-task</a>
-                      </li> */}
-                      <li className="divider" />
                       <li onClick={() => removeIssue(issueInfo._id)}>
                         <a>Delete</a>
                       </li>
@@ -831,7 +812,7 @@ const IssuePage = props => {
 
                                   <div className="input-group input-group-config">
                                     <input
-                                      disabled
+                                      disabled = {disabled}
                                       id="commentInputIS" className="form-control input-sm"
                                       onKeyPress={e => !disabled && handleKeyPress(e)}
                                       placeholder="Press enter to post comment"

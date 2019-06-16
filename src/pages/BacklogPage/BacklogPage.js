@@ -89,8 +89,8 @@ const BacklogPage = props => {
       )
     : prioritySelectable;
 
-  const disabled = issueInfo.released || issueInfo.closed || false;
-  // console.log(issueInfo)
+  const disabled = (issueInfo.released || issueInfo.closed) || false;
+  // console.log(disabled)
   // const {  initialData, openAddIssueModal, openStartSprintModal } = props
   return (
     <div id="backlog-view">
@@ -217,21 +217,10 @@ const BacklogPage = props => {
                         className="form-control hover-background" 
                         style={{height: "38px",fontSize: "20px", border: 'unset'}}
                         onBlur={() => saveSummary()}
-                        disabled
+                        disabled = {disabled}
                         onChange={e => updateIssueDetail('summary', e.target.value)}
                         onKeyDown={e => {e.key == 'Enter' && saveSummary()}}
                       />
-                  </div>
-                  <div className="btn-group m-b-5">
-                    <button
-                      type="button"
-                      className="btn btn-default btn-sm"
-                      data-toggle="modal"
-                      data-target="#modal-editissue"
-                      disabled
-                    >
-                      <i className="fa fa-edit" title="Edit" /> Edit
-                    </button>
                   </div>
                   <div className="btn-group m-b-5">
                     <button  onClick={() => moveToComment()} type="button" className="btn btn-default btn-sm">
@@ -253,20 +242,12 @@ const BacklogPage = props => {
                       type="button"
                       className="btn btn-default btn-sm m-b-1 dropdown-toggle"
                       data-toggle="dropdown"
-                      disabled
+                      disabled = {disabled}
                     >
                       More &nbsp;
                       <i className="fa fa-angle-down" />
                     </button>
                     <ul className="dropdown-menu" role="menu">
-                      <li>
-                        <a>Log work</a>
-                      </li>
-                      <li className="divider" />
-                      {/* <li>
-                        <a>Create a sub-task</a>
-                      </li> */}
-                      <li className="divider" />
                       <li onClick={() => removeIssue(issueInfo._id)}>
                         <a>Delete</a>
                       </li>
@@ -274,30 +255,27 @@ const BacklogPage = props => {
                   </div>
                   <div className="btn-group m-b-5">
                     <button
-                      disabled
                       type="button"
                       className="btn btn-default btn-sm m-b-1"
-                      disabled={(issueInfo.workflow || {}).type == 'TODO' || issueInfo.closed == true}
+                      disabled={disabled || (issueInfo.workflow || {}).type == 'TODO' || issueInfo.closed == true}
                       onClick={() => updateIssueDetail('workflow', 'TODO')}
                     >
                       {" "}
                       To Do
                     </button>
                     <button
-                      disabled
                       type="button"
                       className="btn btn-primary btn-sm m-b-1"
-                      disabled={(issueInfo.workflow || {}).type == 'INPROGRESS' || issueInfo.closed == true}
+                      disabled={disabled || (issueInfo.workflow || {}).type == 'INPROGRESS' || issueInfo.closed == true}
                       onClick={() => updateIssueDetail('workflow', 'INPROGRESS')}
                     >
                       {" "}
                       In Progress
                     </button>
                     <button
-                      disabled
                       type="button"
                       className="btn btn-success btn-sm m-b-1"
-                      disabled={(issueInfo.workflow || {}).type == 'DONE' || issueInfo.closed == true}
+                      disabled={disabled || (issueInfo.workflow || {}).type == 'DONE' || issueInfo.closed == true}
                       onClick={() => updateIssueDetail('workflow', 'DONE')}
                     >
                       {" "}
@@ -306,10 +284,9 @@ const BacklogPage = props => {
 
                     {!issueInfo.closed && 
                     <button
-                      disabled
                       type="button"
                       className="btn btn-danger btn-sm m-b-1"
-                      disabled={(issueInfo.workflow || {}).type != 'DONE'}
+                      disabled={disabled || (issueInfo.workflow || {}).type != 'DONE'}
                       onClick={() => updateIssueDetail('closed', true)}
                     >
                       {" "}
@@ -791,6 +768,7 @@ const BacklogPage = props => {
 
                                   <div className="input-group input-group-config">
                                     <input
+                                      disabled = {disabled}
                                       id="commentInputBL" className="form-control input-sm"
                                       onKeyPress={e => !disabled && handleKeyPress(e)}
                                       placeholder="Press enter to post comment"

@@ -27,7 +27,7 @@ const generateClassForLinkStatus = link => {
 
 
 const WorkflowView = props => {
-  const { listWorkflow, openAddStepModal, workflowSelectable, updateWorkflow} = props;
+  const { listWorkflow, openAddStepModal, workflowSelectable, updateWorkflow, swapWorkflow } = props;
   return (
     <div>
       <div>
@@ -56,11 +56,14 @@ const WorkflowView = props => {
                 <th>Step name</th>
                 <th>Status</th>
                 <th className="text-align-center">Link to others</th>
+                <th className="text-align-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               {listWorkflow.map((item, index) => {
                 // console.log(item)
+                const disabledUp = (item.sequence == 1)
+                const disabledDown = (item.sequence == listWorkflow.length)
                 return (
                   <tr key={index}>
                     <td>{item.name}</td>
@@ -84,11 +87,21 @@ const WorkflowView = props => {
                       }></i>
                     </td> */}
                     <td className="text-align-center">
-                        <div className="col-sm-9">
-                          <MultiSelect 
-                           value={item.to || []}
-                           options={workflowSelectable}
+                      <div className="col-sm-9">
+                        <MultiSelect
+                          value={item.to || []}
+                          options={workflowSelectable}
                           onChange={e => updateWorkflow(item._id, e)} />
+                      </div>
+                    </td>
+                    <td className="text-align-center">
+                      {/* <div className="btn-group">
+                        <button type="button" className="btn btn-success" ><i className="fa fa-edit" title="Edit User"></i></button> &nbsp;&nbsp;
+                        <button type="button" className="btn btn-danger" ><i className="fa fa-trash-o" title="Remove User"></i></button>
+                      </div> */}
+                        <div className="btn-group-vertical">
+                          <button type="button" disabled = {disabledUp} onClick={()=> swapWorkflow(item._id, listWorkflow[index-1]._id)} class="btn btn-xs btn-default"><i className="fa fa-caret-up" title="Move Up"></i></button>
+                          <button type="button" disabled = {disabledDown} onClick={()=> swapWorkflow(item._id, listWorkflow[index+1]._id)} class="btn btn-xs btn-default"><i className="fa fa-caret-down" title="Move Down"></i></button>
                         </div>
                     </td>
                   </tr>

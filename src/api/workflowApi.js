@@ -10,6 +10,9 @@ class WorkflowApi {
     updateWorkflow = (id, data) => {
         return API.put('/workflow/' + id, data)
     }
+    swapWorkflow = (data) => {
+        return API.post('/workflow/swap', data)
+    }
 }
 const workflowApi = new WorkflowApi()
 

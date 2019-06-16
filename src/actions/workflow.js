@@ -1,4 +1,4 @@
-import { GET_LIST_WORKFLOW, CREATE_STEP, UPDATE_WORKFLOW_STATUS } from '../constants/types/workflow';
+import { GET_LIST_WORKFLOW, CREATE_STEP, UPDATE_WORKFLOW_STATUS, SWAP_WORKFLOW } from '../constants/types/workflow';
 import WorkflowApi from '../api/workflowApi';
 import {toast} from 'react-toastify'
 export const getWorkflowList = (data) => dispatch => {
@@ -12,6 +12,13 @@ export const addStep = (data) => dispatch => {
     WorkflowApi.addStep(data).then(res => {
         if(res.data) {
             dispatch({type: CREATE_STEP, payload: res.data.data})
+        }
+    })
+}
+export const swapWorkflow = (data) => dispatch => {
+    WorkflowApi.swapWorkflow(data).then(res => {
+        if(res.data) {
+            dispatch({type: SWAP_WORKFLOW, payload: res.data.data})
         }
     })
 }
