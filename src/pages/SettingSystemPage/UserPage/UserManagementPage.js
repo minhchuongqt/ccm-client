@@ -11,8 +11,7 @@ const UserManagementPage = props => {
     <div>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem><a href="/">Home</a></BreadcrumbItem>
-          <BreadcrumbItem><a href="/">Settting</a></BreadcrumbItem>
+          <BreadcrumbItem active>Setting</BreadcrumbItem>
           <BreadcrumbItem active>User Management</BreadcrumbItem>
         </Breadcrumb>
       </div>

@@ -32,12 +32,7 @@ const WorkflowView = props => {
     <div>
       <div>
         <Breadcrumb>
-          <BreadcrumbItem>
-            <a href="/">Home</a>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <a href="/">Settting</a>
-          </BreadcrumbItem>
+          <BreadcrumbItem active>Setting</BreadcrumbItem>
           <BreadcrumbItem active>Workflow Management</BreadcrumbItem>
         </Breadcrumb>
       </div>
