@@ -60,7 +60,7 @@ const ReleasePage = props => {
           <div className="group-btn" style={{ float: "right" }}>
             <button
               type="submit"
-              className="btn btn-default"
+              className="btn btn-success"
               onClick={() => openCreateVersionModal("test")}
             >
               Create Version

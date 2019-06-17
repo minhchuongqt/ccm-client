@@ -18,7 +18,8 @@ const RegisterPage = props => {
                 value={props.fullName}
                 onChange={e => props.changeValue('fullName', e.target.value)}
               />
-              <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/man-user.svg')} alt=""></img>
+              <span className="fa fa-user form-control-feedback login-icon-custom" />
+              {/* <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/man-user.svg')} alt=""></img> */}
             </div>
             <p className="p-register">Email Adress</p>
             <div className="form-group has-feedback">
@@ -26,14 +27,16 @@ const RegisterPage = props => {
                 value={props.email}
                 onChange={e => props.changeValue('email', e.target.value)}
               />
-              <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/man-user.svg')} alt=""></img>
+              <span className="fa fa-envelope form-control-feedback login-icon-custom" />
+              {/* <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/man-user.svg')} alt=""></img> */}
             </div>
             <p className="p-register">Password</p>
             <div className="form-group has-feedback">
               <input type="password" className="form-control login-custom login-input password" 
                 value={props.password}
                 onChange={e => props.changeValue('password', e.target.value)} />
-                <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/password.svg')} alt=""></img>
+                <span className="fa fa-lock form-control-feedback login-icon-custom" />
+                {/* <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/password.svg')} alt=""></img> */}
             </div>
             <p className="p-register">Retype password</p>
             <div className="form-group has-feedback">
@@ -41,7 +44,8 @@ const RegisterPage = props => {
                 value={props.retypePassword}
                 onChange={e => props.changeValue('retypePassword', e.target.value)}
               />
-              <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/password.svg')} alt=""></img>
+              <span className="fa fa-lock form-control-feedback login-icon-custom" />
+              {/* <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/password.svg')} alt=""></img> */}
             </div>
 
             <div class="row">

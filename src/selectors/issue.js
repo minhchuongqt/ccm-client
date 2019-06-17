@@ -135,7 +135,6 @@ export const getIssueTypeSelectable = ({IssueState}) => {
         }
         )
     ) 
-    console.log(result)
     return result
 }
 

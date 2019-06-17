@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-// import * as PATH from "../../constants/data/routeConstants";
 import HeaderComponent from "../../pages/MainPage/Header";
-// import * as Api from "../../api/registerApi";
-// import urlApi from "../../constants/urlApi";
-
+import * as selectors from '../../selectors/user'
+import {connect} from 'react-redux'
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +22,7 @@ class Header extends Component {
 
   render() {
     const { type } = this.state;
+    const {userInfo} = this.props;
     const isShow = this.props.history.location.pathname === '/' ? false : true
     return (
       <div>
@@ -35,4 +34,12 @@ class Header extends Component {
   }
 }
 
-export default  (withRouter(Header));
+const mapStateToProps = state => ({
+  userInfo: selectors.getUserInfo(state)
+})
+
+const mapDispatchToProps = dispatch => ({
+  
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)  (withRouter(Header));

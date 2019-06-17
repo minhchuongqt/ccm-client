@@ -421,9 +421,7 @@ const BacklogPage = props => {
                                     <Creatable
                                       id="issue-page-multi-select-label"
                                       value={
-                                        issueInfo.storyPoints || {
-                                          label: "None"
-                                        }
+                                        issueInfo.storyPoints 
                                       }
                                       isDisabled={disabled}
                                       options={selectableStoryPoint || []}
@@ -583,7 +581,7 @@ const BacklogPage = props => {
                           </div>
                         )}
 
-                        {issueInfo.issueType.label != "Sub Task" && 
+                        {(issueInfo.issueType || {}).label != "Sub Task" && 
                         <div className="panel m-b-0" style={{paddingBottom: 10}}>
                           <div className="box-header with-border pd-0">
                             <h4 className="box-title">

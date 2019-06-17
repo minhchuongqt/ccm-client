@@ -13,19 +13,21 @@ const LoginPage = props => {
             {/* <form> */}
             <p className="p-login">Email Adress</p>
             <div className="form-group has-feedback">
+            <span className="fa fa-user form-control-feedback login-icon-custom" />
               <input type="email" className="form-control login-custom login-input" 
                 onChange={e => props.onChange('email', e.target.value)}
                 value={props.email}
               />
-              <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/man-user.svg')} alt=""></img>
+              {/* <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/man-user.svg')} alt=""></img> */}
             </div>
             <p className="p-login">Password</p>
             <div className="form-group has-feedback">
+            <span className="fa fa-lock form-control-feedback login-icon-custom" />
               <input type="password" className="form-control login-custom login-input password" 
                 onChange={e => props.onChange('password', e.target.value)}
                 value={props.password}
               />
-              <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/password.svg')} alt=""></img>
+              {/* <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/password.svg')} alt=""></img> */}
             </div>
             <div class="row">
               <div class="col-xs-12 pad-bottom">

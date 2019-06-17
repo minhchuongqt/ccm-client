@@ -81,7 +81,7 @@
     }
     .login-box-title{
         text-align: center;
-        color: #7bbb49;
+        color: #0073b7;
         font-family: 'Averir';
         font-style: normal;
         font-weight: 900;
@@ -89,7 +89,7 @@
     }
     .btn-login{
         transition: .3s;
-        background-color: #7bbb49;
+        background-color: #0073b7;
         font-family: 'Averir';
         font-style: normal;
         font-weight: 700;
@@ -122,8 +122,8 @@
         letter-spacing: 5px;
     }
     .login-box input{
-        color: #7bbb49 !important;
-        font-size: 23px;
+        // color: #0073b7 !important;
+        font-size: 16px;
     }
     @media (max-width : 600px){
         .login-image-box{

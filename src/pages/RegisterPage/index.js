@@ -14,7 +14,9 @@ class RegisterPageContainer extends Component {
             retypePassword: '',
         }
     }
-
+    componentWillReceiveProps(newProps) {
+       
+    }
     changeValue  = (key, value) => {
       this.setState({[key]:value});
     }

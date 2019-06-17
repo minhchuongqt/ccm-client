@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import userImg from "../../assets/img/avatar5.png";
+import { API } from "../../config";
 const Header = props => {
-  const { isShow } = props;
+  const { isShow, userInfo } = props;
   return (
     <header className="main-header bg-steelblue">
       <a href="/" className="logo color-white">
@@ -23,9 +24,9 @@ const Header = props => {
           <ul className="nav navbar-nav">
 
           <li className="dropdown">
-              <a className="dropdown-toggle" data-toggle="dropdown">
+              {/* <a className="dropdown-toggle" data-toggle="dropdown">
                 <i className="fa fa-bell-o" />
-              </a>
+              </a> */}
               {/* <ul className="dropdown-menu dropdown-menu-custom" role="menu">
               <li className="header">You have 10 notifications</li>
               </ul> */}
@@ -44,35 +45,28 @@ const Header = props => {
             
             <li className="dropdown user user-menu">
               <a className="dropdown-toggle" data-toggle="dropdown">
-                <img src={userImg} className="user-image" alt="User Image" />
-                <span className="hidden-xs">Pham Hong Cang</span>
+                <img src={API + userInfo.avatarUrl} className="user-image" alt="User Image" />
+                <span className="hidden-xs">{userInfo.fullName || userInfo.displayName || "Unknown"}</span>
               </a>
               <ul className="dropdown-menu dropdown-menu-custom">
                 <li className="user-header">
                   <img
-                    src={userImg}
+                    src={API + userInfo.avatarUrl}
                     className="img-circle"
                     alt="User Image"
                   />
 
                   <p>
-                    Pham Hong Cang - Web Developer
+                    {userInfo.fullName || userInfo.displayName} - Web Developer
                   </p>
                 </li>
-                <li className="user-footer">
+                {/* <li className="user-footer">
                   <div className="pull-left">
                     <button className="btn bg-navy btn-flat">
                       Profile
                     </button>
                   </div>
-                  {/* <div className="pull-right">
-                    <Link to="/login">
-                      <button className="btn btn-success btn-flat">
-                        Sign out
-                      </button>{" "}
-                    </Link>
-                  </div> */}
-                </li>
+                </li> */}
               </ul>
             </li>
 

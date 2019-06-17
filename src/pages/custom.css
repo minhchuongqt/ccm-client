@@ -55,6 +55,8 @@
     left: 15px;
     top: 3px;
     width: 17px;
+    color: #0073b7 !important;
+    font-size: 23px;
 }
 .btn-login{
     width: 100%;
