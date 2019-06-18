@@ -11,9 +11,8 @@ const ProjectManagementPage = props => {
     <div >
       <div>
         <Breadcrumb>
-          <BreadcrumbItem><a href="/">Home</a></BreadcrumbItem>
-          <BreadcrumbItem><a href="/">Settting</a></BreadcrumbItem>
-          <BreadcrumbItem active>System Setting</BreadcrumbItem>
+          <BreadcrumbItem active>Setting</BreadcrumbItem>
+          <BreadcrumbItem active>Project</BreadcrumbItem>
         </Breadcrumb>
       </div>
       <div className="modal fade" id="modal-deleteproject">
@@ -68,7 +67,7 @@ const ProjectManagementPage = props => {
                     <td>{item.updatedDate}</td>
                     <td>
                       <div className="btn-group">
-                        <button type="button" className="btn btn-success" data-toggle="modal" data-target=""><i className="fa fa-user-plus" title="Invite Users"></i></button>
+                        {/* <button type="button" className="btn btn-success" data-toggle="modal" data-target=""><i className="fa fa-user-plus" title="Invite Users"></i></button> */}
                         <button type="button" onClick={() => chooseProject(item)} className="btn btn-danger" data-toggle="modal" data-target="#modal-deleteproject"><i className="fa fa-trash-o" title="Delete Project"></i></button>
                       </div>
                     </td>

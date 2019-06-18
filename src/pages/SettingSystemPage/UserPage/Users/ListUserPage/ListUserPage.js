@@ -23,7 +23,7 @@ const ListUserPage = props => {
                         <th>Group</th>
                         <th>Status</th>
                         <th>Applications</th>
-                        <th>Action</th>
+                        {/* <th>Action</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -35,12 +35,12 @@ const ListUserPage = props => {
                             <td>{''}</td>
                             <td><span className="label label-success">{member.active? "Active": "Deactive"}</span></td>
                             <td>CCM Application</td>
-                            <td>
+                            {/* <td>
                               <div className="btn-group">
                                 <button type="button" className="btn btn-success" data-toggle="modal" data-target="#modal-edituser"><i className="fa fa-edit" title="Edit User"></i></button>
                                 <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#modal-deleteuser"><i className="fa fa-trash-o" title="Remove User"></i></button>
                               </div>
-                            </td>
+                            </td> */}
                           </tr>
                         )
                       })}
