@@ -29,12 +29,17 @@ const CustomLaneHeader = props => {
 }
 
 const ActiveSprintPage = props => {
-  const { data, activeSprintInfo, openCompleteSprintModal, searchValue, onChangeSearchValue } = props
+  const { data, activeSprintInfo, openCompleteSprintModal, searchValue, onChangeSearchValue, shouldReceiveNewData } = props
 
 
   const handleDragEnd = (cardId, sourceLaneId, targetLaneId, position, card) => {
-    props.handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card)
+    props.handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card, data)
   }
+
+  // const shouldReceiveNewData = nextData => {
+  //   console.log(nextData)
+  // }
+  console.log(data)
   
   return (
     <div id="sprint-view" >
@@ -75,6 +80,7 @@ const ActiveSprintPage = props => {
               customLaneHeader={<CustomLaneHeader />}
               draggable
               handleDragEnd={handleDragEnd}
+              // onDataChange={shouldReceiveNewData}
             />
           </div>
         </div>

@@ -42,6 +42,7 @@ export const generateDataActiveBoard = createSelector(
             color: "#172b4d",
             boxShadow: "2px 2px 4px 0px rgba(0,0,0,0.75)"
           },
+          // disabled: true,
           cards:
             (BacklogState.sprintActive.find(i => i.workflow._id === item._id) &&
               BacklogState.sprintActive
