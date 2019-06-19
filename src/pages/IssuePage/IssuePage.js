@@ -107,6 +107,26 @@ const IssuePage = props => {
         <Breadcrumb>
           <BreadcrumbItem active>Issue</BreadcrumbItem>
         </Breadcrumb>
+        <div className="modal fade" id="modal-deleteIssue">
+          <div className="modal-dialog modal-top">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 className="modal-title">Delete Issue</h4>
+              </div>
+              <div className="form-horizontal">
+                <div className="modal-body">
+                  <p>Are you sure you want to delete issue <strong>{issueInfo.issueKey}</strong>?</p>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" className="btn btn-danger" data-dismiss="modal"onClick={() => removeIssue(issueInfo._id)}>Confirm Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="row">
@@ -285,18 +305,13 @@ const IssuePage = props => {
                   </button> */}
                     <button
                       type="button"
-                      className="btn btn-default btn-sm m-b-1 dropdown-toggle"
-                      data-toggle="dropdown"
+                      className="btn btn-danger btn-sm m-b-1"
+                      // onClick={() => removeIssue(issueInfo._id)}
+                      data-toggle="modal" data-target="#modal-deleteIssue"
                       disabled = {disabled}
                     >
-                      More &nbsp;
-                      <i className="fa fa-angle-down" />
+                      Delete
                     </button>
-                    <ul className="dropdown-menu" role="menu">
-                      <li onClick={() => removeIssue(issueInfo._id)}>
-                        <a>Delete</a>
-                      </li>
-                    </ul>
                   </div>
                   <div className="btn-group m-b-5">
                     <button

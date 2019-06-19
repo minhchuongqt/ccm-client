@@ -26,7 +26,7 @@ const generateClassForIssueStatus = status => {
 };
 
 const BacklogPage = props => {
-  const { 
+  const {
     initialData, openAddIssueModal, openStartSprintModal, openAddSprintModal,
     selectIssue,
     issueInfo,
@@ -62,31 +62,31 @@ const BacklogPage = props => {
     createIssue,
     moveToComment,
   } = props
-  let selectableIssueType = issueInfo.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
+  let selectableIssueType = issueInfo.issueType ? issueTypeSelectable.filter(item => item.label != 'Sub Task') : issueTypeSelectable
 
   let selectableStoryPoint = issueInfo.storyPoints
     ? storyPointSelectable.filter(
-        item => item.value != issueInfo.storyPoints.value && item
-      )
+      item => item.value != issueInfo.storyPoints.value && item
+    )
     : storyPointSelectable;
 
   let selectableAssignee = assigneeSelectable
-    // assigneeSelectable.map(
-    //   item =>
-    //     !(issueInfo.assignee || []).find(i => i.value == item.value) && item
-    // ) || [];
+  // assigneeSelectable.map(
+  //   item =>
+  //     !(issueInfo.assignee || []).find(i => i.value == item.value) && item
+  // ) || [];
 
   let selectableLabel = labelSelectable
     ? labelSelectable.map(
-        item =>
-          !(issueInfo.label || []).find(i => i.value == item.value) && item
-      ) || []
+      item =>
+        !(issueInfo.label || []).find(i => i.value == item.value) && item
+    ) || []
     : [];
 
   let selectablePriority = issueInfo.priority
     ? prioritySelectable.filter(
-        item => item.value !== issueInfo.priority.value && item
-      )
+      item => item.value !== issueInfo.priority.value && item
+    )
     : prioritySelectable;
 
   const disabled = (issueInfo.released || issueInfo.closed) || false;
@@ -98,29 +98,49 @@ const BacklogPage = props => {
         <Breadcrumb>
           <BreadcrumbItem active>Backlog</BreadcrumbItem>
         </Breadcrumb>
-      </div>
-      <div style={{ width: "20%", display: 'flex', marginLeft: 8 }}>
-              <div className="form-group">
-                {/* <span className="fa fa-search form-control-feedback"></span> */}
-                <input style={{ height: 38, width: 270 }} type="text" className="form-control" placeholder="Search"
-                  onChange={e => onChangeSearchValue(e.target.value)}
-                  value={searchValue || ''}
-                />
+        <div className="modal fade" id="modal-deleteIssueBL">
+          <div className="modal-dialog modal-top">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 className="modal-title">Delete Issue</h4>
+              </div>
+              <div className="form-horizontal">
+                <div className="modal-body">
+                  <p>Are you sure you want to delete issue <strong>{issueInfo.issueKey}</strong>?</p>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" className="btn btn-danger" data-dismiss="modal"onClick={() => removeIssue(issueInfo._id)}>Confirm Delete</button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div style={{ width: "20%", display: 'flex', marginLeft: 8 }}>
+        <div className="form-group">
+          {/* <span className="fa fa-search form-control-feedback"></span> */}
+          <input style={{ height: 38, width: 270 }} type="text" className="form-control" placeholder="Search"
+            onChange={e => onChangeSearchValue(e.target.value)}
+            value={searchValue || ''}
+          />
+        </div>
+      </div>
       <div className="row height-fill">
         <div className={`col-md-${_.isEmpty(issueInfo.summary) && '11 ' || '6 scroll-detail'} p-r-0`}>
-        <DragDropComponent
-        selectableIssueType={selectableIssueType}
-        createIssue={(summary, issueType, sprint) => createIssue(summary, issueType, sprint)}
-        getListSprint={() => getListSprint()}
-        openConfirmMoveIssueInActiveSprintModal={openConfirmMoveIssueInActiveSprintModal}
-        changeIssueSprint={(issueId, fromSprint, toSprint) => changeIssueSprint(issueId, fromSprint, toSprint)}
-        openAddIssueModal = {data => openAddIssueModal(data)} 
-        openStartSprintModal = {data => openStartSprintModal(data)} 
-        openAddSprintModal={openAddSprintModal}
-        onClick={(task)=> selectIssue(task)} initialData={initialData || {}} />
-        {/* {listSprint.map((sprint, index) => {
+          <DragDropComponent
+            selectableIssueType={selectableIssueType}
+            createIssue={(summary, issueType, sprint) => createIssue(summary, issueType, sprint)}
+            getListSprint={() => getListSprint()}
+            openConfirmMoveIssueInActiveSprintModal={openConfirmMoveIssueInActiveSprintModal}
+            changeIssueSprint={(issueId, fromSprint, toSprint) => changeIssueSprint(issueId, fromSprint, toSprint)}
+            openAddIssueModal={data => openAddIssueModal(data)}
+            openStartSprintModal={data => openStartSprintModal(data)}
+            openAddSprintModal={openAddSprintModal}
+            onClick={(task) => selectIssue(task)} initialData={initialData || {}} />
+          {/* {listSprint.map((sprint, index) => {
           return (
             <div className="box box-success" key={index}>
             <div className="box-header with-border">
@@ -145,7 +165,7 @@ const BacklogPage = props => {
           </div>
           )
         })} */}
-         {/* <div className="create-sprint">
+          {/* <div className="create-sprint">
           <div className="btn-group pull-right">
             <button type="button" className="btn btn-success"
             onClick={() => openAddSprintModal()}>
@@ -207,23 +227,23 @@ const BacklogPage = props => {
                 <div className="box-body">
                   <div>
                     <div>
-                      <i className="fa fa-trello" /> <span style={{color: "#6d7074"}}>{issueInfo.issueKey}</span>
+                      <i className="fa fa-trello" /> <span style={{ color: "#6d7074" }}>{issueInfo.issueKey}</span>
                     </div>
                   </div>
                   <div id="edit">
-                      <input 
-                        id="edit-summary"
-                        value={issueSummary} 
-                        className="form-control hover-background" 
-                        style={{height: "38px",fontSize: "20px", border: 'unset'}}
-                        onBlur={() => saveSummary()}
-                        disabled = {disabled}
-                        onChange={e => updateIssueDetail('summary', e.target.value)}
-                        onKeyDown={e => {e.key == 'Enter' && saveSummary()}}
-                      />
+                    <input
+                      id="edit-summary"
+                      value={issueSummary}
+                      className="form-control hover-background"
+                      style={{ height: "38px", fontSize: "20px", border: 'unset' }}
+                      onBlur={() => saveSummary()}
+                      disabled={disabled}
+                      onChange={e => updateIssueDetail('summary', e.target.value)}
+                      onKeyDown={e => { e.key == 'Enter' && saveSummary() }}
+                    />
                   </div>
                   <div className="btn-group m-b-5">
-                    <button  onClick={() => moveToComment()} type="button" className="btn btn-default btn-sm">
+                    <button onClick={() => moveToComment()} type="button" className="btn btn-default btn-sm">
                       <i className="fa fa-commenting-o" title="Comment" />{" "}
                       Comment
                     </button>
@@ -240,18 +260,13 @@ const BacklogPage = props => {
                   </button> */}
                     <button
                       type="button"
-                      className="btn btn-default btn-sm m-b-1 dropdown-toggle"
-                      data-toggle="dropdown"
-                      disabled = {disabled}
+                      className="btn btn-danger btn-sm m-b-1"
+                      data-toggle="modal" data-target="#modal-deleteIssueBL"
+                      // onClick={() => removeIssue(issueInfo._id)}
+                      disabled={disabled}
                     >
-                      More &nbsp;
-                      <i className="fa fa-angle-down" />
+                      Delete
                     </button>
-                    <ul className="dropdown-menu" role="menu">
-                      <li onClick={() => removeIssue(issueInfo._id)}>
-                        <a>Delete</a>
-                      </li>
-                    </ul>
                   </div>
                   <div className="btn-group m-b-5">
                     <button
@@ -282,27 +297,27 @@ const BacklogPage = props => {
                       Done
                     </button>
 
-                    {!issueInfo.closed && 
-                    <button
-                      type="button"
-                      className="btn btn-danger btn-sm m-b-1"
-                      disabled={disabled || (issueInfo.workflow || {}).type != 'DONE'}
-                      onClick={() => updateIssueDetail('closed', true)}
-                    >
-                      {" "}
-                      Close Issue
+                    {!issueInfo.closed &&
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm m-b-1"
+                        disabled={disabled || (issueInfo.workflow || {}).type != 'DONE'}
+                        onClick={() => updateIssueDetail('closed', true)}
+                      >
+                        {" "}
+                        Close Issue
                     </button>
-                  }
-                    {issueInfo.closed && 
-                    <button
-                      type="button"
-                      className="btn btn-default btn-sm m-b-1"
-                      onClick={() => updateIssueDetail('closed', false)}
-                    >
-                      {" "}
-                      Reopen Issue
+                    }
+                    {issueInfo.closed &&
+                      <button
+                        type="button"
+                        className="btn btn-default btn-sm m-b-1"
+                        onClick={() => updateIssueDetail('closed', false)}
+                      >
+                        {" "}
+                        Reopen Issue
                     </button>
-                  }
+                    }
                   </div>
                   <div className="col-md-8 p-l-0">
                     <div className="box-body">
@@ -333,7 +348,7 @@ const BacklogPage = props => {
                                     <SearchSelect
                                       id="issue-page-multi-select"
                                       value={issueInfo.issueType || {}}
-                                      isDisabled={disabled || (issueInfo.issueType || {}).label == 'Sub Task' }
+                                      isDisabled={disabled || (issueInfo.issueType || {}).label == 'Sub Task'}
                                       options={selectableIssueType || []}
                                       onChange={e => updateIssueDetail('issueType', e)}
                                     />
@@ -421,7 +436,7 @@ const BacklogPage = props => {
                                     <Creatable
                                       id="issue-page-multi-select-label"
                                       value={
-                                        issueInfo.storyPoints 
+                                        issueInfo.storyPoints
                                       }
                                       isDisabled={disabled}
                                       options={selectableStoryPoint || []}
@@ -442,7 +457,7 @@ const BacklogPage = props => {
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
                                   <li>
-                                    <SearchSelect 
+                                    <SearchSelect
                                       isDisabled={disabled}
                                       id="issue-page-multi-select"
                                       options={versionSelectable}
@@ -463,7 +478,7 @@ const BacklogPage = props => {
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
                                   <li>
-                                    <MultiSelect 
+                                    <MultiSelect
                                       isDisabled={disabled}
                                       id="issue-page-multi-select"
                                       options={componentSelectable}
@@ -484,7 +499,7 @@ const BacklogPage = props => {
                               <div className="col-md-8">
                                 <ul className="list-unstyled">
                                   <li >
-                                    <SearchSelect 
+                                    <SearchSelect
                                       isDisabled={disabled}
                                       id="issue-page-multi-select"
                                       options={sprintTypeSelectable.filter(item => item.active == false)}
@@ -513,35 +528,35 @@ const BacklogPage = props => {
                             id="collapseDes"
                             className="box-body panel-collapse collapse in"
                           >
-                            {!displayDescriptionEditor && 
-                            <div
-                              className="box-body fade fade-in cursor-pointer description-text-box"
-                              style={{display: 'block'}}
-                              dangerouslySetInnerHTML={{
-                                __html: `${issueInfo.description || ""}`
-                              }}
-                              onClick={() => !disabled && changeDisplayDescriptionEditor(true, issueInfo.description)}
-                            /> ||
-                            <div style={{display: 'block', animation: 'flipInX 0.7s both'}}>
-                              <TextEditor 
-                              // className="form-control"
-                                name="textDescription"
-                                id="Des"
-                                rows="5"
-                                
-                                value={descriptionState || ""}
-                                onChange={value => updateIssueDetail("description", value)}
-                              />
+                            {!displayDescriptionEditor &&
+                              <div
+                                className="box-body fade fade-in cursor-pointer description-text-box"
+                                style={{ display: 'block' }}
+                                dangerouslySetInnerHTML={{
+                                  __html: `${issueInfo.description || ""}`
+                                }}
+                                onClick={() => !disabled && changeDisplayDescriptionEditor(true, issueInfo.description)}
+                              /> ||
+                              <div style={{ display: 'block', animation: 'flipInX 0.7s both' }}>
+                                <TextEditor
+                                  // className="form-control"
+                                  name="textDescription"
+                                  id="Des"
+                                  rows="5"
 
-                              <div style={{textAlign: 'right'}}>
-                                <button style={{margin: '10px'}} className="btn btn-default pd-5"
-                                  onClick={() => changeDisplayDescriptionEditor(false)}
-                                >Cancel</button>
-                                <button className="btn btn-primary"
-                                  onClick={() => saveDescription()}
-                                >Save</button>
+                                  value={descriptionState || ""}
+                                  onChange={value => updateIssueDetail("description", value)}
+                                />
+
+                                <div style={{ textAlign: 'right' }}>
+                                  <button style={{ margin: '10px' }} className="btn btn-default pd-5"
+                                    onClick={() => changeDisplayDescriptionEditor(false)}
+                                  >Cancel</button>
+                                  <button className="btn btn-primary"
+                                    onClick={() => saveDescription()}
+                                  >Save</button>
+                                </div>
                               </div>
-                            </div>
 
                             }
                             {/* {parser.parseFromString(issueInfo.description, 'text/html')}
@@ -581,84 +596,84 @@ const BacklogPage = props => {
                           </div>
                         )}
 
-                        {(issueInfo.issueType || {}).label != "Sub Task" && 
-                        <div className="panel m-b-0" style={{paddingBottom: 10}}>
-                          <div className="box-header with-border pd-0">
-                            <h4 className="box-title">
-                              <a data-toggle="collapse" href="#collapseSub">
-                                <h5>
-                                  <span>Sub-Tasks</span>
-                                </h5>
+                        {(issueInfo.issueType || {}).label != "Sub Task" &&
+                          <div className="panel m-b-0" style={{ paddingBottom: 10 }}>
+                            <div className="box-header with-border pd-0">
+                              <h4 className="box-title">
+                                <a data-toggle="collapse" href="#collapseSub">
+                                  <h5>
+                                    <span>Sub-Tasks</span>
+                                  </h5>
+                                </a>
+                              </h4>
+                              <a className="right cursor-pointer">
+                                <i className="fa fa-plus"
+                                  onClick={() => !disabled && changeDisplayCreateSubtask(true)}
+                                />
                               </a>
-                            </h4>
-                            <a className="right cursor-pointer">
-                              <i className="fa fa-plus"
-                                onClick={() => !disabled && changeDisplayCreateSubtask(true)}
-                              />
-                            </a>
-                          </div>
-                          {!_.isEmpty((issueInfo.subtasks || [])[0]) &&
-                            <div
-                              id="collapseSub"
-                              className="panel-collapse collapse in"
-                            >
-                              <div className="box-body">
-                                <table
-                                  id="issuetable"
-                                  className="table table-bordered table-hover"
-                                >
-                                  <tbody>
-                                    {issueInfo.subtasks.map((item, index) => {
-                                      return (
-                                        <tr key={index} className="cursor-pointer" onClick={(item) => selectIssue(item)}>
-                                          <td><img src={API + item.issueType.iconUrl} width="16px"/>  {item.issueKey}</td>
-                                          <td>
-                                            <div className="summary">
-                                              {item.summary}
-                                            </div>
-                                          </td>
-                                          <td>
-                                            {item.priority && <img width="16px" src={API + item.priority.iconUrl || ''}/>}
-                                          </td>
-                                          <td>
-                                            <span className={"label " + generateClassForIssueStatus(item.workflow.type)}>
-                                              {item.workflow.name}
-                                            </span>
-                                          </td>
-                                          {/* <td>
+                            </div>
+                            {!_.isEmpty((issueInfo.subtasks || [])[0]) &&
+                              <div
+                                id="collapseSub"
+                                className="panel-collapse collapse in"
+                              >
+                                <div className="box-body">
+                                  <table
+                                    id="issuetable"
+                                    className="table table-bordered table-hover"
+                                  >
+                                    <tbody>
+                                      {issueInfo.subtasks.map((item, index) => {
+                                        return (
+                                          <tr key={index} className="cursor-pointer" onClick={(item) => selectIssue(item)}>
+                                            <td><img src={API + item.issueType.iconUrl} width="16px" />  {item.issueKey}</td>
+                                            <td>
+                                              <div className="summary">
+                                                {item.summary}
+                                              </div>
+                                            </td>
+                                            <td>
+                                              {item.priority && <img width="16px" src={API + item.priority.iconUrl || ''} />}
+                                            </td>
+                                            <td>
+                                              <span className={"label " + generateClassForIssueStatus(item.workflow.type)}>
+                                                {item.workflow.name}
+                                              </span>
+                                            </td>
+                                            {/* <td>
                                             <div className="summary">
                                               minhchuongqt@gmail.com
                                             </div>
                                           </td> */}
-                                        </tr>
+                                          </tr>
 
-                                      )
-                                    })}
-                                    
-                                  </tbody>
-                                </table>
+                                        )
+                                      })}
+
+                                    </tbody>
+                                  </table>
+                                </div>
                               </div>
-                            </div>
-                          }
-                          {displayAddSubtask && 
-                            <div className="box-body">
-                              <input
-                                type="text"
-                                className="form-control"
-                                value={subTaskSummary || ''}
-                                onChange={e => updateIssueDetail("subTaskSummary", e.target.value)}
-                              />
-                              <div style={{textAlign: 'right'}}>
-                                <button style={{margin: '10px'}} className="btn btn-default pd-5"
-                                  onClick={() => changeDisplayCreateSubtask(false)}
-                                >Cancel</button>
-                                <button className="btn btn-primary"
-                                  onClick={() => createSubtask()}
-                                >Create</button>
+                            }
+                            {displayAddSubtask &&
+                              <div className="box-body">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  value={subTaskSummary || ''}
+                                  onChange={e => updateIssueDetail("subTaskSummary", e.target.value)}
+                                />
+                                <div style={{ textAlign: 'right' }}>
+                                  <button style={{ margin: '10px' }} className="btn btn-default pd-5"
+                                    onClick={() => changeDisplayCreateSubtask(false)}
+                                  >Cancel</button>
+                                  <button className="btn btn-primary"
+                                    onClick={() => createSubtask()}
+                                  >Create</button>
+                                </div>
                               </div>
-                            </div>
-                          }
-                        </div>}
+                            }
+                          </div>}
 
                         <div className="panel m-b-0">
                           <div className="box-header with-border pd-0">
@@ -684,7 +699,7 @@ const BacklogPage = props => {
                                     <div
                                       key={index}
                                       className="box-comments comments-conf"
-                                      style={{borderBottom: "1px solid #f4f4f4", padding: '10px 0'}}
+                                      style={{ borderBottom: "1px solid #f4f4f4", padding: '10px 0' }}
                                       dangerouslySetInnerHTML={{
                                         __html: `${item.content +
                                           "at " +
@@ -724,38 +739,38 @@ const BacklogPage = props => {
                             {issueInfo.comments &&
                               issueInfo.comments.map((item, index) => {
                                 if (item.content)
-                                return (
-                                  <div key={index} className="box-comments">
-                                    <img
-                                      className="img-circle img-sm avatar-comment-conf"
-                                      src={API + userInfo.avatarUrl}
-                                      alt="User Image"
-                                      width="70px"
-                                    />
-                                    <div
-                                      className="box-body box-comments comments-conf"
-                                      dangerouslySetInnerHTML={{
-                                        __html: `${ "<strong>" + userInfo.fullName + "</strong>" + 
-                                        //  "&nbsp; &nbsp;&nbsp; &nbsp;" + 
-                                         " at " + 
-                                          moment(item.createdAt).calendar(null, {
-                                            sameDay: 'hh:mm:ss a, [Today]',
-                                            nextDay: 'hh:mm:ss a, [Tomorrow]',
-                                            nextWeek: 'hh:mm:ss a, dddd',
-                                            lastDay: 'hh:mm:ss a, [Yesterday]',
-                                            lastWeek: 'hh:mm:ss a, [Last] dddd',
-                                            sameElse: 'hh:mm:ss a, MMM DD YYYY'
-                                          })}` + "<br/>" + item.content
-                                      }}
-                                    />
-                                  </div>
-                                );
+                                  return (
+                                    <div key={index} className="box-comments">
+                                      <img
+                                        className="img-circle img-sm avatar-comment-conf"
+                                        src={API + userInfo.avatarUrl}
+                                        alt="User Image"
+                                        width="70px"
+                                      />
+                                      <div
+                                        className="box-body box-comments comments-conf"
+                                        dangerouslySetInnerHTML={{
+                                          __html: `${"<strong>" + userInfo.fullName + "</strong>" +
+                                            //  "&nbsp; &nbsp;&nbsp; &nbsp;" + 
+                                            " at " +
+                                            moment(item.createdAt).calendar(null, {
+                                              sameDay: 'hh:mm:ss a, [Today]',
+                                              nextDay: 'hh:mm:ss a, [Tomorrow]',
+                                              nextWeek: 'hh:mm:ss a, dddd',
+                                              lastDay: 'hh:mm:ss a, [Yesterday]',
+                                              lastWeek: 'hh:mm:ss a, [Last] dddd',
+                                              sameElse: 'hh:mm:ss a, MMM DD YYYY'
+                                            })}` + "<br/>" + item.content
+                                        }}
+                                      />
+                                    </div>
+                                  );
                               })}
                             <div
                               className="box box-widget"
-                              // style={{ margin: "10px 0" }}
+                            // style={{ margin: "10px 0" }}
                             >
-                               <div className="box-footer box-comments">
+                              <div className="box-footer box-comments">
                                 <img
                                   className="img-circle img-sm"
                                   src={API + userInfo.avatarUrl}
@@ -766,7 +781,7 @@ const BacklogPage = props => {
 
                                   <div className="input-group input-group-config">
                                     <input
-                                      disabled = {disabled}
+                                      disabled={disabled}
                                       id="commentInputBL" className="form-control input-sm"
                                       onKeyPress={e => !disabled && handleKeyPress(e)}
                                       placeholder="Press enter to post comment"
@@ -778,9 +793,9 @@ const BacklogPage = props => {
                                   </div>
                                 </div>
                               </div>
-                              </div>
                             </div>
                           </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -823,7 +838,7 @@ const BacklogPage = props => {
                                   })}
                                   <SearchSelect
                                     id="issue-page-multi-select"
-                                    value={{label: 'Add another'}}
+                                    value={{ label: 'Add another' }}
                                     placeholder="Add another"
                                     isClearable={false}
                                     isDisabled={disabled}
@@ -838,7 +853,7 @@ const BacklogPage = props => {
                                 <li>
                                   <div className="box-body">
                                     {issueInfo.creator && issueInfo.creator.avatarUrl &&
-                                    <img src={API + issueInfo.creator.avatarUrl} width="35px" height="35px" style={{borderRadius: "50%"}}/>
+                                      <img src={API + issueInfo.creator.avatarUrl} width="35px" height="35px" style={{ borderRadius: "50%" }} />
                                     }&nbsp;&nbsp;
                                     {(issueInfo.creator || {}).displayName || (issueInfo.creator || {}).fullName}
                                   </div>
@@ -862,7 +877,7 @@ const BacklogPage = props => {
                             id="collapseDate"
                             className="panel-collapse collapse in"
                           >
-                            <div className="box-body" style={{color: "#6d7074"}}>
+                            <div className="box-body" style={{ color: "#6d7074" }}>
                               <ul className="list-unstyled">
                                 <li>Created: {issueInfo.createdDate}</li>
                               </ul>
@@ -887,21 +902,21 @@ const BacklogPage = props => {
                             id="collapseDate"
                             className="panel-collapse collapse in"
                           >
-                            <div className="box-body" style={{color: "#6d7074"}}>
+                            <div className="box-body" style={{ color: "#6d7074" }}>
                               {issueInfo.sprintHistory && issueInfo.sprintHistory.map((item, idx) => {
-                                if(idx > 0) {
+                                if (idx > 0) {
                                   return (
                                     <ul key={idx} className="list-unstyled">
                                       <li>{issueInfo.sprintHistory[idx - 1].label} &nbsp;&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;&nbsp; {item.label}</li>
                                     </ul>
-                                  ) 
-                                } 
+                                  )
+                                }
                               })}
-                              
+
                             </div>
                           </div>
                         </div>
-                        
+
                       </div>
                     </div>
                   </div>
