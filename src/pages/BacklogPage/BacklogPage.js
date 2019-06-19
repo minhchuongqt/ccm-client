@@ -60,7 +60,7 @@ const BacklogPage = props => {
     openConfirmMoveIssueInActiveSprintModal,
     getListSprint,
     createIssue,
-    moveToComment
+    moveToComment,
   } = props
   let selectableIssueType = issueInfo.issueType ?  issueTypeSelectable.filter(item =>  item.label != 'Sub Task') : issueTypeSelectable
 

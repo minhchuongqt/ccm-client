@@ -150,7 +150,10 @@ export default class Column extends React.Component {
       this.setState({issueType: (selectableIssueType || []).find(item => item.label == 'Story' && item)})
     }
   }
-  
+  handleKeyPress = (e) => {
+    if(e.charCode === 13)
+    document.getElementById("saveIssue").click();
+  }
   showInput = () => {
     this.setState({isShowInput: true})
   }
@@ -217,12 +220,13 @@ export default class Column extends React.Component {
                     <InputSummary placeholder="What needs to be done?"
                       value={summary || ''}
                       onChange={e => this.setState({summary: e.target.value})}
+                      onKeyPress={e =>  this.handleKeyPress(e)}
                     />
 
                   </div>
                   <div>
                     <OpenPopup onClick={() => {openAddIssueModal(column._id); this.setState({isShowInput: false})}}>Open Modal</OpenPopup>
-                    <Save onClick={() => {createIssue(summary, issueType.value, column._id); this.setState({summary: '', issueType: storyType})}}>Save</Save>
+                    <Save id="saveIssue" onClick={() => {createIssue(summary, issueType.value, column._id); this.setState({summary: '', issueType: storyType})}}>Save</Save>
                     <Cancel onClick={() => this.setState({isShowInput: false, summary: '', issueType: storyType})}>Cancel</Cancel>
                   </div>
                 </div>

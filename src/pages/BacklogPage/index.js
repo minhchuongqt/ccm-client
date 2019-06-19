@@ -317,8 +317,8 @@ class BacklogPageContainer extends Component {
     startForm[name] = value;
     this.setState({ startForm });
   };
-  
 
+  
   onChangeAddIssueFormValue = (name, value) => {
     this.props.changeAddIssueFormValue(name, value);
   };
