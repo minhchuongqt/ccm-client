@@ -1,6 +1,6 @@
 import React from "react";
 import * as PATH from "../../constants/data/routeConstants"
-import { HashRouter as Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../styleSheets/sass/components/Login/loginView.scss";
 // import Propstype from 
 const RegisterPage = props => {
@@ -17,6 +17,15 @@ const RegisterPage = props => {
               <input type="text" className="form-control login-custom login-input" 
                 value={props.fullName}
                 onChange={e => props.changeValue('fullName', e.target.value)}
+              />
+              <span className="fa fa-user form-control-feedback login-icon-custom" />
+              {/* <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/man-user.svg')} alt=""></img> */}
+            </div>
+            <p className="p-register">Display name</p>
+            <div className="form-group has-feedback">
+              <input type="text" className="form-control login-custom login-input" 
+                value={props.displayName}
+                onChange={e => props.changeValue('displayName', e.target.value)}
               />
               <span className="fa fa-user form-control-feedback login-icon-custom" />
               {/* <img class="form-control-feedback login-icon-custom" src={require('../../assets/img/man-user.svg')} alt=""></img> */}
@@ -53,7 +62,7 @@ const RegisterPage = props => {
                 <button type="submit" id="btnSubmit" onClick={() => props.register()} class="btn btn-login btn-success" >REGISTER</button>
               </div>
               <div class="col-xs-12 forgot">
-                <a class="forgot-pass pointer-login" href="/login">I already have a membership</a>
+                <Link class="forgot-pass pointer-login" to="/login">I already have a membership</Link>
               </div>
             </div>
 

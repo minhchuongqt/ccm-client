@@ -8,8 +8,8 @@ class LoginPageContainer extends Component {
     constructor(props) {
         super(props)
         this.state={
-            email: 'minhchuong@gmail.com',
-            password: '123456',
+            // email: 'acb@gmail.com',
+            // password: '123456',
         }
     }
     // componentWillMount() {

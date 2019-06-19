@@ -26,12 +26,13 @@ class ActiveSprintPageContainer extends Component {
           completeForm: {
             moveToSprint: {},
           },
-          isOpenCompleteSprintModal: false
+          isOpenCompleteSprintModal: false,
+          initialData: {},
         };
       }
       componentWillReceiveProps(newProps) {
-        const { completeSprintStatus, changeIssueWorkflowStatus, sprintTypeSelectable
-        } = newProps;
+        const { completeSprintStatus, changeIssueWorkflowStatus, sprintTypeSelectable, dataForBoard
+        } = {...newProps};
         let {completeForm} = this.state
         if (completeSprintStatus) {
           toast.success("Complete sprint successfully");
@@ -52,6 +53,10 @@ class ActiveSprintPageContainer extends Component {
           temp = temp.filter(item => item.active != true && item.completed != true)[0]
           completeForm = {...completeForm, moveToSprint: temp}
           this.setState({completeForm})
+        }
+
+        if(_.isEmpty(this.state.initialData)) {
+          this.setState({initialData: dataForBoard})
         }
       }
 
@@ -190,11 +195,35 @@ class ActiveSprintPageContainer extends Component {
         const data = {
             ...addForm
         };
+        // console.log(cardId, sourceLaneId, targetLaneId, position, card)
+        // const {workflow} = this.props
+        // const isWorkflow = workflow.find(item => item._id === sourceLaneId)
+
+        // console.log(workflow)
+        // if(isWorkflow.linkAll) {
+
+        // } else {
+        //   let isDrapp = isWorkflow.to.find(item => targetLaneId)
+        //   if(isDrapp) {
+
+        //   } else {
+
+        //   }
+        // } else {
+
+        // }
         this.props.changeIssueWorkflow(cardId, data);
     }
 
     onChangeSearchValue = (value) => {
       this.props.changeSearchValue(value)
+    }
+
+    shouldReceiveNewData = newData => {
+      // console.log(newData)
+      // const {initialData} = {...this.state}
+      this.setState({initialData: {...this.props.dataForBoard}})
+      this.render()
     }
     
     render() {
@@ -202,19 +231,21 @@ class ActiveSprintPageContainer extends Component {
         // console.log(doneAll)
         const {
           isOpenCompleteSprintModal,
-          completeForm
+          completeForm,
+          initialData
         } = this.state;
         let sprintSelectable = _.cloneDeep(sprintTypeSelectable).filter(item => item.active != true && item.completed != true)
         !_.isEmpty(sprintTypeSelectable) && sprintSelectable.push({label: 'Backlog', value: ''})
         return (
             <div>
                 <ActiveSprintPageView
-                   data = {dataForBoard}
+                   data = {initialData}
                    activeSprintInfo = {activeSprintInfo}
                    searchValue={searchValue}
                    onChangeSearchValue={value => this.onChangeSearchValue(value)}
                    openCompleteSprintModal={() => this.openCompleteSprintModal()}
-                   handleDragEnd={(cardId, sourceLaneId, targetLaneId, position, card) => this.handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card)}
+                   shouldReceiveNewData={data => this.shouldReceiveNewData(data)}
+                   handleDragEnd={(cardId, sourceLaneId, targetLaneId, position, card, data) => this.handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card)}
                 />
                 <CompleteSprintModal
                   data={completeForm}

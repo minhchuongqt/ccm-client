@@ -157,6 +157,12 @@ export default class Column extends React.Component {
   showInput = () => {
     this.setState({isShowInput: true})
   }
+
+  createIssue = (summary, issueType, column, storyType) => {
+    this.props.createIssue(summary, issueType, column)
+    this.setState({summary: '', issueType: storyType})
+  }
+
   render() {
     const { openAddIssueModal, column, sprintActived, disableAction, openStartSprintModal, selectableIssueType, createIssue, tasks } = this.props
     const {isShowInput, summary, issueType} = this.state
@@ -219,8 +225,8 @@ export default class Column extends React.Component {
                     </TypeIssue>
                     <InputSummary placeholder="What needs to be done?"
                       value={summary || ''}
-                      onChange={e => this.setState({summary: e.target.value})}
-                      onKeyPress={e =>  this.handleKeyPress(e)}
+                      onKeyDown={e => { e.key == 'Enter' && this.createIssue(summary, issueType.value, column._id, storyType) }}
+                      onChange={e => {console.log(e.target.value); this.setState({summary: e.target.value})}}
                     />
 
                   </div>
