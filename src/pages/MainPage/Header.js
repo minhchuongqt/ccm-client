@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import userImg from "../../assets/img/avatar5.png";
 import { API } from "../../config";
 const Header = props => {
-  const { isShow, userInfo } = props;
+  const { isShow, userInfo, updateAvatar } = props;
   return (
     <header className="main-header bg-steelblue">
       <a href="/" className="logo color-white">
@@ -45,17 +45,36 @@ const Header = props => {
             
             <li className="dropdown user user-menu">
               <a className="dropdown-toggle" data-toggle="dropdown">
-                <img src={API + userInfo.avatarUrl} className="user-image" alt="User Image" />
+                <img src={API +( userInfo.avatarUrl || '/media/avatar5.png')} className="user-image" alt="User Image" />
                 <span className="hidden-xs">{userInfo.fullName || userInfo.displayName || "Unknown"}</span>
               </a>
               <ul className="dropdown-menu dropdown-menu-custom">
                 <li className="user-header">
-                  <img
-                    src={API + userInfo.avatarUrl}
-                    className="img-circle"
-                    alt="User Image"
-                  />
+                  <div className="profile-img-container">
+                    <img
+                      src={API + userInfo.avatarUrl}
+                      className="img-circle"
+                      alt="User Image"
+                    />
+                    <label  htmlFor="file-upload">
+                      <a className="cursor-pointer"><span class="fa fa-upload fa-3x"></span></a>
+                    </label>
+                    <input
+                      onChange={e => {
+                        e.preventDefault();
+                        let file = e.dataTransfer
+                          ? e.dataTransfer.files[0]
+                          : e.target.files[0];
+                        if (!file) return;
+                        updateAvatar('attachs', file);
+                      }}
 
+                      type="file"
+                      id="file-upload"
+                      className="inputfile"
+                      style={{display: 'none'}}
+                    />
+                  </div>
                   <p>
                     {userInfo.fullName || userInfo.displayName} - Web Developer
                   </p>

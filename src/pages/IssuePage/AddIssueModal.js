@@ -92,7 +92,7 @@ const AddIssueModal = props => {
             <label className="col-sm-3 control-label">Attach files</label>
             <div className="col-sm-9">
               <label htmlFor="file-upload" className="custom-file-upload control-label">
-              <a className="cursor-pointer">Add file</a>
+                <a className="cursor-pointer">Add file</a>
                 {/* <ul
                   className="list-button cursor-pointer"
                   style={{ margin: 0 }}

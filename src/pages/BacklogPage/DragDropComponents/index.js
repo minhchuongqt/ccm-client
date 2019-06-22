@@ -42,7 +42,6 @@ class DragDropComponents extends React.Component {
   moveIssue = async (result) => {
     this.setState({ homeIndex: null });
     const { destination, source, draggableId } = result;
-    if(!destination) return
     await this.props.changeIssueSprint(draggableId, source.droppableId, destination.droppableId)
     this.props.getListSprint()
     if (!destination) {
@@ -112,6 +111,7 @@ class DragDropComponents extends React.Component {
     const {sprintSelectable} = this.props
     // document.body.style.color = 'inherit'
     const { destination, source, draggableId } = result;
+    if(!destination) return
     if((sprintSelectable.find(item => item.value === source.droppableId) || {}).active || 
     (sprintSelectable.find(item => item.value === destination.droppableId) || {}).active
     ) {

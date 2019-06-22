@@ -16,9 +16,14 @@ const inviteUser = (data) => {
     return API.post('/project/addMember', data)
 }
 
+const updateInfo = (data) => {
+    return API.put('/user', data)
+}
+
 export default {
     getUserInfo,
     getListUser,
     getListEmail,
-    inviteUser
+    inviteUser,
+    updateInfo
 }

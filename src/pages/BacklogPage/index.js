@@ -131,6 +131,11 @@ class BacklogPageContainer extends Component {
     }
   }
 
+  componentWillUnmount = () => {
+    // console.log('unmount')
+    this.props.resetRemoveIssueStatus()
+  }
+
   // componentWillUnmount() {
   //   this.props.resetAllData()
   // }

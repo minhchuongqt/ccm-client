@@ -36,3 +36,5 @@ export const getEmailSelectable = ({UserState}) => {
 }
 
 export const getInviteUserStatus = ({UserState}) => UserState.inviteUserStatus
+
+export const getUpdateUserStatus = ({UserState}) => UserState.updateUserStatus

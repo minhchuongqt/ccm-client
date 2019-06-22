@@ -121,7 +121,7 @@ class IssuePageContainer extends Component {
   }
 
   componentWillUnmount = () => {
-    console.log('unmount')
+    // console.log('unmount')
     this.props.resetRemoveIssueStatus()
   }
 
