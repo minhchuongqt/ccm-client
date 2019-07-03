@@ -258,7 +258,7 @@ export const getIssueInfo = createSelector(
         const label = result.label ? result.label.map(item => labelSelectable.find(a => item == a.label) || {}) : [];
         const storyPoints = result.storyPoints ? storyPointSelectable.find(a => result.storyPoints == a.label) : {};
         const issueType = result.issueType ? issueTypeSelectable.find(item => item.value === result.issueType._id) : {};
-        const version = result.version ? versionSelectable.find(item => item.value === result.version) : {};
+        const version = result.version ? versionSelectable.find(item => item.value === result.version._id) : {};
         const sprint = result.sprint ? sprintSelectable.find(item => item.value === result.sprint._id) : {};
         const assignee = result.assignee ? result.assignee.map(item => assigneeSelectable.find(a => item === a.value)) : [];
         const component = result.component ? result.component.map(item => componentSelectable.find(a => item === a.value)) : [];

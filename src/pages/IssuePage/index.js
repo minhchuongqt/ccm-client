@@ -327,6 +327,9 @@ class IssuePageContainer extends Component {
       case 'label':
         this.props.updateIssueDetail(issueInfo._id, { [key]: value.map(item => item.label) })
         break;
+      case 'component':
+        this.props.updateIssueDetail(issueInfo._id, { [key]: value.map(item => item.value) })
+        break;
       case 'storyPoints':
         this.props.updateIssueDetail(issueInfo._id, { [key]: value.label })
         break;

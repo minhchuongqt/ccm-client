@@ -525,10 +525,11 @@ const IssuePage = props => {
                                 <ul className="list-unstyled">
                                   <li>
                                     <MultiSelect
-                                      id="issue-page-multi-select"
+                                      id="issue-page-multi-select-label"
                                       options={componentSelectable}
                                       value={issueInfo.component}
                                       isDisabled={disabled}
+                                      isClearable={false}
                                       onChange={e => updateIssueDetail('component', e)}
                                     />
                                   </li>
