@@ -21,7 +21,7 @@ const ListGroupPage = props => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      {/* <tr>
                         <td>administrators</td>
                         <td>Grants access to all applications (excluding Site administration)</td>
                         <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
@@ -32,10 +32,10 @@ const ListGroupPage = props => {
                             <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#modal-deletegroup"><i className="fa fa-trash-o" title="Delete Group"></i></button>
                           </div>
                         </td>
-                      </tr>
+                      </tr> */}
 
                       <tr>
-                        <td>ccm-administrators</td>
+                        <td>Manager</td>
                         <td>Grant access to the administration features of CCM</td>
                         <td className="text-align-center"><i className="fa fa-times-circle"></i></td>
                         <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
@@ -48,7 +48,7 @@ const ListGroupPage = props => {
                       </tr>
 
                       <tr>
-                        <td>ccm-users</td>
+                        <td>Member</td>
                         <td>Grants access to CCM Application</td>
                         <td className="text-align-center"><i className="fa fa-check-circle"></i></td>
                         <td className="text-align-center"><i className="fa fa-times-circle"></i></td>

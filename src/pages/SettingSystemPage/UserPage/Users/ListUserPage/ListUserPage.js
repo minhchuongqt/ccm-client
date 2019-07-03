@@ -2,7 +2,7 @@ import React from 'react';
 
 const ListUserPage = props => {
   const {listUser, openInviteUserModal} = props;
-  console.log(listUser)
+  // console.log(listUser)
   return (
               <div>
                 <div className="box-header">
@@ -27,13 +27,13 @@ const ListUserPage = props => {
                       </tr>
                     </thead>
                     <tbody>
-                      {listUser && listUser.map(({member}, index) => {
+                      {listUser && listUser.map((user, index) => {
                         return (
                           <tr key={index}>
-                            <td>{member.email}</td>
-                            <td>{member.fullName}</td>
-                            <td>{''}</td>
-                            <td><span className="label label-success">{member.active? "Active": "Deactive"}</span></td>
+                            <td>{user.member.email}</td>
+                            <td>{user.member.fullName}</td>
+                            <td>{user.isSuperAdmin && 'Manager' || 'Member'}</td>
+                            <td><span className="label label-success">{user.member.active? "Active": "Deactive"}</span></td>
                             <td>CCM Application</td>
                             {/* <td>
                               <div className="btn-group">

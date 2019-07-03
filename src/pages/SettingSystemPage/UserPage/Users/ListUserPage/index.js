@@ -77,9 +77,10 @@ class ListUserPageContainer extends Component {
     }
 
     render() {
-        const {listUser, isGetEmailFetching, emailSelectable} = this.props
+        const {listUser, isGetEmailFetching, emailSelectable, userInfo} = this.props
         const {isOpenInviteUserModal, addUserFormValue} = this.state
         console.log(isOpenInviteUserModal)
+        const selectableEmail = emailSelectable.filter(item => item.value != userInfo._id) || []
         return (
             <div>
                 <ListUserPageView
@@ -89,8 +90,9 @@ class ListUserPageContainer extends Component {
                  <AddUserModal 
                     openModal={isOpenInviteUserModal}
                     data={addUserFormValue}
+                    userInfo={userInfo}
                     isGetEmailFetching={isGetEmailFetching}
-                    emailSelectable={emailSelectable}
+                    emailSelectable={selectableEmail}
                     onChangeValue={(key, value) => this.onChangeValue(key, value)}
                     getOptions={this.getOptions}
                     closeModal = {this.closeInviteUserModal}
@@ -106,7 +108,8 @@ const mapStateToProps = state => ({
     selectedProject: projectSelectors.getSelectedProject(state),
     emailSelectable: userSelectors.getEmailSelectable(state),
     isGetEmailFetching: state.UserState.listEmail.isFetching,
-    inviteUserStatus: userSelectors.getInviteUserStatus(state)
+    inviteUserStatus: userSelectors.getInviteUserStatus(state),
+    userInfo: userSelectors.getUserInfo(state)
 })
 
 const mapDispatchToProps = dispatch => ({
