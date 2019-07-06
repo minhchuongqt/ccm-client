@@ -862,3 +862,7 @@ p {
 .progress-bar-default {
   background-color: #ddd;
 }
+
+.mg-l-10 {
+  margin-left: 10px;
+}

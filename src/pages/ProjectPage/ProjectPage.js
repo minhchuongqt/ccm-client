@@ -75,11 +75,17 @@ const ProjectPage = props => {
               <table className="table table-hover">
                 <thead>
                   <tr >
-                    {columns.map((item, index) => {
+                    <th>Project</th>
+                    <th>Key</th>
+                    <th>Project Type</th>
+                    <th>Create by</th>
+                    <th>Create Date</th>
+                    <th>Update Date</th>
+                    {/* {columns.map((item, index) => {
                       return (
                         <th key={index}>{item.header}</th>
                       )
-                    })}
+                    })} */}
                   </tr>
                 </thead>
                 <tbody>
@@ -87,11 +93,12 @@ const ProjectPage = props => {
                   {listProject.map((item, idx) => {
                     return (
                       <tr className="pointer" key={idx} onClick={() => {selectProject(item); switchPage()}} >
-                        {columns.map((col, index) => {
-                          return (
-                            <td key={index}>{item[col.poiter]}</td>
-                          )
-                        })}
+                        <td>{item.name}</td>
+                        <td>{item.key}</td>
+                        <td>{(item.projectType || {}).name}</td>
+                        <td>{(item.lead || {}).displayName}</td>
+                        <td>{item.createdDate}</td>
+                        <td>{item.updatedDate}</td>
                       </tr>
                     )
                   })}

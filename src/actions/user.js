@@ -23,7 +23,9 @@ export const getListUser = (data) => dispatch => {
 
 export const inviteUser = (data) => dispatch => {
     UserApi.inviteUser(data).then(res => {
-        if (res.data.data) {
+        if (res.data.error) {
+            toast.error(res.data.error)
+        } else {
             dispatch({ type: INVITE_USER_STATUS, payload: res.data.success })
         }
     })

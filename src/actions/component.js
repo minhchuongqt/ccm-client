@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 
 export const getListComponent = data => dispatch => {
   ComponentApi.getListComponent(data).then(res => {
-    if (res.data) {
-      dispatch({ type: types.GET_LIST_COMPONENT, payload: res.data.data });
-    } else if (res.data.error) {
+    if (res.data.error) {
       toast.error(res.data.error);
+    } else {
+      dispatch({ type: types.GET_LIST_COMPONENT, payload: res.data.data });
     }
   });
 };
@@ -17,10 +17,10 @@ export const selectComponent = data => dispatch => {
 
 export const createComponent = data => dispatch => {
   ComponentApi.createComponent(data).then(res => {
-    if (res.data) {
-      dispatch({ type: types.CREATE_COMPONENT, payload: true });
-    } else if (res.data.error) {
+    if (res.data.error) {
       toast.error(res.data.error);
+    } else {
+      dispatch({ type: types.CREATE_COMPONENT, payload: true });
     }
   });
 };

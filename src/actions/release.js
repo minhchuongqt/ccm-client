@@ -32,21 +32,26 @@ export const createVersion = (data) => dispatch => {
 }
 
 export const updateVersion = (id, data) => dispatch => {
-  ReleaseApi.updateVersion(id, data).then(res => {
-    if(res.data) {
-      dispatch({type: UPDATE_VERSION, payload: true})
-    } else if (res.data.error) {
+  const selectedProject = JSON.parse(localStorage.getItem('selectedProject')) || {}
+  // const data = {
+  //   project: selectedProject._id
+  // }
+  ReleaseApi.updateVersion(id, {...data, project: selectedProject._id}).then(res => {
+    if(res.data.error) {
       toast.error(res.data.error)
+    } else  {
+      dispatch({type: UPDATE_VERSION, payload: true})
     }
   })
 }
 
 export const deleteVersion = (id, data) => dispatch => {
-  ReleaseApi.deleteVersion(id, data).then(res => {
-    if(res.data) {
-      dispatch({type: DELETE_VERSION, payload: true})
-    } else if (res.data.error) {
+  const selectedProject = JSON.parse(localStorage.getItem('selectedProject')) || {}
+  ReleaseApi.deleteVersion(id, {...data, project: selectedProject._id}).then(res => {
+    if(res.data.error) {
       toast.error(res.data.error)
+    } else {
+      dispatch({type: DELETE_VERSION, payload: true})
     }
   })
 }
@@ -74,7 +79,11 @@ export const getVersionDetail = (id) => dispatch => {
 }
 
 export const releaseVersion = id => dispatch => {
-  ReleaseApi.releaseVersion(id).then(res => {
+  const selectedProject = JSON.parse(localStorage.getItem('selectedProject')) || {}
+  const data = {
+    project: selectedProject._id
+  }
+  ReleaseApi.releaseVersion(id, data).then(res => {
     if(res.data.success) {
       dispatch({type: RELEASE_VERSION_STATUS, payload: res.data.success})
     } else {
@@ -84,7 +93,11 @@ export const releaseVersion = id => dispatch => {
 }
 
 export const unreleaseVersion = id => dispatch => {
-  ReleaseApi.unreleaseVersion(id).then(res => {
+  const selectedProject = JSON.parse(localStorage.getItem('selectedProject')) || {}
+  const data = {
+    project: selectedProject._id
+  }
+  ReleaseApi.unreleaseVersion(id, data).then(res => {
     if(res.data.success) {
       dispatch({type: UNRELEASE_VERSION_STATUS, payload: res.data.success})
     } else {

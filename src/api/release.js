@@ -22,12 +22,12 @@ class ReleaseApi {
         return API.get('/releaseVersion/' + id);
     }
 
-    releaseVersion = id => {
-        return API.post('/releaseVersion/release/' + id)
+    releaseVersion = (id, data) => {
+        return API.post('/releaseVersion/release/' + id, data)
     }
 
-    unreleaseVersion = id => {
-        return API.post('/releaseVersion/unrelease/' + id)
+    unreleaseVersion = (id, data) => {
+        return API.post('/releaseVersion/unrelease/' + id, data)
     }
     
 }

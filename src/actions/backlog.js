@@ -4,25 +4,31 @@ import { GET_LIST_SPRINT, CREATE_SPRINT, GET_LIST_BACKLOG_ISSUE,
      GET_LIST_ALL_SPRINT
      } from '../constants/types/backlog';
 import BacklogApi from '../api/backlogApi';
-import toast from 'react-toastify'
+import {toast} from 'react-toastify'
 
 export const getListSprint = (data) => dispatch => {
     BacklogApi.getListSprint(data).then(res => {
-        if(res.data) {
+        if(res.data.error) {
+            toast.error(res.data.error)
+        } else {
             dispatch({type: GET_LIST_SPRINT, payload: res.data.data})
         }
     })
 }
 export const getSprintActive = (data) => dispatch => {
     BacklogApi.getSprintActive(data).then(res => {
-        if(res.data) {
+        if(res.data.error) {
+            toast.error(res.data.error)
+        } else {
             dispatch({type: GET_SPRINT_ACTIVE, payload: res.data.data})
         }
     })
 }
 export const getSprintActiveInfo = (data) => dispatch => {
     BacklogApi.getSprintActiveInfo(data).then(res => {
-        if(res.data) {
+        if(res.data.error) {
+            toast.error(res.data.error)
+        } else {
             dispatch({type: GET_SPRINT_ACTIVE_INFO, payload: res.data.data})
         }
     })
@@ -30,14 +36,18 @@ export const getSprintActiveInfo = (data) => dispatch => {
 
 export const startSprint = (data) => dispatch => {
     BacklogApi.startSprint(data).then(res => {
-        if(res.data) {
+        if(res.data.error) {
+            toast.error(res.data.error)
+        } else {
             dispatch({type: START_SPRINT, payload: res.data.data})
         }
     })
 }
 export const completeSprint = (data) => dispatch => {
     BacklogApi.completeSprint(data).then(res => {
-        if(res.data) {
+        if(res.data.error) {
+            toast.error(res.data.error)
+        } else {
             dispatch({type: COMPLETE_SPRINT, payload: res.data.data})
         }
     })
@@ -45,7 +55,9 @@ export const completeSprint = (data) => dispatch => {
 
 export const createSprint = (data) => dispatch => {
     BacklogApi.createSprint(data).then(res => {
-        if(res.data) {
+        if(res.data.error) {
+            toast.error(res.data.error)
+        } else {
             dispatch({type: CREATE_SPRINT, payload: res.data.data})
         }
     })
@@ -53,7 +65,9 @@ export const createSprint = (data) => dispatch => {
 
 export const getListBacklogIssue = (data) => dispatch => {
     BacklogApi.getListBacklogIssue(data).then(res => {
-        if(res.data) {
+        if(res.data.error) {
+            toast.error(res.data.error)
+        } else {
             dispatch({type: GET_LIST_BACKLOG_ISSUE, payload: res.data.data})
         }
     })
@@ -86,7 +100,9 @@ export const changeSearchValue = value => dispatch => {
 
 export const getListAllSprint = data => dispatch => {
     BacklogApi.getListAllSprint(data).then(res => {
-        if(res.data) {
+        if(res.data.error) {
+            toast.error(res.data.error)
+        } else {
             dispatch({type: GET_LIST_ALL_SPRINT, payload: res.data.data})
         }
     })

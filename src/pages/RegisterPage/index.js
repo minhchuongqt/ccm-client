@@ -3,7 +3,8 @@ import RegisterPageView from './RegisterPage';
 import RegisterActions from '../../actions/register';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom'
-
+import * as selectors from '../../selectors/register'
+import {toast} from 'react-toastify'
 class RegisterPageContainer extends Component {
     constructor(props) {
         super(props)
@@ -15,7 +16,12 @@ class RegisterPageContainer extends Component {
         }
     }
     componentWillReceiveProps(newProps) {
-       
+       const {registerStatus} = newProps
+       if(registerStatus) {
+           toast.success("Register successful !")
+           this.props.history.push('/login')
+           this.props.resetRegisterStatus()
+       }
     }
     changeValue  = (key, value) => {
       this.setState({[key]:value});
@@ -41,12 +47,15 @@ class RegisterPageContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-
+    registerStatus: selectors.getRegisterStatus(state)
 })
 
 const mapDispatchToProps = dispatch => ({
     register(data) {
         dispatch(RegisterActions.register(data));
+    },
+    resetRegisterStatus() {
+        dispatch(RegisterActions.resetRegisterStatus())
     }
 })
 

@@ -20,10 +20,10 @@ class ProjectPageContainer extends Component {
                     header: 'Key', poiter: 'key'
                 },
                 {
-                    header: 'Project Type', poiter: 'projectType'
+                    header: 'Project Type', poiter: 'projectType.name'
                 },
                 {
-                    header: 'Project Lead', poiter: 'projectLead'
+                    header: 'Project Lead', poiter: 'lead.displayName'
                 },
                 {
                     header: 'Create Date', poiter: 'createdDate'
