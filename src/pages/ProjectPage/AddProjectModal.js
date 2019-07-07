@@ -3,7 +3,24 @@ import SearchSelect from "../../components/singleSelect";
 import Modal from "../../components/modal";
 import "../../styleSheets/sass/components/Issue/IssueView.scss";
 // import { createProject } from "../../../actions/project";
-
+const sprintRanges = [
+  {
+    label: "1 week",
+    value: 7
+  },
+  {
+    label: "2 week",
+    value: 14
+  },
+  {
+    label: "3 week",
+    value: 21
+  },
+  {
+    label: "4 week",
+    value: 28
+  },
+]
 const AddProjectModal = props => {
   // Modal.setAppElement('body')
   const {
@@ -43,6 +60,18 @@ const AddProjectModal = props => {
                     options={projectTypeSelectable}
                     value={data.projectType}
                     onChange={e => onChangeValue("projectType", e)}
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="col-sm-3 control-label">
+                  Duration of Sprint
+                </label>
+                <div className="col-sm-9">
+                  <SearchSelect
+                    options={sprintRanges}
+                    value={data.sprintRange}
+                    onChange={e => onChangeValue("sprintRange", e)}
                   />
                 </div>
               </div>

@@ -37,9 +37,10 @@ class BacklogPageContainer extends Component {
       },
       startForm: {
         // name: "",
+        sprintRange: (this.props.selectedProject.sprintRange || 14) / 7,
         sprint: "",
         startDate: new Date(),
-        endDate: new Date(moment().add(14, 'days')),
+        endDate: new Date(moment().add(this.props.selectedProject.sprintRange || 14, 'days')),
         // goal: ""
       },
       isOpenAddIssueModal: false,
@@ -53,6 +54,7 @@ class BacklogPageContainer extends Component {
       issueSummary: '',
       isOpenConfirmMoveIssueInActiveSprintModal: false,
       startSprintName: '',
+      errorText: null,
     };
   }
   componentWillMount() {
@@ -84,6 +86,7 @@ class BacklogPageContainer extends Component {
     }
     if (startSprintStatus) {
       toast.success("Sprint started");
+      this.setState({errorText: null})
       this.setState({ isOpenStartSprintModal: false });
       this.getListSprint();
     }
@@ -255,13 +258,13 @@ class BacklogPageContainer extends Component {
   };
   closeStartSprintModal = () => {
     this.setState({
-      addForm: {
-        name: "",
-        startDate: "",
-        endDate: "",
-        goal: "",
-        project: ""
-      }
+      startForm: {
+        sprintRange: (this.props.selectedProject.sprintRange || 14) / 7,
+        sprint: "",
+        startDate: new Date(),
+        endDate: new Date(moment().add(this.props.selectedProject.sprintRange || 14, 'days')),
+      },
+      errorText: null
     });
     this.setState({ isOpenStartSprintModal: false });
   };
@@ -288,9 +291,17 @@ class BacklogPageContainer extends Component {
     const data = {
       ...startForm
     };
+    if((data.endDate - data.startDate)/86400000 < 7) {
+      this.setState({errorText: 'Duration of Sprint must be greater than or equal to 1 week!'})
+      // toast.info('Duration of Sprint must be greater than or equal to 1 week!')
+    } else {
+      this.props.startSprint(data);
+      
+    }
+    // console.log((data.endDate - data.startDate)/86400000/7)
     // if (this.validate(data)) {
     //   toast.success("OK")
-      this.props.startSprint(data);
+      // this.props.startSprint(data);
     // }
       // console.log(data)
   };
@@ -466,7 +477,7 @@ class BacklogPageContainer extends Component {
       isOpenAddIssueModal,
       addIssueToSprint,
       displayDescriptionEditor, description,  displayAddSubtask,
-      subTaskSummary, issueSummary, isOpenConfirmMoveIssueInActiveSprintModal, startSprintName
+      subTaskSummary, issueSummary, isOpenConfirmMoveIssueInActiveSprintModal, startSprintName, errorText
     } = this.state;
     // console.log("sprint: ", isOpenAddSprintModal);
     // console.log("issue: ", isOpenAddIssueModal);searchValue,
@@ -533,6 +544,7 @@ class BacklogPageContainer extends Component {
           onChangeValue={(name, value) => this.onChangeValue(name, value)}
         />
         <StartSprintModal
+          errorText={errorText}
           data={startForm}
           startSprintName={startSprintName}
           openStartModal={isOpenStartSprintModal}

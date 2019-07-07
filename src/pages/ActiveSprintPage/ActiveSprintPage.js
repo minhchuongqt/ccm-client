@@ -9,6 +9,7 @@ import "../../styleSheets/sass/components/Sprint/SprintView.scss"
 //     <Board/>
 //   ));
 const CustomLaneHeader = props => {
+  // console.log(props)
   return (
     <div>
       <header
@@ -21,8 +22,7 @@ const CustomLaneHeader = props => {
           justifyContent: 'space-between'
         }}>
         <div >{props.title}</div>
-        {props.label
-        }
+        {props.cards.length} issue{props.cards.length > 1 && 's'}
       </header>
     </div>
   )
@@ -39,7 +39,7 @@ const ActiveSprintPage = props => {
   // const shouldReceiveNewData = nextData => {
   //   console.log(nextData)
   // }
-  console.log(data)
+  // console.log(data)
   
   return (
     <div id="sprint-view" >

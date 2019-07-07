@@ -230,6 +230,7 @@ export const changeIssueWorkflow = (id, data) => dispatch => {
                 toast.error(res.data.error)
                 dispatch({type: CHANGE_ISSUE_WORKFLOW, payload: true})
             } else {
+                // dispatch({type: CHANGE_ISSUE_WORKFLOW, payload: true})
                 // dispatch({type: CHANGE_ISSUE_WORKFLOW, payload: res.data.data })
             }
         }
@@ -238,7 +239,7 @@ export const changeIssueWorkflow = (id, data) => dispatch => {
 
 
 export const updateIssueDetail = (id, data) => dispatch => {
-    console.log(id, ':', data)
+    // console.log(id, ':', data)
     IssueApi.updateIssue(id, data).then(res => {
         if(res.data) {
             if(res.data.error) {

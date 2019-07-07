@@ -5,7 +5,7 @@ import SearchSelect from "../../components/singleSelect";
 
 const EditVersionModal = props => {
   const { openModal, closeModal, version, submit, versionSelectable, changeConfirmDeleleVersionFormValue } = props;
-  console.log(version);
+  // console.log(version);
   return (
     <Modal
       isOpen={openModal}
