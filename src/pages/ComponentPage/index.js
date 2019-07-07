@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import { toast } from 'react-toastify' 
 
 import CreateComponentModal from './CreateComponentModal'
+import EditComponentModal from './EditComponentModal'
 
 import * as actions from '../../actions/component'
 import * as userActions from '../../actions/user'
@@ -18,7 +19,9 @@ class ComponentPageContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpenAddModal: false
+            isOpenAddModal: false,
+            isOpenEditModal: false,
+            editComponentFormValue: {}
         }
     }
     
@@ -28,11 +31,17 @@ class ComponentPageContainer extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        const {createComponentStatus} = newProps
+        const {createComponentStatus, updateComponentStatus} = newProps
         if(createComponentStatus) {
             toast.success('Create new component success')
             this.setState({isOpenAddModal: false})
             newProps.resetCreateComponentStatus()
+            this.getListComponent()
+        }
+        if(updateComponentStatus) {
+            toast.success('Update component success')
+            this.setState({isOpenEditModal: false})
+            newProps.resetUpdateComponentStatus()
             this.getListComponent()
         }
     }
@@ -82,8 +91,34 @@ class ComponentPageContainer extends Component {
         this.props.selectComponent(data)
     }
 
+    openEditComponentModal = (data) => {
+        this.setState({isOpenEditModal: true, editComponentFormValue: data})
+    }
+
+    closeEditComponentModal = () => {
+        this.setState({isOpenEditModal: false, editComponentFormValue: {}})
+    }
+
+    onChangeEditComponentForm = (key, value) => {
+        const {editComponentFormValue} = this.state
+        editComponentFormValue[key] = value
+        this.setState({editComponentFormValue})
+    }
+
+    updateComponent = () => {
+        const {selectedProject} = this.props
+        const {editComponentFormValue} = this.state
+        const {name, description, lead} = editComponentFormValue
+        let data = {
+          name,
+          description,
+          lead: (lead || {}).value || null
+        }
+        this.props.updateComponent(editComponentFormValue._id, {...data, project: selectedProject._id})
+    }
+
     render() {
-        const {isOpenAddModal} = this.state
+        const {isOpenAddModal, isOpenEditModal, editComponentFormValue} = this.state
         const {addComponentFormValue, listComponent, searchValue, changeSearchValue, selectableLead} = this.props
         return (
             <div>
@@ -93,6 +128,8 @@ class ComponentPageContainer extends Component {
                     searchValue={searchValue}
                     selectComponent={(data) => this.selectComponent(data)}
                     onChangeSearchValue={(value) => changeSearchValue(value)}
+                    openEditComponentModal={(data) =>this.openEditComponentModal(data)}
+                    deleteComponent={(data) => this.deleteComponent(data)}
                 />
                 <CreateComponentModal 
                     openModal={isOpenAddModal}
@@ -102,6 +139,15 @@ class ComponentPageContainer extends Component {
                     addComponentFormValue={addComponentFormValue}
                     createComponent={() => this.createComponent()}
                 />
+                <EditComponentModal 
+                    openModal={isOpenEditModal}
+                    closeModal={this.closeEditComponentModal}
+                    selectableLead={selectableLead}
+                    onChangeValue={(key, value) => this.onChangeEditComponentForm(key, value)}
+                    editComponentFormValue={editComponentFormValue}
+                    updateComponent={() => this.updateComponent()}
+                />
+
             </div>
         );
     }
@@ -114,6 +160,7 @@ const mapStateToProps = state => ({
     addComponentFormValue: selectors.getAddComponentFormValue(state),
     searchValue: selectors.getSearchValue(state),
     selectableLead: userSelectors.getUserSelectable(state),
+    updateComponentStatus: selectors.getUpdateComponentStatus(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -137,6 +184,12 @@ const mapDispatchToProps = dispatch => ({
     },
     getListUser(query) {
       dispatch(userActions.getListUser(query))
+    },
+    updateComponent(id, data) {
+        dispatch(actions.updateComponent(id, data))
+    },
+    resetUpdateComponentStatus() {
+        dispatch(actions.resetUpdateComponentStatus())
     }
 })
 

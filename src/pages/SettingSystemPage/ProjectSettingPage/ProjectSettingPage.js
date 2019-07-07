@@ -5,7 +5,8 @@ const ProjectManagementPage = props => {
     listProject,
     chooseProject,
     deleteProject,
-    project
+    project,
+    userInfo
    } = props
   return (
     <div >
@@ -66,10 +67,12 @@ const ProjectManagementPage = props => {
                     <td>{item.createdDate}</td>
                     <td>{item.updatedDate}</td>
                     <td>
-                      <div className="btn-group">
-                        {/* <button type="button" className="btn btn-success" data-toggle="modal" data-target=""><i className="fa fa-user-plus" title="Invite Users"></i></button> */}
-                        <button type="button" onClick={() => chooseProject(item)} className="btn btn-danger" data-toggle="modal" data-target="#modal-deleteproject"><i className="fa fa-trash-o" title="Delete Project"></i></button>
-                      </div>
+                      {(item.lead || {})._id === userInfo._id &&
+                        <div className="btn-group">
+                          {/* <button type="button" className="btn btn-success" data-toggle="modal" data-target=""><i className="fa fa-user-plus" title="Invite Users"></i></button> */}
+                          <button type="button" onClick={() => chooseProject(item)} className="btn btn-danger" data-toggle="modal" data-target="#modal-deleteproject"><i className="fa fa-trash-o" title="Delete Project"></i></button>
+                        </div>
+                      }
                     </td>
                   </tr>
                 )

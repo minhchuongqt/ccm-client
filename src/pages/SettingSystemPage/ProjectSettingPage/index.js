@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import ProjectManagementPageView from './ProjectSettingPage';
 import * as projectActions from '../../../actions/project'
 import * as projectSelectors from "../../../selectors/project";
+import * as userSelectors from "../../../selectors/user";
 import { connect } from 'react-redux'
 class ListProjectPageContainer extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class ListProjectPageContainer extends Component {
     }
 
     render() {
-        const {listProject} = this.props
+        const {listProject, userInfo} = this.props
         const { project } = this.state
         return (
             
@@ -42,6 +43,7 @@ class ListProjectPageContainer extends Component {
                 <ProjectManagementPageView
                 listProject = {listProject}
                 project = {project}
+                userInfo={userInfo}
                 chooseProject = {(project) => this.chooseProject(project)}
                 deleteProject = {(id) => this.deleteProject(id)}
                 />
@@ -52,7 +54,8 @@ class ListProjectPageContainer extends Component {
 
 const mapStateToProps = state => ({
     listProject: projectSelectors.listProject(state),
-    deleteProjectStatus: projectSelectors.getDeleteProjectStatus(state)
+    deleteProjectStatus: projectSelectors.getDeleteProjectStatus(state),
+    userInfo: userSelectors.getUserInfo(state)
 })
 
 const mapDispatchToProps = dispatch => ({

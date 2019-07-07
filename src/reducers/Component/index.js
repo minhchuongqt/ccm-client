@@ -54,12 +54,23 @@ const selectedVersion = (state = {}, action) => {
     }
 }
 
+const updateComponentStatus = (state=false, action) => {
+    const {type, payload} = action
+    switch(type) {
+        case types.UPDATE_COMPONENT:
+            return payload
+        default:
+            return state
+    }
+}
+
 const ComponentState = combineReducers({
   createComponentStatus,
   listComponent,
   addComponentFormValue,
   searchValue,
-  selectedVersion
+  selectedVersion,
+  updateComponentStatus
 })
 
 export default (state, action) => {

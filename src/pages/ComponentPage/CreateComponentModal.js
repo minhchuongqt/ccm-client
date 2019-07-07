@@ -40,7 +40,7 @@ const AddComponentModal = props => {
             <SearchSelect
                 // className="form-control"
                 options={selectableLead}
-                value={addComponentFormValue.priority}
+                value={addComponentFormValue.selectedLead}
                 onChange={e => onChangeValue("lead", e)}
               />
             </div>
