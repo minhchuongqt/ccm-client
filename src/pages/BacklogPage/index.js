@@ -93,7 +93,7 @@ class BacklogPageContainer extends Component {
     // console.log(newProps)
     if (createIssueStatus) {
       toast.success("Create issue successfully");
-      this.setState({ isOpenAddIssueModal: false,   addIssueToSprint: null,});
+      this.setState({ isOpenAddIssueModal: false, addIssueToSprint: null, });
       this.props.getListLabel(this.getBaseOption());
       this.props.getListStoryPoint(this.getBaseOption());
       this.getListSprint();
@@ -129,8 +129,8 @@ class BacklogPageContainer extends Component {
       this.props.resetRemoveIssueStatus()
     }
 
-    if(issueSummary !== newProps.issueInfo.summary) {
-      this.setState({issueSummary: newProps.issueInfo.summary});
+    if (issueSummary !== newProps.issueInfo.summary) {
+      this.setState({ issueSummary: newProps.issueInfo.summary });
     }
   }
 
@@ -244,17 +244,17 @@ class BacklogPageContainer extends Component {
     this.setState({ isOpenAddSprintModal: false });
   };
   openStartSprintModal = (sprintId) => {
-    const {startForm} = this.state
+    const { startForm } = this.state
     this.setState({
       startForm: {
         ...startForm,
         sprint: sprintId,
         project: this.props.selectedProject._id,
       }
-       });
-       const {sprintTypeSelectable} = this.props
-       const startSprintName = sprintTypeSelectable.find(sprint => sprint.value == sprintId && sprint).label || ''
-       this.setState({ isOpenStartSprintModal: true , startSprintName});
+    });
+    const { sprintTypeSelectable } = this.props
+    const startSprintName = sprintTypeSelectable.find(sprint => sprint.value == sprintId && sprint).label || ''
+    this.setState({ isOpenStartSprintModal: true, startSprintName });
   };
   closeStartSprintModal = () => {
     this.setState({
@@ -303,7 +303,7 @@ class BacklogPageContainer extends Component {
     //   toast.success("OK")
       // this.props.startSprint(data);
     // }
-      // console.log(data)
+    // console.log(data)
   };
   validate = data => {
     if (!data.name) {
@@ -334,62 +334,65 @@ class BacklogPageContainer extends Component {
     this.setState({ startForm });
   };
 
-  
+
   onChangeAddIssueFormValue = (name, value) => {
     this.props.changeAddIssueFormValue(name, value);
   };
 
   updateIssueDetail = (key, value) => {
-    const {issueInfo} = this.props
+    const { issueInfo } = this.props
     console.log(key, ': ', value)
     switch (key) {
       case 'label':
-        this.props.updateIssueDetail(issueInfo._id, {[key]: value.map(item => item.label)})
+        this.props.updateIssueDetail(issueInfo._id, { [key]: value.map(item => item.label) })
         break;
       case 'storyPoints':
-          this.props.updateIssueDetail(issueInfo._id, {[key]: value.label})
+        this.props.updateIssueDetail(issueInfo._id, { [key]: value.label })
+        break;
+      case 'component':
+        this.props.updateIssueDetail(issueInfo._id, { [key]: value.map(item => item.value) })
         break;
       case 'description':
-        this.setState({[key]: value})
+        this.setState({ [key]: value })
         break;
       case 'subTaskSummary':
-        this.setState({subTaskSummary: value})
+        this.setState({ subTaskSummary: value })
         break;
       case 'summary':
-        this.setState({issueSummary: value})
+        this.setState({ issueSummary: value })
         break;
       case 'workflow':
-        this.props.updateIssueDetail(issueInfo._id, {[key]: this.props.listWorkflow.find(i => i.type == value)._id})
+        this.props.updateIssueDetail(issueInfo._id, { [key]: this.props.listWorkflow.find(i => i.type == value)._id })
         break;
       case 'closed':
-        this.props.updateIssueDetail(issueInfo._id, {[key]: value})
+        this.props.updateIssueDetail(issueInfo._id, { [key]: value })
         break;
       default:
-          this.props.updateIssueDetail(issueInfo._id, {[key]: value.value})
+        this.props.updateIssueDetail(issueInfo._id, { [key]: value.value })
         break;
     }
   }
 
   changeDisplayDescriptionEditor = async (value, text) => {
-    await this.setState({displayDescriptionEditor: value, description: text})
+    await this.setState({ displayDescriptionEditor: value, description: text })
   }
 
   changeDisplayCreateSubtask = (value) => {
-    this.setState({displayAddSubtask: value})
+    this.setState({ displayAddSubtask: value })
   }
   changeDisplayEditSummary = (value) => {
-    this.setState({displayEditSummary: value})
+    this.setState({ displayEditSummary: value })
   }
 
   saveDescription = () => {
-    const {issueInfo} = this.props
-    this.props.updateIssueDetail(issueInfo._id, {description: this.state.description})
+    const { issueInfo } = this.props
+    this.props.updateIssueDetail(issueInfo._id, { description: this.state.description })
   }
 
   saveSummary = () => {
-    const {issueInfo} = this.props
-    if(this.state.issueSummary !== issueInfo.summary) {
-      this.props.updateIssueDetail(issueInfo._id, {summary: this.state.issueSummary})
+    const { issueInfo } = this.props
+    if (this.state.issueSummary !== issueInfo.summary) {
+      this.props.updateIssueDetail(issueInfo._id, { summary: this.state.issueSummary })
     }
   }
   onChangeCommentValue = (value) => {
@@ -403,23 +406,23 @@ class BacklogPageContainer extends Component {
     }
     this.props.postComment(data)
     document.getElementById('commentInputBL').value = ''
-    
+
   }
   handleKeyPress = (e) => {
-    if(e.charCode === 13)
-    this.postComment()
+    if (e.charCode === 13)
+      this.postComment()
   }
   createSubtask = () => {
-    const {selectedProject, issueTypeSelectable, issueInfo, prioritySelectable} = this.props
-    const {subTaskSummary} = this.state
-        const data = {
-          project: selectedProject._id,
-          issueType: issueTypeSelectable.find(item => item.label == 'Sub Task').value,
-          priority: prioritySelectable.find(item => item.label == 'Medium').value,
-          summary: subTaskSummary,
-          subTaskOfIssue: issueInfo._id
-        }
-        this.props.createSubtask(data)
+    const { selectedProject, issueTypeSelectable, issueInfo, prioritySelectable } = this.props
+    const { subTaskSummary } = this.state
+    const data = {
+      project: selectedProject._id,
+      issueType: issueTypeSelectable.find(item => item.label == 'Sub Task').value,
+      priority: prioritySelectable.find(item => item.label == 'Medium').value,
+      summary: subTaskSummary,
+      subTaskOfIssue: issueInfo._id
+    }
+    this.props.createSubtask(data)
   }
 
   removeIssue = (id) => {
@@ -428,7 +431,7 @@ class BacklogPageContainer extends Component {
 
   changeIssueSprint = (issueId, fromSprint, toSprint) => {
     // console.log('issue: ', issueId, ' move from ', fromSprint, ' to', toSprint)
-    this.props.updateIssueDetail(issueId, {sprint: toSprint})
+    this.props.updateIssueDetail(issueId, { sprint: toSprint })
   }
   moveToComment = () => {
     document.getElementById('commentInputBL').focus();
@@ -445,8 +448,8 @@ class BacklogPageContainer extends Component {
   // }
 
   createIssue = (summary, issueType, sprint) => {
-    const {selectedProject} = this.props
-    this.props.createIssue({summary, issueType, sprint, project: selectedProject._id})
+    const { selectedProject } = this.props
+    this.props.createIssue({ summary, issueType, sprint, project: selectedProject._id })
   }
 
   render() {
@@ -481,7 +484,7 @@ class BacklogPageContainer extends Component {
     } = this.state;
     // console.log("sprint: ", isOpenAddSprintModal);
     // console.log("issue: ", isOpenAddIssueModal);searchValue,
-    
+
     return (
       <div>
         <BacklogPageView

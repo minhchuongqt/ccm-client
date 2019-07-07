@@ -411,7 +411,7 @@ const BacklogPage = props => {
                                   <li>
                                     <MultiSelect
                                       isDisabled={disabled}
-                                      id="issue-page-multi-select"
+                                      id="issue-page-multi-select-label"
                                       options={componentSelectable}
                                       value={issueInfo.component}
                                       onChange={e => updateIssueDetail('component', e)}
