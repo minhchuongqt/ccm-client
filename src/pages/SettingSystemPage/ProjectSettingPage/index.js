@@ -19,6 +19,7 @@ class ListProjectPageContainer extends Component {
         } = newProps;
         if (deleteProjectStatus) {
             toast.success("Delete project successfully");
+            this.props.getListProject()
             this.props.resetDeleteProjectStatus()
         }
     }
@@ -51,6 +52,7 @@ class ListProjectPageContainer extends Component {
 
 const mapStateToProps = state => ({
     listProject: projectSelectors.listProject(state),
+    deleteProjectStatus: projectSelectors.getDeleteProjectStatus(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -59,7 +61,10 @@ const mapDispatchToProps = dispatch => ({
     },
     deleteProject(id) {
         dispatch(projectActions.deleteProject(id))
-      },
+    },
+    resetDeleteProjectStatus() {
+        dispatch(projectActions.resetDeleteProjectStatus())
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) (ListProjectPageContainer);

@@ -61,8 +61,8 @@ const ProjectManagementPage = props => {
                   <tr key = {idx}>
                     <td>{item.name}</td>
                     <td>{item.key}</td>
-                    <td>{item.projectType}</td>
-                    <td>{item.lead}</td>
+                    <td>{(item.projectType || {}).name}</td>
+                    <td>{(item.lead || {}).displayName}</td>
                     <td>{item.createdDate}</td>
                     <td>{item.updatedDate}</td>
                     <td>

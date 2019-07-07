@@ -686,7 +686,8 @@ const BacklogPage = props => {
                                         dangerouslySetInnerHTML={{
                                           __html: `${"<strong>" + userInfo.fullName + "</strong>" +
                                             //  "&nbsp; &nbsp;&nbsp; &nbsp;" + 
-                                            " at " +
+                                            "<span class='color-grey'>" +
+                                            " at " + 
                                             moment(item.createdAt).calendar(null, {
                                               sameDay: 'hh:mm:ss a, [Today]',
                                               nextDay: 'hh:mm:ss a, [Tomorrow]',
@@ -694,7 +695,10 @@ const BacklogPage = props => {
                                               lastDay: 'hh:mm:ss a, [Yesterday]',
                                               lastWeek: 'hh:mm:ss a, [Last] dddd',
                                               sameElse: 'hh:mm:ss a, MMM DD YYYY'
-                                            })}` + "<br/>" + item.content
+                                            })}` + "</span>" + "<br/>" +
+                                            "<span class='mg-l-10'>" +
+                                            item.content +
+                                            "</span>"
                                         }}
                                       />
                                     </div>

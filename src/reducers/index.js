@@ -10,9 +10,11 @@ import ReleaseState from './Release/index'
 import ComponentState from './Component'
 import VersionState from './Version/version'
 import ActivitySprintState from './ActivitySprint'
+import RegisterState from './Register'
 
 const rootReducer = combineReducers({
     LoginState,
+    RegisterState,
     ProjectState,
     UserState,
     GroupState,

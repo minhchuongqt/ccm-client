@@ -51,3 +51,5 @@ export const getSelectedProject = () => JSON.parse(localStorage.getItem('selecte
 export const fnCountProject = ({ProjectState}) => id => {
     return {}
 }
+
+export const getDeleteProjectStatus = ({ProjectState}) => ProjectState.deleteProjectStatus

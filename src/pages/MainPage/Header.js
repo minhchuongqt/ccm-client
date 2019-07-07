@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import userImg from "../../assets/img/avatar5.png";
 import { API } from "../../config";
 const Header = props => {
-  const { isShow, userInfo, updateAvatar } = props;
+  const { isShow, userInfo, updateAvatar, changeToLoginPage } = props;
   return (
     <header className="main-header bg-steelblue">
       <a href="/" className="logo color-white">
@@ -90,7 +90,7 @@ const Header = props => {
             </li>
 
             <li className="dropdown">
-            <Link to="/login"><i className="fa fa-power-off" /></Link>
+            <a onClick={() => changeToLoginPage()}><i className="fa fa-power-off" /></a>
               {/* <a className="dropdown-toggle" data-toggle="dropdown">
                 
               </a>

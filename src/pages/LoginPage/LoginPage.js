@@ -8,7 +8,8 @@ const LoginPage = props => {
       <div className="login-box">
         <div class="login-main">
           <div className="login-box-body box box-primary box-login-custom">
-            <p class="login-box-title p-login">LOGIN</p>
+            <p class="login-box-title p-login">Welcome to CCM!</p>
+            {/* <p class="login-box-title p-login">LOGIN</p> */}
             <p className="login-box-msg p-login">Sign in to start your session</p>
             {/* <form> */}
             <p className="p-login">Email Adress</p>
