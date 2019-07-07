@@ -140,73 +140,7 @@ const BacklogPage = props => {
             openStartSprintModal={data => openStartSprintModal(data)}
             openAddSprintModal={openAddSprintModal}
             onClick={(task) => selectIssue(task)} initialData={initialData || {}} />
-          {/* {listSprint.map((sprint, index) => {
-          return (
-            <div className="box box-success" key={index}>
-            <div className="box-header with-border">
-              <h4 className="box-title">{sprint.name}</h4>&nbsp;
-              {chooseActive(sprint.active)? '' :<button type="button" className={"btn btn-xs m-l-10 " + chooseActive(sprint.active)}><strong>ACTIVE</strong></button>} 
-              <div className="box-tools pull-right">
-                <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"><i className="fa fa-ellipsis-h"></i></button>
-                <ul className="dropdown-menu" role="menu">
-                  <li><a href="" data-toggle="modal" data-target="#modal-editsprint">Edit sprint</a></li>
-                  <li><a href="" data-toggle="modal" data-target="#modal-deletesprint">Delete sprint</a></li>
-                </ul>
-              </div>
-              <div className="p-bt">{sprint.createdDate}<i className="fa fa-angle-double-right p-lr"></i>{sprint.updatedDate}</div>
-            </div>
-            <div className="box-body">
-              <SortableView />
-            </div>
-            <div className="box-footer">
-              <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                <i className="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
-            </div>
-          </div>
-          )
-        })} */}
-          {/* <div className="create-sprint">
-          <div className="btn-group pull-right">
-            <button type="button" className="btn btn-success"
-            onClick={() => openAddSprintModal()}>
-              Create sprint</button>
-          </div>
-
-         </div>
-
-          <div className="box box-success" >
-            <div className="box-header with-border">
-              <h4 className="box-title">Backlog</h4>&nbsp;
-              <div className="box-tools pull-right">
-                <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"><i className="fa fa-ellipsis-h"></i></button>
-                <ul className="dropdown-menu" role="menu">
-                  <li><a href="" data-toggle="modal" data-target="#modal-editsprint">Edit sprint</a></li>
-                  <li><a href="" data-toggle="modal" data-target="#modal-deletesprint">Delete sprint</a></li>
-                </ul>
-              </div>
-            </div>
-            <div className="box-body scroll-detail">
-            <div className="list-group">
-            <SortableView />
-                {listBacklogIssue.map((issue, index) => {
-                  return (
-                    <a href="#" className="list-group-item list-group-item-action" key = {index}>
-                      <div>
-                        <div><i className="fa fa-trello"></i> {issue.issueKey}</div>
-                        <div>{issue.summary}</div>
-                      </div>
-                    </a>
-                  )})}
-              </div>
-            </div>
-            <div className="box-footer">
-              <button type="button" className="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                <i className="fa fa-plus" title="Edit" style={{ fontSize: '11px' }}></i> &nbsp;Create issue</button>
-            </div>
-          </div> */}
         </div>
-
-
 
         {!_.isEmpty(issueInfo.summary) && (
           <div id="issue-detail-collapse" className="col-md-6 ">
@@ -480,7 +414,7 @@ const BacklogPage = props => {
                                   <li>
                                     <MultiSelect
                                       isDisabled={disabled}
-                                      id="issue-page-multi-select"
+                                      id="issue-page-multi-select-label"
                                       options={componentSelectable}
                                       value={issueInfo.component}
                                       onChange={e => updateIssueDetail('component', e)}
