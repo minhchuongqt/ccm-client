@@ -1,6 +1,7 @@
 const C = 'COMPONENT';
 
 export const CREATE_COMPONENT = `${C}_CREATE_COMPONENT`
+export const UPDATE_COMPONENT = `${C}_UPDATE_COMPONENT`
 export const SELECT_COMPONENT = `${C}_SELECT_COMPONENT`
 export const RESET_DATA = `${C}_RESET_DATA`
 export const GET_LIST_COMPONENT = `${C}_GET_LIST_COMPONENT`

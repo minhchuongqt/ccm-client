@@ -21,6 +21,7 @@ class LoginPageContainer extends Component {
         const {token} = newProps
         if(token) {
             this.props.history.push('/');
+            window.location.reload()
         }
         // if(newProps.location.pathname === '/login') {
         // } else {

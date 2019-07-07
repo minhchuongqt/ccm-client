@@ -9,6 +9,10 @@ class ComponentApi {
     getListComponent = ( params ) => {
         return API.get('/component', {params});
     }
+
+    updateComponent = (id, data) => {
+        return API.put('/component/' + id, data)
+    }
     
 }
 

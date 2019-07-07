@@ -30,7 +30,7 @@ export const createStepSelectable = () => {
             value: "DONE"
         }
     ]
-    console.log(result)
+    // console.log(result)
     return result
 }
 
@@ -58,3 +58,5 @@ export const getListWorkflow = createSelector(
         return listWorkflow
     }
 )
+
+export const getListTask = ({BacklogState}) => BacklogState.sprintActive || []

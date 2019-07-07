@@ -8,7 +8,7 @@ import * as PATH from '../../constants/data/routeConstants'
 
 const ComponentView = props => {
   const { searchValue, onChangeSearchValue, openCreateComponentModal, listComponent, selectComponent,
-    
+    openEditComponentModal, deleteComponent
   } = props;
   return (
     <div id="issue-view">
@@ -56,7 +56,8 @@ const ComponentView = props => {
               <th>Component</th>
               <th>Description</th>
               <th>Component Lead</th>
-              <th>Issues</th>
+              {/* <th>Issues</th> */}
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -72,8 +73,23 @@ const ComponentView = props => {
                   <td>
                     <img src={API + ((item.lead || {}).avatarUrl || '/media/emptyAvatar.png')} width="18"/>&nbsp;{(item.lead|| {}).displayName || ''}
                   </td>
-                  <td>{12}</td>
-                  
+                  {/* <td>{12}</td> */}
+                  <td>
+                      <div className="btn-group">
+                        <button type="button" className="btn btn-success" style={{margin: "0 5px"}}
+                          disabled={item.released}
+                          onClick={() => openEditComponentModal(item)}
+                        >
+                          <i className="fa fa-edit" title="Edit" />
+                        </button>
+                        <button type="button" className="btn btn-danger" style={{margin: "0 5px"}}
+                          disabled={item.released}
+                          onClick={() => deleteComponent(item)}
+                        >
+                          <i className="fa fa-trash-o" title="Remove" />
+                        </button>
+                      </div>
+                    </td>
                 </tr>
               );
             })}

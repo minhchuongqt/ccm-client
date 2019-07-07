@@ -39,3 +39,18 @@ export const changeSearchValue = value => dispatch => {
 export const resetCreateComponentStatus = () => dispatch => {
   dispatch({ type: types.RESET_CREATE_COMPONENT_STATUS });
 };
+
+
+export const updateComponent = (id, data) => dispatch => {
+  ComponentApi.updateComponent(id, data).then(res => {
+    if(res.data.error) {
+      toast.error(res.data.error)
+    }  else {
+      dispatch({type: types.UPDATE_COMPONENT, payload: true})
+    }
+  })
+} 
+
+export const resetUpdateComponentStatus = () => dispatch => {
+  dispatch({type: types.UPDATE_COMPONENT, payload: false})
+}

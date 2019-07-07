@@ -31,7 +31,7 @@ class ActiveSprintPageContainer extends Component {
         };
       }
       componentWillReceiveProps(newProps) {
-        const { completeSprintStatus, changeIssueWorkflowStatus, sprintTypeSelectable, dataForBoard
+        const { completeSprintStatus, changeIssueWorkflowStatus, sprintTypeSelectable, dataForBoard, listTask
         } = {...newProps};
         let {completeForm} = this.state
         if (completeSprintStatus) {
@@ -58,6 +58,9 @@ class ActiveSprintPageContainer extends Component {
         if(_.isEmpty(this.state.initialData)) {
           this.setState({initialData: dataForBoard})
         }
+        if(dataForBoard !== this.props.dataForBoard || listTask !== this.props.listTask) {
+          this.setState({initialData: dataForBoard})
+        }
       }
 
     componentWillMount(){
@@ -77,7 +80,7 @@ class ActiveSprintPageContainer extends Component {
       var d = document.getElementsByClassName("bqdzcI")[0];
       // d.getElementsByClassName("bqdzcI")[0].innerHTML = "Milk";
 
-      console.log(d)
+      // console.log(d)
       switch (wfLength) {
         case 3:
         ((document.getElementsByClassName("bqdzcI")[0]) || {}).classList += " bqdzcI3";
@@ -185,15 +188,16 @@ class ActiveSprintPageContainer extends Component {
       };
       this.props.getListSprint(params);
     };
-    handleDragEnd(cardId, sourceLaneId, targetLaneId, position, card) {
-        this.setState({
-            addForm: {
-              workflow : targetLaneId,
-            }
-        });
-        const { addForm } = this.state;
+    handleDragEnd = async(cardId, sourceLaneId, targetLaneId, position, card) => {
+        // this.setState({
+        //     addForm: {
+        //       workflow : targetLaneId,
+        //     }
+        // });
+        // const { addForm } = this.state;
+        const {dataForBoard} = this.props
         const data = {
-            ...addForm
+            moveToWorkflow: targetLaneId
         };
         // console.log(cardId, sourceLaneId, targetLaneId, position, card)
         // const {workflow} = this.props
@@ -213,6 +217,7 @@ class ActiveSprintPageContainer extends Component {
 
         // }
         this.props.changeIssueWorkflow(cardId, data);
+        // this.setState({initialData: dataForBoard})
     }
 
     onChangeSearchValue = (value) => {
@@ -275,7 +280,8 @@ const mapStateToProps = state => ({
     searchValue: activeSprintSelectors.getSearchValue(state),
     doneAll: activeSprintSelectors.getDoneAllStatus(state),
     workflow: workflowSelectors.getListWorkflow(state),
-    workflowLength: workflowSelectors.getLengthListWorkflow(state)
+    workflowLength: workflowSelectors.getLengthListWorkflow(state),
+    listTask: workflowSelectors.getListTask(state)
 })
 
 const mapDispatchToProps = dispatch => ({

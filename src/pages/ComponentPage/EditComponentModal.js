@@ -2,12 +2,12 @@ import React from "react";
 import Modal from "../../components/modal";
 import DatePicker from "react-datepicker";
 import SearchSelect from "../../components/singleSelect";
-const AddComponentModal = props => {
-  const { openModal, closeModal, onChangeValue, addComponentFormValue, createComponent, selectableLead } = props;
+const EditComponentModal = props => {
+  const { openModal, closeModal, onChangeValue, editComponentFormValue, updateComponent, selectableLead } = props;
   return (
     <Modal
       isOpen={openModal}
-      title="Create New Component"
+      title="Edit Component"
       closeModal={closeModal}
     >
       <div className="form-horizontal">
@@ -18,7 +18,7 @@ const AddComponentModal = props => {
             <input
                 type="text"
                 className="form-control"
-                value={addComponentFormValue.name || ''}
+                value={editComponentFormValue.name || ''}
                 onChange={e => onChangeValue("name", e.target.value)}
               />
             </div>
@@ -29,7 +29,7 @@ const AddComponentModal = props => {
             <input
                 type="text"
                 className="form-control"
-                value={addComponentFormValue.description || ''}
+                value={editComponentFormValue.description || ''}
                 onChange={e => onChangeValue("description", e.target.value)}
               />
             </div>
@@ -40,7 +40,7 @@ const AddComponentModal = props => {
             <SearchSelect
                 // className="form-control"
                 options={selectableLead}
-                value={addComponentFormValue.selectedLead}
+                value={editComponentFormValue.lead}
                 onChange={e => onChangeValue("lead", e)}
               />
             </div>
@@ -59,13 +59,13 @@ const AddComponentModal = props => {
         <button
           type="button"
           className="btn btn-success-c"
-          onClick={() => createComponent()}
+          onClick={() => updateComponent()}
         >
-          Create
+          Save
         </button>
       </div>
     </Modal>
   );
 };
 
-export default AddComponentModal;
+export default EditComponentModal;

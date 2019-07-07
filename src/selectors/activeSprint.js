@@ -12,6 +12,8 @@ function unescapeHTML(html) {
 export const getSearchValue = ({ ActivitySprintState }) =>
   ActivitySprintState.searchValue;
 
+
+
 export const generateDataActiveBoard = createSelector(
   [
     ({ WorkflowState }) => WorkflowState,
