@@ -33,6 +33,12 @@ class Header extends Component {
     this.props.updateAvatar(value)
   }
 
+  changeToLoginPage = () => {
+    sessionStorage.removeItem('access-token')
+    localStorage.removeItem('selectedProject')
+    this.props.history.push('/login')
+  }
+
   render() {
     const { type } = this.state;
     const {userInfo} = this.props;
@@ -42,6 +48,7 @@ class Header extends Component {
         <HeaderComponent {...this.props}  type={type} logout={() => this.logout()} 
           updateAvatar={(key, value) => this.updateAvatar(key, value)}
           isShow={isShow}
+          changeToLoginPage={this.changeToLoginPage}
         />
       </div>
     );

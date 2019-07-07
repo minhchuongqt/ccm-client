@@ -10,7 +10,9 @@ const RegisterPage = props => {
         <div class="login-main">
 
           <div className="login-box-body box box-primary box-register-custom">
-            <p class="login-box-title p-register register-title">REGISTER</p>
+            <p class="login-box-title p-login">Welcome to CCM!</p>
+            <p className="login-box-msg p-login">Sign up for free</p>
+            {/* <p class="login-box-title p-register register-title">Sign up for free</p> */}
             {/* <p className="login-box-msg">Sign in to start your session</p> */}
             <p className="p-register">Full name</p>
             <div className="form-group has-feedback">
