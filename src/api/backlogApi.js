@@ -26,6 +26,9 @@ class BacklogApi {
     getListAllSprint = (params) => {
         return API.get('/sprint', {params})
     }
+    deleteSprint = (data) => {
+        return API.remove('/sprint', data)
+    }
 }
 
 const backlogApi = new BacklogApi()
