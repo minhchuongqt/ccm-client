@@ -252,7 +252,7 @@ class IssuePageContainer extends Component {
 
   selectIssue = issue => {
     // this.props.selectIssue(issue);
-    console.log(issue)
+    // console.log(issue)
     if(issue.subTaskOfIssue) {
       const { selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType } = this.props
       this.getListIssue(selectedFilterForUserIssueValue, selectedFilterForDetailIssueValue, sortType)
@@ -322,7 +322,7 @@ class IssuePageContainer extends Component {
 
   updateIssueDetail = (key, value) => {
     const { issueInfo } = this.props
-    console.log(key, ': ', value)
+    // console.log(key, ': ', value)
     switch (key) {
       case 'label':
         this.props.updateIssueDetail(issueInfo._id, { [key]: value.map(item => item.label) })

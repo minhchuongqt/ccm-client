@@ -63,7 +63,7 @@ const issueInfo = (state = {}, action) => {
     case GET_ISSUE_INFO:
       return payload;
     case RESET_REMOVE_ISSUE_STATUS:
-      console.log("voo roi")
+      // console.log("voo roi")
       return {};
     default:
       return state;

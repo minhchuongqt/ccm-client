@@ -34,8 +34,8 @@ class VersionDetailPageContainer extends Component {
 
     componentWillReceiveProps(newProps) {
         const {releaseStatus, unreleaseStatus, selectedVersion} = newProps
-        console.log(releaseStatus)
-        console.log(unreleaseStatus)
+        // console.log(releaseStatus)
+        // console.log(unreleaseStatus)
         if(releaseStatus) {
             toast.success("Release successful.")
             newProps.resetReleaseStatus()
@@ -68,7 +68,7 @@ class VersionDetailPageContainer extends Component {
 
     render() {
         const {listIssueOfVersion, issueCount, versionDetail} = this.props
-        console.log(listIssueOfVersion)
+        // console.log(listIssueOfVersion)
         return (
             <div>
                 <VersionDetailPageView 

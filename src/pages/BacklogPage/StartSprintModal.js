@@ -10,7 +10,8 @@ const StartSprintModal = props => {
     openStartModal,
     startSprint,
     data,
-    startSprintName
+    startSprintName,
+    errorText
   } = props;
   // console.log(data)
   return (
@@ -19,7 +20,7 @@ const StartSprintModal = props => {
 
       <div id="issue-view" className="form-horizontal">
         <div className="modal-body">
-          
+          <p style={{marginBottom: 5}}>Duration of Sprint default is <strong>{data.sprintRange} week(s)</strong>. You can change it by choose day again.</p>
 
               {/* <DateTime 
                 timeFormat={false}
@@ -44,6 +45,7 @@ const StartSprintModal = props => {
                 />
             </div>
           </div>
+          <p className="color-red">{errorText && errorText}</p>
           
         </div>
       </div>

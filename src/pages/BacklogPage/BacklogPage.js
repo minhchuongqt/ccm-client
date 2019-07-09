@@ -1,8 +1,6 @@
 import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import "../../styleSheets/sass/components/Backlog/BacklogView.scss"
-// import AddIssueView from '../IssuePage/AddIssuePage/index'
-import EditSprintPageView from './EditSprintPage/index';
 import _ from "lodash";
 import DragDropComponent from './DragDropComponents'
 import { API } from "../../config";
@@ -141,9 +139,8 @@ const BacklogPage = props => {
             openAddSprintModal={openAddSprintModal}
             onClick={(task) => selectIssue(task)} initialData={initialData || {}} />
         </div>
-
         {!_.isEmpty(issueInfo.summary) && (
-          <div id="issue-detail-collapse" className="col-md-6 ">
+          <div id="issue-detail-collapse" className="col-md-6" style={{width: '48%'}}>
             <div id="run-to-left" className="box box-success">
               <div className="box-header with-border">
                 <h3 className="box-title">Issue Details</h3>
@@ -374,7 +371,7 @@ const BacklogPage = props => {
                                       }
                                       isDisabled={disabled}
                                       options={selectableStoryPoint || []}
-                                      onBlur={() => console.log("bur")}
+                                      // onBlur={() => console.log("bur")}
                                       onChange={e => updateIssueDetail('storyPoints', e)}
                                     />
                                   </li>

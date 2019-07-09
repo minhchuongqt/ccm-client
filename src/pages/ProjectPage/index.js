@@ -81,7 +81,8 @@ class ProjectPageContainer extends Component {
         const {addForm} = this.state
         const data = {
             ...addForm,
-            projectType: addForm.projectType.value
+            projectType: addForm.projectType.value,
+            sprintRange: addForm.sprintRange.value
         }
         if (this.validate(data)){
             // toast.success("OK")

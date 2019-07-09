@@ -137,7 +137,7 @@ class ReleasePageContainer extends Component {
     openConfirmDeleteVersionModal = (item) => {
         const {versionSelectable} = this.props
         const selectableVersion = versionSelectable.filter(version => version.value != item._id)
-        console.log(selectableVersion)
+        // console.log(selectableVersion)
         item.nextVersion = selectableVersion[0] || {}
         item.isMoveIssueToNextVersion = true
         this.setState({isOpenConfirmDeleteModal: true, versionBeDeleted: item})
