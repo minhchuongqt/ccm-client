@@ -117,7 +117,14 @@ class DragDropComponents extends React.Component {
     ) {
       const sourceSprint = sprintSelectable.find(item => item.value === source.droppableId)
       const destinationSprint = sprintSelectable.find(item => item.value === destination.droppableId)
-      const text = `This issue will be moved from sprint &nbsp;<b>${destinationSprint.label}</b>&nbsp; to sprint &nbsp;<b>${sourceSprint.label}</b>`
+      // console.log(sourceSprint)
+      // console.log(destinationSprint)
+      let text =''
+      if(sourceSprint) {
+        text = `This issue will be moved from sprint &nbsp;<b>${sourceSprint.label}</b>&nbsp; to sprint &nbsp;<b>${destinationSprint.label}</b>`
+      } else {
+        text = `This issue will be moved from &nbsp;<b>Backlog</b>&nbsp; to sprint &nbsp;<b>${destinationSprint.label}</b>`
+      }
       await this.setState({isOpenModal: true, confirmMessage: text, moveIssueData: result})
       // console.log('warning')
     } else {
@@ -145,7 +152,7 @@ class DragDropComponents extends React.Component {
       }
     })
     
-    const { openAddSprintModal, initialData, openAddIssueModal, openStartSprintModal, selectableIssueType, createIssue } = this.props
+    const { openAddSprintModal, initialData, openAddIssueModal, openStartSprintModal, selectableIssueType, prioritySelectable, createIssue } = this.props
     const {isOpenModal, confirmMessage, moveIssueData} = this.state
     // console.log(isOpenModal)
     return (
@@ -182,7 +189,7 @@ class DragDropComponents extends React.Component {
                     </div>
                   <div >
                     <Column
-                      createIssue={(summary, issueType) => createIssue(summary, issueType)}
+                      createIssue={(summary, issueType, priority) => createIssue(summary, issueType, priority)}
                       disableAction = {true}
                       startSprint
                       openAddIssueModal={openAddIssueModal}
@@ -193,6 +200,7 @@ class DragDropComponents extends React.Component {
                       sprintActived = {sprintActived}
                       onClick={(task) => this.props.onClick(task)}
                       selectableIssueType={selectableIssueType}
+                      prioritySelectable={prioritySelectable}
                     />
                     
                   </div>
@@ -202,7 +210,7 @@ class DragDropComponents extends React.Component {
               return (
                 <div key={column.id}>
                   <Column
-                    createIssue={(summary, issueType, sprint) => createIssue(summary, issueType, sprint)}
+                    createIssue={(summary, issueType, priority, sprint) => createIssue(summary, issueType, priority, sprint)}
                     openAddIssueModal={openAddIssueModal}
                     openStartSprintModal={openStartSprintModal}
                     sprintActived = {sprintActived}
@@ -211,6 +219,7 @@ class DragDropComponents extends React.Component {
                     index={index}
                     onClick={(task) => this.props.onClick(task)}
                     selectableIssueType={selectableIssueType}
+                    prioritySelectable={prioritySelectable}
                   />
                   
                 </div>

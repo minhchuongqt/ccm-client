@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
 import {Draggable} from 'react-beautiful-dnd'
+import { API } from '../../../config';
 const Container = styled.div`
   background-color: ${props => (props.isDragging ? 'white' : 'white')};
   transition: background-color 0.4s ease;
@@ -26,10 +27,19 @@ const StoryPoint = styled.div`
   text-align: center;
 `;
 
+const Image = styled.img`
+  float: right;
+`
+
+const Assignee = styled.img`
+  border-radius: 50%;
+  float: right;
+`
+
 class Task extends Component {
   render() {
     const { task } = this.props
-    // console.log(task)
+    console.log(task)
     return (
       <Draggable draggableId={this.props.task.id} index={this.props.index} >
         {(provided, snapshot) => (
@@ -44,6 +54,8 @@ class Task extends Component {
             <img src={task.iconUrl}/>&nbsp;{task.content}
             <StoryPoint>{task.storyPoints || ' - '}</StoryPoint>
             <IssueKey completed = {task.completed}><p className="com">{task.issueKey}</p></IssueKey>
+            {task.priority && <Image src ={API + (task.priority.iconUrl || '')} width="18"/>}
+            {task.assignee && task.assignee.map(item => <Assignee src={API + item.avatarUrl} width="24"/>)}
           </Container>
         )}
       </Draggable>

@@ -130,13 +130,14 @@ const BacklogPage = props => {
         <div className={`col-md-${_.isEmpty(issueInfo.summary) && '11 ' || '6 scroll-detail'} p-r-0`}>
           <DragDropComponent
             selectableIssueType={selectableIssueType}
-            createIssue={(summary, issueType, sprint) => createIssue(summary, issueType, sprint)}
+            createIssue={(summary, issueType, priority, sprint) => createIssue(summary, issueType, priority, sprint)}
             getListSprint={() => getListSprint()}
             openConfirmMoveIssueInActiveSprintModal={openConfirmMoveIssueInActiveSprintModal}
             changeIssueSprint={(issueId, fromSprint, toSprint) => changeIssueSprint(issueId, fromSprint, toSprint)}
             openAddIssueModal={data => openAddIssueModal(data)}
             openStartSprintModal={data => openStartSprintModal(data)}
             openAddSprintModal={openAddSprintModal}
+            prioritySelectable={prioritySelectable}
             onClick={(task) => selectIssue(task)} initialData={initialData || {}} />
         </div>
         {!_.isEmpty(issueInfo.summary) && (

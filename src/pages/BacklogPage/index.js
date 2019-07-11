@@ -216,12 +216,15 @@ class BacklogPageContainer extends Component {
     this.props.getListVersion(query);
   };
 
-  selectIssue = issue => {
+  selectIssue = async issue => {
     // this.props.selectIssue(issue);
-    this.getIssueInfo(issue);
+    
+    // if (document.getElementById("issue-detail-collapse")) {
+    //   document.getElementById("issue-detail-collapse").className = "col-md-6";
+    // }
+    await this.getIssueInfo(issue);
     if (document.getElementById("issue-detail-collapse")) {
-      document.getElementById("issue-detail-collapse").className +=
-        "A detail-visibility";
+      document.getElementById("issue-detail-collapse").className = "col-md-6 A detail-visibility";
     }
   };
 
@@ -447,9 +450,11 @@ class BacklogPageContainer extends Component {
   //   this.setState({isOpenConfirmMoveIssueInActiveSprintModal: false})
   // }
 
-  createIssue = (summary, issueType, sprint) => {
+  createIssue = (summary, issueType, priority, sprint) => {
     const { selectedProject } = this.props
-    this.props.createIssue({ summary, issueType, sprint, project: selectedProject._id })
+    // console.log(priority)
+    this.props.createIssue({ summary, issueType, sprint, project: selectedProject._id, priority })
+
   }
 
   render() {
@@ -497,7 +502,7 @@ class BacklogPageContainer extends Component {
           searchValue={searchValue}
           getListSprint={() => this.getListSprint()}
           // openConfirmMoveIssueInActiveSprintModal={this.openConfirmMoveIssueInActiveSprintModal()}
-          createIssue={(summary, issueType, sprint) => this.createIssue(summary, issueType, sprint)}
+          createIssue={(summary, issueType, priority, sprint) => this.createIssue(summary, issueType, priority, sprint)}
           openAddIssueModal={data => this.openAddIssueModal(data)}
           changeIssueSprint={(issueId, fromSprint, toSprint) => this.changeIssueSprint(issueId, fromSprint, toSprint)}
           displayDescriptionEditor={displayDescriptionEditor}

@@ -159,7 +159,11 @@ export default class Column extends React.Component {
   }
 
   createIssue = (summary, issueType, column, storyType) => {
-    this.props.createIssue(summary, issueType, column)
+    const priority = this.props.prioritySelectable.find(item => item.label == 'Medium').value || null
+
+    // console.log(priority)
+    this.props.createIssue(summary, issueType, priority, column)
+
     this.setState({summary: '', issueType: storyType})
   }
 
@@ -167,6 +171,8 @@ export default class Column extends React.Component {
     const { openAddIssueModal, column, sprintActived, disableAction, openStartSprintModal, selectableIssueType, createIssue, tasks } = this.props
     const {isShowInput, summary, issueType} = this.state
     const storyType =  (selectableIssueType || []).find(item => item.label == 'Story' && item)
+    // console.log(this.props.prioritySelectable)
+    // console.log(storyType)
     // console.log(issueType)
     // _.isEmpty(issueType) && this.setState({issueType: storyType})
     // console.log(selectableIssueType)

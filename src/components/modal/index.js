@@ -23,7 +23,7 @@ Modal.setAppElement('#main-body')
         marginRight           : '-50%',
         transform             : 'translate(-50%, -50%)',
         maxHeight              : '90%',
-        minHeight              : '50%',
+        // minHeight              : '50%',
         minWidth              :  '50%',
         maxWidth                : '50%'
       }

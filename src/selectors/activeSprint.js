@@ -61,12 +61,12 @@ export const generateDataActiveBoard = createSelector(
                     unescapeHTML(`
                     <img src="${API +(item.issueType || {}).iconUrl}"></img>&nbsp;&nbsp;
                     <img src="${API + ((item.priority || {}).iconUrl || '/media/medium.svg')}" width="17"></img>&nbsp;&nbsp;
+                    &nbsp;&nbsp;<div style="float: right">${item.issueKey}</div>
                     ${item.assignee.map(a => {
                       return (
-                        `<img style="float: right; border-radius: 50%" src="${API + (a.avatarUrl)}" width="28" height="28"></img>&nbsp;&nbsp;`
+                        `<img style="float: right; border-radius: 50%; margin-right: 10px" src="${API + (a.avatarUrl)}" width="28" height="28"></img>&nbsp;&nbsp;`
                       )
                     })}
-                    &nbsp;&nbsp;<div style="float: right">${item.issueKey}</div>
                     `
                     )
                   ),
